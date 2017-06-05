@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Wedlock</title>
+<title>Welcome to Wedlock</title>
 </head>
 <body>
 	<form method="post" enctype="multipart/form-data" id="fileUploadForm">
