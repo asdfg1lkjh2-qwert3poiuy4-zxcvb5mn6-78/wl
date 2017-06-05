@@ -630,8 +630,8 @@
 							</div>
 							<div class="row clearfix">
 								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-									<form action="http://thememakker.com/" id="frmFileUpload"
-										class="dropzone" method="post" enctype="multipart/form-data">
+									<form action="#" id="frmFileUpload1" class="dropzone"
+										method="post" enctype="multipart/form-data">
 										<div class="dz-message">
 											<div class="drag-icon-cph">
 												<i class="material-icons">touch_app</i>
@@ -642,12 +642,13 @@
 											</em>
 										</div>
 										<div class="fallback">
-											<input name="file" type="file" multiple />
+											<input name="file" id="abc" type="file" multiple />
 										</div>
 									</form>
 								</div>
 								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-									<form action="http://thememakker.com/" id="frmFileUpload"
+								<input type="hidden" value="abc" id="singleUpload">
+									<form action="#" id="frmFileUpload"
 										class="dropzone" method="post" enctype="multipart/form-data">
 										<div class="dz-message">
 											<div class="drag-icon-cph">
@@ -669,8 +670,8 @@
 									<h2>Seller Image</h2>
 								</div>
 								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<form action="http://thememakker.com/" id="frmFileUpload"
-										class="dropzone" method="post" enctype="multipart/form-data">
+									<form action="#" id="frmFileUpload" class="dropzone"
+										method="post" enctype="multipart/form-data">
 										<div class="dz-message">
 											<div class="drag-icon-cph">
 												<i class="material-icons">touch_app</i>
@@ -792,6 +793,19 @@
 
 	<div class="color-bg"></div>
 	<!-- Jquery Js -->
+	<script src="resources/js/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			alert("Hello");
+		});
+		/* $("#abc").change(function(){
+			
+		}); */
+		function changeRe(){
+			alert("hello");
+		}
+	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
+	
 </body>
 </html>

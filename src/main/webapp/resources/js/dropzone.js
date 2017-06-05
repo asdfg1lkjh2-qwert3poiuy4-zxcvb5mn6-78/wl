@@ -126,7 +126,7 @@
       thumbnailWidth: 120,
       thumbnailHeight: 120,
       filesizeBase: 1000,
-      maxFiles: 1,
+      maxFiles: null,
       params: {},
       clickable: true,
       ignoreHiddenFiles: true,
@@ -961,26 +961,32 @@
       return readEntries();
     };
 
-    Dropzone.prototype.accept = function(file, done) {
-      /*if (file.size > this.options.maxFilesize * 1024 * 1024) {
-        return done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
-      } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
-        return done(this.options.dictInvalidFileType);
-      } else if ((this.options.maxFiles != null) && this.getAcceptedFiles().length >= this.options.maxFiles) {
-        done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
-        return this.emit("maxfilesexceeded", file);
-      } else {
-        return this.options.accept.call(this, file, done);
-      }*/
+   Dropzone.prototype.accept = function(file, done) {
+	   if($("#singleUpload").val() === "abc"){
+		   console.log("uploaded23");
+		    done();
+		    this.on("addedfile", function() {
+	  	      if (this.files[1]!=null){
+	  	        this.removeFile(this.files[0]);
+	  	      }
+	  	    });
+	   }else{
+		   if (file.size > this.options.maxFilesize * 1024 * 1024) {
+	            return done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
+	          } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
+	            return done(this.options.dictInvalidFileType);
+	          } else if ((this.options.maxFiles != null) && this.getAcceptedFiles().length >= this.options.maxFiles) {
+	            done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
+	            return this.emit("maxfilesexceeded", file);
+	          } else {
+	            return this.options.accept.call(this, file, done);
+	          }
+	   }
     	
-    	console.log("uploaded");
-	    done();
-	    this.on("addedfile", function() {
-  	      if (this.files[1]!=null){
-  	        this.removeFile(this.files[0]);
-  	      }
-  	    });
     };
+    
+ 
+    
 
     Dropzone.prototype.addFile = function(file) {
       file.upload = {
