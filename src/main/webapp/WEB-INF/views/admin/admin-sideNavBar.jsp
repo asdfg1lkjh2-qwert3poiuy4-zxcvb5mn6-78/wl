@@ -15,7 +15,7 @@
     <!-- #User Info --> 
     <!-- Menu -->
     <div class="menu">
-        <ul class="list">
+        <ul class="list" style="overflow: auto;">
             <li class="header">MAIN NAVIGATION</li>
             <li class="active open"><a href="index.php"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
             <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Seller Details</span> </a>

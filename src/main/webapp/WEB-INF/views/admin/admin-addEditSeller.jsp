@@ -629,8 +629,8 @@
 								</div>
 							</div>
 							<div class="row clearfix">
-								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-									<form action="#" id="frmFileUpload1" class="dropzone"
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 _addressProof">
+									<form action="#" id="singleUpload" class="dropzone"
 										method="post" enctype="multipart/form-data">
 										<div class="dz-message">
 											<div class="drag-icon-cph">
@@ -642,14 +642,13 @@
 											</em>
 										</div>
 										<div class="fallback">
-											<input name="file" id="abc" type="file" multiple />
+											<input name="file" type="file" multiple />
 										</div>
 									</form>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-								<input type="hidden" value="abc" id="singleUpload">
-									<form action="#" id="frmFileUpload"
-										class="dropzone" method="post" enctype="multipart/form-data">
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 _idProof">
+									<form action="#" id="singleUpload" class="dropzone"
+										method="post" enctype="multipart/form-data">
 										<div class="dz-message">
 											<div class="drag-icon-cph">
 												<i class="material-icons">touch_app</i>
@@ -669,8 +668,9 @@
 								<div class="header marginb15 margin-bottom10">
 									<h2>Seller Image</h2>
 								</div>
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<form action="#" id="frmFileUpload" class="dropzone"
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+
+									<form action="#" id="doubleUpload" class="dropzone"
 										method="post" enctype="multipart/form-data">
 										<div class="dz-message">
 											<div class="drag-icon-cph">
@@ -779,7 +779,8 @@
 							</div>
 							<div class="row clearfix">
 								<div class="col-xs-12">
-									<button type="submit" class="btn btn-raised gradient-right">Submit</button>
+									<button type="submit" class="btn btn-raised gradient-right"
+										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
 								</div>
 							</div>
@@ -787,25 +788,43 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</section>
 
 	<div class="color-bg"></div>
-	<!-- Jquery Js -->
+
+	<script src="resources/js/dropzone.js"></script>
+	<!-- Dropzone Plugin Js  -->
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
+	<!--jquery-2.1.3.min Library Js -->
 	<script type="text/javascript">
 		$(document).ready(function() {
 			alert("Hello");
+
 		});
-		/* $("#abc").change(function(){
-			
-		}); */
-		function changeRe(){
-			alert("hello");
-		}
+
+		Dropzone.options.singleUpload = {
+			url : "testController",
+			init : function() {
+				this.on("success", function(file, response) {
+					classpath= this.element.classList;
+				});
+			},
+			renameFilename :function(fileName){
+				var classpath = fileName;
+				classpath = classpath.split("_");
+				var file  = classpath[0];
+				classpath = classpath[2];
+				classpath = $("form."+"_"+classpath).parent().attr("class");
+				classpath = classpath.split("_");
+				classpath = classpath[1];
+				return "Seller"+"_"+classpath+"_"+file;  
+				return fileName;
+			}
+		};
+		
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
-	
+
 </body>
 </html>

@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock</title>
+<%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body>
 <form method="post" enctype="multipart/form-data" id="fileUploadForm">
@@ -16,13 +17,30 @@ Package For:<select name="packageFor" id="packageFor">
 <option value="monthly">Monthly</option>
 <option value="yearly">Yearly</option>
 </select> -->
+<div id="fileDropZone" class="dropzone">
+File:<input type="file" name="iconFiles" id="iconFile" value="">
+</div>
+<hr>
+<div id="fileDropZone3" class="dropzone">
 File:<input type="file" name="iconFiles" id="iconFile">
+</div>
+
 <input type="submit" id="submit" value="Submit">
 </form></body>
 <script src="resources/js/jquery-2.1.3.min.js"></script>
+<script src="resources/js/dropzone.js"></script> <!-- Dropzone Plugin Js -->
 <script type="text/javascript">
+Dropzone.autoDiscover = false;
 $( document ).ready(function() {
     alert("Hello");
+    
+    $("div#fileDropZone").dropzone({ url: "testController",maxFiles: 1, init :function(){
+    	 this.on("success", function(file, response) {
+             var obj = file.name;
+             alert(obj);
+    	 });
+    }});
+    $("div#fileDropZone3").dropzone({ url: "#" });
 });
 
 $("#submit").click(function (event) {
@@ -31,10 +49,11 @@ $("#submit").click(function (event) {
     event.preventDefault();
 
     // Get form
-    var form = $('#fileUploadForm')[0];
+    //var form = Dropzone.forElement("div#fileDropZone").files[0];
+    //$("div#fileDropZone").dropzone({ url: "/testController" });
 
 	// Create an FormData object
-    var data = new FormData(form);
+    /* var data = new FormData(form);
 
 	// disabled the submit button
     $("#submit").prop("disabled", true);
@@ -61,7 +80,7 @@ $("#submit").click(function (event) {
 
         }
     });
-
+ */
 });
 
 </script>

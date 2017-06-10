@@ -1,7 +1,6 @@
 <!-- Jquery Core Js --> 
 
 <script src="resources/js/bootstrap.min.js"></script> <!--jquery.min Library Js -->
-<script src="resources/js/jquery-2.1.3.min.js"></script> <!--jquery-2.1.3.min Library Js --> 
 <script src="resources/js/jquery.min.js"></script> <!--jquery.min Library Js --> 
 
 
@@ -30,7 +29,7 @@
 
 <script src="resources/js/autosize.js"></script> <!-- Autosize Plugin Js -->
 <script src="resources/js/moment.js"></script> <!-- Moment Plugin Js -->
-<script src="resources/js/dropzone.js"></script> <!-- Dropzone Plugin Js -->
+
 
 <!-- Bootstrap Material Datetime Picker Plugin Js --> 
 <script src="resources/js/bootstrap-material-datetimepicker.js"></script>

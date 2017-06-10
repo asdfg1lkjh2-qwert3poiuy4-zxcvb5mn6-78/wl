@@ -134,8 +134,13 @@ public class AdminController {
 	}*/
 	
 	@RequestMapping(value ="/testController",method = RequestMethod.POST)
-	public @ResponseBody boolean test( @RequestParam("iconFiles") CommonsMultipartFile[] iconFiles){
+	public @ResponseBody boolean test(HttpServletRequest request,@RequestParam("file")CommonsMultipartFile iconFiles){
 		System.out.println("////// Inside there");
+		
+			System.out.println("////// Inside there reh"+iconFiles.getOriginalFilename());
+			
+
+		
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		return adminResponseClass.isStatus();
 	}
