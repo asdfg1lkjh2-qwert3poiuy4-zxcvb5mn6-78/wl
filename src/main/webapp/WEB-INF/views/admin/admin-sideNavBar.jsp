@@ -25,6 +25,16 @@
                     <li><a href="deactivateSeller">Deactivate Seller</a></li>
                 </ul>
             </li>
+             <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Miscellaneous</span> </a>
+                <ul class="ml-menu font-list">                        
+                    <li><a href="#">Add & View State</a></li>
+                    <li><a href="#">Add & View City</a></li>
+                    <li><a href="#">Add & View ZipCode</a></li>
+                    <li><a href="admin-addEditCategory">Add & View Category</a></li>
+                    <li><a href="#">Add & View Occasion</a></li>
+                    <li><a href="#">Add & View Photographer Occasion</a></li>
+                </ul>
+            </li>
             <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/tulip.png" alt=""/><span>Flourist</span> </a>
                 <ul class="ml-menu font-list">                        
                     <li><a href="admin-addEditFlower">Add Flower</a></li> 

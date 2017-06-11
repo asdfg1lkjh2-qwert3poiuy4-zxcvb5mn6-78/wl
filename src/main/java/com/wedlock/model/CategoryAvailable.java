@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+import javax.persistence.Transient;
 
 
 @Entity
@@ -16,9 +16,9 @@ private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue
 	private long id;
-	private String serviceName;
+	private String categoryName;
 	@Column(columnDefinition = "TEXT")
-	private String serviceDescription;
+	private String categoryDescription;
 	private String packageFor;
 	private String iconFile;
 	private double registrationCharge;
@@ -32,20 +32,7 @@ private static final long serialVersionUID = 1L;
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-	public String getServiceName() {
-		return serviceName;
-	}
-	
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
-	}
-	public String getServiceDescription() {
-		return serviceDescription;
-	}
-	public void setServiceDescription(String serviceDescription) {
-		this.serviceDescription = serviceDescription;
-	}
+
 	public String getPackageFor() {
 		return packageFor;
 	}
@@ -71,8 +58,13 @@ private static final long serialVersionUID = 1L;
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	
-	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
 	
   
 }

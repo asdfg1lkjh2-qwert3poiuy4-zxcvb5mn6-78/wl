@@ -40,4 +40,9 @@ public class HomeController {
 	public String test(){
 		return "admin/test";
 	}
+	
+	@RequestMapping(value= "/admin-addEditCategory")
+	public String adminAddEditCategory(){
+		return "admin/admin-addEditCategory";
+	}
 }
