@@ -136,37 +136,44 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			alert("Hello");
+			
 		});
-		var file;
-		var file1;
+		var files;
+		var file1="";
+		var dateTime = new Date().getTime();
 		Dropzone.options.singleUpload = {
 			url : "singleUpload",
 			init : function() {
 				this.on("success", function(file, response) {
-					classpath = this.element.classList;
+					if(file1 === ""){
+						file1 = dateTime+file.name;
+					}else{
+						file1 = file1+","+dateTime+file.name;
+					}
+					this.element.classList;
 				});
 			},
 			renameFilename : function(fileName) {
 				var classpath = fileName;
 				classpath = classpath.split("_");
-				file = classpath[0];
+				files = classpath[0];
 				classpath = classpath[2];
 				classpath = $("form." + "_" + classpath).parent().attr("class");
 				classpath = classpath.split("_");
 				classpath = classpath[1];
-				return "Category" + "_" + classpath + "_" + file;
+				return "Category" + "_" + classpath + "_" + dateTime+files;
 
 			}
 		};
 		$("#submit").click(function() {
-			if (file !== undefined) {
-
+			if (files !== undefined) {
+				alert(file1);
 				var job = {};
 				job["categoryName"] = $("#categoryName").val();
 				job["categoryDescription"] = $("#categoryDescription").val();
 				job["packageFor"] = $("#packageFor").val();
 				job["registrationCharge"] = $("#registrationCharge").val();
-
+				job["allFiles"] = file1; 
 				$.ajax({
 					type : "POST",
 					url : "admin-addEditCategoryAvailable",
@@ -175,6 +182,8 @@
 					processData : false,
 					success : function(data) {
 						alert(JSON.stringify(data));
+						dateTime ="";
+						dateTime = new Date().getTime();
 						alert("Success");
 					},
 					error : function(e) {
