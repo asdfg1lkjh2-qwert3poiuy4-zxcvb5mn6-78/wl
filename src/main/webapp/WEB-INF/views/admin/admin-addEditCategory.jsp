@@ -85,19 +85,19 @@
 									</div>
 								</div>
 								<div class="col-sm-6 col-xs-12">
-									<div class="header marginb15 margin-bottom10">
-										<h2>Category Icon</h2>
+									<div class="form-group catgroup">
+										<label class="catgroup-label">Category Icon</label>
 									</div>
 									<div
-										class="col-lg-12 col-md-12 col-sm-6 col-xs-6 _categoryIcon">
-										<form action="#" id="singleUpload" class="dropzone"
+										class="col-lg-12 col-md-12 col-sm-6 col-xs-6 _categoryIcon drpimgpdng">
+										<form action="#" id="singleUpload" class="dropzone new-drphieght"
 											method="post" enctype="multipart/form-data"
 											style="height: 10px;">
-											<div class="dz-message" style="height: 10px;">
+											<div class="dz-message catdzmsg" style="height: 10px;">
 												<div class="drag-icon-cph">
-													<i class="material-icons">touch_app</i>
+													<i class="material-icons catdzicn">touch_app</i>
 												</div>
-												<h3>Drop files here or click to upload.</h3>
+												<h3 class="cattitle">Drop files here or click to upload.</h3>
 												<em>(This is just a demo dropzone. Selected files are <strong>not</strong>
 													actually uploaded.)
 												</em>
