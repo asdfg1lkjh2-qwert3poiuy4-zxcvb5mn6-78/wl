@@ -24,7 +24,8 @@ private static final long serialVersionUID = 1L;
 	private double registrationCharge;
 	private boolean isActive;
 	
-	
+	@Transient
+	private String allFiles;
 	//Setters And Getters
 	public long getId() {
 		return id;
@@ -63,6 +64,18 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	public String getAllFiles() {
+		return allFiles;
+	}
+	public void setAllFiles(String allFiles) {
+		this.allFiles = allFiles;
+	}
+	public String getCategoryDescription() {
+		return categoryDescription;
+	}
+	public void setCategoryDescription(String categoryDescription) {
+		this.categoryDescription = categoryDescription;
 	}
 
 	

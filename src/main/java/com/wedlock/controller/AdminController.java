@@ -119,25 +119,43 @@ public class AdminController {
 		String folderName = fileName[0];
 		String subFolderName = fileName[1];
 
-		try {
+		/*
+		 * try { ServletContext context = request.getServletContext(); String
+		 * uploadPath = context.getRealPath("/" + folderName); File uploadDir =
+		 * new File(uploadPath); if (!uploadDir.exists()) { boolean success =
+		 * uploadDir.mkdir();
+		 * 
+		 * if (success) { success = (new File(uploadDir + "/" +
+		 * subFolderName)).mkdir(); }
+		 * 
+		 * } String path = uploadDir + "/" + subFolderName + "/" +fileName[2];
+		 * System.out.println("Path is" + path); File serverFile = new
+		 * File(path); BufferedOutputStream stream = new
+		 * BufferedOutputStream(new FileOutputStream(serverFile));
+		 * stream.write(singleUploadFile.getBytes()); stream.close(); url =
+		 * folderName+"_"+subFolderName+"_"+fileName[2];
+		 * 
+		 * }
+		 */ try {
 			ServletContext context = request.getServletContext();
-			String uploadPath = context.getRealPath("/" + folderName);
+			String uploadPath = context.getRealPath("/" + folderName.trim());
 			File uploadDir = new File(uploadPath);
 			if (!uploadDir.exists()) {
 				boolean success = uploadDir.mkdir();
 
 				if (success) {
-					success = (new File(uploadDir + "/" + subFolderName)).mkdir();
+					success = (new File(uploadDir + "/temp")).mkdir();
+
 				}
 
 			}
-			String path = uploadDir + "/" + subFolderName + "/" + fileName[2];
+			String path = uploadDir + "/temp/" + fileName[2];
 			System.out.println("Path is" + path);
 			File serverFile = new File(path);
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 			stream.write(singleUploadFile.getBytes());
 			stream.close();
-			url = path;
+			url = folderName + "_" + subFolderName + "_" + fileName[2];
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -151,17 +169,31 @@ public class AdminController {
 	@RequestMapping(value = "/admin-addEditCategoryAvailable", method = RequestMethod.POST)
 	public @ResponseBody boolean addEditCategoryAvailable(@RequestBody CategoryAvailable categoryAvailable,
 			BindingResult bindingResult, HttpServletRequest request) {
-		/*
-		 * ServletContext context=request.getServletContext();
-		 * System.out.println(categoryAvailable.getAbc());
-		 */
-		categoryAvailable.setIconFile(url);
-		/*
-		 * if(!(("Category/categoryIcon/"+categoryAvailable.getAbc()).equals(
-		 * categoryAvailable.getIconFile()))){ File currentFile = new
-		 * File(context.getRealPath("/Category/categoryIcon/"+categoryAvailable.
-		 * getAbc())); currentFile.delete(); }
-		 */
+		ServletContext context = request.getServletContext();
+		String urls[] = url.split("_");
+		String uploadPath = context.getRealPath("/" + urls[0].trim());
+		File uploadDir = new File(uploadPath);
+		if (uploadDir.exists()) {
+
+			File upLoadSubFolder = new File(uploadDir + "/" + urls[1].trim());
+			if (!upLoadSubFolder.exists()) {
+				boolean success = upLoadSubFolder.mkdir();
+			}
+
+		}
+		String allFiles[] = categoryAvailable.getAllFiles().split(",");
+		for (int i = 0; i < allFiles.length; i++) {
+			if (urls[2].trim().equals(allFiles[i].trim())) {
+				File file = new File(context.getRealPath("/" + urls[0] + "/temp/" + allFiles[i].trim()));
+				file.renameTo(new File(context.getRealPath("/" + urls[0] + "/" + urls[1] + "/" + allFiles[i].trim())));
+			} else {
+				File currentFile = new File(context.getRealPath("/" + urls[0] + "/temp/" + allFiles[i].trim()));
+				currentFile.delete();
+			}
+
+		}
+
+		categoryAvailable.setIconFile(urls[0] + "/" + urls[1] + "/" + urls[2]);
 		AdminResponseClass adminResponseClass = categoryAvailableService.saveCategoryAvailable(categoryAvailable);
 		return adminResponseClass.isStatus();
 	}

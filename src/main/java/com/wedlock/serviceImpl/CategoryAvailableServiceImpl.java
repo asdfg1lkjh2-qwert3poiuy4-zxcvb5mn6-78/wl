@@ -22,6 +22,7 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 	public AdminResponseClass saveCategoryAvailable(CategoryAvailable categoryAvailable) {
 		boolean status = false;
 		
+		categoryAvailable.setActive(Boolean.TRUE);
 		categoryAvailableDao.save(categoryAvailable);
 		status = true;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
