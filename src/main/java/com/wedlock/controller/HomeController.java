@@ -45,4 +45,9 @@ public class HomeController {
 	public String adminAddEditCategory(){
 		return "admin/admin-addEditCategory";
 	}
+	
+	@RequestMapping(value= "/admin-dashboard")
+	public String adminDashboard(){
+		return "admin/admin-dashboard";
+	}
 }
