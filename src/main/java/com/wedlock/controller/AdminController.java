@@ -138,7 +138,7 @@ public class AdminController {
 		 * }
 		 */ try {
 			ServletContext context = request.getServletContext();
-			String uploadPath = context.getRealPath("/" + folderName.trim());
+			String uploadPath = context.getRealPath("/" + folderName);
 			File uploadDir = new File(uploadPath);
 			if (!uploadDir.exists()) {
 				boolean success = uploadDir.mkdir();
@@ -171,11 +171,11 @@ public class AdminController {
 			BindingResult bindingResult, HttpServletRequest request) {
 		ServletContext context = request.getServletContext();
 		String urls[] = url.split("_");
-		String uploadPath = context.getRealPath("/" + urls[0].trim());
+		String uploadPath = context.getRealPath("/" + urls[0]);
 		File uploadDir = new File(uploadPath);
 		if (uploadDir.exists()) {
 
-			File upLoadSubFolder = new File(uploadDir + "/" + urls[1].trim());
+			File upLoadSubFolder = new File(uploadDir + "/" + urls[1]);
 			if (!upLoadSubFolder.exists()) {
 				boolean success = upLoadSubFolder.mkdir();
 			}
@@ -186,6 +186,7 @@ public class AdminController {
 			if (urls[2].trim().equals(allFiles[i].trim())) {
 				File file = new File(context.getRealPath("/" + urls[0] + "/temp/" + allFiles[i].trim()));
 				file.renameTo(new File(context.getRealPath("/" + urls[0] + "/" + urls[1] + "/" + allFiles[i].trim())));
+				System.out.println("////New File is"+new File(context.getRealPath("/" + urls[0] + "/" + urls[1] + "/" + allFiles[i].trim())));
 			} else {
 				File currentFile = new File(context.getRealPath("/" + urls[0] + "/temp/" + allFiles[i].trim()));
 				currentFile.delete();

@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | Category</title>
+<link rel="stylesheet" type="text/css" href="dist/sweetalert2.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
@@ -89,15 +90,14 @@
 										<label class="catgroup-label">Category Icon</label>
 									</div>
 									<div
-										class="col-lg-12 col-md-12 col-sm-6 col-xs-6 _categoryIcon drpimgpdng">
-										<form action="#" id="singleUpload" class="dropzone new-drphieght"
-											method="post" enctype="multipart/form-data"
-											style="height: 10px;">
-											<div class="dz-message catdzmsg" style="height: 10px;">
+										class="col-lg-12 col-md-12 col-sm-6 col-xs-6 _categoryIcon">
+										<form action="#" id="singleUpload" class="dropzone"
+											method="post" enctype="multipart/form-data">
+											<div class="dz-message catdzmsg">
 												<div class="drag-icon-cph">
 													<i class="material-icons catdzicn">touch_app</i>
 												</div>
-												<h3 class="cattitle">Drop files here or click to upload.</h3>
+												<h3>Drop files here or click to upload.</h3>
 												<em>(This is just a demo dropzone. Selected files are <strong>not</strong>
 													actually uploaded.)
 												</em>
@@ -132,6 +132,7 @@
 
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
 	<script src="resources/js/dropzone.js"></script>
+	<script src="resources/js/sweetalert2.min.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -161,6 +162,7 @@
 				classpath = $("form." + "_" + classpath).parent().attr("class");
 				classpath = classpath.split("_");
 				classpath = classpath[1];
+				alert(classpath);
 				return "Category" + "_" + classpath + "_" + dateTime+files;
 
 			}
@@ -168,6 +170,35 @@
 		$("#submit").click(function() {
 			if (files !== undefined) {
 				alert(file1);
+				if($("#categoryName").val() === ""){
+					swal({
+						  title: 'Error!',
+						  text: 'Please Enter Category Name',
+						  type: 'error',
+						  confirmButtonText: 'Cool'
+						});
+				}else if($("#categoryDescription").val() === ""){
+					swal({
+						  title: 'Error!',
+						  text: 'Please Enter Category Description',
+						  type: 'error',
+						  confirmButtonText: 'Cool'
+						});
+				}else if($("#packageFor").val() === ""){
+					swal({
+						  title: 'Error!',
+						  text: 'Please Enter Package For The Category',
+						  type: 'error',
+						  confirmButtonText: 'Cool'
+						});
+				}else if($("#registrationCharge").val() === ""){
+					swal({
+						  title: 'Error!',
+						  text: 'Please Enter Registration Charge',
+						  type: 'error',
+						  confirmButtonText: 'Cool'
+						});
+				}else{
 				var job = {};
 				job["categoryName"] = $("#categoryName").val();
 				job["categoryDescription"] = $("#categoryDescription").val();
@@ -182,15 +213,27 @@
 					processData : false,
 					success : function(data) {
 						alert(JSON.stringify(data));
-						dateTime ="";
-						dateTime = new Date().getTime();
 						alert("Success");
 					},
 					error : function(e) {
 						alert("Error");
+					},complete : function (){
+						$("#categoryName").val("");
+						$("#categoryDescription").val("");
+						$("#packageFor").val("");
+						$("#registrationCharge").val("");
+						files = "";
+						file1 = "";
+						dateTime ="";
+						dateTime = new Date().getTime();
+						$('.dropzone')[0].dropzone.files.forEach(function(file) { 
+							  file.previewElement.remove(); 
+							});
+
+							$('.dropzone').removeClass('dz-started');
 					}
 				});
-
+			  }
 			} else {
 				alert("Please choose upload an icon to submit");
 			}
