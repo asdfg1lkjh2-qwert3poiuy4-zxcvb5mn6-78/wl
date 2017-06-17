@@ -1,11 +1,15 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 
@@ -23,6 +27,9 @@ private static final long serialVersionUID = 1L;
 	private String iconFile;
 	private double registrationCharge;
 	private boolean isActive;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch =FetchType.EAGER, mappedBy="categoryAvailable")
+	private List<SubCategoryAvailable> subCategoryAvailable;
 	
 	@Transient
 	private String allFiles;
@@ -77,7 +84,13 @@ private static final long serialVersionUID = 1L;
 	public void setCategoryDescription(String categoryDescription) {
 		this.categoryDescription = categoryDescription;
 	}
-
+	public List<SubCategoryAvailable> getSubCategoryAvailable() {
+		return subCategoryAvailable;
+	}
+	public void setSubCategoryAvailable(List<SubCategoryAvailable> subCategoryAvailable) {
+		this.subCategoryAvailable = subCategoryAvailable;
+	}
+	
 	
   
 }

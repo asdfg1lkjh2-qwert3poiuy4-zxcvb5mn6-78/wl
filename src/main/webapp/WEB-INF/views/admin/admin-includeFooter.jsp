@@ -37,3 +37,5 @@
 <script src="resources/js/basic-form-elements.js"></script>
 
 <script src="resources/js/index.js"></script>
+
+<script src="resources/js/sign-in.js"></script>

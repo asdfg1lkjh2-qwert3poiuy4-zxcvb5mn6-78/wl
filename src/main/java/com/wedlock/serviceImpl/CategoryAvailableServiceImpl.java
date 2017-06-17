@@ -1,5 +1,6 @@
 package com.wedlock.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -37,9 +38,18 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 		List<CategoryAvailable> listCategoryAvailable = categoryAvailableDao.findAll();
 		status = true;
 		
+		List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
+		for(CategoryAvailable categoryAvailable:listCategoryAvailable){
+			CategoryAvailable categoryAvailable2 = new CategoryAvailable();
+			categoryAvailable2.setId(categoryAvailable.getId());
+			categoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
+			categoryAvailable2.setActive(categoryAvailable.isActive());
+			list.add(categoryAvailable2);
+		}
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
-		adminResponseClass.setCategoryAvailables(listCategoryAvailable);
+	    
+		adminResponseClass.setCategoryAvailables(list);
 		
 		return adminResponseClass;
 	}

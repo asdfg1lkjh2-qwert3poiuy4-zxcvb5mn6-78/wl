@@ -10,21 +10,21 @@
 
 <body>
 	<form method="post" enctype="multipart/form-data" id="fileUploadForm">
-		<!-- Service Name:<input type="text" name="serviceName" id="serviceName">
+		 Service Name:<input type="text" name="serviceName" id="serviceName">
 Service Desc:<input type="text" name="serviceDesc" id="serviceDesc">
 Registration Charge:<input type="text" name="registrationCharge" id="registrationCharge">
 Package For:<select name="packageFor" id="packageFor">
 <option value="">Select Package Here</option>
 <option value="monthly">Monthly</option>
 <option value="yearly">Yearly</option>
-</select> -->
-		<div id="fileDropZone" class="dropzone">
+</select>
+	<!-- <!-- 	<div id="fileDropZone" class="dropzone">
 			File:<input type="file" name="iconFiles" id="iconFile" value="">
 		</div>
 		<hr>
 		<div id="fileDropZone3" class="dropzone">
 			File:<input type="file" name="iconFiles" id="iconFile">
-		</div>
+		</div> -->
 
 		<input type="submit" id="submit" value="Submit">
 	</form>
@@ -33,7 +33,7 @@ Package For:<select name="packageFor" id="packageFor">
 <script src="resources/js/dropzone.js"></script>
 <!-- Dropzone Plugin Js -->
 <script type="text/javascript">
-	Dropzone.autoDiscover = false;
+	/* Dropzone.autoDiscover = false;
 	$(document).ready(function() {
 		alert("Hello");
 
@@ -51,7 +51,7 @@ Package For:<select name="packageFor" id="packageFor">
 			url : "#"
 		});
 	});
-
+ */
 	$("#submit").click(function(event) {
 
 		//stop submit the form, we will post it manually.
@@ -60,14 +60,14 @@ Package For:<select name="packageFor" id="packageFor">
 		// Get form
 		//var form = Dropzone.forElement("div#fileDropZone").files[0];
 		//$("div#fileDropZone").dropzone({ url: "/testController" });
-
+		var form = $('#fileUploadForm')[0];
 		// Create an FormData object
-		/* var data = new FormData(form);
+		 var data = new FormData(form);
 
 			// disabled the submit button
 			$("#submit").prop("disabled", true);
-
-			$.ajax({
+			alert(JSON.stringify(data));
+			 /* $.ajax({
 				type : "POST",
 				enctype : 'multipart/form-data',
 				url : "testController",
@@ -88,8 +88,8 @@ Package For:<select name="packageFor" id="packageFor">
 					$("#submit").prop("disabled", false);
 
 		    }
-		});
-		 */
+		}); */
+		 
 	});
 </script>
 </html>

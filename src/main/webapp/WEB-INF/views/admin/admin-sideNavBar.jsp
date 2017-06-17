@@ -31,6 +31,7 @@
                     <li><a href="#">Add & View City</a></li>
                     <li><a href="#">Add & View ZipCode</a></li>
                     <li><a href="admin-addEditCategory">Add & View Category</a></li>
+                    <li><a href="admin-addEditSubCategory">Add & View Sub Category</a></li>
                     <li><a href="#">Add & View Occasion</a></li>
                     <li><a href="#">Add & View Photographer Occasion</a></li>
                 </ul>

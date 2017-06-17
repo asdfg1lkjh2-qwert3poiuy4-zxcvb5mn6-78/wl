@@ -3,34 +3,36 @@ package com.wedlock.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Date;
+
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.City;
 import com.wedlock.model.Occasion;
 import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.State;
+import com.wedlock.model.SubCategoryAvailable;
 import com.wedlock.model.ZipCode;
 import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CityService;
 import com.wedlock.service.OccasionService;
 import com.wedlock.service.StateService;
+import com.wedlock.service.SubCategoryAvailableService;
 import com.wedlock.service.ZipCodeService;
 
 @Controller
@@ -46,6 +48,8 @@ public class AdminController {
 	private CategoryAvailableService categoryAvailableService;
 	@Autowired
 	private OccasionService occasionService;
+	@Autowired
+	private SubCategoryAvailableService subCategoryAvailableService;
 
 	/* For State */
 	@RequestMapping(value = "/admin-addEditState", method = RequestMethod.POST)
@@ -230,5 +234,12 @@ public class AdminController {
 		AdminResponseClass adminResponseClass = occasionService.fetchOccasionsById(id);
 		return adminResponseClass;
 	}
-
+	
+	/*For Sub Category*/
+	@RequestMapping(value = "/admin-addEditSubCategory", method = RequestMethod.POST)
+	public @ResponseBody boolean adminAddEditSubCategory(@RequestBody SubCategoryAvailable subCategory, BindingResult bindingResult) {
+		String subCategoryValues[] = subCategory.getOtherSubCategoryDetails().split("_");
+		AdminResponseClass adminResponseClass = subCategoryAvailableService.saveSubCategoryAvailable(subCategory,subCategoryValues);
+		return adminResponseClass.isStatus();
+	}
 }

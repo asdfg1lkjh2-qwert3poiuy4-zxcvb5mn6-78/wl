@@ -18,6 +18,7 @@
     <link href="resources/css/bootstrap-select.css" rel="stylesheet" />
     <!-- Custom Css -->
     <link href="resources/css/main.css" rel="stylesheet">
+    <link href="resources/css/login.css" rel="stylesheet">
     <!-- Swift Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="resources/css/all-themes.css" rel="stylesheet" />
     <!-- My Custom Css -->
