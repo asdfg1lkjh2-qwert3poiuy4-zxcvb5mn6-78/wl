@@ -241,7 +241,8 @@
 
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
 	<script src="resources/js/sweetalert2.min.js"></script>
-
+	<%@ include file="admin-includeDynamicSideNavBar.jsp" %>
+	<%@ include file="admin-includeDynamicSideNavBarFromSession.jsp" %>
 	<script type="text/javascript">
 	
 		$(document).ready(function() {
@@ -259,11 +260,10 @@
 						contentType : "application/json",
 						processData : false,
 						success : function(data) {
-							alert(JSON.stringify(data));
 							$("#categoryDiv").html("");
 							if (data.status) {
 								var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Category Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Category Name--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-										+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulId\">"
+										+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
 										+"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"+0+"','Category Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Category Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 								var cde = "";		
 										for(var i = 0; i<data.categoryAvailables.length; i++){	
@@ -299,7 +299,7 @@
 			$("#categoryName").val(categoryId);
 			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--"+title1+ "--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"
 			+ title1
-			+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+			+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
 
 			if(Number(liId) > Number(0)){
 				 var selectedId = $(".selected").attr("id");
@@ -356,6 +356,8 @@
 						+ Number(Number(i) + Number(1))
 						+ "','"
 						+ splittedArray[1]
+						+ "','"
+						+ splittedArray[0]
 						+ "')\"><span class=\"text\">"
 						+ splittedArray[1]
 						+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
@@ -404,7 +406,7 @@
 				i = Number(Number(i) + Number(1));
 				$(".subCatecoryDiv")
 						.append(
-								"<div class=\"row clearfix addDivs\" id='"+i+"'>"
+								"<div class=\"row clearfix addDivs\" id='subCategory"+i+"'>"
 										+ "<div class=\"col-sm-5 col-xs-12\">"
 										+ "<div class=\"form-group\">"
 										+ "<div class=\"form-line\">"
@@ -421,15 +423,15 @@
 										+ "<div class=\"col-sm-2 col-xs-12\">"
 										+ "<div class=\"form-group\">"
 										+ "<button type=\"button\" class=\"btn btn-raised gradient-left\" id=\"plusbtn\" onclick=\"addDiv()\">Add</button>"
-										+ "<button type=\"button\" class=\"btn btn-raised gradient-left\" id=\"minusbtn\" onclick=\"removeDiv('"
+										+ "<button type=\"button\" class=\"btn btn-raised gradient-left\" id=\"minusbtn\" onclick=\"removeSubCategoryDiv('"
 										+ i + "')\">Remove</button>" + "</div>"
 										+ "</div>" + "</div>")
 			}
 		}
 
 		// For removing present div
-		function removeDiv(removeId) {
-			$("#" + removeId).remove();
+		function removeSubCategoryDiv(removeId) {
+			$("#subCategory" + removeId).remove();
 		}
 
 		//For Submit 
@@ -528,13 +530,13 @@
 												});
 											},
 											complete : function(){
-												
+												fetchSideNavBar();
 												//Removing data from all textboxes and removing dynamic divs
 												$("#categoryName").val("");
 												$("#subCategoryName").val("");
 												$("#subCategoryDescription").val("");
 												for(var k =1; k<= Number(i); k++){
-													removeDiv(Number(k));
+													removeSubCategoryDiv(Number(k));
 												}
 												
 												// For default select Category List
@@ -555,6 +557,8 @@
 															+ Number(Number(i) + Number(1))
 															+ "','"
 															+ splittedArray[1]
+															+ "','"
+															+ splittedArray[0]
 															+ "')\"><span class=\"text\">"
 															+ splittedArray[1]
 															+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"

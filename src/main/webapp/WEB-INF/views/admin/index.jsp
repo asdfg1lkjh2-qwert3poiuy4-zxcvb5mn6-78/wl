@@ -24,15 +24,15 @@
 							class="zmdi zmdi-account"></i>
 						</span>
 						<div class="form-line">
-							<input type="text" class="form-control" name="username"
-								placeholder="Username">
+							<input type="text" class="form-control" name="username" id="username"
+								placeholder="EmailId/Phone No.">
 						</div>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon"> <i class="zmdi zmdi-lock"></i>
 						</span>
 						<div class="form-line">
-							<input type="password" class="form-control" name="password"
+							<input type="password" class="form-control" name="password" id="password"
 								placeholder="Password">
 						</div>
 					</div>
@@ -40,7 +40,7 @@
 						<span class="input-group-addon"> <i class="zmdi zmdi-lock"></i>
 						</span> 
 						<div class="form-group drop-custum">
-							<select class="form-control show-tick">
+							<select class="form-control show-tick" name="loginAs" id="loginAs">
 								<option value="">Login As</option>
 								<option value="Admin">Admin</option>
 								<option value="Seller">Seller</option>
@@ -62,8 +62,8 @@
 								Me</label>
 						</div>
 						<div class="text-center">
-							<a href="index.html"
-								class="btn btn-raised waves-effect g-bg-blush2" type="submit">SIGN
+							<a href="#"
+								class="btn btn-raised waves-effect g-bg-blush2" type="submit" id="signIn">SIGN
 								IN</a> <a href="sign-up.html" class="btn btn-raised waves-effect"
 								type="submit">SIGN UP</a>
 						</div>
@@ -76,6 +76,61 @@
 		</div>
 	</div>
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$
+		.ajax({
+			type : "POST",
+			url : "admin-addEditAdminDetails",
+			data : "",
+			contentType :false,
+			processData : false,
+			success : function(data) {
+			},
+			error : function(e) {
+				alert("Error");
+				
+			}
+		});
+	});
+	
+	$("#signIn").click(function (event){
+		event.preventDefault();
+		
+		var data = $("#sign_in")[0];
+		var formData = new FormData(data);
+		$("#submit").prop("disabled", true);
+		
+		if($("#loginAs").val() === "Admin"){
+			$
+			.ajax({
+				type : "POST",
+				url : "admin-loginCredentials",
+				data : formData,
+				contentType :false,
+				processData : false,
+				success : function(data) {
+					alert(JSON.stringify(data));
+					if(data){
+						window.location="admin-dashboard";
+					}else{
+						alert("Your username or password is incorrect");
+					}
+					$("#submit").prop("disabled", false);
+				},
+				error : function(e) {
+					alert("Error");
+					$("#submit").prop("disabled", false);
+				}
+			});
+			
+		}
+		
+		
+	});
+	
+
+	</script>
 	<%@include file="admin-includeFooter.jsp"%>
 	<div class="theme-bg"></div>
 	

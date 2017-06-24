@@ -85,7 +85,7 @@
         <!-- Top Bar -->
         <nav class="navbar clearHeader">
             <div class="container-fluid">
-                <div class="navbar-header"> <a href="javascript:void(0);" class="bars"></a> <a class="navbar-brand" href="index.html">Swift University</a> </div>
+                <div class="navbar-header"> <a href="javascript:void(0);" class="bars"></a> <a class="navbar-brand" href="index.html">Wedlock</a> </div>
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Notifications -->
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="zmdi zmdi-notifications"></i> <span class="label-count">7</span> </a>
@@ -825,8 +825,10 @@
             </div>
         </section>
         <!-- main content -->
-
+		<script src="resources/js/jquery-2.1.3.min.js"></script>
+	 	<%@include file="admin-includeDynamicSideNavBarFromSession.jsp" %>
         <div class="color-bg"></div>
+       
         <%@ include file="admin-includeFooter.jsp" %>
     </body>
 </html>

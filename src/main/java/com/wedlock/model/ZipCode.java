@@ -1,11 +1,13 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -22,11 +24,14 @@ public class ZipCode implements Serializable {
 	@ManyToOne
 	private City city;
 
-	@OneToOne(mappedBy = "zipCode")
-	private SellerDetails sellerDetails;
+	@OneToMany(mappedBy = "zipCode")
+	private List<SellerDetails> sellerDetails;
 	
 	@Transient
 	private long cityId;
+	
+	@Transient
+	private String otherZipCodeDetails;
 
 	// Setters And Getters
 
@@ -46,13 +51,6 @@ public class ZipCode implements Serializable {
 		return zipCode;
 	}
 
-	public SellerDetails getSellerDetails() {
-		return sellerDetails;
-	}
-
-	public void setSellerDetails(SellerDetails sellerDetails) {
-		this.sellerDetails = sellerDetails;
-	}
 
 	public String getLocalityName() {
 		return localityName;
@@ -76,6 +74,22 @@ public class ZipCode implements Serializable {
 
 	public void setCityId(long cityId) {
 		this.cityId = cityId;
+	}
+
+	public String getOtherZipCodeDetails() {
+		return otherZipCodeDetails;
+	}
+
+	public void setOtherZipCodeDetails(String otherZipCodeDetails) {
+		this.otherZipCodeDetails = otherZipCodeDetails;
+	}
+
+	public List<SellerDetails> getSellerDetails() {
+		return sellerDetails;
+	}
+
+	public void setSellerDetails(List<SellerDetails> sellerDetails) {
+		this.sellerDetails = sellerDetails;
 	}
 	
 

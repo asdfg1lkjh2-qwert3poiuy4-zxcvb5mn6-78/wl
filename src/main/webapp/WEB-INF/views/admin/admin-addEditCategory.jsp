@@ -59,10 +59,10 @@
 									</div>
 								</div>
 								<div class="col-sm-3 col-xs-12 padding-left">
-									<div class="form-group drop-custum">
+									<div class="form-group drop-custum" id="packageDiv">
 										<select class="form-control show-tick" name="packageFor"
 											id="packageFor">
-											<option value="">-- Package For --</option>
+											<option value="1">-- Package For --</option>
 											<option value="HalfYearly">Half Yearly</option>
 											<option value="Yearly">Yearly</option>
 										</select>
@@ -113,6 +113,7 @@
 
 							<div class="row clearfix">
 								<div class="col-xs-12">
+								<input type="hidden" value="${sessionScope.firstLogin}" id="firstLogin">
 									<button type="submit" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -269,42 +270,42 @@
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
 	<script src="resources/js/dropzone.js"></script>
 	<script src="resources/js/sweetalert2.min.js"></script>
-
-	<script type="text/javascript">
 	
-		var files;       //For renaming the file with PageName and LabelName for the file
+	<%@ include file="admin-includeDynamicSideNavBar.jsp" %>
+	<%@ include file="admin-includeDynamicSideNavBarFromSession.jsp" %>
+	<script type="text/javascript">
+		       
 		var file1="";	 //For storing the unwanted files being uploaded in the server and not in the database
 		var dateTime = new Date().getTime();    //For getting the current time in milli seconds
+		var checkSubmit= 0;     //Marker to check whether the page is refreshed or not
 		
 		//Upload and renaming the files being uploaded in dropzone.js
 		Dropzone.options.singleUpload = {
 			url : "singleUpload",
 			init : function() {
 				this.on("success", function(file, response) {
+					var a = this.element.classList+"";
+					a = a.split("_");
+					a = $("form." + "_" + a[1]).parent().attr("class");
+					a = a.split("_");
 					if(file1 === ""){
-						file1 = dateTime+file.name;
+						file1 = "Category"+"_"+a[1]+"_"+dateTime+file.name;
 					}else{
-						file1 = file1+","+dateTime+file.name;
+						file1 = file1+","+"Category"+"_"+a[1]+"_"+dateTime+file.name;
 					}
-					this.element.classList;
 				});
 			},
 			renameFilename : function(fileName) {
 				var classpath = fileName;
 				classpath = classpath.split("_");
-				files = classpath[0];
-				classpath = classpath[2];
-				classpath = $("form." + "_" + classpath).parent().attr("class");
-				classpath = classpath.split("_");
-				classpath = classpath[1];
-				return "Category" + "_" + classpath + "_" + dateTime+files;
+				return "Category" + "_"+ dateTime+classpath[0];
 
 			}
 		};
 		
 		//For submit
 		$("#submit").click(function() {
-			if (files !== undefined) {
+			if (file1 !== "") {
 				if($("#categoryName").val() === ""){
 					swal({
 						  title: 'Warning!',
@@ -359,7 +360,6 @@
 					contentType : "application/json",
 					processData : false,
 					success : function(data) {
-						alert(JSON.stringify(data));
 						swal({
 							  title: 'Success!',
 							  text: 'Category Successfully Inserted!!!',
@@ -382,11 +382,10 @@
 							  animation:true
 							});
 					},complete : function (){
-						
 						//For removing all data from textboxes after successful insertion
+						
 						$("#categoryName").val("");
 						$("#categoryDescription").val("");
-						$("#packageFor").val("");
 						$("#registrationCharge").val("");
 						files = "";   
 						file1 = "";
@@ -396,9 +395,13 @@
 						//Remove the thumbnails after each insertion being completed from dropzone.js
 						$('.dropzone')[0].dropzone.files.forEach(function(file) { 
 							  file.previewElement.remove(); 
+							 
 							});
-
-							$('.dropzone').removeClass('dz-started');
+						
+						 $('.dropzone').removeClass(' dz-started ');
+						
+							checkSubmit = 1;
+							fetchSideNavBar();
 					}
 				});
 			  }
@@ -414,8 +417,9 @@
 					});
 			}
 		});
+		
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
-
+	
 </body>
 </html>

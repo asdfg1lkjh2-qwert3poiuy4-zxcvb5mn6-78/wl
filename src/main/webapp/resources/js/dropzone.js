@@ -271,19 +271,39 @@
 				return this.element.classList.remove("dz-started");
 			},
 			addedfile : function(file) {
+				
 				var node, removeFileEvent, removeLink, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results;
 				if (this.element === this.previewsContainer) {
-					this.element.classList.add("dz-started");
-					var abcs = this.element.classList + "";
-					abcs = abcs.split("_");
-					abcs = abcs[1];
-
-					if (!($("form.dz-started").hasClass("_" + abcs))) {
-						this.element.classList.add("_status"
-								+ Number(statusIncrement));
-						statusIncrement = Number(Number(statusIncrement)
-								+ Number(1));
+					var statusClass;
+					if (checkSubmit === 1){
+						statusClass = this.element.classList+"";
+						statusClass = statusClass.split("_");
+						statusClass = statusClass[1];
 					}
+					var checker = Number(0);
+					if(this.element.classList.contains("_"+statusClass)){
+						this.element.classList.remove("_"+statusClass);
+						checker = Number(1);
+					}
+					
+					this.element.classList.add("dz-started");
+					/*var abcs = this.element.classList + "";
+					abcs = abcs.split("_");
+					abcs = abcs[1];*/
+					if(checker === 0){
+						if (!($("form.dz-started").hasClass("_" + statusClass))) {
+							this.element.classList.add("_status"
+									+ Number(statusIncrement));
+							statusIncrement = Number(Number(statusIncrement)
+									+ Number(1));
+						}
+					}else{
+						if (!($("form.dz-started").hasClass("_" + statusClass))) {
+							this.element.classList.add("_"+statusClass);
+									
+						}
+					}
+					
 				}
 				if (this.previewsContainer) {
 					file.previewElement = Dropzone
@@ -350,7 +370,8 @@
 				var _ref;
 				if (file.previewElement) {
 					if ((_ref = file.previewElement) != null) {
-						_ref.parentNode.removeChild(file.previewElement);
+						//_ref.parentNode.removeChild(file.previewElement);
+						_ref.style.display = "none";
 					}
 				}
 				return this._updateMaxFilesReachedClass();
@@ -811,11 +832,12 @@
 						+ (this.options.uploadMultiple ? "[" + n + "]" : "");
 			}
 		};
-
+		
 		Dropzone.prototype._renameFilename = function(name) {
 			if (typeof this.options.renameFilename !== "function") {
 				return name+"_"+this.element.classList;
 			}
+			
 			return this.options.renameFilename(name+"_"+this.element.classList);
 		};
 

@@ -1,21 +1,21 @@
 <aside id="leftsidebar" class="sidebar"> 
     <!-- User Info -->
     <div class="user-info">
-        <div class="admin-image"> <img src="resources/images/random-avatar7.jpg" alt=""> </div>
+        <div class="admin-image"> <img src="<c:out value="${sessionScope.adminDetailsSession.imageName}"/>" alt=""> </div>
         <div class="admin-action-info"> <span>Welcome</span>
-            <h3>Prof. John Smith</h3>
+            <h3>${sessionScope.adminDetailsSession.firstName} ${sessionScope.adminDetailsSession.lastName}</h3>
             <ul>
                 <li><a data-placement="bottom" title="Go to Inbox" href="mail-inbox.html"><i class="zmdi zmdi-email"></i></a></li>
                 <li><a data-placement="bottom" title="Go to Profile" href="profile.html"><i class="zmdi zmdi-account"></i></a></li>                    
                 <li><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="zmdi zmdi-settings"></i></a></li>
-                <li><a data-placement="bottom" title="Full Screen" href="sign-in.html" ><i class="zmdi zmdi-sign-in"></i></a></li>
+                <li><a data-placement="bottom" title="Sign Out" href="signOut" ><i class="zmdi zmdi-sign-in"></i></a></li>
             </ul>
         </div>
     </div>
     <!-- #User Info --> 
     <!-- Menu -->
     <div class="menu">
-        <ul class="list" style="overflow: auto;">
+        <ul class="list" style="overflow: auto;" id="sideNavUl">
             <li class="header">MAIN NAVIGATION</li>
             <li class="active open"><a href="index.php"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
             <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Seller Details</span> </a>
@@ -27,16 +27,17 @@
             </li>
              <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Miscellaneous</span> </a>
                 <ul class="ml-menu font-list">                        
-                    <li><a href="#">Add & View State</a></li>
-                    <li><a href="#">Add & View City</a></li>
-                    <li><a href="#">Add & View ZipCode</a></li>
+                    <li><a href="admin-addEditState">Add & View State</a></li>
+                    <li><a href="admin-addEditCity">Add & View City</a></li>
+                    <li><a href="admin-addEditZipCode">Add & View ZipCode</a></li>
                     <li><a href="admin-addEditCategory">Add & View Category</a></li>
                     <li><a href="admin-addEditSubCategory">Add & View Sub Category</a></li>
                     <li><a href="#">Add & View Occasion</a></li>
                     <li><a href="#">Add & View Photographer Occasion</a></li>
                 </ul>
             </li>
-            <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/tulip.png" alt=""/><span>Flourist</span> </a>
+            
+            <!-- <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/tulip.png" alt=""/><span>Flourist</span> </a>
                 <ul class="ml-menu font-list">                        
                     <li><a href="admin-addEditFlower">Add Flower</a></li> 
                     <li><a href="viewFlourist">View Flourist</a></li>
@@ -60,7 +61,7 @@
                     <li><a href="./addGroccers">Add Grocery Store</a></li> 
                     <li><a href="./viewGroccers">View Grocery Store</a></li>
 
-                    <!--                        <li><a href="courses-info.html">Courses Info</a></li>-->
+                                           <li><a href="courses-info.html">Courses Info</a></li>
                 </ul>
             </li>
             <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/wedding-invitation.png" alt=""/><span>Wedding Cards</span> </a>
@@ -100,14 +101,14 @@
                 <ul class="ml-menu">
                     <li><a href="./addBeautician">Add Beautician</a></li>
                     <li><a href="./viewBeautician">All Beauticians</a></li>                       
-                    <!-- <li><a href="staffs-info.html">Staffs Profile</a></li> -->
+                    <li><a href="staffs-info.html">Staffs Profile</a></li>
                 </ul>
             </li>
             <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/cooker.png" alt=""/><span>Cook</span></a>
                 <ul class="ml-menu">
                     <li><a href="./addCulinarian">Add Culinarian</a></li>
                     <li><a href="./viewCulinarian">All Culinarians</a></li>                       
-                    <!-- <li><a href="staffs-info.html">Staffs Profile</a></li> -->
+                    <li><a href="staffs-info.html">Staffs Profile</a></li>
                 </ul>
             </li>
             <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/cooker.png" alt=""/><span>Crackers</span></a>
@@ -115,7 +116,7 @@
                     <li><a href="./addCrackers">Add Cracker Store</a></li>
                     <li><a href="./viewCrackerStore">All Cracker Store</a></li>  
                 </ul>
-            </li>
+            </li> -->
         </ul>
     </div>
     <!-- #Menu -->

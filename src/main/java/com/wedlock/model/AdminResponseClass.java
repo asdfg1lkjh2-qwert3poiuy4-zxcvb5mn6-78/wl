@@ -5,6 +5,8 @@ import java.util.List;
 public class AdminResponseClass {
 
 	private boolean status;
+	private int countRows;
+	private String lastId;
 	
 	/*For State*/
 	private List<State> listAllStates;
@@ -25,6 +27,18 @@ public class AdminResponseClass {
 	/*For Occasion*/
 	private List<Occasion> occasions;
 	private Occasion occasion;
+	
+	/*For Admin Details*/
+	private List<AdminDetails> adminDetails;
+	private AdminDetails adminDetail;
+	
+	/*For Sub Category Available*/
+	private List<SubCategoryAvailable> subCategoryAvailables;
+	private SubCategoryAvailable subCategoryAvailable;
+	
+	/*For Seller*/
+	private List<SellerDetails> sellerDetails;
+	private SellerDetails sellerDetail;
 	
 	// Setters And Getters
 
@@ -115,5 +129,70 @@ public class AdminResponseClass {
 	public void setOccasion(Occasion occasion) {
 		this.occasion = occasion;
 	}
-	
+
+	public List<AdminDetails> getAdminDetails() {
+		return adminDetails;
+	}
+
+	public void setAdminDetails(List<AdminDetails> adminDetails) {
+		this.adminDetails = adminDetails;
+	}
+
+	public AdminDetails getAdminDetail() {
+		return adminDetail;
+	}
+
+	public void setAdminDetail(AdminDetails adminDetail) {
+		this.adminDetail = adminDetail;
+	}
+
+	public int getCountRows() {
+		return countRows;
+	}
+
+	public void setCountRows(int countRows) {
+		this.countRows = countRows;
+	}
+
+	public List<SubCategoryAvailable> getSubCategoryAvailables() {
+		return subCategoryAvailables;
+	}
+
+	public void setSubCategoryAvailables(List<SubCategoryAvailable> subCategoryAvailables) {
+		this.subCategoryAvailables = subCategoryAvailables;
+	}
+
+	public SubCategoryAvailable getSubCategoryAvailable() {
+		return subCategoryAvailable;
+	}
+
+	public void setSubCategoryAvailable(SubCategoryAvailable subCategoryAvailable) {
+		this.subCategoryAvailable = subCategoryAvailable;
+	}
+
+	public List<SellerDetails> getSellerDetails() {
+		return sellerDetails;
+	}
+
+	public void setSellerDetails(List<SellerDetails> sellerDetails) {
+		this.sellerDetails = sellerDetails;
+	}
+
+	public SellerDetails getSellerDetail() {
+		return sellerDetail;
+	}
+
+	public void setSellerDetail(SellerDetails sellerDetail) {
+		this.sellerDetail = sellerDetail;
+	}
+
+	public String getLastId() {
+		return lastId;
+	}
+
+	public void setLastId(String lastId) {
+		this.lastId = lastId;
+	}
+
+
 }

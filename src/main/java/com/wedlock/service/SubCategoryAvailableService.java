@@ -1,8 +1,12 @@
 package com.wedlock.service;
 
+import java.util.List;
+
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.SubCategoryAvailable;
 
 public interface SubCategoryAvailableService {
-	AdminResponseClass saveSubCategoryAvailable(SubCategoryAvailable subCategoryAvailable,String subCategoryValues[]);
+	public AdminResponseClass saveSubCategoryAvailable(SubCategoryAvailable subCategoryAvailable,String subCategoryValues[]);
+	public AdminResponseClass fetchAllSubCategoryAvailable();
+	public List<SubCategoryAvailable> listFetchAllSubCategoryAvailable();
 }

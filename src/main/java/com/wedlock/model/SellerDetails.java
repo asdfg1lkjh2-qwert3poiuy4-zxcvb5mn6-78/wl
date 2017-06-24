@@ -7,10 +7,12 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class SellerDetails implements Serializable {
@@ -44,18 +46,29 @@ public class SellerDetails implements Serializable {
 	private String sellerIdProof;
 	private String sellerIdProofImg;
 	private String sellerImg;
+	@Temporal(TemporalType.DATE)
+	private Date entryTime;
+	private boolean isActive;
 
+	@Transient
+	private long stateId;
+	@Transient
+	private long cityId;
+	@Transient
+	private long zipCodeId;
+	@Transient
+	private String addressProofFiles;
+	@Transient
+	private String idProofFiles;
+	@Transient
+	private String sellerImageFiles;
 	@OneToMany(mappedBy = "sellerDetails")
 	private List<CategoryTaken> serviceTaken;
 	
 	@OneToOne(mappedBy="sellerDetails")
 	private SellerBankDetails sellerBankDetails;
 	
-	@Temporal(TemporalType.DATE)
-	private Date entryTime;
-	private boolean isActive;
-	
-
+	//Setters And Getters
 	public String getId() {
 		return id;
 	}
@@ -231,6 +244,54 @@ public class SellerDetails implements Serializable {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	
+
+	public String getAddressProofFiles() {
+		return addressProofFiles;
+	}
+
+	public void setAddressProofFiles(String addressProofFiles) {
+		this.addressProofFiles = addressProofFiles;
+	}
+
+	public String getIdProofFiles() {
+		return idProofFiles;
+	}
+
+	public void setIdProofFiles(String idProofFiles) {
+		this.idProofFiles = idProofFiles;
+	}
+
+	public String getSellerImageFiles() {
+		return sellerImageFiles;
+	}
+
+	public void setSellerImageFiles(String sellerImageFiles) {
+		this.sellerImageFiles = sellerImageFiles;
+	}
+
+	public long getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(long stateId) {
+		this.stateId = stateId;
+	}
+
+	public long getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(long cityId) {
+		this.cityId = cityId;
+	}
+
+	public long getZipCodeId() {
+		return zipCodeId;
+	}
+
+	public void setZipCodeId(long zipCodeId) {
+		this.zipCodeId = zipCodeId;
+	}
+
 	
 }

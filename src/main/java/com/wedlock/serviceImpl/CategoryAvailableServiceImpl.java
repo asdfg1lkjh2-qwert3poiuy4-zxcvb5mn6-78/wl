@@ -67,5 +67,21 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 		
 		return adminResponseClass;
 	}
+	@Override
+	public List<CategoryAvailable> listFetchAllCategoryAvailble() {
+	
+		List<CategoryAvailable> listCategoryAvailable = categoryAvailableDao.findAll();
+
+		List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
+		for(CategoryAvailable categoryAvailable:listCategoryAvailable){
+			CategoryAvailable categoryAvailable2 = new CategoryAvailable();
+			categoryAvailable2.setId(categoryAvailable.getId());
+			categoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
+			categoryAvailable2.setActive(categoryAvailable.isActive());
+			list.add(categoryAvailable2);
+		}
+		
+		return list;
+	}
 
 }

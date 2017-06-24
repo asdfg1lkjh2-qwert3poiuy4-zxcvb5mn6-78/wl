@@ -55,4 +55,21 @@ public class HomeController {
 	public String adminAddEditSubCategory(){
 		return "admin/admin-addEditSubCategory";
 	}
+	
+	@RequestMapping(value ="/admin-addEditState")
+	public String admiAddEditState(){
+		return "admin/admin-addEditState";
+	}
+	
+	@RequestMapping(value ="/admin-addEditCity")
+	public String adminAddEditCity(){
+		return "admin/admin-addEditCity";
+	}
+	
+	@RequestMapping(value ="/admin-addEditZipCode")
+	public String adminAddEditZipCode(){
+		return "admin/admin-addEditZipCode";
+	}
+
+
 }

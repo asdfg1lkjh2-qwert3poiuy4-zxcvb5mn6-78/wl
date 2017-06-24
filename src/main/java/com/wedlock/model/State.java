@@ -3,6 +3,7 @@ package com.wedlock.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,12 +18,14 @@ public class State implements Serializable{
 	@Id @GeneratedValue
 	private long id;
 	private String stateName;
+	@Column(columnDefinition = "TEXT")
+	private String stateDescription;
 	
 	@OneToMany(mappedBy="state")
 	private List<City> cities;
 	
-	@OneToOne(mappedBy="state")
-	private SellerDetails sellerDetails;
+	@OneToMany(mappedBy="state")
+	private List<SellerDetails> sellerDetails;
 	
 	//Setters And Getters
 
@@ -45,10 +48,17 @@ public class State implements Serializable{
 	public void setCities(List<City> cities) {
 		this.cities = cities;
 	}
-	public SellerDetails getSellerDetails() {
+
+	public String getStateDescription() {
+		return stateDescription;
+	}
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+	public List<SellerDetails> getSellerDetails() {
 		return sellerDetails;
 	}
-	public void setSellerDetails(SellerDetails sellerDetails) {
+	public void setSellerDetails(List<SellerDetails> sellerDetails) {
 		this.sellerDetails = sellerDetails;
 	}
 	

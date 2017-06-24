@@ -3,6 +3,7 @@ package com.wedlock.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,6 +20,8 @@ public class City implements Serializable{
 	@Id @GeneratedValue
 	private long id;
 	private String cityName;
+	@Column(columnDefinition = "TEXT")
+	private String cityDescription;
 	
 	@ManyToOne
 	private State state;
@@ -26,11 +29,13 @@ public class City implements Serializable{
 	@OneToMany(mappedBy="city")
 	private List<ZipCode> zipCodes;
 	
-	@OneToOne(mappedBy="city")
-	private SellerDetails sellerDetails;
+	@OneToMany(mappedBy="city")
+	private List<SellerDetails> sellerDetails;
 	
 	@Transient
 	private long stateId;
+	@Transient
+	private String otherCityDetails;
 	
 	
 	//Setters And Getters
@@ -68,13 +73,7 @@ public class City implements Serializable{
 		this.zipCodes = zipCodes;
 	}
 
-	public SellerDetails getSellerDetails() {
-		return sellerDetails;
-	}
-
-	public void setSellerDetails(SellerDetails sellerDetails) {
-		this.sellerDetails = sellerDetails;
-	}
+	
 
 	public long getStateId() {
 		return stateId;
@@ -82,6 +81,30 @@ public class City implements Serializable{
 
 	public void setStateId(long stateId) {
 		this.stateId = stateId;
+	}
+
+	public String getOtherCityDetails() {
+		return otherCityDetails;
+	}
+
+	public void setOtherCityDetails(String otherCityDetails) {
+		this.otherCityDetails = otherCityDetails;
+	}
+
+	public String getCityDescription() {
+		return cityDescription;
+	}
+
+	public void setCityDescription(String cityDescription) {
+		this.cityDescription = cityDescription;
+	}
+
+	public List<SellerDetails> getSellerDetails() {
+		return sellerDetails;
+	}
+
+	public void setSellerDetails(List<SellerDetails> sellerDetails) {
+		this.sellerDetails = sellerDetails;
 	}
 
 	
