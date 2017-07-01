@@ -6,15 +6,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.MidiSystem;
 
 import org.codehaus.jackson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,25 +43,29 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.wedlock.model.AdminDetails;
 import com.wedlock.model.AdminResponseClass;
+import com.wedlock.model.ApiResponseClass;
 import com.wedlock.model.City;
 import com.wedlock.model.Occasion;
+import com.wedlock.model.SellerBankDetails;
 import com.wedlock.model.SellerDetails;
 import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.State;
 import com.wedlock.model.SubCategoryAvailable;
-import com.wedlock.model.TimeZone;
 import com.wedlock.model.ZipCode;
 import com.wedlock.service.AdminDetailsService;
 import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CityService;
 import com.wedlock.service.OccasionService;
+import com.wedlock.service.SellerBankDetailsService;
 import com.wedlock.service.SellerService;
 import com.wedlock.service.StateService;
 import com.wedlock.service.SubCategoryAvailableService;
 import com.wedlock.service.ZipCodeService;
 import com.wedlock.util.createId;
+import com.wedlock.util.smsApi;
 
 /*Please Don't Delete Any Of The Imports As They Are Not Unnecessary. 
 They look so because of some commented api's which we will be taken care afterwards.
@@ -79,13 +91,18 @@ public class AdminController {
 	@Autowired
 	private SellerService sellerService;
 	@Autowired
+	private SellerBankDetailsService sellerBankDetailsService;
+	@Autowired
 	HttpSession httpSession;
 	
 	final String timeZoneApi = "http://api.timezonedb.com/v2/get-time-zone?key=U33W5JLS2CRZ&format=json&by=zone&zone=Asia/Kolkata";
-
-	/* For State */
+    
 	@RequestMapping(value = "/admin-addEditState", method = RequestMethod.POST)
 	public @ResponseBody boolean addEditState(@RequestBody State state) {
+		System.out.println("/////EditStateId"+state.getEditStateId());
+		if(state.getEditStateId() != 0){
+			state.setId(state.getEditStateId());
+		}
 		AdminResponseClass adminResponseClass = stateService.saveState(state);
 		return adminResponseClass.isStatus();
 	}
@@ -105,8 +122,14 @@ public class AdminController {
 	/* For City */
 	@RequestMapping(value = "/admin-addEditCity", method = RequestMethod.POST)
 	public @ResponseBody boolean addEditCity(@RequestBody City city) {
-		String cityValues[] = city.getOtherCityDetails().split("_");
-		AdminResponseClass adminResponseClass = cityService.saveCity(city,cityValues);
+		AdminResponseClass adminResponseClass;
+		if(city.getOtherCityDetails() !=null){
+			String cityValues[] = city.getOtherCityDetails().split("_");
+		    adminResponseClass = cityService.saveCity(city,cityValues);
+		}else{
+			String cityValues[] = new String[0];
+			adminResponseClass = cityService.saveCity(city,cityValues);
+		}
 		return adminResponseClass.isStatus();
 	}
 
@@ -131,8 +154,15 @@ public class AdminController {
 	/* For PinCode */
 	@RequestMapping(value = "/admin-addEditZipCode", method = RequestMethod.POST)
 	public @ResponseBody boolean addEditZipCode(@RequestBody ZipCode zipcode) {
-		String zipCodeValues[] = zipcode.getOtherZipCodeDetails().split("_");
-		AdminResponseClass adminResponseClass = zipCodeService.saveZipCode(zipcode,zipCodeValues);
+		AdminResponseClass adminResponseClass;
+		if(zipcode.getOtherZipCodeDetails() !=null){
+			String zipCodeValues[] = zipcode.getOtherZipCodeDetails().split("_");
+			adminResponseClass = zipCodeService.saveZipCode(zipcode,zipCodeValues);
+		}
+		else{
+			String zipCodeValues[] = new String[0];
+			adminResponseClass = zipCodeService.saveZipCode(zipcode,zipCodeValues);
+		}
 		return adminResponseClass.isStatus();
 	}
 
@@ -280,19 +310,21 @@ public class AdminController {
 	}
 	
 	/*For Sub Category*/
+
 	@RequestMapping(value = "/admin-addEditSubCategory", method = RequestMethod.POST)
 	public @ResponseBody boolean adminAddEditSubCategory(@RequestBody SubCategoryAvailable subCategory, BindingResult bindingResult) {
-		String subCategoryValues[] = subCategory.getOtherSubCategoryDetails().split("_");
-		AdminResponseClass adminResponseClass = subCategoryAvailableService.saveSubCategoryAvailable(subCategory,subCategoryValues);
+		AdminResponseClass adminResponseClass;
+		String subCategoryValues[];
+		if(subCategory.getOtherSubCategoryDetails() !=null){
+			subCategoryValues= subCategory.getOtherSubCategoryDetails().split("_");
+			adminResponseClass= subCategoryAvailableService.saveSubCategoryAvailable(subCategory,subCategoryValues);
+		}else{
+			subCategoryValues = new String[0];
+			adminResponseClass= subCategoryAvailableService.saveSubCategoryAvailable(subCategory,subCategoryValues);
+		}
 		return adminResponseClass.isStatus();
+
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	/*For Admin Register*/
 	
@@ -303,8 +335,8 @@ public class AdminController {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		TimeZone timeZone = objectMapper.readValue(url, TimeZone.class);
-		System.out.println("////Time Zone " + timeZone.getCountryName() + " " + timeZone.getFormatted());*/
+		ApiResponseClass apiResponseClass = objectMapper.readValue(url, ApiResponseClass.class);
+		System.out.println("////Time Zone " + apiResponseClass.getCountryName() + " " + apiResponseClass.getFormatted());*/
 		
 		AdminResponseClass adminResponseClass = adminDetailsService.countRowsAdminDetails();
 		if(adminResponseClass.getCountRows() < 1){
@@ -323,6 +355,19 @@ public class AdminController {
 			adminDetails.setIpAddress(ip.getHostAddress());
 			
 			adminResponseClass = adminDetailsService.saveAdminDetails(adminDetails);
+			/*if(adminResponseClass.isStatus()){
+				String mssg = "Hey Admin, Welcome to Wedlock. Your EmailId is:"+adminDetails.getEmailId()+" and Password is:"+adminDetails.getPassword()+".Do not share this login credentials with anyone";
+				String phoneNumber = adminDetails.getPhoneNumber();
+				URL url = new URL(smsApi.sendSms(mssg, phoneNumber));
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				ApiResponseClass apiResponseClass = objectMapper.readValue(url, ApiResponseClass.class);
+				if(apiResponseClass.getTotal_sms() == 0){
+					adminResponseClass.setStatus(Boolean.FALSE);
+				}
+				
+				
+			}*/
 			return adminResponseClass.isStatus();
 		}else{
 			httpSession.setAttribute("firstLogin", false);
@@ -350,8 +395,16 @@ public class AdminController {
 		adminResponseClass.setCategoryAvailables(categoryAvailableService.listFetchAllCategoryAvailble());
 		adminResponseClass.setSubCategoryAvailables(subCategoryAvailableService.listFetchAllSubCategoryAvailable());
 		if(!adminResponseClass.getCategoryAvailables().isEmpty()){
-			httpSession.setAttribute("categorySession", adminResponseClass.getCategoryAvailables());
-			httpSession.setAttribute("subCategorySession", adminResponseClass.getSubCategoryAvailables());
+			if(httpSession.getAttribute("categorySession")!=null && httpSession.getAttribute("subCategorySession")!=null){
+				httpSession.removeAttribute("categorySession");
+				httpSession.removeAttribute("subCategorySession");
+				httpSession.setAttribute("categorySession", adminResponseClass.getCategoryAvailables());
+				httpSession.setAttribute("subCategorySession", adminResponseClass.getSubCategoryAvailables());
+			}else{
+				httpSession.setAttribute("categorySession", adminResponseClass.getCategoryAvailables());
+				httpSession.setAttribute("subCategorySession", adminResponseClass.getSubCategoryAvailables());
+			}
+			
 			adminResponseClass.setStatus(Boolean.TRUE);
 		}else{
 			adminResponseClass.setStatus(Boolean.FALSE);
@@ -368,8 +421,36 @@ public class AdminController {
 	
 	/*For Seller*/
 	@RequestMapping(value = "/admin-addEditSellerDetails", method = RequestMethod.POST)
-	public @ResponseBody boolean addEditSellerDetails(@RequestBody SellerDetails sellerDetails,BindingResult bindingResult, HttpServletRequest request) {
+	public @ResponseBody boolean addEditSellerDetails(@RequestBody ObjectNode objectNode,BindingResult bindingResult, HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException, ParseException {
+		
+		/*System.out.println("////In servlet");
+		System.out.println("////Object Node is"+sellerDetails.get("sellerFirstName").asText() +" "+sellerDetails.get("sellerLastName").asText()+" "+sellerDetails.get("sellerContactNumber").asText());*/
 		System.out.println("/////In servlet");
+		SellerDetails sellerDetails = new SellerDetails();
+		sellerDetails.setSellerFirstName(objectNode.get("sellerFirstName").asText());
+		sellerDetails.setSellerLastName(objectNode.get("sellerLastName").asText());
+		sellerDetails.setSellerContactNumber(objectNode.get("sellerContactNumber").asText());
+		sellerDetails.setSellerAlternateNumber(objectNode.get("sellerAlternateNumber").asText());
+		sellerDetails.setSellerPresentAddress(objectNode.get("sellerPresentAddress").asText());
+		sellerDetails.setSellerPermanentAddress(objectNode.get("sellerPermanentAddress").asText());
+		sellerDetails.setSellerEmailId(objectNode.get("sellerEmailId").asText());
+		sellerDetails.setSellerPassword(objectNode.get("sellerPassword").asText());
+		sellerDetails.setStateId(objectNode.get("stateId").asLong());
+		sellerDetails.setCityId(objectNode.get("cityId").asLong());
+		sellerDetails.setZipCodeId(objectNode.get("zipCodeId").asLong());
+		
+		String sellerDate = objectNode.get("sellerDateOfBirth").asText();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		sellerDetails.setSellerDateOfBirth(simpleDateFormat.parse(sellerDate));
+		
+		sellerDetails.setSellerGender(objectNode.get("sellerGender").asText());
+		sellerDetails.setSellerCompanyName(objectNode.get("sellerCompanyName").asText());
+		sellerDetails.setSellerAddressProof(objectNode.get("sellerAddressProof").asText());
+		sellerDetails.setSellerIdProof(objectNode.get("sellerIdProof").asText());
+		
+		sellerDetails.setAddressProofFiles(objectNode.get("addressProofFiles").asText());
+		sellerDetails.setIdProofFiles(objectNode.get("idProofFiles").asText());
+		sellerDetails.setSellerImageFiles(objectNode.get("sellerImageFiles").asText());
 		
 		String addressProofFiles[] = sellerDetails.getAddressProofFiles().split(","); 
 		String idProofFiles[] = sellerDetails.getIdProofFiles().split(",");
@@ -456,9 +537,60 @@ public class AdminController {
 			String id = createId.IdGeneration(adminResponseClass.getLastId());
 			sellerDetails.setId(id);
 		}
-		sellerService.addEditSellerDetails(sellerDetails);
+		adminResponseClass =sellerService.addEditSellerDetails(sellerDetails);
+		if(adminResponseClass.isStatus()){
+			/*String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
+			String phoneNumber = sellerDetails.getSellerContactNumber();
+			URL url = new URL(smsApi.sendSms(mssg, phoneNumber));
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			ApiResponseClass apiResponseClass = objectMapper.readValue(url, ApiResponseClass.class);
+			if(apiResponseClass.getTotal_sms() == 0){
+				adminResponseClass.setStatus(Boolean.FALSE);
+			}
+			*/
+			if(objectNode.get("hasValue").asInt() == 1){
+				SellerBankDetails sellerBankDetails = new SellerBankDetails();
+				
+				sellerBankDetails.setAccountHolderName(objectNode.get("accountHolderName").asText());
+				sellerBankDetails.setAccountNumber(objectNode.get("accountNumber").asText());
+				sellerBankDetails.setIfscCode(objectNode.get("ifscCode").asText());
+				sellerBankDetails.setBranchCode(objectNode.get("branchCode").asText());
+				sellerBankDetails.setBranchName(objectNode.get("branchName").asText());
+				sellerBankDetails.setSellerId(sellerDetails.getId());
+				
+				adminResponseClass = sellerBankDetailsService.saveSellerBankDetails(sellerBankDetails);
+			}
+			
+		}
+		
 		return adminResponseClass.isStatus();
+		/*return true;*/
 	}
 
+	@RequestMapping(value = "/getImage")
+	@ResponseBody
+	public byte[] getImage(@RequestParam("id") String id, HttpServletRequest request) throws IOException {
+		ServletContext context = request.getServletContext();
+		String rpath = context.getRealPath("/");  
+		String fullPath[] = id.split("/");// whatever path you used for // storing the file
+			System.out.println("/////Full Path is"+fullPath[0]+" "+fullPath[1]+" "+fullPath[2]); 
+		Path path = Paths.get(rpath+"/"+fullPath[0].trim()+"/"+fullPath[1].trim()+"/"+fullPath[2].trim());
+		System.out.println("Path is"+path);
+		byte[] data = Files.readAllBytes(path);
+		
+		return data;
+	}
 	
+	@RequestMapping(value = "/getImageSocial")
+	@ResponseBody
+	public byte[] getImageSocialWork(HttpServletRequest request) throws IOException {
+		ServletContext context = request.getServletContext();
+		String rpath = context.getRealPath("/");
+		rpath = rpath + "/Category/categoryIcon/1498758941362tulip.png" ; // whatever path you used for
+													// storing the file
+		Path path = Paths.get(rpath);
+		byte[] data = Files.readAllBytes(path);
+		return data;
+	}
 }

@@ -1,7 +1,7 @@
 <aside id="leftsidebar" class="sidebar"> 
     <!-- User Info -->
     <div class="user-info">
-        <div class="admin-image"> <img src="<c:out value="${sessionScope.adminDetailsSession.imageName}"/>" alt=""> </div>
+        <div class="admin-image"> <img src="<c:out value="${sessionScope.adminDetailsSession.imageName}"/>" alt=""></div>
         <div class="admin-action-info"> <span>Welcome</span>
             <h3>${sessionScope.adminDetailsSession.firstName} ${sessionScope.adminDetailsSession.lastName}</h3>
             <ul>
@@ -17,23 +17,24 @@
     <div class="menu">
         <ul class="list" style="overflow: auto;" id="sideNavUl">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="active open"><a href="index.php"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
-            <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Seller Details</span> </a>
-                <ul class="ml-menu font-list">                        
-                    <li><a href="admin-addEditSeller">Add Seller</a></li>
-                    <li><a href="viewSeller">View Seller</a></li>
-                    <li><a href="deactivateSeller">Deactivate Seller</a></li>
+            <li class="active open" id="dashBoardLi"><a href="admin-dashboard"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+            <li id="sellerLi"><a href="javascript:void(0);" id="sellerLinkLi" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Seller Details</span> </a>
+             <ul class="ml-menu font-list" id= "sellerUl">                        
+                    <li><a href="admin-addEditSeller" id="showSubSellerLi1">Add Seller</a></li>
+                    <li><a href="viewSeller" id="showSubSellerLi2">View Seller</a></li>
+                    <li><a href="deactivateSeller" id="showSubSellerLi3">Deactivate Seller</a></li>
                 </ul>
             </li>
-             <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Miscellaneous</span> </a>
-                <ul class="ml-menu font-list">                        
-                    <li><a href="admin-addEditState">Add & View State</a></li>
-                    <li><a href="admin-addEditCity">Add & View City</a></li>
-                    <li><a href="admin-addEditZipCode">Add & View ZipCode</a></li>
-                    <li><a href="admin-addEditCategory">Add & View Category</a></li>
-                    <li><a href="admin-addEditSubCategory">Add & View Sub Category</a></li>
-                    <li><a href="#">Add & View Occasion</a></li>
-                    <li><a href="#">Add & View Photographer Occasion</a></li>
+               
+             <li id="miscLi"><a href="javascript:void(0);" id="miscLinkLi" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Miscellaneous</span> </a>
+                <ul class="ml-menu font-list" id="miscUl">                        
+                    <li><a href="admin-addEditState" id="showSubMiscLi1" >Add & View State</a></li>
+                    <li><a href="admin-addEditCity" id="showSubMiscLi2">Add & View City</a></li>
+                    <li><a href="admin-addEditZipCode" id="showSubMiscLi3">Add & View ZipCode</a></li>
+                    <li><a href="admin-addEditCategory" id="showSubMiscLi4">Add & View Category</a></li>
+                    <li><a href="admin-addEditSubCategory" id="showSubMiscLi5">Add & View Sub Category</a></li>
+                    <li><a href="#" id="showSubMiscLi6" >Add & View Occasion</a></li>
+                    <li><a href="#" id="showSubMiscLi7" >Add & View Photographer Occasion</a></li>
                 </ul>
             </li>
             

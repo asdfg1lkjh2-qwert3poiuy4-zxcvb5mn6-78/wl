@@ -23,6 +23,7 @@ public class SubCategoryAvailable implements Serializable{
 	private String subCategoryName;
 	@Column(columnDefinition = "TEXT")
 	private String subCategoryDescription;
+	private String subCategoryUrl;
 	private boolean isActive;
 	
 	@ManyToOne
@@ -88,6 +89,14 @@ public class SubCategoryAvailable implements Serializable{
 
 	public void setOtherSubCategoryDetails(String otherSubCategoryDetails) {
 		this.otherSubCategoryDetails = otherSubCategoryDetails;
+	}
+
+	public String getSubCategoryUrl() {
+		return subCategoryUrl;
+	}
+
+	public void setSubCategoryUrl(String subCategoryUrl) {
+		this.subCategoryUrl = subCategoryUrl;
 	}
 	
 	

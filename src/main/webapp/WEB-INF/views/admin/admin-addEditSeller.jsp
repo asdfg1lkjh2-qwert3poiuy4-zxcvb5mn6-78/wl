@@ -49,7 +49,7 @@
 						</div>
 						<div class="body">
 							<div class="row clearfix">
-								<div class="col-sm-6 col-xs-12">
+								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
 											<input type="text" class="form-control" name="sellerFirstName" id="sellerFirstName"
@@ -57,7 +57,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-6 col-xs-12">
+								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
 											<input type="text" class="form-control" name="sellerLastName" id="sellerLastName"
@@ -65,9 +65,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="row clearfix">
-								<div class="col-sm-6 col-xs-12">
+								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
 											<input type="text" class="form-control" name="sellerContactNumber" id="sellerContactNumber"
@@ -75,11 +73,29 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-6 col-xs-12">
+							</div>
+							<div class="row clearfix">
+								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
 											<input type="text" class="form-control" name="sellerAlternateNumber" id="sellerAlternateNumber"
 												placeholder="Seller Alternate Number">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4 col-xs-12">
+									<div class="form-group">
+										<div class="form-line">
+											<input type="text" class="form-control" name="sellerEmailId" id="sellerEmailId"
+												placeholder="Seller Email Id">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4 col-xs-12">
+									<div class="form-group">
+										<div class="form-line">
+											<input type="password" class="form-control" name="sellerPassword" id="sellerPassword"
+												placeholder="Seller Password">
 										</div>
 									</div>
 								</div>
@@ -295,7 +311,7 @@
 									<div class="col-sm-6 col-xs-12">
 										<div class="form-group mrgn-less-15">
 											<div class="form-line">
-												<input type="text" class="form-control"
+												<input type="text" class="form-control" name="accountHolderName" id="accountHolderName"
 													placeholder="Account Holder Name">
 											</div>
 										</div>
@@ -303,7 +319,7 @@
 									<div class="col-sm-6 col-xs-12">
 										<div class="form-group mrgn-less-15">
 											<div class="form-line">
-												<input type="text" class="form-control"
+												<input type="text" class="form-control" name="accountNumber" id="accountNumber"
 													placeholder="Account Number">
 											</div>
 										</div>
@@ -313,7 +329,7 @@
 									<div class="col-sm-6 col-xs-12">
 										<div class="form-group">
 											<div class="form-line">
-												<input type="text" class="form-control"
+												<input type="text" class="form-control" name="ifscCode" id="ifscCode"
 													placeholder="IFSC Code">
 											</div>
 										</div>
@@ -321,7 +337,7 @@
 									<div class="col-sm-6 col-xs-12">
 										<div class="form-group">
 											<div class="form-line">
-												<input type="text" class="form-control"
+												<input type="text" class="form-control" name="branchCode" id="branchCode"
 													placeholder="Branch Code">
 											</div>
 										</div>
@@ -331,7 +347,7 @@
 									<div class="col-sm-6 col-xs-12">
 										<div class="form-group">
 											<div class="form-line">
-												<input type="text" class="form-control"
+												<input type="text" class="form-control" name="branchName" id="branchName"
 													placeholder="Branch Name">
 											</div>
 										</div>
@@ -375,7 +391,7 @@
 		var idProof = "";                       //For retaining all the id Proof image files
 		var sellerImage = "";					//For retaining all the seller Image files;
 		var checkSubmit = 0;					//Marker to check whether the page is refreshed or not
-		
+		var hasValue = 0;
 		
 		//Upload and renaming the files being uploaded in dropzone.js
 		Dropzone.options.singleUpload = {
@@ -430,7 +446,7 @@
 			renameFilename : function(fileName) {
 				var classpath = fileName;
 				classpath = classpath.split("_");
-				return "Seller" + "_" + dateTime+files;
+				return "Seller" + "_" + dateTime+classpath[0];
 
 			}
 		};
@@ -983,7 +999,27 @@
 					  confirmButtonClass:"btn btn-raised gradient-right",
 					  animation:true
 					});
-			}else{
+			}else if($("#sellerEmailId").val() ===""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Email Id!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#sellerPassword").val() ===""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Password!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			} else{
 				var job = {};
 				job["sellerFirstName"] = $("#sellerFirstName").val();
 				job["sellerLastName"] = $("#sellerLastName").val();
@@ -1004,140 +1040,158 @@
 				job["sellerCompanyName"] =$("#sellerCompanyName").val();
 				job["sellerAddressProof"] =$("#sellerAddressProof").val();
 				job["sellerIdProof"] =$("#sellerIdProof").val();
+				job["sellerEmailId"] =$("#sellerEmailId").val();
+				job["sellerPassword"] =$("#sellerPassword").val();
 				job["addressProofFiles"] = addressProof;
 				job["idProofFiles"] = idProof;
-				job["sellerImageFiles"] = sellerImage; 
-				 $("#submit").prop("disabled", true);
-				$.ajax({
-				type : "POST",
-				url : "admin-addEditSellerDetails",
-				data : JSON.stringify(job),
-				processData : false,
-				contentType :"application/json",
-				success : function(data) {
+				job["sellerImageFiles"] = sellerImage;
+				
+				
+				if(($("#accountHolderName").val() || $("#accountNumber").val() || $("#ifscCode").val() || $("#branchCode").val() || $("#branchName").val()) !=""){
+					hasValue = 1;
+					if($("#accountHolderName").val() === ""){
 						swal({
-							  title: 'Success!',
-							  text: 'Seller Details Successfully Inserted!!!',
-							  type: 'success',
-							  showConfirmButton :false,
+							  title: 'Warning!',
+							  text: 'Please Enter Acoount Holder Name!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
 							  allowEscapeKey:true,
-							  timer:3000,
+							  confirmButtonClass:"btn btn-raised gradient-right",
 							  animation:true
 							});
-					
-					
-					$("#submit").prop("disabled", false);
-
-				},
-				error : function(e) {
-					alert("Error");
-					swal({
-						  title: 'Error!',
-						  text: 'Seller Details Not Inserted Successfully!!!',
-						  type: 'error',
-						  confirmButtonText :"OK",
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-					$("#submit").prop("disabled", false);
-
-				},complete : function (){
-					//Removing all fields after completing submit
-					$("#sellerFirstName").val("");
-					$("#sellerLastName").val("");
-					$("#sellerContactNumber").val("");
-					$("#sellerAlternateNumber").val("");
-					$("#sellerPresentAddress").val("");
-					$("#sellerPermanentAddress").val("");
-					$("#sellerDateOfBirth").val("");
-					$("#sellerCompanyName").val("");
-					addressProof = "";
-					idProof = "";
-					sellerImage = "";
-					classPath = "";
-					zipCodeValue = "";
-					previousLi = "";
-					while(checkFile.length > 0){
-						checkFile.pop();
-					}
-					while(cityAry.length > 0){
-						cityAry.pop();
-					}
-					while(localityAry.length > 0){
-						localityAry.pop();
-					}
-					$("#stateName").val("");
-					$("#cityName").val("");
-					$("#localityName").val("");
-					$("#zipCode").val("");
-					
-					//Removing values from state list and fetching it from array
-					var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--State Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--State Name"
-						+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-						 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
-							+ 0
-							+ "','State Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- State Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-					var cde = "";
-					for (var i = 0; i < ary.length; i++) {
-						var splittedArray = ary[i].split("_");
-							cde = cde
-									+ "<li data-original-index='"
-									+ Number(Number(i) + Number(1))
-									+ "' id='li"
-									+ Number(Number(i) + Number(1))
-									+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"
-									+ Number(Number(i) + Number(1))
-									+ "','"
-									+ splittedArray[1]
-									+ "','"
-									+ splittedArray[0]
-									+ "')\"><span class=\"text\">"
-									+ splittedArray[1]
-									+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					}else if($("#accountNumber").val() === ""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Account Number!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if($("#ifscCode").val() === ""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Ifsc Code!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if($("#branchCode").val() ===""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Branch Code!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if($("#branchName").val() === ""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Branch Name!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else{
+						alert("///Has Value"+hasValue);
+						job["hasValue"] = hasValue;
+						job["accountHolderName"] =$("#accountHolderName").val();
+						job["accountNumber"] =$("#accountNumber").val();
+						job["ifscCode"] = $("#ifscCode").val();
+						job["branchCode"] =$("#branchCode").val();
+						job["branchName"] =$("#branchName").val();
 						
+						 $("#submit").prop("disabled", true);
+						$.ajax({
+						type : "POST",
+						url : "admin-addEditSellerDetails",
+						data : JSON.stringify(job),
+						processData : false,
+						contentType :"application/json",
+						success : function(data) {
+								swal({
+									  title: 'Success!',
+									  text: 'Seller Details Successfully Inserted!!!',
+									  type: 'success',
+									  showConfirmButton :false,
+									  allowEscapeKey:true,
+									  timer:3000,
+									  animation:true
+									});
+							$("#submit").prop("disabled", false);
+
+						},
+						error : function(e) {
+							alert("Error");
+							swal({
+								  title: 'Error!',
+								  text: 'Seller Details Not Inserted Successfully!!!',
+								  type: 'error',
+								  confirmButtonText :"OK",
+								  allowEscapeKey:true,
+								  confirmButtonClass:"btn btn-raised gradient-right",
+								  animation:true
+								});
+							$("#submit").prop("disabled", false);
+
+						},complete : function (){
+							removeFieldValues();
+						}
+						}); 
+					}
+					}else{
+						job["hasValue"] = hasValue;
+						alert("///Has Value"+hasValue);
+						 $("#submit").prop("disabled", true);
+						$.ajax({
+						type : "POST",
+						url : "admin-addEditSellerDetails",
+						data : JSON.stringify(job),
+						processData : false,
+						contentType :"application/json",
+						success : function(data) {
+								swal({
+									  title: 'Success!',
+									  text: 'Seller Details Successfully Inserted!!!',
+									  type: 'success',
+									  showConfirmButton :false,
+									  allowEscapeKey:true,
+									  timer:3000,
+									  animation:true
+									});
+							$("#submit").prop("disabled", false);
+
+						},
+						error : function(e) {
+							alert("Error");
+							swal({
+								  title: 'Error!',
+								  text: 'Seller Details Not Inserted Successfully!!!',
+								  type: 'error',
+								  confirmButtonText :"OK",
+								  allowEscapeKey:true,
+								  confirmButtonClass:"btn btn-raised gradient-right",
+								  animation:true
+								});
+							$("#submit").prop("disabled", false);
+
+						},complete : function (){
+							removeFieldValues();
+							
+						}
+						}); 
+					}
 				}
-					cde = cde + "</ul></div>"
 				
-					$("#stateDiv").html(abc + cde);
-					
-					//Removing values from city list
-					var efg = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--City Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--City Name--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-						+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-						+"<li data-original-index=\"0\" class=\"selected\" id=\"cityLi0\" onclick=\"clickCityLi('"+0+"','City Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- City Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>";
-					
-					$("#cityDiv").html(efg);
-					
-					//Removing values from ZipCode List
-					var ghi ="<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Locality Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Locality Name--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-					+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-					+"<li data-original-index=\"0\" class=\"selected\" id=\"localityLi0\" onclick=\"clickLocalityLi('"+0+"','Locality Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Locality Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>";
-				
-					$("#localityDiv").html(ghi);
-					
-					//Remove the thumbnails after each insertion being completed from dropzone.js
-					$('.dropzone')[0].dropzone.files.forEach(function(file) { 
-						  file.previewElement.remove(); 
-						});
-
-					  $('.dropzone')[1].dropzone.files.forEach(function(file) { 
-						  file.previewElement.remove(); 
-						 
-						});
-
-					 $('.dropzone')[2].dropzone.files.forEach(function(file) { 
-						  file.previewElement.remove(); 
-						 
-						});
-
-					 $('.dropzone').removeClass(' dz-started ');
-					
-						checkSubmit = 1; //Making the checker to 1 meaning the page is submitted not refreshed
-					
-				}
-				});  
 			}
-		}else{
+		else{
 				if(addressProof === ""){
 					swal({
 						  title: 'Warning!',
@@ -1176,6 +1230,113 @@
 		//Converting month name to month number
 		function getMonth(monthStr){
 		    return new Date(monthStr+'-1-01').getMonth()+1
+		}
+		
+		function removeFieldValues(){
+			//Removing all fields after completing submit
+			$("#sellerFirstName").val("");
+			$("#sellerLastName").val("");
+			$("#sellerContactNumber").val("");
+			$("#sellerAlternateNumber").val("");
+			$("#sellerEmailId").val("");
+			$("#sellerPassword").val("");
+			$("#sellerPresentAddress").val("");
+			$("#sellerPermanentAddress").val("");
+			$("#sellerDateOfBirth").val("");
+			$("#sellerCompanyName").val("");
+			addressProof = "";
+			idProof = "";
+			sellerImage = "";
+			classPath = "";
+			zipCodeValue = "";
+			previousLi = "";
+			while(checkFile.length > 0){
+				checkFile.pop();
+			}
+			while(cityAry.length > 0){
+				cityAry.pop();
+			}
+			while(localityAry.length > 0){
+				localityAry.pop();
+			}
+			while(storePresentAddress > 0){
+				storePresentAddress.pop();
+			}
+			$("#stateName").val("");
+			$("#cityName").val("");
+			$("#localityName").val("");
+			$("#zipCode").val("");
+			if(hasValue !==0){
+				$("#accountHolderName").val("");
+				$("#accountNumber").val("");
+				$("#ifscCode").val("");
+				$("#branchCode").val("");
+				$("#branchName").val("");
+			}
+			hasValue = 0;
+			
+			//Removing values from state list and fetching it from array
+			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--State Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--State Name"
+				+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+				 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
+					+ 0
+					+ "','State Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- State Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			var cde = "";
+			for (var i = 0; i < ary.length; i++) {
+				var splittedArray = ary[i].split("_");
+					cde = cde
+							+ "<li data-original-index='"
+							+ Number(Number(i) + Number(1))
+							+ "' id='li"
+							+ Number(Number(i) + Number(1))
+							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"
+							+ Number(Number(i) + Number(1))
+							+ "','"
+							+ splittedArray[1]
+							+ "','"
+							+ splittedArray[0]
+							+ "')\"><span class=\"text\">"
+							+ splittedArray[1]
+							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				
+		}
+			cde = cde + "</ul></div>"
+		
+			$("#stateDiv").html(abc + cde);
+			
+			//Removing values from city list
+			var efg = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--City Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--City Name--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+				+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+				+"<li data-original-index=\"0\" class=\"selected\" id=\"cityLi0\" onclick=\"clickCityLi('"+0+"','City Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- City Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>";
+			
+			$("#cityDiv").html(efg);
+			
+			//Removing values from ZipCode List
+			var ghi ="<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Locality Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Locality Name--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+			+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+			+"<li data-original-index=\"0\" class=\"selected\" id=\"localityLi0\" onclick=\"clickLocalityLi('"+0+"','Locality Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Locality Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>";
+		
+			$("#localityDiv").html(ghi);
+			
+			//Remove the thumbnails after each insertion being completed from dropzone.js
+			$('.dropzone')[0].dropzone.files.forEach(function(file) { 
+				  file.previewElement.remove(); 
+				});
+
+			  $('.dropzone')[1].dropzone.files.forEach(function(file) { 
+				  file.previewElement.remove(); 
+				 
+				});
+
+			 $('.dropzone')[2].dropzone.files.forEach(function(file) { 
+				  file.previewElement.remove(); 
+				 
+				});
+
+			 $('.dropzone').removeClass(' dz-started ');
+			
+				checkSubmit = 1; //Making the checker to 1 meaning the page is submitted not refreshed
+			
 		}
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>

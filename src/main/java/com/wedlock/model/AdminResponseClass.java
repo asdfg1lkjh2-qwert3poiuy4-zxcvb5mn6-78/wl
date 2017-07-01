@@ -7,6 +7,7 @@ public class AdminResponseClass {
 	private boolean status;
 	private int countRows;
 	private String lastId;
+	private String mssgStatus;
 	
 	/*For State*/
 	private List<State> listAllStates;
@@ -192,6 +193,14 @@ public class AdminResponseClass {
 
 	public void setLastId(String lastId) {
 		this.lastId = lastId;
+	}
+
+	public String getMssgStatus() {
+		return mssgStatus;
+	}
+
+	public void setMssgStatus(String mssgStatus) {
+		this.mssgStatus = mssgStatus;
 	}
 
 

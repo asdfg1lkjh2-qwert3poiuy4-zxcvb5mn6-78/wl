@@ -36,7 +36,8 @@ public class City implements Serializable{
 	private long stateId;
 	@Transient
 	private String otherCityDetails;
-	
+	@Transient
+	private String stateName;
 	
 	//Setters And Getters
 
@@ -105,6 +106,14 @@ public class City implements Serializable{
 
 	public void setSellerDetails(List<SellerDetails> sellerDetails) {
 		this.sellerDetails = sellerDetails;
+	}
+
+	public String getStateName() {
+		return stateName;
+	}
+
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
 	}
 
 	

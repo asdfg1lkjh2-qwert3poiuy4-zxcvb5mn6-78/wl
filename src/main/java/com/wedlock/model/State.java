@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class State implements Serializable{
@@ -27,6 +28,8 @@ public class State implements Serializable{
 	@OneToMany(mappedBy="state")
 	private List<SellerDetails> sellerDetails;
 	
+	@Transient
+	private long editStateId;
 	//Setters And Getters
 
 	public long getId() {
@@ -60,6 +63,12 @@ public class State implements Serializable{
 	}
 	public void setSellerDetails(List<SellerDetails> sellerDetails) {
 		this.sellerDetails = sellerDetails;
+	}
+	public long getEditStateId() {
+		return editStateId;
+	}
+	public void setEditStateId(long editStateId) {
+		this.editStateId = editStateId;
 	}
 	
 	

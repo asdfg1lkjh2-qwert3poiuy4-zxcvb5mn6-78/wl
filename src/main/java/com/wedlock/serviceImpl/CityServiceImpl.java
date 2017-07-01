@@ -39,7 +39,7 @@ public class CityServiceImpl implements CityService {
 		cityDao.save(city);
 		status = true;
 		
-		if(cityValues.length > 1){
+		if(cityValues.length > 0){
 			for(int i = 0; i<cityValues.length;i++){
 				City city2 = new City();
 				city2.setState(state);
@@ -70,13 +70,13 @@ public class CityServiceImpl implements CityService {
 
 		List<City> cities = new ArrayList<>();
 		for (City city : cityList) {
-
+			State state = stateDao.findOne(city.getState().getId());
+			
 			City city2 = new City();
-			//city2.setState(city.getState());
 			city2.setId(city.getId());
 			city2.setCityName(city.getCityName());
-			city2.setStateId(city.getState().getId());
-
+			city2.setStateId(state.getId());
+			city2.setStateName(state.getStateName());
 			cities.add(city2);
 		}
 

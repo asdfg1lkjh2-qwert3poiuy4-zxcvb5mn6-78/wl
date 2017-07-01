@@ -39,7 +39,7 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 		zipCodeDao.save(zipCode);
 		status = true;
 
-		if(zipCodeValues.length > 1){
+		if(zipCodeValues.length > 0){
 			for(int i = 0; i<zipCodeValues.length;i++){
 				ZipCode zipCode2 = new ZipCode();
 				zipCode2.setCity(city);

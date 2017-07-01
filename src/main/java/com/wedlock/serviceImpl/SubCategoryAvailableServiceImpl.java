@@ -34,7 +34,7 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 		
 		subCategoryAvailableDao.save(subCategoryAvailable);
 		status = true;
-		if(subCategoryValues.length > 1){
+		if(subCategoryValues.length > 0){
 			for(int i = 0; i<subCategoryValues.length;i++){
 				SubCategoryAvailable subCategoryAvailable2 = new SubCategoryAvailable();
 				subCategoryAvailable2.setCategoryAvailable(categoryAvailable);
@@ -43,6 +43,7 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 				String values[] = subCategoryValues[i].split(",");
 				subCategoryAvailable2.setSubCategoryName(values[0]);
 				subCategoryAvailable2.setSubCategoryDescription(values[1]);
+				subCategoryAvailable2.setSubCategoryUrl(values[2]);
 				
 				subCategoryAvailableDao.save(subCategoryAvailable2);
 				if(subCategoryAvailableDao.save(subCategoryAvailable2)==null){
@@ -69,6 +70,8 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 			SubCategoryAvailable subCategoryAvailable2 = new SubCategoryAvailable();
 
 			subCategoryAvailable2.setId(subCategoryAvailable.getId());
+			
+			subCategoryAvailable2.setSubCategoryUrl(subCategoryAvailable.getSubCategoryUrl());
 
 			subCategoryAvailable2.setSubCategoryName(subCategoryAvailable.getSubCategoryName());
 
@@ -94,6 +97,8 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 			SubCategoryAvailable subCategoryAvailable2 = new SubCategoryAvailable();
 
 			subCategoryAvailable2.setId(subCategoryAvailable.getId());
+			
+			subCategoryAvailable2.setSubCategoryUrl(subCategoryAvailable.getSubCategoryUrl());
 
 			subCategoryAvailable2.setSubCategoryName(subCategoryAvailable.getSubCategoryName());
 

@@ -79,14 +79,23 @@
 								</div>
 							</div>
 							<div class="row clearfix">
-								<div class="col-sm-6 col-xs-12">
+								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<label for="comment">Category Description</label>
 										<textarea class="form-control textarea-add" rows="5"
 											name="categoryDescription" id="categoryDescription"></textarea>
 									</div>
 								</div>
-								<div class="col-sm-6 col-xs-12">
+								<div class="col-sm-3 col-xs-12">
+									<div class="form-group">
+										<div class="form-line">
+											<input type="text" class="form-control"
+												name="categoryUrl" id="categoryUrl"
+												placeholder="Category Url">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-5 col-xs-12">
 									<div class="form-group catgroup">
 										<label class="catgroup-label">Category Icon</label>
 									</div>
@@ -110,7 +119,6 @@
 									</div>
 								</div>
 							</div>
-
 							<div class="row clearfix">
 								<div class="col-xs-12">
 								<input type="hidden" value="${sessionScope.firstLogin}" id="firstLogin">
@@ -352,6 +360,7 @@
 				job["categoryDescription"] = $("#categoryDescription").val();
 				job["packageFor"] = $("#packageFor").val();
 				job["registrationCharge"] = $("#registrationCharge").val();
+				job["categoryUrl"] =$("#categoryUrl").val();
 				job["allFiles"] = file1; 
 				$.ajax({
 					type : "POST",
@@ -383,11 +392,11 @@
 							});
 					},complete : function (){
 						//For removing all data from textboxes after successful insertion
-						
+						fetchSideNavBar();
 						$("#categoryName").val("");
 						$("#categoryDescription").val("");
+						$("#categoryUrl").val("");
 						$("#registrationCharge").val("");
-						files = "";   
 						file1 = "";
 						dateTime ="";
 						dateTime = new Date().getTime();    //Creating a new date time for another file to upload
@@ -401,7 +410,7 @@
 						 $('.dropzone').removeClass(' dz-started ');
 						
 							checkSubmit = 1;
-							fetchSideNavBar();
+							
 					}
 				});
 			  }

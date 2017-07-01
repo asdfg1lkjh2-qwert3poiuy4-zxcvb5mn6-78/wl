@@ -46,7 +46,7 @@ public class StateServiceImpl implements StateService {
 			State state5 = new State();
 			state5.setId(state.getId());
 			state5.setStateName(state.getStateName());
-			
+			state5.setStateDescription(state.getStateDescription());
 			state3.add(state5);
 		}
 		adminResponseClass.setStatus(status);
@@ -66,6 +66,7 @@ public class StateServiceImpl implements StateService {
 		State state3 = new State();
 		state3.setId(state.getId());
 		state3.setStateName(state.getStateName());
+		state3.setStateDescription(state.getStateDescription());
 		
 		adminResponseClass.setState(state3);
 		return adminResponseClass;

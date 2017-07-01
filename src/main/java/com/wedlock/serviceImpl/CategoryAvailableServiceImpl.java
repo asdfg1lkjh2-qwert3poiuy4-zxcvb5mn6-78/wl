@@ -3,6 +3,9 @@ package com.wedlock.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 
 	@Autowired
 	private CategoryAvailableDao categoryAvailableDao;
+	@PersistenceContext
+	EntityManager manager;
 	@Override
 	public AdminResponseClass saveCategoryAvailable(CategoryAvailable categoryAvailable) {
 		boolean status = false;
@@ -35,7 +40,10 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 	public AdminResponseClass fetchAllCategoryAvailble() {
 		boolean status = false;
 		
-		List<CategoryAvailable> listCategoryAvailable = categoryAvailableDao.findAll();
+		//List<CategoryAvailable> listCategoryAvailable = categoryAvailableDao.findAll();
+		Query query = manager.createQuery("Select c from CategoryAvailable c where c.categoryUrl IS NULL");
+		@SuppressWarnings("unchecked")
+		List<CategoryAvailable> listCategoryAvailable = query.getResultList();
 		status = true;
 		
 		List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
@@ -43,6 +51,8 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 			CategoryAvailable categoryAvailable2 = new CategoryAvailable();
 			categoryAvailable2.setId(categoryAvailable.getId());
 			categoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
+			categoryAvailable2.setCategoryDescription(categoryAvailable.getCategoryDescription());
+			categoryAvailable2.setCategoryUrl(categoryAvailable.getCategoryUrl());
 			categoryAvailable2.setActive(categoryAvailable.isActive());
 			list.add(categoryAvailable2);
 		}
@@ -77,6 +87,9 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 			CategoryAvailable categoryAvailable2 = new CategoryAvailable();
 			categoryAvailable2.setId(categoryAvailable.getId());
 			categoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
+			categoryAvailable2.setCategoryDescription(categoryAvailable.getCategoryDescription());
+			categoryAvailable2.setCategoryUrl(categoryAvailable.getCategoryUrl());
+			categoryAvailable2.setIconFile(categoryAvailable.getIconFile());
 			categoryAvailable2.setActive(categoryAvailable.isActive());
 			list.add(categoryAvailable2);
 		}

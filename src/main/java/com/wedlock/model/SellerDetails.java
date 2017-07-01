@@ -29,6 +29,8 @@ public class SellerDetails implements Serializable {
 	private String sellerPresentAddress;
 	@Column(columnDefinition = "TEXT")
 	private String sellerPermanentAddress;
+	private String sellerEmailId;
+	private String sellerPassword;
 
 	@OneToOne
 	private State state;
@@ -291,6 +293,22 @@ public class SellerDetails implements Serializable {
 
 	public void setZipCodeId(long zipCodeId) {
 		this.zipCodeId = zipCodeId;
+	}
+
+	public String getSellerEmailId() {
+		return sellerEmailId;
+	}
+
+	public void setSellerEmailId(String sellerEmailId) {
+		this.sellerEmailId = sellerEmailId;
+	}
+
+	public String getSellerPassword() {
+		return sellerPassword;
+	}
+
+	public void setSellerPassword(String sellerPassword) {
+		this.sellerPassword = sellerPassword;
 	}
 
 	

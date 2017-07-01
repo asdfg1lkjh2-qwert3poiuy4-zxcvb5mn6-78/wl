@@ -93,7 +93,7 @@
 
 					<div class="card">
 						<div class="header">
-							<h2>All Departments</h2>
+							<h2>All Listed Cities</h2>
 							<ul class="header-dropdown m-r--5">
 								<li class="dropdown"><a href="javascript:void(0);"
 									class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -109,15 +109,15 @@
 						</div>
 						<div class="body">
 							<table
-								class="table table-bordered table-striped table-hover js-basic-example dataTable">
+								class="table table-bordered table-striped table-hover js-basic-example dataTable" id="cityTable">
 								<thead>
 									<tr>
-										<th>no</th>
-										<th>Dept. Name</th>
-										<th>Brief</th>
-										<th>Email</th>
-										<th>Phone</th>
-										<th>No. of Students</th>
+										<th class="text-center">Sl.No</th>
+										<th class="text-center">City Id</th>
+										<th class="text-center">City Name</th>
+										<th class="text-center">City Description</th>
+										<th class="text-center">State Name</th>
+										<th class="text-center">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -236,6 +236,7 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 		fetchAllState();          //Fetching all State List
+		fetchAllCities();
 	});
 	
 	var ary = new Array ();  		// Array for storing the state names and Id.
@@ -455,12 +456,11 @@
 				job["stateId"] = $("#stateName").val();
 				job["cityName"] = $("#cityName").val();
 				job["cityDescription"] = $("#cityDescription").val();
-				job["otherCityDetails"] = "";
 				for (var k = 1; k <= Number(i); k++) {
 					if (!(($("#cityName" + k).val() === undefined) && ($(
 							"#cityDescription" + k)
 							.val() === undefined))) {
-						if (job["otherCityDetails"] === "") {
+						if (k === Number(1)) {
 							job["otherCityDetails"] = $(
 									"#cityName" + k)
 									.val()
@@ -487,7 +487,7 @@
 				success : function(data) {
 						swal({
 							  title: 'Success!',
-							  text: 'State Successfully Inserted!!!',
+							  text: 'City Successfully Inserted!!!',
 							  type: 'success',
 							  showConfirmButton :false,
 							  allowEscapeKey:true,
@@ -503,7 +503,7 @@
 					alert("Error");
 					swal({
 						  title: 'Error!',
-						  text: 'State Not Inserted Successfully!!!',
+						  text: 'City Not Inserted Successfully!!!',
 						  type: 'error',
 						  confirmButtonText :"OK",
 						  allowEscapeKey:true,
@@ -556,6 +556,49 @@
 			}
 		});  
 	 
+		function fetchAllCities(){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchAllCities",
+				data : "",
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+						if(data.status){
+							$("#cityTable > tbody").html("");
+							var abc ="";
+							for(var i = 0; i< data.listAllCities.length; i++){
+								var cityDescription;
+								if(data.listAllCities[i].cityDescription !== null){
+									cityDescription = data.listAllCities[i].cityDescription;
+								}else{
+									cityDescription = "---";
+								}
+								abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+								+"<td class=\"text-center\">"+data.listAllCities[i].id+"</td>"
+								+"<td class=\"text-center\">"+data.listAllCities[i].cityName+"</td>"
+								+"<td class=\"text-center\">"+cityDescription+"</td>"
+								+"<td class=\"text-center\">"+data.listAllCities[i].stateName+"</td>"
+								+"<td class=\"text-center\"><a href=\"\">Edit<a><a href=\"\">Y</a></td></tr>"
+							}
+							$("#cityTable > tbody").html(abc);
+						}
+				},
+				error : function(e) {
+					alert("Error");
+					swal({
+						  title: 'Error!',
+						  text: 'City Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}
+			 }); 
+			
+		}
 	</script>
 	
 	

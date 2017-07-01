@@ -70,6 +70,7 @@
 							</div>
 							<div class="row clearfix">
 								<div class="col-xs-12">
+									<input type="hidden" name="editStateId" id="editStateId" value="0">
 									<button type="submit" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -82,7 +83,7 @@
 
 					<div class="card">
 						<div class="header">
-							<h2>All Departments</h2>
+							<h2>All Listed States</h2>
 							<ul class="header-dropdown m-r--5">
 								<li class="dropdown"><a href="javascript:void(0);"
 									class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -98,114 +99,17 @@
 						</div>
 						<div class="body">
 							<table
-								class="table table-bordered table-striped table-hover js-basic-example dataTable">
+								class="table table-bordered table-striped table-hover js-basic-example dataTable" id ="stateTable">
 								<thead>
 									<tr>
-										<th>no</th>
-										<th>Dept. Name</th>
-										<th>Brief</th>
-										<th>Email</th>
-										<th>Phone</th>
-										<th>No. of Students</th>
+										<th class="text-center">Sl.No</th>
+										<th class="text-center">State Id</th>
+										<th class="text-center">State Name</th>
+										<th class="text-center">State Description</th>
+										<th class="text-center">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>6</td>
-										<td>M.COM</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>7</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>8</td>
-										<td>B.COM</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>9</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>10</td>
-										<td>BBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>11</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>MCA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -223,6 +127,54 @@
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
 	
 	<script type="text/javascript">
+		$(document).ready(function(){
+			fetchAllStates();
+		});	
+	
+		function fetchAllStates(){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchAllStates",
+				data : "",
+				processData : false,
+				contentType : "application/json",
+				success : function(data) {
+						if(data.status){
+							$("#stateTable > tbody ").html("");
+							var abc ="";
+							for(var i=0; i<data.listAllStates.length; i++){
+								var stateDescription;
+								alert(data.listAllStates[i].stateDescription);
+								if(data.listAllStates[i].stateDescription === ""){
+									stateDescription = "---";
+								}else{
+									stateDescription = data.listAllStates[i].stateDescription;
+								}
+								abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+								+"<td class =\"text-center\">"+data.listAllStates[i].id+"</td>"
+								+"<td class =\"text-center\">"+data.listAllStates[i].stateName+"</td>"
+								+"<td class =\"text-center\">"+stateDescription+"</td>"
+								+"<td class =\"text-center\"><a href=\"#\" onclick=\"editStateById('"+data.listAllStates[i].id+"')\">Edit</a><a href=\"#\">Y</a></td></tr>"
+							}
+							$("#stateTable > tbody ").html(abc);
+						}
+
+				},
+				error : function(e) {
+					alert("Error");
+					swal({
+						  title: 'Error!',
+						  text: 'State Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+					
+				}
+			}); 
+		}
 		$("#submit").click(function (event){
 			
 			event.preventDefault();
@@ -239,6 +191,7 @@
 					});
 			}else{
 				var job = {};
+				job["editStateId"] =$("#editStateId").val();
 				job["stateName"] = $("#stateName").val();
 				job["stateDescription"] = $("#stateDescription").val();
 				$("#submit").prop("disabled", true);
@@ -279,12 +232,46 @@
 				}, complete : function(){
 					$("#stateName").val("");
 					$("#stateDescription").val("");
+					$("#editStateId").val("0");
+					fetchAllStates();
 				}
 		}); 
 				
 			}
 		});
 	
+		function editStateById(stateId){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchStateById?id="+stateId,
+				data : "",
+				processData : false,
+				contentType : "application/json",
+				success : function(data) {
+						if(data.status){
+							$("#stateName").val(data.state.stateName);
+							if(data.state.stateDescription !== ""){
+								$("#stateDescription").val(data.state.stateDescription);
+							}
+							$("#editStateId").val(stateId);
+						}
+
+				},
+				error : function(e) {
+					alert("Error");
+					swal({
+						  title: 'Error!',
+						  text: 'State By Id Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+					
+				}
+			}); 
+		}
 	</script>
 	
 	

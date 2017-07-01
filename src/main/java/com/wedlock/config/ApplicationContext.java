@@ -34,14 +34,14 @@ public class ApplicationContext extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
-	
+	/*
 	 @Override
 	    public void configureMessageConverters(List<HttpMessageConverter<?>> converters){
 
 	        converters.add(new MappingJackson2HttpMessageConverter());
 	        super.configureMessageConverters(converters);
 	    }
-
+*/
 	// Provides internationalization of messages
 	@Bean
 	public ResourceBundleMessageSource messageSource() {

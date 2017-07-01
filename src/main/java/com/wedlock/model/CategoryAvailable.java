@@ -23,6 +23,7 @@ private static final long serialVersionUID = 1L;
 	private String categoryName;
 	@Column(columnDefinition = "TEXT")
 	private String categoryDescription;
+	private String categoryUrl;
 	private String packageFor;
 	private String iconFile;
 	private double registrationCharge;
@@ -84,13 +85,18 @@ private static final long serialVersionUID = 1L;
 	public void setCategoryDescription(String categoryDescription) {
 		this.categoryDescription = categoryDescription;
 	}
+	public String getCategoryUrl() {
+		return categoryUrl;
+	}
+	public void setCategoryUrl(String categoryUrl) {
+		this.categoryUrl = categoryUrl;
+	}
 	public List<SubCategoryAvailable> getSubCategoryAvailable() {
 		return subCategoryAvailable;
 	}
 	public void setSubCategoryAvailable(List<SubCategoryAvailable> subCategoryAvailable) {
 		this.subCategoryAvailable = subCategoryAvailable;
 	}
-	
 	
   
 }

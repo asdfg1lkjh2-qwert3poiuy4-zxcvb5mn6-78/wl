@@ -1,4 +1,5 @@
 <script type="text/javascript">
+var lengthLi = "";
 function fetchSideNavBar(str){
 	$.ajax({
 		type : "GET",
@@ -10,32 +11,30 @@ function fetchSideNavBar(str){
 			if(data.status){
 				var abc = "";
 				var cde = "";
-				var efg = "";
-				var lengthLi;
+				var efg= "";
 				for(var i = 0; i<data.categoryAvailables.length; i++){
 					 for(var k = 0; k<data.subCategoryAvailables.length; k++){
-						 efg = "<ul class=\"ml-menu font-list\" id='ul"+(Number(Number(i)) + (Number(1)))+"'>"
+						efg = "<ul class=\"ml-menu font-list\" id='sideNavBarUl"+(Number(Number(i)) + (Number(1)))+"'>"
 						 if(data.categoryAvailables[i].id === data.subCategoryAvailables[k].categoryId){
-							 cde = cde + "<li><a href=\"#\">"+data.subCategoryAvailables[k].subCategoryName+"</a></li>"
-						 }else{
-							 efg ="";
-							 cde ="";
+							 cde = cde +"<li><a href="+data.subCategoryAvailables[k].subCategoryUrl+">"+data.subCategoryAvailables[k].subCategoryName+"</a></li>"
 						 }
 					 }
-					if(cde !== ""){
-						abc = abc + "<li><a href=\"javascript:void(0);\" id='"+(Number(Number(i)) + (Number(1)))+"' class=\"menu-toggle waves-effect waves-block\" onclick=\"addClass('"+(Number(Number(i)) + (Number(1)))+"')\"><img src=\"resources/images/tulip.png\" alt=\"\"/><span>"+data.categoryAvailables[i].categoryName+"</span> </a>"
-						abc = abc + efg + cde +"</ul></li>";
-					}else{
-						abc = abc +"<li><a href=\"javascript:void(0);\" id='"+(Number(Number(i)) + (Number(1)))+"' class=\"waves-effect waves-block\" onclick=\"addClass('"+(Number(Number(i)) + (Number(1)))+"')\"><img src=\"resources/images/tulip.png\" alt=\"\"/><span>"+data.categoryAvailables[i].categoryName+"</span> </a>"
-					}
-						lengthLi = data.categoryAvailables.length;
+					 
+					 if(cde !== ""){
+						 abc = abc + "<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"javascript:void(0);\" id='sideNavBarLink"+(Number(Number(i)) + (Number(1)))+"' class=\"menu-toggle waves-effect waves-block\" onclick=\"addClass('"+(Number(Number(i)) + (Number(1)))+"',false)\"><img src=\"getImage?id="+data.categoryAvailables[i].iconFile+"\" alt=\"\"/><span>"+data.categoryAvailables[i].categoryName+"</span> </a>";
+						 abc = abc + efg + cde +"</ul></li>";
+					 }else{
+						 abc = abc + "<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"admin-dashboard\" id='sideNavBarLink"+(Number(Number(i)) + (Number(1)))+"'  class=\"waves-effect waves-block\" onclick=\"addClass('"+(Number(Number(i)) + (Number(1)))+"',true)\"><img src=\"getImage?id="+data.categoryAvailables[i].iconFile+"\" alt=\"\"/><span>"+data.categoryAvailables[i].categoryName+"</span> </a>"; 
+					 }
+					 
+					 cde ="";
+					 
+					 lengthLi = data.categoryAvailables.length;
 				}
-				 if(str === 1){
-					$("#sideNavUl").append(abc);
-				}else{
+				
 					removeLi(lengthLi);
 					$("#sideNavUl").append(abc);
-				}
+			
 				
 			}
 		},
@@ -55,20 +54,42 @@ function fetchSideNavBar(str){
 	
 }
 function removeLi(lengthLi){
-	for(var i = 0 ; i < (Number(Number(lengthLi)) - (Number(1))) ; i++){
-		$("#"+(Number(Number(i)) + (Number(1)))).remove();
+	for(var i = 0 ; i < Number(lengthLi) ; i++){
+		$("#sideNavBarLi"+(Number(Number(i)) + (Number(1)))).remove();
+		$("#sideNavBarUl"+(Number(Number(i)) + (Number(1)))).remove();
 	}
 }
-function addClass(id){
-	alert(id);
-	if($("#"+id).hasClass("toggled")){
-		alert("In if");
-		$("#"+id).removeClass("toggled");
-		$("#ul"+id).attr("style","display:none");
+function addClass(id, isonlyLi){
+	$("#miscLi").addClass("active open toggled");
+	$("#miscUl").attr("style","display:block");
+	
+	if(isonlyLi){
+		sessionStorage.setItem("ulsId",id);
 	}else{
-		alert("In else");
-		$("#"+id).addClass("toggled");
-		$("#ul"+id).attr("style","display:block");
+		if(($("#sideNavBarLink"+id).hasClass("toggled"))){
+			$("#sideNavBarLink"+id).removeClass("toggled");
+			$("#sideNavBarLink"+id).attr("style","display:none");
+		}else{
+			
+			if($("#sellerLinkLi").hasClass("toggled")){
+				$("#sellerLinkLi").removeClass("toggled");
+				$("#sellerUl").attr("style","display:none");
+			}
+			 for (var i =0; i < Number(lengthLi); i++){
+				 if((i !== Number(Number(id) - Number(1)))){
+					 if(($("#sideNavBarLink"+(Number(Number(i)) + (Number(1)))).hasClass("toggled"))){
+							$("#sideNavBarLink"+(Number(Number(i)) + (Number(1)))).removeClass("toggled ");
+							$("#sideNavBarLink"+(Number(Number(i)) + (Number(1)))).attr("style","display:none");
+							
+						}
+				 }
+				 else{
+						$("#sideNavBarLink"+id).addClass("toggled");
+						$("#sideNavBarUl"+id).attr("style","display:block");
+					}
+			}
+			
+		}
 	}
 	
 }

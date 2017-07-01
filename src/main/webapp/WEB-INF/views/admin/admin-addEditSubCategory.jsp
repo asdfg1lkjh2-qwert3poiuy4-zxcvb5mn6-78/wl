@@ -59,23 +59,32 @@
 								</div>
 								<div class="subCatecoryDiv">
 								<div class="row clearfix addDivs">
-									<div class="col-sm-5 col-xs-12">
+									<div class="col-sm-3 col-xs-12">
 										<div class="form-group">
 											<div class="form-line">
 												<input type="text" class="form-control"
-													name="subCategoryName" id="subCategoryName"
+													name="subCategoryUrl" id="subCategoryName"
 													placeholder="Sub Category Name">
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-5 col-xs-12">
+									<div class="col-sm-4 col-xs-12">
 										<div class="form-group">
 											<label for="comment">Sub Category Description</label>
 											<textarea class="form-control textarea-add" rows="5"
 												name="subCategoryDescription" id="subCategoryDescription"></textarea>
 										</div>
 									</div>
-									<div class="col-sm-2 col-xs-12">
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="form-control"
+													name="subCategoryUrl" id="subCategoryUrl"
+													placeholder="Sub Category Url">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-1 col-xs-12">
 										<div class="form-group">
 											<button type="button" class="btn btn-raised gradient-right"
 												id="plusbtn">Add</button>
@@ -250,7 +259,7 @@
 		});
 		
 		
-		var ary = new Array ();  		// Array for storing the category names and Id.
+		 var ary = new Array ();  		// Array for storing the category names and Id.
 		function fetchAllCategory() {
 			$
 					.ajax({
@@ -402,22 +411,40 @@
 					confirmButtonClass : "btn btn-raised gradient-right",
 					animation : true
 				});
+			}else if($("#subCategoryUrl" + i).val() === ""
+				|| $("#subCategoryUrl").val() === ""){
+				swal({
+					title : 'Warning!',
+					text : 'Please Enter Sub Category Url!!!',
+					type : 'warning',
+					confirmButtonText : 'OK',
+					allowEscapeKey : true,
+					confirmButtonClass : "btn btn-raised gradient-right",
+					animation : true
+				});	
 			} else {
 				i = Number(Number(i) + Number(1));
 				$(".subCatecoryDiv")
 						.append(
 								"<div class=\"row clearfix addDivs\" id='subCategory"+i+"'>"
-										+ "<div class=\"col-sm-5 col-xs-12\">"
+										+ "<div class=\"col-sm-3 col-xs-12\">"
 										+ "<div class=\"form-group\">"
 										+ "<div class=\"form-line\">"
 										+ "<input type=\"text\" class=\"form-control\"name=\"subCategoryName\" id='subCategoryName"+i+"' placeholder=\"Sub Category Name\">"
 										+ "</div>"
 										+ "</div>"
 										+ "</div>"
-										+ "<div class=\"col-sm-5 col-xs-12\">"
+										+ "<div class=\"col-sm-4 col-xs-12\">"
 										+ "<div class=\"form-group\">"
 										+ "<label for=\"comment\">Sub Category Description</label>"
 										+ "<textarea class=\"form-control textarea-add\" rows=\"5\" name=\"subCategoryDescription\" id='subCategoryDescription"+i+"'></textarea>"
+										+ "</div>"
+										+ "</div>"
+										+ "<div class=\"col-sm-3 col-xs-12\">"
+										+ "<div class=\"form-group\">"
+										+ "<div class=\"form-line\">"
+										+ "<input type=\"text\" class=\"form-control\"name=\"subCategoryUrl\" id='subCategoryUrl"+i+"' placeholder=\"Sub Category Url\">"
+										+ "</div>"
 										+ "</div>"
 										+ "</div>"
 										+ "<div class=\"col-sm-2 col-xs-12\">"
@@ -431,7 +458,7 @@
 
 		// For removing present div
 		function removeSubCategoryDiv(removeId) {
-			$("#subCategory" + removeId).remove();
+			$("#subCategoryName" + removeId).remove();
 		}
 
 		//For Submit 
@@ -474,31 +501,22 @@
 						var job = {};
 								job["categoryId"] = $("#categoryName").val();
 								job["subCategoryName"] = $("#subCategoryName").val();
+								job["subCategoryUrl"] = $("#subCategoryUrl").val();
 								job["subCategoryDescription"] = $("#subCategoryDescription").val();
-								job["otherSubCategoryDetails"] = "";
+								
 								for (var k = 1; k <= Number(i); k++) {
-									if (!(($("#subCategoryName" + k).val() === undefined) && ($(
-											"#subCategoryDescription" + k)
-											.val() === undefined))) {
-										if (job["otherSubCategoryDetails"] === "") {
-											job["otherSubCategoryDetails"] = $(
-													"#subCategoryName" + k)
-													.val()
-													+ ","
-													+ $("#subCategoryDescription"+ k).val();
+									if (!(($("#subCategoryName" + k).val() === undefined) && ($("#subCategoryDescription" + k).val() === undefined) && ($("#subCategoryUrl")+ k).val() === undefined)) {
+										if (k === Number(1)) {
+											job["otherSubCategoryDetails"] = $("#subCategoryName" + k).val()+ ","+ $("#subCategoryDescription"+ k).val()+ ","+ $("#subCategoryUrl"+ k).val();
 										} else {
-											job["otherSubCategoryDetails"] = job["otherSubCategoryDetails"]
-													+ "_"
-													+ $("#subCategoryName" + k).val()
-													+ ","
-													+ $("#subCategoryDescription"+ k).val();
+											job["otherSubCategoryDetails"] = job["otherSubCategoryDetails"]+ "_"+ $("#subCategoryName" + k).val()+ ","+ $("#subCategoryDescription"+ k).val()+ ","+ $("#subCategoryUrl"+ k).val();
 										}
 									}
 
 								}
 								alert(JSON.stringify(job));
 
-								$
+								 $
 										.ajax({
 											type : "POST",
 											url : "admin-addEditSubCategory",
@@ -530,18 +548,19 @@
 												});
 											},
 											complete : function(){
-												fetchSideNavBar();
+												
 												//Removing data from all textboxes and removing dynamic divs
 												$("#categoryName").val("");
 												$("#subCategoryName").val("");
 												$("#subCategoryDescription").val("");
+												$("#subCategoryUrl").val("");
 												for(var k =1; k<= Number(i); k++){
 													removeSubCategoryDiv(Number(k));
 												}
 												
 												// For default select Category List
 												var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Category Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Category Name"
-												+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+												+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
 												 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
 													+ 0
 													+ "','Category Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Category Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
@@ -567,12 +586,14 @@
 											cde = cde + "</ul></div>"
 										
 											$("#categoryDiv").html(abc + cde);
+											
+											fetchSideNavBar();
 											}
-										});
+										}); 
 
 							}
 
-						});
+						}); 
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
 

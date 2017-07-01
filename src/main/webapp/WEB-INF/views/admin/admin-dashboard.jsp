@@ -826,7 +826,7 @@
         </section>
         <!-- main content -->
 		<script src="resources/js/jquery-2.1.3.min.js"></script>
-	 	<%@include file="admin-includeDynamicSideNavBarFromSession.jsp" %>
+		<%@include file="admin-includeDynamicSideNavBarFromSession.jsp" %>
         <div class="color-bg"></div>
        
         <%@ include file="admin-includeFooter.jsp" %>

@@ -480,12 +480,11 @@
 				job["cityId"] = $("#cityName").val();
 				job["zipCode"] = $("#zipCode").val();
 				job["localityName"] = $("#localityName").val();
-				job["otherZipCodeDetails"] = "";
 				for (var k = 1; k <= Number(i); k++) {
 					if (!(($("#zipCode" + k).val() === undefined) && ($(
 							"#localityName" + k)
 							.val() === undefined))) {
-						if (job["otherZipCodeDetails"] === "") {
+						if (k === Number(1)) {
 							job["otherZipCodeDetails"] = $(
 									"#zipCode" + k)
 									.val()

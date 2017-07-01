@@ -3,15 +3,17 @@ package com.wedlock.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class SellerBankDetails implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	@Id
-	private String id;
+	@Id @GeneratedValue
+	private long id;
 	private String accountHolderName;
 	private String accountNumber;
 	private String ifscCode;
@@ -21,12 +23,15 @@ public class SellerBankDetails implements Serializable{
 	@OneToOne
 	private SellerDetails sellerDetails;
 
+	@Transient 
+	private String sellerId;
 	//Setters And Getters
-	public String getId() {
+	
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -77,7 +82,17 @@ public class SellerBankDetails implements Serializable{
 	public void setSellerDetails(SellerDetails sellerDetails) {
 		this.sellerDetails = sellerDetails;
 	}
+
+	public String getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
+	}
+
 	
+
 
 	
 	

@@ -86,6 +86,9 @@
 			contentType :false,
 			processData : false,
 			success : function(data) {
+				if(data){
+					
+				}
 			},
 			error : function(e) {
 				alert("Error");
@@ -112,6 +115,7 @@
 				success : function(data) {
 					alert(JSON.stringify(data));
 					if(data){
+						sessionStorage.clear();
 						window.location="admin-dashboard";
 					}else{
 						alert("Your username or password is incorrect");
