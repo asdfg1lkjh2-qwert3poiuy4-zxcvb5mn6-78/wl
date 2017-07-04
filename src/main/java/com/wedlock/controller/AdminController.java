@@ -4,60 +4,45 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.SocketException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.jackson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.wedlock.model.AdminDetails;
 import com.wedlock.model.AdminResponseClass;
-import com.wedlock.model.ApiResponseClass;
+import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.City;
+import com.wedlock.model.FlowerType;
 import com.wedlock.model.Occasion;
 import com.wedlock.model.SellerBankDetails;
 import com.wedlock.model.SellerDetails;
-import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.State;
 import com.wedlock.model.SubCategoryAvailable;
 import com.wedlock.model.ZipCode;
 import com.wedlock.service.AdminDetailsService;
 import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CityService;
+import com.wedlock.service.FlowerTypeService;
 import com.wedlock.service.OccasionService;
 import com.wedlock.service.SellerBankDetailsService;
 import com.wedlock.service.SellerService;
@@ -65,7 +50,6 @@ import com.wedlock.service.StateService;
 import com.wedlock.service.SubCategoryAvailableService;
 import com.wedlock.service.ZipCodeService;
 import com.wedlock.util.createId;
-import com.wedlock.util.smsApi;
 
 /*Please Don't Delete Any Of The Imports As They Are Not Unnecessary. 
 They look so because of some commented api's which we will be taken care afterwards.
@@ -80,6 +64,8 @@ public class AdminController {
 	private CityService cityService;
 	@Autowired
 	private ZipCodeService zipCodeService;
+	@Autowired
+	private FlowerTypeService flowerTypeService;
 	@Autowired
 	private CategoryAvailableService categoryAvailableService;
 	@Autowired
@@ -183,6 +169,32 @@ public class AdminController {
 		AdminResponseClass adminResponseClass = zipCodeService.fetchZipCodeByCityId(id);
 		return adminResponseClass;
 	}
+	
+	//for flower Type
+	@RequestMapping(value = "/admin-addEditFlowerType", method = RequestMethod.POST)
+	public @ResponseBody boolean addEditFlowerType(@RequestBody FlowerType flowerType) {
+		System.out.println("////Flower Type is"+flowerType.getDescription()+" "+flowerType.getName());
+		System.out.println("/////EditFlowerId"+flowerType.getEditId());
+		if(flowerType.getEditId() != 0){
+			flowerType.setId((flowerType.getEditId()));
+		}
+		AdminResponseClass adminResponseClass = flowerTypeService.saveFlowerType(flowerType);
+		return adminResponseClass.isStatus();
+	}
+
+	@RequestMapping(value = "/admin-fetchAllFlowerType", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllFlowerType() {
+		AdminResponseClass adminResponseClass = flowerTypeService.fetchAllFlowerType();
+		return adminResponseClass;
+	}
+
+	@RequestMapping(value = "/admin-fetchFlowerTypeById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchFlowerTypeById(@RequestParam("id") int id) {
+		AdminResponseClass adminResponseClass = flowerTypeService.fetchFlowerTypeById(id);
+		return adminResponseClass;
+	}
+
+	
 	/* For Service Available */
 
 	

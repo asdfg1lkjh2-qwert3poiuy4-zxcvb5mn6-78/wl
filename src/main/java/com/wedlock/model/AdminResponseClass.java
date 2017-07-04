@@ -21,6 +21,10 @@ public class AdminResponseClass {
 	private List<ZipCode> listAllZipCodes;
 	private ZipCode zipCode;
 
+	/*For Flower Type*/
+	private List<FlowerType> listAllFlowerType;
+	private FlowerType flowerType;
+	
 	/*For Category Available*/
 	private List<CategoryAvailable> categoryAvailables;
 	private CategoryAvailable categoryAvailable;
@@ -97,6 +101,22 @@ public class AdminResponseClass {
 
 	public void setZipCode(ZipCode zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	public List<FlowerType> getListAllFlowerType() {
+		return listAllFlowerType;
+	}
+
+	public void setListAllFlowerType(List<FlowerType> listAllFlowerType) {
+		this.listAllFlowerType = listAllFlowerType;
+	}
+
+	public FlowerType getFlowerType() {
+		return flowerType;
+	}
+
+	public void setFlowerType(FlowerType flowerType) {
+		this.flowerType = flowerType;
 	}
 
 	public List<CategoryAvailable> getCategoryAvailables() {

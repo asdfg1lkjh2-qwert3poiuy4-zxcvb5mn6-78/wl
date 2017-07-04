@@ -1,6 +1,7 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,12 +13,20 @@ public class Occasion implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id 
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String occasionName;
 	private String occasionDesc;
 	private boolean isActive;
+	private BigInteger discountId;
 	
+	public BigInteger getDiscountId() {
+		return discountId;
+	}
+	public void setDiscountId(BigInteger discountId) {
+		this.discountId = discountId;
+	}
 	//Setters And Getters
 	public long getId() {
 		return id;

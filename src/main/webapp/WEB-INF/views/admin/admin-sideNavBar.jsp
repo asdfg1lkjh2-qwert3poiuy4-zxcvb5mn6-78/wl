@@ -35,6 +35,7 @@
                     <li><a href="admin-addEditSubCategory" id="showSubMiscLi5">Add & View Sub Category</a></li>
                     <li><a href="#" id="showSubMiscLi6" >Add & View Occasion</a></li>
                     <li><a href="#" id="showSubMiscLi7" >Add & View Photographer Occasion</a></li>
+                    <li><a href="admin-addEditFlowerType" id="showSubMiscLi8">Add & View Flower Type</a></li>
                 </ul>
             </li>
             
