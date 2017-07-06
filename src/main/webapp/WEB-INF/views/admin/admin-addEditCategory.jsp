@@ -58,8 +58,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-3 col-xs-12 padding-left">
-									<div class="form-group drop-custum" id="packageDiv">
+								<div class="col-sm-3 col-xs-12 padding-left" id="packageDiv">
+									<div class="form-group drop-custum">
 										<select class="form-control show-tick" name="packageFor"
 											id="packageFor">
 											<option value="1">-- Package For --</option>
@@ -123,6 +123,7 @@
 								<div class="col-xs-12">
 								<input type="hidden" value="${sessionScope.firstLogin}" id="firstLogin">
 								<input type="hidden" name="editCategoryId" id="editCategoryId" value="0">
+								<input type="hidden" name="packageClick" id="packageClick" value="">
 									<button type="submit" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -362,10 +363,15 @@
 				var job = {};
 				job["categoryName"] = $("#categoryName").val();
 				job["categoryDescription"] = $("#categoryDescription").val();
-				job["packageFor"] = $("#packageFor").val();
+				if(checkSubmit === 0){
+					job["packageFor"] = $("#packageFor").val();
+				}else{
+					job["packageFor"] = $("#packageClick").val();
+				}
 				job["registrationCharge"] = $("#registrationCharge").val();
 				job["categoryUrl"] =$("#categoryUrl").val();
 				job["allFiles"] = file1; 
+				alert(JSON.stringify(job));
 				$.ajax({
 					type : "POST",
 					url : "admin-addEditCategoryAvailable",
@@ -413,8 +419,17 @@
 							});
 						
 						 $('.dropzone').removeClass(' dz-started ');
-						
-							checkSubmit = 1;
+						 $("#packageDiv").html("");
+						 var abc ="<div class=\"form-group drop-custum\">"
+							+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\"-- Package For --\"><span class=\"filter-option pull-left\">-- Package For --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+							+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
+							+"<li data-original-index=\"0\" class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Package For --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+							+"<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('HalfYearly')\"><span class=\"text\">Half Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+							+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('Yearly')\"><span class=\"text\">Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+							+"</div>"
+						$("#packageDiv").html(abc);
+						$("#packageClick").val("");
+						checkSubmit = 1;
 							
 					}
 				});
@@ -521,6 +536,27 @@
 				}
 		}); 
 		}
+		function packageClick(str){
+			if(checkSubmit === 1){
+				$("#packageClick").val(str);
+				var clicked;
+				$("#packageDiv").html("");
+				if(str === "HalfYearly"){
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('HalfYearly')\"><span class=\"text\">Half Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('Yearly')\"><span class=\"text\">Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}else{
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('HalfYearly')\"><span class=\"text\">Half Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('Yearly')\"><span class=\"text\">Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}
+				var abc ="<div class=\"form-group drop-custum\">"
+					+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+					+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
+					+"<li data-original-index=\"0\" class=\"\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Package For --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+clicked
+					+"</div>"
+				$("#packageDiv").html(abc);	
+			}
+		} 
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
 	

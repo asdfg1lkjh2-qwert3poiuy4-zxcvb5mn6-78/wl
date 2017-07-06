@@ -166,7 +166,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-4 col-xs-12">
+								<div class="col-sm-4 col-xs-12" id="sellerGenderDiv">
 									<div class="form-group drop-custum">
 										<select class="form-control show-tick" name="sellerGender" id="sellerGender">
 											<option value="">-- Gender --</option>
@@ -190,7 +190,7 @@
 								<h2>Document's Provided</h2>
 							</div>
 							<div class="row clearfix">
-								<div class="col-sm-6 col-xs-12">
+								<div class="col-sm-6 col-xs-12" id="sellerAddressProofDiv">
 									<div class="form-group drop-custum">
 										<select class="form-control show-tick" name="sellerAddressProof" id="sellerAddressProof">
 											<option value="">-- Address Proof --</option>
@@ -199,7 +199,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="col-sm-6 col-xs-12">
+								<div class="col-sm-6 col-xs-12" id="sellerIdProofDiv">
 									<div class="form-group drop-custum">
 										<select class="form-control show-tick" name="sellerIdProof" id="sellerIdProof">
 											<option value="">-- Id Proof --</option>
@@ -362,6 +362,9 @@
 								<input type = "hidden" name ="stateName" id ="stateName" value = "">
 								<input type = "hidden" name = "cityame" id ="cityName" value = "">
 								<input type = "hidden" name = "localityName" id = "localityName" value = "">
+								<input type = "hidden" name = "sellerGenderClick" id ="sellerGenderClick" value = "">
+								<input type = "hidden" name = "sellerAddressProofClick" id ="sellerAddressProofClick" value = "">
+								<input type = "hidden" name = "sellerIdProofClick" id ="sellerIdProofClick" value= "">
 									<button type="submit" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -1335,7 +1338,132 @@
 
 			 $('.dropzone').removeClass(' dz-started ');
 			
-				checkSubmit = 1; //Making the checker to 1 meaning the page is submitted not refreshed
+			 $("#sellerGenderDiv").html("");
+			 var mno ="<div class=\"form-group drop-custum\">"
+				+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\"-- Gender --\"><span class=\"filter-option pull-left\">-- Gender --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+				+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
+				+"<li data-original-index=\"0\" class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Gender --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('Male')\"><span class=\"text\">Male</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('Female')\"><span class=\"text\">Female</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('TransGender')\"><span class=\"text\">TransGender</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				+"</div>"
+			$("#sellerGenderDiv").html(mno);
+			$("#sellerGenderClick").val("");
+			checkSubmit = 1;  //Making the checker to 1 meaning the page is submitted not refreshed
+			
+			$("#sellerAdressProofDiv").html("")
+			var uvw ="<div class=\"form-group drop-custum\">"
+				+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\"-- Address Proof --\"><span class=\"filter-option pull-left\">-- Address Proof --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+				+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
+				+"<li data-original-index=\"0\" class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Address Proof --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('X')\"><span class=\"text\">X</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('XXXX')\"><span class=\"text\">XXXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('XXX')\"><span class=\"text\">XXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				+"</div>"
+			$("#sellerAddressProofDiv").html(uvw);	
+			$("#sellerAddressProofClick").val("");
+			
+			$("#sellerIdProofDiv").html("")
+			var qrs ="<div class=\"form-group drop-custum\">"
+				+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\"-- Id Proof --\"><span class=\"filter-option pull-left\">-- Id Proof --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+				+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
+				+"<li data-original-index=\"0\" class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Id Proof --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('X')\"><span class=\"text\">X</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('XXXX')\"><span class=\"text\">XXXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('XXX')\"><span class=\"text\">XXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				+"</div>"
+			$("#sellerIdProofDiv").html(qrs);
+			$("#sellerIdProofClick").val("");	
+		}
+		
+		
+		function sellerGenderClick(str){
+			if(checkSubmit === 1){
+				$("#sellerGenderClick").val(str);
+				var clicked;
+				$("#sellerGenderDiv").html("");
+				if(str === "Male"){
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('Male')\"><span class=\"text\">Male</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('Female')\"><span class=\"text\">Female</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('TransGender')\"><span class=\"text\">TransGender</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}else if(str === "Female"){
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('Male')\"><span class=\"text\">Male</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('Female')\"><span class=\"text\">Female</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('TransGender')\"><span class=\"text\">TransGender</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}else{
+					clicked ="<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('Male')\"><span class=\"text\">Male</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('Female')\"><span class=\"text\">Female</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"sellerGenderClick('TransGender')\"><span class=\"text\">TransGender</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}
+				var mno ="<div class=\"form-group drop-custum\">"
+					+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+					+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
+					+"<li data-original-index=\"0\" class=\"\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Gender --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+clicked
+					+"</div>"
+				$("#sellerGenderDiv").html(mno);	
+			}
+			
+		}
+		
+		
+		function sellerAddressProofClick(str){
+			if(checkSubmit === 1){
+				$("#sellerAddressProofClick").val(str);
+				var clicked;
+				$("#sellerAddressProofDiv").html("");
+				if(str === "X"){
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('X')\"><span class=\"text\">X</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('XXXX')\"><span class=\"text\">XXXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('XXX')\"><span class=\"text\">XXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}else if(str === "XXXX"){
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('X')\"><span class=\"text\">X</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('XXXX')\"><span class=\"text\">XXXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('XXX')\"><span class=\"text\">XXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}else{
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('X')\"><span class=\"text\">X</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('XXXX')\"><span class=\"text\">XXXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"sellerAddressProofClick('XXX')\"><span class=\"text\">XXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}
+				var uvw ="<div class=\"form-group drop-custum\">"
+					+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+					+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
+					+"<li data-original-index=\"0\" class=\"\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Address Proof --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+clicked
+					+"</div>"
+				$("#sellerAddressProofDiv").html(uvw);
+				
+			}
+			
+		}
+		
+		
+		function sellerIdProofClick(str){
+			if(checkSubmit === 1){
+				$("#sellerIdProofClick").val(str);
+				var clicked;
+				$("#sellerIdProofDiv").html("");
+				if(str === "X"){
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('X')\"><span class=\"text\">Male</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('XXXX')\"><span class=\"text\">XXXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('XXX')\"><span class=\"text\">XXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}else if(str === "XXXX"){
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('X')\"><span class=\"text\">Male</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('XXXX')\"><span class=\"text\">XXXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('XXX')\"><span class=\"text\">XXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}else{
+					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('X')\"><span class=\"text\">Male</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('XXXX')\"><span class=\"text\">XXXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						+"<li data-original-index=\"3\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"sellerIdProofClick('XXX')\"><span class=\"text\">XXX</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				}
+				var mno ="<div class=\"form-group drop-custum\">"
+					+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+					+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
+					+"<li data-original-index=\"0\" class=\"\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Id Proof --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+clicked
+					+"</div>"
+				$("#sellerGenderDiv").html(mno);	
+			}
 			
 		}
 	</script>
