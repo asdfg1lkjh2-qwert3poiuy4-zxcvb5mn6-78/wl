@@ -34,6 +34,9 @@ private static final long serialVersionUID = 1L;
 	
 	@Transient
 	private String allFiles;
+	
+	@Transient
+	private long editCategoryId;
 	//Setters And Getters
 	public long getId() {
 		return id;
@@ -96,6 +99,12 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setSubCategoryAvailable(List<SubCategoryAvailable> subCategoryAvailable) {
 		this.subCategoryAvailable = subCategoryAvailable;
+	}
+	public long getEditCategoryId() {
+		return editCategoryId;
+	}
+	public void setEditCategoryId(long editCategoryId) {
+		this.editCategoryId = editCategoryId;
 	}
 	
   

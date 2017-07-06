@@ -195,6 +195,7 @@
 				job["stateName"] = $("#stateName").val();
 				job["stateDescription"] = $("#stateDescription").val();
 				$("#submit").prop("disabled", true);
+				alert(JSON.stringify(job));
 				$.ajax({
 				type : "POST",
 				url : "admin-addEditState",

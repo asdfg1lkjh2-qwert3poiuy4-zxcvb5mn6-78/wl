@@ -8,5 +8,7 @@ import com.wedlock.model.SubCategoryAvailable;
 public interface SubCategoryAvailableService {
 	public AdminResponseClass saveSubCategoryAvailable(SubCategoryAvailable subCategoryAvailable,String subCategoryValues[]);
 	public AdminResponseClass fetchAllSubCategoryAvailable();
+	public AdminResponseClass fetchAllSubCategoryAvailableById(long id);
 	public List<SubCategoryAvailable> listFetchAllSubCategoryAvailable();
+	
 }

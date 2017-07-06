@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.CityDao;
@@ -65,7 +66,7 @@ public class CityServiceImpl implements CityService {
 	public AdminResponseClass fetchAllCities() {
 		boolean status = false;
 
-		List<City> cityList = cityDao.findAll();
+		List<City> cityList = cityDao.findAll(new Sort(Sort.Direction.ASC, "state.stateName"));
 		status = true;
 
 		List<City> cities = new ArrayList<>();
@@ -75,6 +76,7 @@ public class CityServiceImpl implements CityService {
 			City city2 = new City();
 			city2.setId(city.getId());
 			city2.setCityName(city.getCityName());
+			city2.setCityDescription(city.getCityDescription());
 			city2.setStateId(state.getId());
 			city2.setStateName(state.getStateName());
 			cities.add(city2);
@@ -91,12 +93,17 @@ public class CityServiceImpl implements CityService {
 	public AdminResponseClass fetchCityById(long id) {
 		boolean status = true;
 
+		
 		City city = cityDao.findOne(id);
 
 		City city2 = new City();
+		State state = stateDao.findOne(city.getState().getId());
+		
 		city2.setId(city.getId());
 		city2.setCityName(city.getCityName());
-		city2.setStateId(city.getState().getId());
+		city2.setCityDescription(city.getCityDescription());
+		city2.setStateId(state.getId());
+		city2.setStateName(state.getStateName());
 
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);

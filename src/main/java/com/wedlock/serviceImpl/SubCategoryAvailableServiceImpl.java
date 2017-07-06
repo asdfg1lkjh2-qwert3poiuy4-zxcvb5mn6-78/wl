@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.CategoryAvailableDao;
@@ -61,24 +62,22 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 	public AdminResponseClass fetchAllSubCategoryAvailable() {
 		
 		boolean status = false;
-		List<SubCategoryAvailable> listSubCategoryAvailable = subCategoryAvailableDao.findAll();
+		List<SubCategoryAvailable> listSubCategoryAvailable = subCategoryAvailableDao.findAll(new Sort(Sort.Direction.ASC, "categoryAvailable.categoryName"));
 		status = true;
 		
 		List<SubCategoryAvailable> subCategoryAvailables = new ArrayList<>();
 		for (SubCategoryAvailable subCategoryAvailable : listSubCategoryAvailable) {
 
+			CategoryAvailable categoryAvailable = categoryAvailableDao.findOne(subCategoryAvailable.getCategoryAvailable().getId());
 			SubCategoryAvailable subCategoryAvailable2 = new SubCategoryAvailable();
-
-			subCategoryAvailable2.setId(subCategoryAvailable.getId());
 			
+			subCategoryAvailable2.setId(subCategoryAvailable.getId());
 			subCategoryAvailable2.setSubCategoryUrl(subCategoryAvailable.getSubCategoryUrl());
-
 			subCategoryAvailable2.setSubCategoryName(subCategoryAvailable.getSubCategoryName());
-
 			subCategoryAvailable2.setSubCategoryDescription(subCategoryAvailable.getSubCategoryDescription());
-
-			subCategoryAvailable2.setCategoryId(subCategoryAvailable.getCategoryAvailable().getId());
-
+			subCategoryAvailable2.setCategoryId(categoryAvailable.getId());
+			subCategoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
+			subCategoryAvailable2.setActive(subCategoryAvailable.isActive());
 			subCategoryAvailables.add(subCategoryAvailable2);
 			
 		}
@@ -110,6 +109,29 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 
 		}
 		return subCategoryAvailables;
+	}
+	@Override
+	public AdminResponseClass fetchAllSubCategoryAvailableById(long id) {
+		boolean status = false;
+		
+		SubCategoryAvailable subCategoryAvailable = subCategoryAvailableDao.findOne(id);
+		status = true;
+		
+		SubCategoryAvailable subCategoryAvailable2 = new SubCategoryAvailable();
+		CategoryAvailable categoryAvailable = categoryAvailableDao.findOne(subCategoryAvailable.getCategoryAvailable().getId());
+		
+		subCategoryAvailable2.setId(subCategoryAvailable.getId());
+		subCategoryAvailable2.setSubCategoryUrl(subCategoryAvailable.getSubCategoryUrl());
+		subCategoryAvailable2.setSubCategoryName(subCategoryAvailable.getSubCategoryName());
+		subCategoryAvailable2.setSubCategoryDescription(subCategoryAvailable.getSubCategoryDescription());
+		subCategoryAvailable2.setCategoryId(categoryAvailable.getId());
+		subCategoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
+		subCategoryAvailable2.setActive(subCategoryAvailable.isActive());
+		
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setSubCategoryAvailable(subCategoryAvailable2);
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
 	}
 
 }

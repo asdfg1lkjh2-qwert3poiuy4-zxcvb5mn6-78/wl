@@ -66,9 +66,10 @@ function addClass(id, isonlyLi){
 	if(isonlyLi){
 		sessionStorage.setItem("ulsId",id);
 	}else{
+		alert("In if");
 		if(($("#sideNavBarLink"+id).hasClass("toggled"))){
 			$("#sideNavBarLink"+id).removeClass("toggled");
-			$("#sideNavBarLink"+id).attr("style","display:none");
+			$("#sideNavBarUl"+id).attr("style","display:none");
 		}else{
 			
 			if($("#sellerLinkLi").hasClass("toggled")){

@@ -9,12 +9,15 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.CityDao;
+import com.wedlock.dao.StateDao;
 import com.wedlock.dao.ZipCodeDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.City;
+import com.wedlock.model.State;
 import com.wedlock.model.ZipCode;
 import com.wedlock.service.ZipCodeService;
 
@@ -30,6 +33,8 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 	@PersistenceContext
 	EntityManager manager;
 
+	@Autowired
+	private StateDao stateDao;
 	@Override
 	public AdminResponseClass saveZipCode(ZipCode zipCode, String zipCodeValues[]) {
 		boolean status = false;
@@ -64,19 +69,20 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 	public AdminResponseClass fetchAllZipCodes() {
 		boolean status = false;
 
-		List<ZipCode> zipCode = zipCodeDao.findAll();
+		List<ZipCode> zipCode = zipCodeDao.findAll(new Sort(Sort.Direction.ASC, "city.cityName"));
 		status = true;
 
 		List<ZipCode> zipCodes = new ArrayList<>();
 		for (ZipCode zipCode2 : zipCode) {
-			City city = cityDao.findOne(zipCode2.getCityId());
+			City city = cityDao.findOne(zipCode2.getCity().getId());
+			
 			ZipCode zipCode3 = new ZipCode();
 
 			zipCode3.setId(zipCode2.getId());
 			zipCode3.setLocalityName(zipCode2.getLocalityName());
-			zipCode3.setCity(city);
 			zipCode3.setZipCode(zipCode2.getZipCode());
-			
+			zipCode3.setCityId(city.getId());
+			zipCode3.setCityName(city.getCityName());
 			zipCodes.add(zipCode3);
 		}
 
@@ -91,15 +97,19 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 		boolean status = false;
 		
 		ZipCode zipCode = zipCodeDao.findOne(id);
-		
-		City city = cityDao.findOne(zipCode.getCityId());
+		City city = cityDao.findOne(zipCode.getCity().getId());
+		System.out.println("CityId is"+city.getState().getId());
+		State state = stateDao.findOne(city.getState().getId());
 		status = true;
 		
 		ZipCode zipCode2 = new ZipCode();
 		zipCode2.setId(zipCode.getId());
 		zipCode2.setLocalityName(zipCode.getLocalityName());
 		zipCode2.setZipCode(zipCode.getZipCode());
-		zipCode2.setCity(city);
+		zipCode2.setCityId(city.getId());
+		zipCode2.setCityName(city.getCityName());
+		zipCode2.setStateId(state.getId());
+		zipCode2.setStateName(state.getStateName());
 		
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);

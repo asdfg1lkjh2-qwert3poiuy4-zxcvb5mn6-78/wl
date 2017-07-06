@@ -91,6 +91,7 @@
 							<div class="row clearfix">
 								<div class="col-xs-12">
 								<input type ="hidden" name ="cityName" id="cityName" value="">
+								<input type ="hidden" name ="editZipCodeId" id="editZipCodeId" value="0">
 									<button type="submit" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -102,7 +103,7 @@
 
 					<div class="card">
 						<div class="header">
-							<h2>All Departments</h2>
+							<h2>All Listed ZipCodes</h2>
 							<ul class="header-dropdown m-r--5">
 								<li class="dropdown"><a href="javascript:void(0);"
 									class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -118,15 +119,16 @@
 						</div>
 						<div class="body">
 							<table
-								class="table table-bordered table-striped table-hover js-basic-example dataTable">
+								class="table table-bordered table-striped table-hover js-basic-example dataTable" id="zipCodeTable">
 								<thead>
 									<tr>
-										<th>no</th>
-										<th>Dept. Name</th>
-										<th>Brief</th>
-										<th>Email</th>
-										<th>Phone</th>
-										<th>No. of Students</th>
+										<th class="text-center">Sl.No</th>
+										<th class="text-center">Zip Code Id</th>
+										<th class="text-center">Zip Code</th>
+										<th class="text-center">Locality Name</th>
+										<th class="text-center">City Name</th>
+										<th class="text-center">Action</th>
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -245,6 +247,7 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 		fetchAllState();     //Fetching all the states
+		fetchAllZipCodes();
 	});
 	
 	var ary = new Array ();   // Array for storing the state names and Id.
@@ -368,8 +371,7 @@
 	$("#stateDiv").html(abc + cde);
 
 		}
-		
-		fetchAllCitiesById(stateId);   //Fetching all cities by state Id
+		fetchAllCitiesById(false,stateId,"CityName","cityId");   //Fetching all cities by state Id
 	}
 
 	var i = Number(0); 			//Variable to  know number of times the new div has been added
@@ -477,6 +479,7 @@
 				});
 			}else{
 				var job = {};
+				job["editZipCodeId"] = $("#editZipCodeId").val();
 				job["cityId"] = $("#cityName").val();
 				job["zipCode"] = $("#zipCode").val();
 				job["localityName"] = $("#localityName").val();
@@ -500,6 +503,7 @@
 					}
 
 				}
+				alert(JSON.stringify(job));
 				$("#submit").prop("disabled", true);
 				$.ajax({
 				type : "POST",
@@ -540,6 +544,8 @@
 					$("#cityName").val("");
 					$("#zipCode").val("");
 					$("#localityName").val("");
+					$("#editZipCodeId").val("0");
+					fetchAllZipCodes();
 					for(var k =1; k<= Number(i); k++){
 						removeZipCodeDiv(Number(k));
 					}
@@ -589,7 +595,7 @@
 		});  
 	     
 	// Function to fetch all cities by state Id
-	     function fetchAllCitiesById(stateId){
+	     function fetchAllCitiesById(isForEdit,stateId,cityName,cityId){
 	    	 $.ajax({
 					type : "GET",
 					url : "admin-fetchCityByStateId?id="+stateId,
@@ -599,15 +605,44 @@
 					success : function(data) {
 						$("#cityDiv").html("");
 						if(data.status){
-								var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--City Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--City Name--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-										+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-										+"<li data-original-index=\"0\" class=\"selected\" id=\"cityLi0\" onclick=\"clickCityLi('"+0+"','City Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- City Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-								var cde = "";		
-										for(var i = 0; i<data.listAllCities.length; i++){	
-											cde = cde + "<li data-original-index='"+Number(Number(i)+Number(1))+"' id='cityLi"+Number(Number(i)+Number(1))+"'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickCityLi('"+Number(Number(i)+Number(1))+"','"+data.listAllCities[i].cityName+"','"+data.listAllCities[i].id+"')\"><span class=\"text\">"+data.listAllCities[i].cityName+"</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-											var arValue = data.listAllCities[i].id+"_"+data.listAllCities[i].cityName;
-											cityAry.push(arValue);
+							var abc = "";
+							if(!isForEdit){
+								abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--City Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--City Name--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+									+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+									+"<li data-original-index=\"0\" class=\"selected\" id=\"cityLi0\" onclick=\"clickCityLi('"+0+"','City Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- City Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+							}else{
+								
+								abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=--"+cityName+"-- aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+cityName
+								+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+								+ "<li data-original-index=\"0\" id=\"li0\" onclick=\"clickCityLi('"+ 0+ "','City Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- City Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+							}
+										var cde = "";
+										for (var i = 0; i <data.listAllCities.length; i++) {
+											var classSelected = ""
+											if(isForEdit){
+												if(Number(data.listAllCities[i].id) === cityId){
+													classSelected = "class = selected";
+												}
+											}else{
+												while(cityAry.length > 0){
+													cityAry.pop();
+												}
+												var arValue = data.listAllCities[i].id+"_"+data.listAllCities[i].cityName;
+												cityAry.push(arValue);
+											}
+												cde = cde
+												+ "<li data-original-index='"
+												+ Number(Number(i) + Number(1))+ "'id='li"+ Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickCityLi('"
+												+ Number(Number(i) + Number(1))
+												+ "','"
+												+ data.listAllCities[i].cityName
+												+ "','"
+												+ data.listAllCities[i].id
+												+ "')\"><span class=\"text\">"
+												+ data.listAllCities[i].cityName
+												+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 										}
+										
 									cde = cde +"</ul></div>"
 									$("#cityDiv").html(abc + cde);
 						}
@@ -617,7 +652,7 @@
 						alert("Error");
 						swal({
 							  title: 'Error!',
-							  text: 'State Not Inserted Successfully!!!',
+							  text: 'City Not Fetched Successfully!!!',
 							  type: 'error',
 							  confirmButtonText :"OK",
 							  allowEscapeKey:true,
@@ -635,6 +670,7 @@
 		// On click of Li in city List
 	    function clickCityLi(liId,title1,cityId){
 			$("#cityName").val(cityId);        //Hidden field to sotre city Id
+			alert($("#cityName").val());
 			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--"+title1+ "--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"
 			+ title1
 			+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
@@ -676,7 +712,6 @@
 				$("#cityDiv").html(abc + cde);
 
 			} else {
-				alert("In else"+liId);
 				$("#cityLi" + previousLi).removeClass("selected");
 				$("#cityLi0").addClass("selected");
 				
@@ -709,6 +744,118 @@
 			}
 	    } 
 	 
+		function fetchAllZipCodes(){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchAllZipCodes",
+				data : "",
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+					if(data.status){
+						$("#zipCodeTable > tbody").html("");
+						var abc ="";
+						for(var i = 0; i< data.listAllZipCodes.length; i++){
+							abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+							+"<td class=\"text-center\">"+data.listAllZipCodes[i].id+"</td>"
+							+"<td class=\"text-center\">"+data.listAllZipCodes[i].zipCode+"</td>"
+							+"<td class=\"text-center\">"+data.listAllZipCodes[i].localityName+"</td>"
+							+"<td class=\"text-center\">"+data.listAllZipCodes[i].cityName+"</td>"
+							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editZipCodeById('"+data.listAllZipCodes[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
+						}
+						$("#zipCodeTable > tbody").html(abc);
+					}
+				},
+				error : function(e) {
+					alert("Error");
+					swal({
+						  title: 'Error!',
+						  text: 'Zip Code Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+
+				}
+		});
+		}
+		function editZipCodeById(zipCodeId){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchZipCodeById?id="+zipCodeId,
+				data : "",
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+					defaultStateList(false,Number(data.zipCode.stateId),data.zipCode.stateName,Number(data.zipCode.cityId),data.zipCode.cityName);
+					$("#zipCode").val(data.zipCode.zipCode);
+					$("#localityName").val(data.zipCode.localityName);
+					$("#plusbtn").attr("disabled", true);
+					$("#cityName").val(data.zipCode.cityId);
+					$("#editZipCodeId").val(data.zipCode.id); 
+				},
+				error : function(e) {
+					swal({
+						  title: 'Error!',
+						  text: 'City Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+
+				}
+		}); 
+		}
+		
+		function defaultStateList(isInComplete,stateId,stateName,cityName,cityId){
+			// Removing the values from the state list
+			var abc ="";
+			if(isInComplete){
+				 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--State Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--State Name"
+					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+					 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
+						+ 0
+						+ "','State Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- State Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			}else{
+				
+				abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=--"+stateName+"-- aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+stateName
+				+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+			}
+			var cde = "";
+			for (var i = 0; i < ary.length; i++) {
+				var splittedArray = ary[i].split("_");
+				var classSelected = ""
+				if(!isInComplete){
+					if(Number(splittedArray[0]) === stateId){
+						classSelected = "class = selected";
+					}
+				}
+					cde = cde
+					+ "<li data-original-index='"
+					+ Number(Number(i) + Number(1))+ "'id='li"+ Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"
+					+ Number(Number(i) + Number(1))
+					+ "','"
+					+ splittedArray[1]
+					+ "','"
+					+ splittedArray[0]
+					+ "')\"><span class=\"text\">"
+					+ splittedArray[1]
+					+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					if(classSelected === "class = selected"){
+						cde = cde + "<li data-original-index=\"0\" id=\"li0\" onclick=\"clickLi('"+ 0+ "','State Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- State Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>";
+					}
+			}
+			cde = cde + "</ul></div>"
+			
+			$("#stateDiv").html(abc + cde);
+			
+			fetchAllCitiesById(true,stateId,cityId,cityName);
+			
+		}
 	</script>
 	
 	

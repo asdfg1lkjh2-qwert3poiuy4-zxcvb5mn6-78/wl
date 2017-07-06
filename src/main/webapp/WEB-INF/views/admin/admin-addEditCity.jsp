@@ -82,6 +82,7 @@
 							<div class="row clearfix">
 								<div class="col-xs-12">
 								<input type ="hidden" name ="stateName" id="stateName" value="">
+								<input type ="hidden" name="editCityId" id ="editCityId" value="0">
 									<button type="submit" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -453,6 +454,7 @@
 				});
 			}else{
 				var job = {};
+				job["editCityId"] =$("#editCityId").val();
 				job["stateId"] = $("#stateName").val();
 				job["cityName"] = $("#cityName").val();
 				job["cityDescription"] = $("#cityDescription").val();
@@ -521,35 +523,9 @@
 					for(var k =1; k<= Number(i); k++){
 						removeCityDiv(Number(k));
 					}
-					
-					// Removing the values from the state list
-					var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--State Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--State Name"
-						+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-						 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
-							+ 0
-							+ "','State Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- State Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-					var cde = "";
-					for (var i = 0; i < ary.length; i++) {
-						var splittedArray = ary[i].split("_");
-							cde = cde
-									+ "<li data-original-index='"
-									+ Number(Number(i) + Number(1))
-									+ "' id='li"
-									+ Number(Number(i) + Number(1))
-									+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"
-									+ Number(Number(i) + Number(1))
-									+ "','"
-									+ splittedArray[1]
-									+ "','"
-									+ splittedArray[0]
-									+ "')\"><span class=\"text\">"
-									+ splittedArray[1]
-									+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-						
-				}
-					cde = cde + "</ul></div>"
-				
-					$("#stateDiv").html(abc + cde);
+					defaultStateList(true,0,"stateName");
+					$("#plusbtn").attr("disabled", false);
+					fetchAllCities();
 				}
 		}); 
 				
@@ -579,7 +555,7 @@
 								+"<td class=\"text-center\">"+data.listAllCities[i].cityName+"</td>"
 								+"<td class=\"text-center\">"+cityDescription+"</td>"
 								+"<td class=\"text-center\">"+data.listAllCities[i].stateName+"</td>"
-								+"<td class=\"text-center\"><a href=\"\">Edit<a><a href=\"\">Y</a></td></tr>"
+								+"<td class=\"text-center\"><a href=\"#\" onclick=\"editCityById('"+data.listAllCities[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
 							}
 							$("#cityTable > tbody").html(abc);
 						}
@@ -597,6 +573,82 @@
 						});
 				}
 			 }); 
+			
+		}
+		
+		function editCityById(cityId){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchCityById?id="+cityId,
+				data : "",
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+					defaultStateList(false,Number(data.city.stateId),data.city.stateName);
+					$("#cityName").val(data.city.cityName);
+					if(data.city.cityDescription !== null){
+						$("#cityDescription").val(data.city.cityDescription);
+					}
+					$("#plusbtn").attr("disabled", true);
+					$("#stateName").val(data.city.stateId);
+					$("#editCityId").val(data.city.id);
+				},
+				error : function(e) {
+					swal({
+						  title: 'Error!',
+						  text: 'City Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+
+				}
+		}); 
+		}
+		
+		function defaultStateList(isInComplete,stateId,stateName){
+			// Removing the values from the state list
+			var abc ="";
+			if(isInComplete){
+				 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--State Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--State Name"
+					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+					 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
+						+ 0
+						+ "','State Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- State Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			}else{
+				
+				abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=--"+stateName+"-- aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+stateName
+				+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+			}
+			var cde = "";
+			for (var i = 0; i < ary.length; i++) {
+				var splittedArray = ary[i].split("_");
+				var classSelected = ""
+				if(!isInComplete){
+					if(Number(splittedArray[0]) === stateId){
+						classSelected = "class = selected";
+					}
+				}
+					cde = cde
+					+ "<li data-original-index='"
+					+ Number(Number(i) + Number(1))+ "'id='li"+ Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"
+					+ Number(Number(i) + Number(1))
+					+ "','"
+					+ splittedArray[1]
+					+ "','"
+					+ splittedArray[0]
+					+ "')\"><span class=\"text\">"
+					+ splittedArray[1]
+					+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					if(classSelected === "class = selected"){
+						cde = cde + "<li data-original-index=\"0\" id=\"li0\" onclick=\"clickLi('"+ 0+ "','State Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- State Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>";
+					}
+			}
+			cde = cde + "</ul></div>"
+			
+			$("#stateDiv").html(abc + cde);
 			
 		}
 	</script>

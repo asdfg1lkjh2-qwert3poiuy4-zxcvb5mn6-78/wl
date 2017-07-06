@@ -10,4 +10,5 @@ public interface CategoryAvailableService {
 	AdminResponseClass fetchAllCategoryAvailble();
 	AdminResponseClass fetchCategoryAvailableById(long id);
 	List<CategoryAvailable> listFetchAllCategoryAvailble();
+	AdminResponseClass fetchAllCategoryAvailbleForDataTable();
 }

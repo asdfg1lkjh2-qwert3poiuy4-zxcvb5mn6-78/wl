@@ -3,8 +3,10 @@ package com.wedlock.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -26,7 +28,7 @@ public class City implements Serializable{
 	@ManyToOne
 	private State state;
 	
-	@OneToMany(mappedBy="city")
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="city")
 	private List<ZipCode> zipCodes;
 	
 	@OneToMany(mappedBy="city")
@@ -38,6 +40,8 @@ public class City implements Serializable{
 	private String otherCityDetails;
 	@Transient
 	private String stateName;
+	@Transient
+	private long editCityId;
 	
 	//Setters And Getters
 
@@ -116,6 +120,12 @@ public class City implements Serializable{
 		this.stateName = stateName;
 	}
 
-	
-	
+	public long getEditCityId() {
+		return editCityId;
+	}
+
+	public void setEditCityId(long editCityId) {
+		this.editCityId = editCityId;
+	}
+
 }

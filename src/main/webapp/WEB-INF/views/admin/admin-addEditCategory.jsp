@@ -122,6 +122,7 @@
 							<div class="row clearfix">
 								<div class="col-xs-12">
 								<input type="hidden" value="${sessionScope.firstLogin}" id="firstLogin">
+								<input type="hidden" name="editCategoryId" id="editCategoryId" value="0">
 									<button type="submit" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -133,7 +134,7 @@
 
 					<div class="card">
 						<div class="header">
-							<h2>All Departments</h2>
+							<h2>All Listed Categories</h2>
 							<ul class="header-dropdown m-r--5">
 								<li class="dropdown"><a href="javascript:void(0);"
 									class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -149,15 +150,18 @@
 						</div>
 						<div class="body">
 							<table
-								class="table table-bordered table-striped table-hover js-basic-example dataTable">
+								class="table table-bordered table-striped table-hover js-basic-example dataTable" id="categoryTable">
 								<thead>
 									<tr>
-										<th>no</th>
-										<th>Dept. Name</th>
-										<th>Brief</th>
-										<th>Email</th>
-										<th>Phone</th>
-										<th>No. of Students</th>
+										<th class="text-center">Sl.No</th>
+										<th class="text-center">Category Id</th>
+										<th class="text-center">Category Name</th>
+										<th class="text-center">Category Icon</th>
+										<th class="text-center">Package For</th>
+										<th class="text-center">Registration Charge</th>
+										<th class="text-center">Category Url</th>
+										<th class="text-center">isActive</th>
+										<th class="text-center">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -313,7 +317,7 @@
 		
 		//For submit
 		$("#submit").click(function() {
-			if (file1 !== "") {
+			 if (file1 !== "") {
 				if($("#categoryName").val() === ""){
 					swal({
 						  title: 'Warning!',
@@ -397,7 +401,8 @@
 						$("#categoryDescription").val("");
 						$("#categoryUrl").val("");
 						$("#registrationCharge").val("");
-						file1 = "";
+						$("#editCategoryId").val("0");
+						fetchAllCategories();
 						dateTime ="";
 						dateTime = new Date().getTime();    //Creating a new date time for another file to upload
 						
@@ -414,7 +419,7 @@
 					}
 				});
 			  }
-			} else {
+			 }   else {
 				swal({
 					  title: 'Warning!',
 					  text: 'Please Upload Category Icon!!!',
@@ -424,9 +429,98 @@
 					  confirmButtonClass:"btn btn-raised gradient-right",
 					  animation:true
 					});
-			}
+			} 
 		});
 		
+		$(document).ready(function (){
+			fetchAllCategories();
+		});
+		
+		function fetchAllCategories(){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchAllCategoryAvailbleForDatatable",
+				data : "",
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+					if(data.status){
+						$("#categoryTable > tbody").html("");
+						var abc ="";
+						for(var i = 0; i< data.categoryAvailables.length; i++){
+							//var url = "<img src=\"getImage?id="+ data.categoryAvailables[i].iconFile+ "\" class=\"img-responsive\" height=\"60\" width=\"60\">"
+						    var url ="";
+							var active;
+							if(data.categoryAvailables[i].active){
+								active = "Yes";
+							}else{
+								active = "No";
+							}
+							var categoryUrl;
+							if(data.categoryAvailables[i].categoryUrl !=null){
+								categoryUrl = data.categoryAvailables[i].categoryUrl;
+							}else{
+								categoryUrl = "---";
+							}
+							abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+							+"<td class=\"text-center\">"+data.categoryAvailables[i].id+"</td>"
+							+"<td class=\"text-center\">"+data.categoryAvailables[i].categoryName+"</td>"
+							+"<td class=\"text-center\">"+url+"</td>"
+							+"<td class=\"text-center\">"+data.categoryAvailables[i].packageFor+"</td>"
+							+"<td class=\"text-center\">"+data.categoryAvailables[i].registrationCharge+"</td>"
+							+"<td class=\"text-center\">"+categoryUrl+"</td>"
+							+"<td class=\"text-center\">"+active+"</td>"
+							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editCategoryById('"+data.categoryAvailables[i].id+"')\">Edit</a><a href=\"\">Y</a></td></tr>"
+						}
+						$("#categoryTable > tbody").html(abc);
+					}
+				},
+				error : function(e) {
+					alert("Error");
+					swal({
+						  title: 'Error!',
+						  text: 'Category Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+
+				}
+		});
+		}
+		
+		 function editCategoryById(categoryId){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchCategoryAvailableById?id="+categoryId,
+				data : "",
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+					//defaultStateList(false,Number(data.zipCode.stateId),data.zipCode.stateName,Number(data.zipCode.cityId),data.zipCode.cityName);
+					$("#categoryName").val(data.categoryAvailable.categoryName);
+					$("#packageFor").val(data.categoryAvailable.packageFor);
+					$("#registrationCharge").val(data.categoryAvailable.registrationCharge);
+					$("#categoryDescription").val(data.categoryAvailable.categoryDescription); 
+					$("#categoryUrl").val(data.categoryAvailable.categoryUrl);
+					$("#editCategoryId").val(data.categoryAvailable.id);
+				},
+				error : function(e) {
+					swal({
+						  title: 'Error!',
+						  text: 'Category Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+
+				}
+		}); 
+		}
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
 	

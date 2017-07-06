@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.CategoryAvailableDao;
@@ -40,8 +41,8 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 	public AdminResponseClass fetchAllCategoryAvailble() {
 		boolean status = false;
 		
-		//List<CategoryAvailable> listCategoryAvailable = categoryAvailableDao.findAll();
-		Query query = manager.createQuery("Select c from CategoryAvailable c where c.categoryUrl IS NULL");
+		Query query = manager.createQuery("Select c from CategoryAvailable c where c.categoryUrl IS NULL and c.isActive =:isActive");
+		query.setParameter("isActive", Boolean.TRUE);
 		@SuppressWarnings("unchecked")
 		List<CategoryAvailable> listCategoryAvailable = query.getResultList();
 		status = true;
@@ -70,9 +71,18 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 		CategoryAvailable categoryAvailable=categoryAvailableDao.findOne(id);
 		status = true;
 		
+		CategoryAvailable categoryAvailable2 = new CategoryAvailable();
+		categoryAvailable2.setId(categoryAvailable.getId());
+		categoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
+		categoryAvailable2.setCategoryDescription(categoryAvailable.getCategoryDescription());
+		categoryAvailable2.setIconFile(categoryAvailable.getIconFile());
+		categoryAvailable2.setPackageFor(categoryAvailable.getPackageFor());
+		categoryAvailable2.setRegistrationCharge(categoryAvailable.getRegistrationCharge());
+		categoryAvailable2.setActive(categoryAvailable.isActive());
+		
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
-		adminResponseClass.setCategoryAvailable(categoryAvailable);
+		adminResponseClass.setCategoryAvailable(categoryAvailable2);
 		
 		
 		return adminResponseClass;
@@ -95,6 +105,35 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 		}
 		
 		return list;
+	}
+	@Override
+	public AdminResponseClass fetchAllCategoryAvailbleForDataTable() {
+		boolean status = false;
+		
+		List<CategoryAvailable> listCategoryAvailable = categoryAvailableDao.findAll(new Sort(Sort.Direction.ASC, "categoryName"));
+		status = true;
+		
+		List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
+		for(CategoryAvailable categoryAvailable:listCategoryAvailable){
+			CategoryAvailable categoryAvailable2 = new CategoryAvailable();
+			categoryAvailable2.setId(categoryAvailable.getId());
+			categoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
+			categoryAvailable2.setCategoryDescription(categoryAvailable.getCategoryDescription());
+			
+			categoryAvailable2.setPackageFor(categoryAvailable.getPackageFor());
+			categoryAvailable2.setRegistrationCharge(categoryAvailable.getRegistrationCharge());
+			categoryAvailable2.setIconFile(categoryAvailable.getIconFile());
+			
+			categoryAvailable2.setCategoryUrl(categoryAvailable.getCategoryUrl());
+			categoryAvailable2.setActive(categoryAvailable.isActive());
+			list.add(categoryAvailable2);
+		}
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setStatus(status);
+	    
+		adminResponseClass.setCategoryAvailables(list);
+		
+		return adminResponseClass;
 	}
 
 }

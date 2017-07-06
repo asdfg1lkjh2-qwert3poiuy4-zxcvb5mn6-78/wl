@@ -32,7 +32,15 @@ public class ZipCode implements Serializable {
 	
 	@Transient
 	private String otherZipCodeDetails;
-
+	
+	@Transient
+	private String cityName;
+	@Transient
+	private String stateName;
+	@Transient
+	private long stateId;
+	@Transient
+	private long editZipCodeId;
 	// Setters And Getters
 
 	public long getId() {
@@ -90,6 +98,38 @@ public class ZipCode implements Serializable {
 
 	public void setSellerDetails(List<SellerDetails> sellerDetails) {
 		this.sellerDetails = sellerDetails;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getStateName() {
+		return stateName;
+	}
+
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+
+	public long getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(long stateId) {
+		this.stateId = stateId;
+	}
+
+	public long getEditZipCodeId() {
+		return editZipCodeId;
+	}
+
+	public void setEditZipCodeId(long editZipCodeId) {
+		this.editZipCodeId = editZipCodeId;
 	}
 	
 

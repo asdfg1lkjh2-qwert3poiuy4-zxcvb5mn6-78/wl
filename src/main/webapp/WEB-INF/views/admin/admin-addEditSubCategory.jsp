@@ -95,6 +95,7 @@
 							<div class="row clearfix">
 								<div class="col-xs-12">
 								<input type ="hidden" name ="categoryName" id="categoryName" value="">
+								<input type ="hidden" name ="editId" id="editId" value="0">
 									<button type="button" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -122,15 +123,17 @@
 						</div>
 						<div class="body">
 							<table
-								class="table table-bordered table-striped table-hover js-basic-example dataTable">
+								class="table table-bordered table-striped table-hover js-basic-example dataTable" id="subCategoryTable">
 								<thead>
 									<tr>
-										<th>no</th>
-										<th>Dept. Name</th>
-										<th>Brief</th>
-										<th>Email</th>
-										<th>Phone</th>
-										<th>No. of Students</th>
+										<th class="text-center">Sl.No</th>
+										<th class="text-center">Sub Category Id</th>
+										<th class="text-center">Sub Category Name</th>
+										<th class="text-center">Sub Category Description</th>
+										<th class="text-center">Sub Category Url</th>
+										<th class="text-center">Category Name</th>
+										<th class="text-center">isActive</th>
+										<th class="text-center">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -256,6 +259,7 @@
 	
 		$(document).ready(function() {
 			fetchAllCategory();
+			fetchAllSubCategories();
 		});
 		
 		
@@ -283,7 +287,6 @@
 									cde = cde +"</ul></div>"
 									$("#categoryDiv").html(abc + cde);
 							}
-
 						},
 						error : function(e) {
 							alert("Error");
@@ -309,18 +312,15 @@
 			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--"+title1+ "--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"
 			+ title1
 			+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-
 			if(Number(liId) > Number(0)){
 				 var selectedId = $(".selected").attr("id");
 					previouLi = liId;
-
 				abc = abc + "<li data-original-index=\"0\" class=\"\" id=\"li0\" onclick=\"clickLi('"
 						+ 0
 						+ "','Category Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Category Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 				var cde = "";
 				for (var i = 0; i < ary.length; i++) {
 					var splittedArray = ary[i].split("_");
-
 					if (Number(i) === Number(Number(liId) - Number(1))) {
 						cde = cde
 								+ "<li data-original-index='"
@@ -340,12 +340,10 @@
 								+ splittedArray[1]
 								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 					}
-
 				}
 				cde = cde + "</ul></div>"
 				
 				$("#categoryDiv").html(abc + cde);
-
 			} else {
 				$("#li" + previousLi).removeClass("selected");
 				$("#li0").addClass("selected");
@@ -375,16 +373,13 @@
 		cde = cde + "</ul></div>"
 	
 		$("#categoryDiv").html(abc + cde);
-
 			}
 		}
-
 		var i = Number(0); 			//Variable to  know number of times the new div has been added
 		
 		//On click of Add button
 		$("#plusbtn").click(function() {
 			addDiv();
-
 		});
 		
 		//For Adding new div
@@ -455,12 +450,10 @@
 										+ "</div>" + "</div>")
 			}
 		}
-
 		// For removing present div
 		function removeSubCategoryDiv(removeId) {
 			$("#subCategoryName" + removeId).remove();
 		}
-
 		//For Submit 
 		$("#submit")
 				.click(
@@ -503,7 +496,7 @@
 								job["subCategoryName"] = $("#subCategoryName").val();
 								job["subCategoryUrl"] = $("#subCategoryUrl").val();
 								job["subCategoryDescription"] = $("#subCategoryDescription").val();
-								
+								job["editId"] =$("#editId").val();
 								for (var k = 1; k <= Number(i); k++) {
 									if (!(($("#subCategoryName" + k).val() === undefined) && ($("#subCategoryDescription" + k).val() === undefined) && ($("#subCategoryUrl")+ k).val() === undefined)) {
 										if (k === Number(1)) {
@@ -512,10 +505,8 @@
 											job["otherSubCategoryDetails"] = job["otherSubCategoryDetails"]+ "_"+ $("#subCategoryName" + k).val()+ ","+ $("#subCategoryDescription"+ k).val()+ ","+ $("#subCategoryUrl"+ k).val();
 										}
 									}
-
 								}
 								alert(JSON.stringify(job));
-
 								 $
 										.ajax({
 											type : "POST",
@@ -557,43 +548,132 @@
 												for(var k =1; k<= Number(i); k++){
 													removeSubCategoryDiv(Number(k));
 												}
-												
-												// For default select Category List
-												var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Category Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Category Name"
-												+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-												 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
-													+ 0
-													+ "','Category Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Category Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-											var cde = "";
-											for (var i = 0; i < ary.length; i++) {
-												var splittedArray = ary[i].split("_");
-													cde = cde
-															+ "<li data-original-index='"
-															+ Number(Number(i) + Number(1))
-															+ "' id='li"
-															+ Number(Number(i) + Number(1))
-															+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"
-															+ Number(Number(i) + Number(1))
-															+ "','"
-															+ splittedArray[1]
-															+ "','"
-															+ splittedArray[0]
-															+ "')\"><span class=\"text\">"
-															+ splittedArray[1]
-															+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-												
-										}
-											cde = cde + "</ul></div>"
-										
-											$("#categoryDiv").html(abc + cde);
-											
-											fetchSideNavBar();
+												defaultCategoryList(true, "Category Id", "Category Name");
+												fetchSideNavBar();
+												fetchAllSubCategories();
 											}
 										}); 
-
 							}
-
 						}); 
+		function fetchAllSubCategories(){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchAllSubCategoryAvailable",
+				data : "",
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+					if(data.status){
+						$("#subCategoryTable > tbody").html("");
+						var abc ="";
+						for(var i = 0; i< data.subCategoryAvailables.length; i++){
+							var active;
+							if(data.subCategoryAvailables[i].active){
+								active = "Yes"
+							}else{
+								active = "No"
+							}
+							abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].id+"</td>"
+							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].subCategoryName+"</td>"
+							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].subCategoryDescription+"</td>"
+							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].subCategoryUrl+"</td>"
+							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].categoryName+"</td>"
+							+"<td class=\"text-center\">"+active+"</td>"
+							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editSubCategoryById('"+data.subCategoryAvailables[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
+						}
+						$("#subCategoryTable > tbody").html(abc);
+					}
+				},
+				error : function(e) {
+					alert("Error");
+					swal({
+						  title: 'Error!',
+						  text: 'Sub Category Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+
+				}
+		});
+		}
+		function editSubCategoryById(subCategoryId){
+				$.ajax({
+				type : "GET",
+				url : "admin-fetchAllSubCategoryAvailableById?id="+subCategoryId,
+				data : "",
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+					if(data.status){
+						defaultCategoryList(false,Number(data.subCategoryAvailable.categoryId),data.subCategoryAvailable.categoryName);
+						$("#subCategoryName").val(data.subCategoryAvailable.subCategoryName);
+						$("#subCategoryDescription").val(data.subCategoryAvailable.subCategoryDescription);
+						$("#subCategoryUrl").val(data.subCategoryAvailable.subCategoryUrl);
+						$("#plusbtn").prop("disabled",true);
+						$("#categoryName").val(data.subCategoryAvailable.categoryId);
+						$("#editId").val(data.subCategoryAvailable.id);
+					}
+				},
+				error : function(e) {
+					swal({
+						  title: 'Error!',
+						  text: 'Category Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+
+				}
+		}); 
+		}
+		 function defaultCategoryList(isInComplete, categoryId, categoryName){
+			// Removing the values from the category list
+			var abc ="";
+			if(isInComplete){
+				 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Category Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Category Name"
+					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+					 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
+						+ 0
+						+ "','Category Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Category Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			}else{
+				
+				abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=--"+categoryName+"-- aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+categoryName
+				+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+			}
+			var cde = "";
+			for (var i = 0; i < ary.length; i++) {
+				var splittedArray = ary[i].split("_");
+				var classSelected = ""
+				if(!isInComplete){
+					if(Number(splittedArray[0]) === categoryId){
+						classSelected = "class = selected";
+					}
+				}
+					cde = cde
+					+ "<li data-original-index='"
+					+ Number(Number(i) + Number(1))+ "'id='li"+ Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"
+					+ Number(Number(i) + Number(1))
+					+ "','"
+					+ splittedArray[1]
+					+ "','"
+					+ splittedArray[0]
+					+ "')\"><span class=\"text\">"
+					+ splittedArray[1]
+					+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					if(classSelected === "class = selected"){
+						cde = cde + "<li data-original-index=\"0\" id=\"li0\" onclick=\"clickLi('"+ 0+ "','Category Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Category Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>";
+					}
+			}
+			cde = cde + "</ul></div>"
+			
+			$("#categoryDiv").html(abc + cde);
+		} 
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
 

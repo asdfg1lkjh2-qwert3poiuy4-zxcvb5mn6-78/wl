@@ -3,9 +3,12 @@ package com.wedlock.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.StateDao;
@@ -19,7 +22,7 @@ public class StateServiceImpl implements StateService {
 
 	@Autowired
 	private StateDao stateDao;
-
+	
 	@Override
 	public AdminResponseClass saveState(State state) {
 		boolean status = false;
@@ -37,7 +40,7 @@ public class StateServiceImpl implements StateService {
 
 		boolean status = false;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		List<State> listState = stateDao.findAll();
+		List<State> listState = stateDao.findAll(new Sort(Sort.Direction.ASC, "stateName"));
 		status = true;
 
 		

@@ -48,6 +48,7 @@ import com.wedlock.model.AdminDetails;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.ApiResponseClass;
 import com.wedlock.model.City;
+import com.wedlock.model.FlowerType;
 import com.wedlock.model.Occasion;
 import com.wedlock.model.SellerBankDetails;
 import com.wedlock.model.SellerDetails;
@@ -58,6 +59,7 @@ import com.wedlock.model.ZipCode;
 import com.wedlock.service.AdminDetailsService;
 import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CityService;
+import com.wedlock.service.FlowerTypeService;
 import com.wedlock.service.OccasionService;
 import com.wedlock.service.SellerBankDetailsService;
 import com.wedlock.service.SellerService;
@@ -93,6 +95,8 @@ public class AdminController {
 	@Autowired
 	private SellerBankDetailsService sellerBankDetailsService;
 	@Autowired
+	private FlowerTypeService flowerTypeService;
+	@Autowired
 	HttpSession httpSession;
 	
 	final String timeZoneApi = "http://api.timezonedb.com/v2/get-time-zone?key=U33W5JLS2CRZ&format=json&by=zone&zone=Asia/Kolkata";
@@ -123,6 +127,9 @@ public class AdminController {
 	@RequestMapping(value = "/admin-addEditCity", method = RequestMethod.POST)
 	public @ResponseBody boolean addEditCity(@RequestBody City city) {
 		AdminResponseClass adminResponseClass;
+		if(city.getEditCityId()!=0){
+			city.setId(city.getEditCityId());
+		}
 		if(city.getOtherCityDetails() !=null){
 			String cityValues[] = city.getOtherCityDetails().split("_");
 		    adminResponseClass = cityService.saveCity(city,cityValues);
@@ -154,6 +161,9 @@ public class AdminController {
 	/* For PinCode */
 	@RequestMapping(value = "/admin-addEditZipCode", method = RequestMethod.POST)
 	public @ResponseBody boolean addEditZipCode(@RequestBody ZipCode zipcode) {
+		if(zipcode.getEditZipCodeId() != 0){
+			zipcode.setId(zipcode.getEditZipCodeId());
+		}
 		AdminResponseClass adminResponseClass;
 		if(zipcode.getOtherZipCodeDetails() !=null){
 			String zipCodeValues[] = zipcode.getOtherZipCodeDetails().split("_");
@@ -272,7 +282,9 @@ public class AdminController {
 				currentFile.delete();
 			}
 		}
-		
+		if(categoryAvailable.getEditCategoryId() !=0){
+			categoryAvailable.setId(categoryAvailable.getEditCategoryId());
+		}
 		AdminResponseClass adminResponseClass = categoryAvailableService.saveCategoryAvailable(categoryAvailable);
 		return adminResponseClass.isStatus();
 	}
@@ -280,6 +292,12 @@ public class AdminController {
 	@RequestMapping(value = "/admin-fetchAllCategoryAvailble", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchAllCategoryAvailble() {
 		AdminResponseClass adminResponseClass = categoryAvailableService.fetchAllCategoryAvailble();
+		return adminResponseClass;
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllCategoryAvailbleForDatatable", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllCategoryAvailbleForDataTable() {
+		AdminResponseClass adminResponseClass = categoryAvailableService.fetchAllCategoryAvailbleForDataTable();
 		return adminResponseClass;
 	}
 
@@ -313,6 +331,11 @@ public class AdminController {
 
 	@RequestMapping(value = "/admin-addEditSubCategory", method = RequestMethod.POST)
 	public @ResponseBody boolean adminAddEditSubCategory(@RequestBody SubCategoryAvailable subCategory, BindingResult bindingResult) {
+		
+		System.out.println("///SubCategory Id"+subCategory.getEditId());
+		if(subCategory.getEditId() !=0){
+			subCategory.setId(subCategory.getEditId());
+		}
 		AdminResponseClass adminResponseClass;
 		String subCategoryValues[];
 		if(subCategory.getOtherSubCategoryDetails() !=null){
@@ -326,6 +349,19 @@ public class AdminController {
 
 	}
 	
+	@RequestMapping(value = "/admin-fetchAllSubCategoryAvailable", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllSubCategoryAvailable() {
+		AdminResponseClass adminResponseClass = subCategoryAvailableService.fetchAllSubCategoryAvailable();
+		return adminResponseClass;
+
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllSubCategoryAvailableById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllSubCategoryAvailableById(@RequestParam("id") long id) {
+		AdminResponseClass adminResponseClass = subCategoryAvailableService.fetchAllSubCategoryAvailableById(id);
+		return adminResponseClass;
+
+	}
 	/*For Admin Register*/
 	
 	@RequestMapping(value = "/admin-addEditAdminDetails", method = RequestMethod.POST)
@@ -592,5 +628,12 @@ public class AdminController {
 		Path path = Paths.get(rpath);
 		byte[] data = Files.readAllBytes(path);
 		return data;
+	}
+	
+	@RequestMapping(value = "/admin-addEditFlowerType", method= RequestMethod.POST)
+	public @ResponseBody boolean adminAddEditFlowerType(@RequestBody FlowerType flowerType) {
+		AdminResponseClass adminResponseClass = flowerTypeService.saveFlowerType(flowerType);
+		return adminResponseClass.isStatus();
+		
 	}
 }

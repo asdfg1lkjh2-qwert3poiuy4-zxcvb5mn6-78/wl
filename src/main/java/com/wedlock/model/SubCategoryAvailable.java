@@ -33,7 +33,12 @@ public class SubCategoryAvailable implements Serializable{
 	private long categoryId;
 	@Transient
 	private String otherSubCategoryDetails;
-
+	@Transient
+	private String categoryName;
+	
+	@Transient
+	private long editId;
+	
 	//Setters And Getters
 	public long getId() {
 		return id;
@@ -98,8 +103,23 @@ public class SubCategoryAvailable implements Serializable{
 	public void setSubCategoryUrl(String subCategoryUrl) {
 		this.subCategoryUrl = subCategoryUrl;
 	}
-	
-	
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public long getEditId() {
+		return editId;
+	}
+
+	public void setEditId(long editId) {
+		this.editId = editId;
+	}
+
 	
 	
 }
