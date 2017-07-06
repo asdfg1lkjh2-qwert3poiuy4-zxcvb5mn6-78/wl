@@ -69,6 +69,8 @@ public class SellerDetails implements Serializable {
 	
 	@OneToOne(mappedBy="sellerDetails")
 	private SellerBankDetails sellerBankDetails;
+	@OneToOne(mappedBy="sellerDetails")
+	private Flower flower;
 	
 	//Setters And Getters
 	public String getId() {
@@ -309,6 +311,14 @@ public class SellerDetails implements Serializable {
 
 	public void setSellerPassword(String sellerPassword) {
 		this.sellerPassword = sellerPassword;
+	}
+
+	public Flower getFlower() {
+		return flower;
+	}
+
+	public void setFlower(Flower flower) {
+		this.flower = flower;
 	}
 
 	

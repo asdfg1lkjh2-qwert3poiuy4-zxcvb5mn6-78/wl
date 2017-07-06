@@ -1,9 +1,9 @@
 package com.wedlock.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,20 +12,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class FlowerType {
+public class Discount implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private long id;
-	private String name;
-	@Column(columnDefinition = "TEXT")
-	private String description;
-	private boolean status;
+	private boolean isFlat;
+	private double discountAmount;
 	@Temporal(TemporalType.DATE)
 	private Date entryTime;
-	@OneToMany(mappedBy = "flowerType")
-	private List<Flower> flower;
 
+	@OneToMany(mappedBy="discount")
+	private List<Flower> flower;
 	// Setters And Getters
 	public long getId() {
 		return id;
@@ -35,28 +34,28 @@ public class FlowerType {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public boolean isFlat() {
+		return isFlat;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFlat(boolean isFlat) {
+		this.isFlat = isFlat;
 	}
 
-	public String getDescription() {
-		return description;
+	public double getDiscountAmount() {
+		return discountAmount;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDiscountAmount(double discountAmount) {
+		this.discountAmount = discountAmount;
 	}
 
-	public boolean isStatus() {
-		return status;
+	public Date getEntryTime() {
+		return entryTime;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setEntryTime(Date entryTime) {
+		this.entryTime = entryTime;
 	}
 
 	public List<Flower> getFlower() {

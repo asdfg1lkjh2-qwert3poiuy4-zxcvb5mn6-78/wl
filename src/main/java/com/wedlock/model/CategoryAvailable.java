@@ -32,6 +32,10 @@ private static final long serialVersionUID = 1L;
 	@OneToMany(cascade = CascadeType.ALL, fetch =FetchType.EAGER, mappedBy="categoryAvailable")
 	private List<SubCategoryAvailable> subCategoryAvailable;
 	
+	@OneToMany(mappedBy="categoryAvailable")
+	private List<Flower> flower;
+	@OneToMany(mappedBy="categoryAvailable")
+	private List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable;
 	@Transient
 	private String allFiles;
 	
@@ -105,6 +109,18 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setEditCategoryId(long editCategoryId) {
 		this.editCategoryId = editCategoryId;
+	}
+	public List<Flower> getFlower() {
+		return flower;
+	}
+	public void setFlower(List<Flower> flower) {
+		this.flower = flower;
+	}
+	public List<Int_Vat_CategoryAvailable> getInt_Vat_CategoryAvailable() {
+		return int_Vat_CategoryAvailable;
+	}
+	public void setInt_Vat_CategoryAvailable(List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable) {
+		this.int_Vat_CategoryAvailable = int_Vat_CategoryAvailable;
 	}
 	
   
