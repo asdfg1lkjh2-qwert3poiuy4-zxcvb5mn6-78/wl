@@ -206,6 +206,7 @@
 				return this.element.appendChild(this.getFallbackForm());
 			},
 			resize : function(file) {
+				alert(file);
 				var info, srcRatio, trgRatio;
 				info = {
 					srcX : 0,
@@ -274,12 +275,11 @@
 				
 				var node, removeFileEvent, removeLink, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results;
 				if (this.element === this.previewsContainer) {
-					var statusClass;
-					if (checkSubmit === 1){
+					var statusClass="";
 						statusClass = this.element.classList+"";
+						alert(statusClass);
 						statusClass = statusClass.split("_");
 						statusClass = statusClass[1];
-					}
 					var checker = Number(0);
 					if(this.element.classList.contains("_"+statusClass)){
 						this.element.classList.remove("_"+statusClass);
@@ -291,7 +291,9 @@
 					abcs = abcs.split("_");
 					abcs = abcs[1];*/
 					if(checker === 0){
+						
 						if (!($("form.dz-started").hasClass("_" + statusClass))) {
+							alert("In if");
 							this.element.classList.add("_status"
 									+ Number(statusIncrement));
 							statusIncrement = Number(Number(statusIncrement)
@@ -303,7 +305,6 @@
 									
 						}
 					}
-					
 				}
 				if (this.previewsContainer) {
 					file.previewElement = Dropzone
@@ -1117,6 +1118,7 @@
 			var abcs = this.element.classList + "";
 			abcs = abcs.split("_");
 			abcs = abcs[1];
+			alert("In accept"+abcs);
 			if (($("form." + "_" + abcs).attr("id")) === "singleUpload") {
 				done();
 				this.on("addedfile", function() {

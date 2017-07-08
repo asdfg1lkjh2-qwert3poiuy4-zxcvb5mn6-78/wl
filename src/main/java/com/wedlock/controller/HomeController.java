@@ -75,6 +75,9 @@ public class HomeController {
 	public String admiAddEditFlowerType(){
 		return "admin/admin-addEditFlowerType";
 	}
-	
+	@RequestMapping(value ="/admin-viewSeller")
+	public String adminViewSeller(){
+		return "admin/admin-viewSeller";
+	}
 
 }

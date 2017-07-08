@@ -124,6 +124,7 @@
 								<input type="hidden" value="${sessionScope.firstLogin}" id="firstLogin">
 								<input type="hidden" name="editCategoryId" id="editCategoryId" value="0">
 								<input type="hidden" name="packageClick" id="packageClick" value="">
+								<input type="hidden" name="defaultIconFile" id="defaultIconFile" value="">
 									<button type="submit" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -291,30 +292,49 @@
 		var file1="";	 //For storing the unwanted files being uploaded in the server and not in the database
 		var dateTime = new Date().getTime();    //For getting the current time in milli seconds
 		var checkSubmit= 0;     //Marker to check whether the page is refreshed or not
+		var isEdit = 0
 		
 		//Upload and renaming the files being uploaded in dropzone.js
-		Dropzone.options.singleUpload = {
-			url : "singleUpload",
-			init : function() {
-				this.on("success", function(file, response) {
-					var a = this.element.classList+"";
-					a = a.split("_");
-					a = $("form." + "_" + a[1]).parent().attr("class");
-					a = a.split("_");
-					if(file1 === ""){
-						file1 = "Category"+"_"+a[1]+"_"+dateTime+file.name;
-					}else{
-						file1 = file1+","+"Category"+"_"+a[1]+"_"+dateTime+file.name;
+			Dropzone.options.singleUpload = {
+					url : "singleUpload",
+					init : function() {
+						this.on("success", function(file, response) {
+							var a = this.element.classList+"";
+							a = a.split("_");
+							a = $("form." + "_" + a[1]).parent().attr("class");
+							a = a.split("_");
+							if(file1 === "" ){
+								if(isEdit === Number(1)){
+									file1 = "Category"+"_"+a[1]+"_"+$("#defaultIconFile").val(); 
+								}else{
+									file1 = "Category"+"_"+a[1]+"_"+dateTime+file.name;
+								}
+								 
+							}else{
+								file1 = file1+","+"Category"+"_"+a[1]+"_"+dateTime+file.name;
+							}
+						});
+						 if(isEdit === 1){
+							this.on("addedfile", function() {
+								if (this.files[1] != null) {
+									this.removeFile(this.files[0]);
+								}
+							});
+						}
+					},
+					renameFilename : function(fileName) {
+						var classpath = fileName;
+						classpath = classpath.split("_");
+						if(isEdit === 1){
+							return classpath[0];
+						}else{
+							return "Category" + "_"+ dateTime+classpath[0];
+						}
 					}
-				});
-			},
-			renameFilename : function(fileName) {
-				var classpath = fileName;
-				classpath = classpath.split("_");
-				return "Category" + "_"+ dateTime+classpath[0];
-
-			}
-		};
+					
+				};
+		
+	
 		
 		//For submit
 		$("#submit").click(function() {
@@ -362,17 +382,22 @@
 				}else{
 				var job = {};
 				job["categoryName"] = $("#categoryName").val();
-				job["categoryDescription"] = $("#categoryDescription").val();
-				if(checkSubmit === 0){
+				job["editCategoryId"] = $("#editCategoryId").val();
+				if($("#categoryDescription").val() !==""){
+					job["categoryDescription"] = $("#categoryDescription").val();
+				}
+				if($("#packageFor").val() !== undefined){
 					job["packageFor"] = $("#packageFor").val();
 				}else{
 					job["packageFor"] = $("#packageClick").val();
 				}
 				job["registrationCharge"] = $("#registrationCharge").val();
-				job["categoryUrl"] =$("#categoryUrl").val();
+				if($("#categoryUrl").val() !==""){
+					job["categoryUrl"] =$("#categoryUrl").val();
+				}
 				job["allFiles"] = file1; 
 				alert(JSON.stringify(job));
-				$.ajax({
+				  $.ajax({
 					type : "POST",
 					url : "admin-addEditCategoryAvailable",
 					data : JSON.stringify(job),
@@ -408,6 +433,8 @@
 						$("#categoryUrl").val("");
 						$("#registrationCharge").val("");
 						$("#editCategoryId").val("0");
+						file1 = "";
+						$("#defaultIconFile").val("");
 						fetchAllCategories();
 						dateTime ="";
 						dateTime = new Date().getTime();    //Creating a new date time for another file to upload
@@ -432,7 +459,7 @@
 						checkSubmit = 1;
 							
 					}
-				});
+				});  
 			  }
 			 }   else {
 				swal({
@@ -463,8 +490,7 @@
 						$("#categoryTable > tbody").html("");
 						var abc ="";
 						for(var i = 0; i< data.categoryAvailables.length; i++){
-							//var url = "<img src=\"getImage?id="+ data.categoryAvailables[i].iconFile+ "\" class=\"img-responsive\" height=\"60\" width=\"60\">"
-						    var url ="";
+							var url = "<img src=\"getImage?id="+ data.categoryAvailables[i].iconFile+ "\" class=\"img-responsive\" height=\"60\" width=\"60\">"
 							var active;
 							if(data.categoryAvailables[i].active){
 								active = "Yes";
@@ -514,13 +540,35 @@
 				processData : false,
 				contentType :"application/json",
 				success : function(data) {
+					isEdit = 1;
 					//defaultStateList(false,Number(data.zipCode.stateId),data.zipCode.stateName,Number(data.zipCode.cityId),data.zipCode.cityName);
 					$("#categoryName").val(data.categoryAvailable.categoryName);
-					$("#packageFor").val(data.categoryAvailable.packageFor);
+					packageClick(data.categoryAvailable.packageFor);
+					//$("#packageFor").val(data.categoryAvailable.packageFor);
 					$("#registrationCharge").val(data.categoryAvailable.registrationCharge);
 					$("#categoryDescription").val(data.categoryAvailable.categoryDescription); 
 					$("#categoryUrl").val(data.categoryAvailable.categoryUrl);
 					$("#editCategoryId").val(data.categoryAvailable.id);
+					
+					var editImage = data.categoryAvailable.iconFile;
+					editImage = editImage.split("/");
+					$("#defaultIconFile").val(editImage[2]);
+					Dropzone.forElement("#singleUpload").destroy();
+					var file = {
+						    name: editImage[2],
+						    size: 4096,
+						    status: Dropzone.ADDED,
+						    accepted: true
+						};
+						var myDropzone = new Dropzone("#singleUpload",{clickable:false})
+						myDropzone.emit("addedfile", file);  
+						myDropzone.emit("thumbnail", file, "getImage?id="+data.categoryAvailable.iconFile);
+						myDropzone.emit("processing",file);
+						myDropzone.emit("success",file);
+						myDropzone.emit("complete", file);
+						myDropzone.files.push(file);
+						
+					
 				},
 				error : function(e) {
 					swal({
@@ -533,11 +581,12 @@
 						  animation:true
 						});
 
+				},complete:function (){
+					isEdit = 0;
 				}
 		}); 
 		}
 		function packageClick(str){
-			if(checkSubmit === 1){
 				$("#packageClick").val(str);
 				var clicked;
 				$("#packageDiv").html("");
@@ -555,7 +604,7 @@
 					+clicked
 					+"</div>"
 				$("#packageDiv").html(abc);	
-			}
+			
 		} 
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>

@@ -5,5 +5,6 @@ import com.wedlock.model.SellerDetails;
 
 public interface SellerService {
 	AdminResponseClass addEditSellerDetails(SellerDetails sellerDetails);
+	AdminResponseClass fetchAllSellers();
 	AdminResponseClass findLastSellerId ();
 }

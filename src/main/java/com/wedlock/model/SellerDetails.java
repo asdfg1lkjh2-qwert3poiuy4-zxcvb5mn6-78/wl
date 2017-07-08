@@ -72,6 +72,16 @@ public class SellerDetails implements Serializable {
 	@OneToOne(mappedBy="sellerDetails")
 	private Flower flower;
 	
+	@Transient
+	private String stateName;
+	@Transient
+	private String cityName;
+	@Transient
+	private String zipCodeName;
+	
+	@Transient
+	private String sellerRegisterDate;
+	
 	//Setters And Getters
 	public String getId() {
 		return id;
@@ -319,6 +329,38 @@ public class SellerDetails implements Serializable {
 
 	public void setFlower(Flower flower) {
 		this.flower = flower;
+	}
+
+	public String getStateName() {
+		return stateName;
+	}
+
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getZipCodeName() {
+		return zipCodeName;
+	}
+
+	public void setZipCodeName(String zipCodeName) {
+		this.zipCodeName = zipCodeName;
+	}
+
+	public String getSellerRegisterDate() {
+		return sellerRegisterDate;
+	}
+
+	public void setSellerRegisterDate(String sellerRegisterDate) {
+		this.sellerRegisterDate = sellerRegisterDate;
 	}
 
 	

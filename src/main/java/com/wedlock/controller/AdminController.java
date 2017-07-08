@@ -216,7 +216,6 @@ public class AdminController {
 		String fileName[] = singleUploadFile.getOriginalFilename().split("_");
 		String folderName = fileName[0];
 		
-
 		/*
 		 * try { ServletContext context = request.getServletContext(); String
 		 * uploadPath = context.getRealPath("/" + folderName); File uploadDir =
@@ -611,7 +610,13 @@ public class AdminController {
 		return adminResponseClass.isStatus();
 		/*return true;*/
 	}
+	@RequestMapping(value = "/admin-fetchAllSellers", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllSellers(){
+		AdminResponseClass adminResponseClass = sellerService.fetchAllSellers();
+		return adminResponseClass;
+	}
 
+	
 	@RequestMapping(value = "/getImage")
 	@ResponseBody
 	public byte[] getImage(@RequestParam("id") String id, HttpServletRequest request) throws IOException {

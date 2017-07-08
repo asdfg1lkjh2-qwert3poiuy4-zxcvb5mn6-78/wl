@@ -21,7 +21,7 @@
             <li id="sellerLi"><a href="javascript:void(0);" id="sellerLinkLi" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Seller Details</span> </a>
              <ul class="ml-menu font-list" id= "sellerUl">                        
                     <li><a href="admin-addEditSeller" id="showSubSellerLi1">Add Seller</a></li>
-                    <li><a href="viewSeller" id="showSubSellerLi2">View Seller</a></li>
+                    <li><a href="admin-viewSeller" id="showSubSellerLi2">View Seller</a></li>
                     <li><a href="deactivateSeller" id="showSubSellerLi3">Deactivate Seller</a></li>
                 </ul>
             </li>
