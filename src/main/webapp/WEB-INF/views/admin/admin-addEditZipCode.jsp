@@ -371,7 +371,10 @@
 	$("#stateDiv").html(abc + cde);
 
 		}
-		fetchAllCitiesById(false,stateId,"CityName","cityId");   //Fetching all cities by state Id
+		if(stateId !== undefined){
+			fetchAllCitiesById(false,stateId,"CityName","cityId");    //Fetching all cities by state Id
+		}
+		
 	}
 
 	var i = Number(0); 			//Variable to  know number of times the new div has been added
@@ -595,7 +598,7 @@
 		});  
 	     
 	// Function to fetch all cities by state Id
-	     function fetchAllCitiesById(isForEdit,stateId,cityName,cityId){
+	     function fetchAllCitiesById(isForEdit,stateId,cityId,cityName){
 	    	 $.ajax({
 					type : "GET",
 					url : "admin-fetchCityByStateId?id="+stateId,

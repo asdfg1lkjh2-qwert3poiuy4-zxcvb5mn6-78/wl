@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -50,6 +51,11 @@ public class SellerDetails implements Serializable {
 	private String sellerImg;
 	@Temporal(TemporalType.DATE)
 	private Date entryTime;
+	@Temporal(TemporalType.DATE)
+	private Date sellerRegistrationEnd;
+	@Temporal(TemporalType.DATE)
+	private Date sellerRegistrationStart;
+	private String typeOfSeller;
 	private boolean isActive;
 
 	@Transient
@@ -71,6 +77,10 @@ public class SellerDetails implements Serializable {
 	private SellerBankDetails sellerBankDetails;
 	@OneToOne(mappedBy="sellerDetails")
 	private Flower flower;
+	@OneToMany(mappedBy="sellerDetails")
+	private List<SellerInactiveDetails> sellerInactiveDetails;
+	@ManyToOne
+	private AdminDetails adminDetails;
 	
 	@Transient
 	private String stateName;
@@ -78,9 +88,13 @@ public class SellerDetails implements Serializable {
 	private String cityName;
 	@Transient
 	private String zipCodeName;
+	@Transient
+	private String zipCodeLocality;
+	@Transient
+	private String sellerDOB;
 	
 	@Transient
-	private String sellerRegisterDate;
+	private String editSellerId;
 	
 	//Setters And Getters
 	public String getId() {
@@ -355,12 +369,68 @@ public class SellerDetails implements Serializable {
 		this.zipCodeName = zipCodeName;
 	}
 
-	public String getSellerRegisterDate() {
-		return sellerRegisterDate;
+	public String getZipCodeLocality() {
+		return zipCodeLocality;
 	}
 
-	public void setSellerRegisterDate(String sellerRegisterDate) {
-		this.sellerRegisterDate = sellerRegisterDate;
+	public void setZipCodeLocality(String zipCodeLocality) {
+		this.zipCodeLocality = zipCodeLocality;
+	}
+
+	public String getSellerDOB() {
+		return sellerDOB;
+	}
+
+	public void setSellerDOB(String sellerDOB) {
+		this.sellerDOB = sellerDOB;
+	}
+
+	public String getEditSellerId() {
+		return editSellerId;
+	}
+
+	public void setEditSellerId(String editSellerId) {
+		this.editSellerId = editSellerId;
+	}
+
+	public Date getSellerRegistrationEnd() {
+		return sellerRegistrationEnd;
+	}
+
+	public void setSellerRegistrationEnd(Date sellerRegistrationEnd) {
+		this.sellerRegistrationEnd = sellerRegistrationEnd;
+	}
+
+	public String getTypeOfSeller() {
+		return typeOfSeller;
+	}
+
+	public void setTypeOfSeller(String typeOfSeller) {
+		this.typeOfSeller = typeOfSeller;
+	}
+
+	public List<SellerInactiveDetails> getSellerInactiveDetails() {
+		return sellerInactiveDetails;
+	}
+
+	public void setSellerInactiveDetails(List<SellerInactiveDetails> sellerInactiveDetails) {
+		this.sellerInactiveDetails = sellerInactiveDetails;
+	}
+
+	public Date getSellerRegistrationStart() {
+		return sellerRegistrationStart;
+	}
+
+	public void setSellerRegistrationStart(Date sellerRegistrationStart) {
+		this.sellerRegistrationStart = sellerRegistrationStart;
+	}
+
+	public AdminDetails getAdminDetails() {
+		return adminDetails;
+	}
+
+	public void setAdminDetails(AdminDetails adminDetails) {
+		this.adminDetails = adminDetails;
 	}
 
 	

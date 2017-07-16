@@ -285,7 +285,6 @@
 						this.element.classList.remove("_"+statusClass);
 						checker = Number(1);
 					}
-					
 					this.element.classList.add("dz-started");
 					/*var abcs = this.element.classList + "";
 					abcs = abcs.split("_");

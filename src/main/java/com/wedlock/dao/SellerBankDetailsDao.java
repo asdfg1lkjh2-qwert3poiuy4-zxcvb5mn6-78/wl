@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.wedlock.model.SellerBankDetails;
 
-public interface SellerBankDetailsDao extends JpaRepository<SellerBankDetails, String>{
+public interface SellerBankDetailsDao extends JpaRepository<SellerBankDetails, Long>{
 
 }

@@ -36,6 +36,7 @@ import com.wedlock.model.FlowerType;
 import com.wedlock.model.Occasion;
 import com.wedlock.model.SellerBankDetails;
 import com.wedlock.model.SellerDetails;
+import com.wedlock.model.SellerInactiveDetails;
 import com.wedlock.model.State;
 import com.wedlock.model.SubCategoryAvailable;
 import com.wedlock.model.ZipCode;
@@ -45,6 +46,7 @@ import com.wedlock.service.CityService;
 import com.wedlock.service.FlowerTypeService;
 import com.wedlock.service.OccasionService;
 import com.wedlock.service.SellerBankDetailsService;
+import com.wedlock.service.SellerInactiveService;
 import com.wedlock.service.SellerService;
 import com.wedlock.service.StateService;
 import com.wedlock.service.SubCategoryAvailableService;
@@ -76,6 +78,8 @@ public class AdminController {
 	private SellerService sellerService;
 	@Autowired
 	private SellerBankDetailsService sellerBankDetailsService;
+	@Autowired
+	private SellerInactiveService sellerInactiveService;
 	@Autowired
 	private FlowerTypeService flowerTypeService;
 	@Autowired
@@ -469,143 +473,180 @@ public class AdminController {
 		/*System.out.println("////In servlet");
 		System.out.println("////Object Node is"+sellerDetails.get("sellerFirstName").asText() +" "+sellerDetails.get("sellerLastName").asText()+" "+sellerDetails.get("sellerContactNumber").asText());*/
 		System.out.println("/////In servlet");
-		SellerDetails sellerDetails = new SellerDetails();
-		sellerDetails.setSellerFirstName(objectNode.get("sellerFirstName").asText());
-		sellerDetails.setSellerLastName(objectNode.get("sellerLastName").asText());
-		sellerDetails.setSellerContactNumber(objectNode.get("sellerContactNumber").asText());
-		sellerDetails.setSellerAlternateNumber(objectNode.get("sellerAlternateNumber").asText());
-		sellerDetails.setSellerPresentAddress(objectNode.get("sellerPresentAddress").asText());
-		sellerDetails.setSellerPermanentAddress(objectNode.get("sellerPermanentAddress").asText());
-		sellerDetails.setSellerEmailId(objectNode.get("sellerEmailId").asText());
-		sellerDetails.setSellerPassword(objectNode.get("sellerPassword").asText());
-		sellerDetails.setStateId(objectNode.get("stateId").asLong());
-		sellerDetails.setCityId(objectNode.get("cityId").asLong());
-		sellerDetails.setZipCodeId(objectNode.get("zipCodeId").asLong());
-		
-		String sellerDate = objectNode.get("sellerDateOfBirth").asText();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		sellerDetails.setSellerDateOfBirth(simpleDateFormat.parse(sellerDate));
-		
-		sellerDetails.setSellerGender(objectNode.get("sellerGender").asText());
-		sellerDetails.setSellerCompanyName(objectNode.get("sellerCompanyName").asText());
-		sellerDetails.setSellerAddressProof(objectNode.get("sellerAddressProof").asText());
-		sellerDetails.setSellerIdProof(objectNode.get("sellerIdProof").asText());
-		
-		sellerDetails.setAddressProofFiles(objectNode.get("addressProofFiles").asText());
-		sellerDetails.setIdProofFiles(objectNode.get("idProofFiles").asText());
-		sellerDetails.setSellerImageFiles(objectNode.get("sellerImageFiles").asText());
-		
-		String addressProofFiles[] = sellerDetails.getAddressProofFiles().split(","); 
-		String idProofFiles[] = sellerDetails.getIdProofFiles().split(",");
-		String sellerImageFiles[] = sellerDetails.getSellerImageFiles().split(",");
-		
-		ServletContext context = request.getServletContext();
-		for(int i = 0; i<addressProofFiles.length;i++){
-			String subAddressProofFiles[] = addressProofFiles[i].split("_");
-			if (i == (addressProofFiles.length - 1)) {
-				String uploadPath = context.getRealPath("/" + subAddressProofFiles[0]);
-				File uploadDir = new File(uploadPath);
-				if (uploadDir.exists()) {
-
-					File upLoadSubFolder = new File(uploadDir + "/" + subAddressProofFiles[1] + "_"
-							+ sellerDetails.getSellerFirstName() + "_" + sellerDetails.getSellerContactNumber());
-					if (!upLoadSubFolder.exists()) {
-						boolean success = upLoadSubFolder.mkdir();
-					}
-					
-				}
-				
-				File file = new File(context.getRealPath("/" + subAddressProofFiles[0] + "/temp/" + subAddressProofFiles[2].trim()));
-				file.renameTo(new File(context.getRealPath("/" + subAddressProofFiles[0] + "/" + subAddressProofFiles[1]+ "_" + sellerDetails.getSellerFirstName() + "_" + sellerDetails.getSellerContactNumber() + "/"+ subAddressProofFiles[2].trim())));
-				sellerDetails.setSellerAddressProofImg(subAddressProofFiles[0] + "/" + subAddressProofFiles[1]+ "_" + sellerDetails.getSellerFirstName() + "_" + sellerDetails.getSellerContactNumber() + "/"+ subAddressProofFiles[2].trim());
-			}else{
-				File currentFile = new File(context.getRealPath("/" + subAddressProofFiles[0] + "/temp/" + subAddressProofFiles[2].trim()));
-				currentFile.delete();
-			}
-		}
-		
-		for(int i = 0; i<idProofFiles.length;i++){
-			String subIdProofFiles[] = idProofFiles[i].split("_");
-			if (i == (idProofFiles.length - 1)) {
-				String uploadPath = context.getRealPath("/" + subIdProofFiles[0]);
-				File uploadDir = new File(uploadPath);
-				if (uploadDir.exists()) {
-
-					File upLoadSubFolder = new File(uploadDir + "/" + subIdProofFiles[1] + "_"+ sellerDetails.getSellerFirstName() + "_" + sellerDetails.getSellerContactNumber());
-					if (!upLoadSubFolder.exists()) {
-						boolean success = upLoadSubFolder.mkdir();
-					}
-					
-				}
-				
-				File file = new File(context.getRealPath("/" + subIdProofFiles[0] + "/temp/" + subIdProofFiles[2].trim()));
-				file.renameTo(new File(context.getRealPath("/" + subIdProofFiles[0] + "/" + subIdProofFiles[1]+ "_" + sellerDetails.getSellerFirstName() + "_" + sellerDetails.getSellerContactNumber() + "/"+ subIdProofFiles[2].trim())));
-				sellerDetails.setSellerIdProofImg(subIdProofFiles[0] + "/" + subIdProofFiles[1]+ "_" + sellerDetails.getSellerFirstName() + "_" + sellerDetails.getSellerContactNumber() + "/"+ subIdProofFiles[2].trim());
-			}else{
-				File currentFile = new File(context.getRealPath("/" + subIdProofFiles[0] + "/temp/" + subIdProofFiles[2].trim()));
-				currentFile.delete();
-			}
-		}
-		
-		for(int i = 0; i<sellerImageFiles.length;i++){
-			String subSellerImageFiles[] = sellerImageFiles[i].split("_");
-			System.out.println("////SubFolderSellerImage"+subSellerImageFiles[2].trim()+"  Length is"+sellerImageFiles.length);
-			if (i == (sellerImageFiles.length - 1)) {
-				String uploadPath = context.getRealPath("/" + subSellerImageFiles[0]);
-				File uploadDir = new File(uploadPath);
-				if (uploadDir.exists()) {
-
-					File upLoadSubFolder = new File(uploadDir + "/" + subSellerImageFiles[1] + "_"+ sellerDetails.getSellerFirstName() + "_" + sellerDetails.getSellerContactNumber());
-					if (!upLoadSubFolder.exists()) {
-						boolean success = upLoadSubFolder.mkdir();
-					}
-					
-				}
-				
-				File file = new File(context.getRealPath("/" + subSellerImageFiles[0] + "/temp/" + subSellerImageFiles[2].trim()));
-				System.out.println("////File is" + file);
-				file.renameTo(new File(context.getRealPath("/" + subSellerImageFiles[0] + "/" + subSellerImageFiles[1]+ "_" + sellerDetails.getSellerFirstName() + "_" + sellerDetails.getSellerContactNumber() + "/"+ subSellerImageFiles[2].trim())));
-				System.out.println("////Rename file is" + new File(context.getRealPath("/" + subSellerImageFiles[0] + "/"+ subSellerImageFiles[1] + "_" + sellerDetails.getSellerFirstName() + "_"+ sellerDetails.getSellerContactNumber() + "/" + subSellerImageFiles[2].trim())));
-				sellerDetails.setSellerImg(subSellerImageFiles[0] + "/"+ subSellerImageFiles[1] + "_" + sellerDetails.getSellerFirstName() + "_"+ sellerDetails.getSellerContactNumber() + "/" + subSellerImageFiles[2].trim());
-			}else{
-				File currentFile = new File(context.getRealPath("/" + subSellerImageFiles[0] + "/temp/" + subSellerImageFiles[2].trim()));
-				currentFile.delete();
-			}
-		}
-		AdminResponseClass adminResponseClass = sellerService.findLastSellerId();
-		if(adminResponseClass.getLastId().equals("0")){
-			String id = createId.IdGeneration("SELLER0");
-			sellerDetails.setId(id);
-		}else{
-			String id = createId.IdGeneration(adminResponseClass.getLastId());
-			sellerDetails.setId(id);
-		}
-		adminResponseClass =sellerService.addEditSellerDetails(sellerDetails);
+		AdminResponseClass adminResponseClass = sellerService.findSellerByEmailAndContactNo(objectNode.get("sellerEmailId").asText(), objectNode.get("sellerContactNumber").asText(), objectNode.get("editSellerId").asText());
+		System.out.println("Admin Response Class"+adminResponseClass.isStatus());
 		if(adminResponseClass.isStatus()){
-			/*String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
-			String phoneNumber = sellerDetails.getSellerContactNumber();
-			URL url = new URL(smsApi.sendSms(mssg, phoneNumber));
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			ApiResponseClass apiResponseClass = objectMapper.readValue(url, ApiResponseClass.class);
-			if(apiResponseClass.getTotal_sms() == 0){
-				adminResponseClass.setStatus(Boolean.FALSE);
-			}
-			*/
-			if(objectNode.get("hasValue").asInt() == 1){
-				SellerBankDetails sellerBankDetails = new SellerBankDetails();
+			SellerDetails sellerDetails = new SellerDetails();
+			sellerDetails.setSellerFirstName(objectNode.get("sellerFirstName").asText());
+			sellerDetails.setSellerLastName(objectNode.get("sellerLastName").asText());
+			sellerDetails.setSellerContactNumber(objectNode.get("sellerContactNumber").asText());
+			sellerDetails.setSellerAlternateNumber(objectNode.get("sellerAlternateNumber").asText());
+			sellerDetails.setEditSellerId(objectNode.get("editSellerId").asText());
+			sellerDetails.setSellerPresentAddress(objectNode.get("sellerPresentAddress").asText());
+			sellerDetails.setSellerPermanentAddress(objectNode.get("sellerPermanentAddress").asText());
+			sellerDetails.setSellerEmailId(objectNode.get("sellerEmailId").asText());
+			sellerDetails.setSellerPassword(objectNode.get("sellerPassword").asText());
+			sellerDetails.setStateId(objectNode.get("stateId").asLong());
+			sellerDetails.setCityId(objectNode.get("cityId").asLong());
+			sellerDetails.setZipCodeId(objectNode.get("zipCodeId").asLong());
+			
+			String sellerDate = objectNode.get("sellerDateOfBirth").asText();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			sellerDetails.setSellerDateOfBirth(simpleDateFormat.parse(sellerDate));
+			
+			sellerDetails.setSellerGender(objectNode.get("sellerGender").asText());
+			sellerDetails.setSellerCompanyName(objectNode.get("sellerCompanyName").asText());
+			sellerDetails.setSellerAddressProof(objectNode.get("sellerAddressProof").asText());
+			sellerDetails.setSellerIdProof(objectNode.get("sellerIdProof").asText());
+			
+			sellerDetails.setAddressProofFiles(objectNode.get("addressProofFiles").asText());
+			sellerDetails.setIdProofFiles(objectNode.get("idProofFiles").asText());
+			sellerDetails.setSellerImageFiles(objectNode.get("sellerImageFiles").asText());
+			
+			if(!(sellerDetails.getEditSellerId().equals(""))){
+				sellerDetails.setId(sellerDetails.getEditSellerId());
 				
-				sellerBankDetails.setAccountHolderName(objectNode.get("accountHolderName").asText());
-				sellerBankDetails.setAccountNumber(objectNode.get("accountNumber").asText());
-				sellerBankDetails.setIfscCode(objectNode.get("ifscCode").asText());
-				sellerBankDetails.setBranchCode(objectNode.get("branchCode").asText());
-				sellerBankDetails.setBranchName(objectNode.get("branchName").asText());
-				sellerBankDetails.setSellerId(sellerDetails.getId());
-				
-				adminResponseClass = sellerBankDetailsService.saveSellerBankDetails(sellerBankDetails);
+			}else{
+					adminResponseClass = sellerService.findLastSellerId();
+					if(adminResponseClass.getLastId().equals("0")){
+						String id = createId.IdGeneration("SELLER0");
+						sellerDetails.setId(id);
+					}else{
+						String id = createId.IdGeneration(adminResponseClass.getLastId());
+						sellerDetails.setId(id);
+					}
 			}
 			
+				String addressProofFiles[] = sellerDetails.getAddressProofFiles().split(","); 
+				String idProofFiles[] = sellerDetails.getIdProofFiles().split(",");
+				String sellerImageFiles[] = sellerDetails.getSellerImageFiles().split(",");
+				
+				
+				ServletContext context = request.getServletContext();
+				for(int i = 0; i<addressProofFiles.length;i++){
+					String subAddressProofFiles[] = addressProofFiles[i].split("_");
+					if (i == (addressProofFiles.length - 1)) {
+						String uploadPath = context.getRealPath("/" + subAddressProofFiles[0]);
+						File uploadDir = new File(uploadPath);
+						if (uploadDir.exists()) {
+
+							File upLoadSubFolder = new File(uploadDir + "/" + subAddressProofFiles[1] + "_"+ sellerDetails.getId());
+							if (!upLoadSubFolder.exists()) {
+								boolean success = upLoadSubFolder.mkdir();
+							}
+							
+						}
+						
+						File file = new File(context.getRealPath("/" + subAddressProofFiles[0] + "/temp/" + subAddressProofFiles[2].trim()));
+						file.renameTo(new File(context.getRealPath("/" + subAddressProofFiles[0] + "/" + subAddressProofFiles[1]+ "_" + sellerDetails.getId() + "/"+ subAddressProofFiles[2].trim())));
+						sellerDetails.setSellerAddressProofImg(subAddressProofFiles[0] + "/" + subAddressProofFiles[1]+ "_" + sellerDetails.getId() + "/"+ subAddressProofFiles[2].trim());
+					}else{
+						File currentFile = new File(context.getRealPath("/" + subAddressProofFiles[0] + "/temp/" + subAddressProofFiles[2].trim()));
+						currentFile.delete();
+					}
+				}
+				
+				for(int i = 0; i<idProofFiles.length;i++){
+					String subIdProofFiles[] = idProofFiles[i].split("_");
+					if (i == (idProofFiles.length - 1)) {
+						String uploadPath = context.getRealPath("/" + subIdProofFiles[0]);
+						File uploadDir = new File(uploadPath);
+						if (uploadDir.exists()) {
+
+							File upLoadSubFolder = new File(uploadDir + "/" + subIdProofFiles[1] + "_"+ sellerDetails.getId());
+							if (!upLoadSubFolder.exists()) {
+								boolean success = upLoadSubFolder.mkdir();
+							}
+							
+						}
+						
+						File file = new File(context.getRealPath("/" + subIdProofFiles[0] + "/temp/" + subIdProofFiles[2].trim()));
+						file.renameTo(new File(context.getRealPath("/" + subIdProofFiles[0] + "/" + subIdProofFiles[1]+ "_" + sellerDetails.getId() + "/"+ subIdProofFiles[2].trim())));
+						sellerDetails.setSellerIdProofImg(subIdProofFiles[0] + "/" + subIdProofFiles[1]+ "_" + sellerDetails.getId() + "/"+ subIdProofFiles[2].trim());
+					}else{
+						File currentFile = new File(context.getRealPath("/" + subIdProofFiles[0] + "/temp/" + subIdProofFiles[2].trim()));
+						currentFile.delete();
+					}
+				}
+				
+				for(int i = 0; i<sellerImageFiles.length;i++){
+					String subSellerImageFiles[] = sellerImageFiles[i].split("_");
+					System.out.println("////SubFolderSellerImage"+subSellerImageFiles[2].trim()+"  Length is"+sellerImageFiles.length);
+					if (i == (sellerImageFiles.length - 1)) {
+						String uploadPath = context.getRealPath("/" + subSellerImageFiles[0]);
+						File uploadDir = new File(uploadPath);
+						if (uploadDir.exists()) {
+
+							File upLoadSubFolder = new File(uploadDir + "/" + subSellerImageFiles[1] + "_"+sellerDetails.getId());
+							if (!upLoadSubFolder.exists()) {
+								boolean success = upLoadSubFolder.mkdir();
+							}
+							
+						}
+						
+						File file = new File(context.getRealPath("/" + subSellerImageFiles[0] + "/temp/" + subSellerImageFiles[2].trim()));
+						System.out.println("////File is" + file);
+						file.renameTo(new File(context.getRealPath("/" + subSellerImageFiles[0] + "/" + subSellerImageFiles[1]+ "_" + sellerDetails.getId() + "/"+ subSellerImageFiles[2].trim())));
+						System.out.println("////Rename file is" + new File(context.getRealPath("/" + subSellerImageFiles[0] + "/"+ subSellerImageFiles[1] + "_" + sellerDetails.getId() + "/" + subSellerImageFiles[2].trim())));
+						sellerDetails.setSellerImg(subSellerImageFiles[0] + "/"+ subSellerImageFiles[1] + "_" + sellerDetails.getId() + "/" + subSellerImageFiles[2].trim());
+					}else{
+						File currentFile = new File(context.getRealPath("/" + subSellerImageFiles[0] + "/temp/" + subSellerImageFiles[2].trim()));
+						currentFile.delete();
+					}
+				}
+				
+				
+				String isEdit;
+				if(!(sellerDetails.getEditSellerId().equals(""))){
+					isEdit = "Yes";
+				}else{
+					isEdit = "No";
+				}
+				AdminDetails adminDetails =(AdminDetails)httpSession.getAttribute("adminDetailsSession");
+				sellerDetails.setAdminDetails(adminDetails);
+				adminResponseClass =sellerService.addEditSellerDetails(sellerDetails,isEdit);
+				if(adminResponseClass.isStatus()){
+					/*String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
+					String phoneNumber = sellerDetails.getSellerContactNumber();
+					URL url = new URL(smsApi.sendSms(mssg, phoneNumber));
+					ObjectMapper objectMapper = new ObjectMapper();
+					objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+					ApiResponseClass apiResponseClass = objectMapper.readValue(url, ApiResponseClass.class);
+					if(apiResponseClass.getTotal_sms() == 0){
+						adminResponseClass.setStatus(Boolean.FALSE);
+					}*/
+					
+					if(objectNode.get("hasValue").asInt() == 1){
+						SellerBankDetails sellerBankDetails = new SellerBankDetails();
+						
+						sellerBankDetails.setEditSellerBankDetailsId(objectNode.get("editSellerBankDetailsId").asLong());
+						if(sellerBankDetails.getEditSellerBankDetailsId() !=0){
+							sellerBankDetails.setId(sellerBankDetails.getEditSellerBankDetailsId());
+						}
+						sellerBankDetails.setAccountHolderName(objectNode.get("accountHolderName").asText());
+						sellerBankDetails.setAccountNumber(objectNode.get("accountNumber").asText());
+						sellerBankDetails.setIfscCode(objectNode.get("ifscCode").asText());
+						sellerBankDetails.setBranchCode(objectNode.get("branchCode").asText());
+						sellerBankDetails.setBranchName(objectNode.get("branchName").asText());
+						sellerBankDetails.setSellerId(sellerDetails.getId());
+						
+						adminResponseClass = sellerBankDetailsService.saveSellerBankDetails(sellerBankDetails);
+					}
+					if(objectNode.get("sellerInactive").asText().equals("")){
+						SellerInactiveDetails sellerInactiveDetails = new SellerInactiveDetails();
+						sellerInactiveDetails.setSellerId(sellerDetails.getId());
+						adminResponseClass = sellerInactiveService.saveSellerInactive(sellerInactiveDetails,"Active");
+					}else{
+						SellerInactiveDetails sellerInactiveDetails = new SellerInactiveDetails();
+						sellerInactiveDetails.setInactiveReason(objectNode.get("sellerInactive").asText());
+						sellerInactiveDetails.setSellerId(sellerDetails.getId());
+						sellerInactiveDetails.setAdminDetails(adminDetails);
+						adminResponseClass = sellerInactiveService.saveSellerInactive(sellerInactiveDetails,"Inactive");
+					}
+				  
+				}
 		}
+		
 		
 		return adminResponseClass.isStatus();
 		/*return true;*/
@@ -615,7 +656,12 @@ public class AdminController {
 		AdminResponseClass adminResponseClass = sellerService.fetchAllSellers();
 		return adminResponseClass;
 	}
+	@RequestMapping(value = "/admin-fetchAllSellersById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllSellersById(@RequestParam("id") String id) {
+		AdminResponseClass adminResponseClass = sellerService.fetchAllSellersById(id);
+		return adminResponseClass;
 
+	}
 	
 	@RequestMapping(value = "/getImage")
 	@ResponseBody

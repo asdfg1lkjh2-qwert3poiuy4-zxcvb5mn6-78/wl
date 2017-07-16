@@ -1,10 +1,12 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class AdminDetails implements Serializable{
@@ -22,7 +24,11 @@ public class AdminDetails implements Serializable{
 	private String imageName;
 	private boolean isActive;
 	
+	@OneToMany(mappedBy ="adminDetails")
+	private List<SellerInactiveDetails> sellerInactiveDetails;
 	
+	@OneToMany(mappedBy ="adminDetails")
+	private List<SellerDetails> sellerDetails;
 	
 	//Setters And Getters
 	public long getId() {
@@ -84,6 +90,18 @@ public class AdminDetails implements Serializable{
 	}
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
+	}
+	public List<SellerInactiveDetails> getSellerInactiveDetails() {
+		return sellerInactiveDetails;
+	}
+	public void setSellerInactiveDetails(List<SellerInactiveDetails> sellerInactiveDetails) {
+		this.sellerInactiveDetails = sellerInactiveDetails;
+	}
+	public List<SellerDetails> getSellerDetails() {
+		return sellerDetails;
+	}
+	public void setSellerDetails(List<SellerDetails> sellerDetails) {
+		this.sellerDetails = sellerDetails;
 	}
 
 }
