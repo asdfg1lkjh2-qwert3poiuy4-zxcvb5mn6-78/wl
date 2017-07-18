@@ -5,13 +5,13 @@ import com.wedlock.model.FlowerType;
 
 public interface FlowerTypeService {
 
-	AdminResponseClass saveFlowerType(FlowerType flowerType);
+	//AdminResponseClass saveFlowerType(FlowerType flowerType);
 
-	/*public AdminResponseClass saveFlowerType(FlowerType flowerType);
+	public AdminResponseClass saveFlowerType(FlowerType flowerType);
 
 	public AdminResponseClass fetchAllFlowerType();
 
-	public AdminResponseClass fetchFlowerTypeById(int id);*/
+	public AdminResponseClass fetchFlowerTypeById(Long id);
 	
 
 }

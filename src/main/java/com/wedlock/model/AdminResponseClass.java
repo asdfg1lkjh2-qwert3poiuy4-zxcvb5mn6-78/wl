@@ -30,7 +30,7 @@ public class AdminResponseClass {
 	private CategoryAvailable categoryAvailable;
 	
 	/*For Occasion*/
-	private List<Occasion> occasions;
+	private List<Occasion> listAllOccasion;
 	private Occasion occasion;
 	
 	/*For Admin Details*/
@@ -135,12 +135,12 @@ public class AdminResponseClass {
 		this.categoryAvailable = categoryAvailable;
 	}
 
-	public List<Occasion> getOccasions() {
-		return occasions;
+	public List<Occasion> getListAllOccasion() {
+		return listAllOccasion;
 	}
 
-	public void setOccasions(List<Occasion> occasions) {
-		this.occasions = occasions;
+	public void setListAllOccasion(List<Occasion> listAllOccasion) {
+		this.listAllOccasion = listAllOccasion;
 	}
 
 	public Occasion getOccasion() {

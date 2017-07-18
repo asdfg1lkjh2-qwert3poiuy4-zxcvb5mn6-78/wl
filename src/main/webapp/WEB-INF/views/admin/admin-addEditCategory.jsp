@@ -538,7 +538,7 @@
 				url : "admin-fetchCategoryAvailableById?id="+categoryId,
 				data : "",
 				processData : false,
-				contentType :"application/json",
+				contentType :"application/json", 
 				success : function(data) {
 					isEdit = 1;
 					//defaultStateList(false,Number(data.zipCode.stateId),data.zipCode.stateName,Number(data.zipCode.cityId),data.zipCode.cityName);

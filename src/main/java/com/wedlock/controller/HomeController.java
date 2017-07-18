@@ -71,8 +71,13 @@ public class HomeController {
 		return "admin/admin-addEditZipCode";
 	}
 	
+	@RequestMapping(value ="/admin-addEditOccasion")
+	public String adminAddEditOccasion(){
+		return "admin/admin-addEditOccasion";
+	}
+	
 	@RequestMapping(value ="/admin-addEditFlowerType")
-	public String admiAddEditFlowerType(){
+	public String adminAddEditFlowerType(){
 		return "admin/admin-addEditFlowerType";
 	}
 	@RequestMapping(value ="/admin-viewSeller")

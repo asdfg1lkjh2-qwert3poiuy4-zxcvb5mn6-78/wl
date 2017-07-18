@@ -176,16 +176,17 @@ public class AdminController {
 		return adminResponseClass;
 	}
 	
-	/*//for flower Type
-	@RequestMapping(value = "/admin-addEditFlowerType", method = RequestMethod.POST)
-	public @ResponseBody boolean addEditFlowerType(@RequestBody FlowerType flowerType) {
-		System.out.println("////Flower Type is"+flowerType.getDescription()+" "+flowerType.getName());
-		System.out.println("/////EditFlowerId"+flowerType.getEditId());
+	//for flower Type
+	
+	@RequestMapping(value = "/admin-addEditFlowerType", method= RequestMethod.POST)
+	public @ResponseBody boolean adminAddEditFlowerType(@RequestBody FlowerType flowerType) {
 		if(flowerType.getEditId() != 0){
 			flowerType.setId((flowerType.getEditId()));
 		}
+		//System.out.println("\\\\\\ggfhfghgf "+flowerType.isStatus());
 		AdminResponseClass adminResponseClass = flowerTypeService.saveFlowerType(flowerType);
 		return adminResponseClass.isStatus();
+		
 	}
 
 	@RequestMapping(value = "/admin-fetchAllFlowerType", method = RequestMethod.GET)
@@ -195,16 +196,13 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/admin-fetchFlowerTypeById", method = RequestMethod.GET)
-	public @ResponseBody AdminResponseClass fetchFlowerTypeById(@RequestParam("id") int id) {
+	public @ResponseBody AdminResponseClass fetchFlowerTypeById(@RequestParam("id") Long id) {
 		AdminResponseClass adminResponseClass = flowerTypeService.fetchFlowerTypeById(id);
 		return adminResponseClass;
 	}
 
-	*/
 	/* For Service Available */
 
-	
-	
 	@RequestMapping(value = "/singleUpload", method = RequestMethod.POST)
 	public @ResponseBody boolean test(HttpServletRequest request,
 			@RequestParam("file") CommonsMultipartFile singleUploadFile) {
@@ -316,19 +314,21 @@ public class AdminController {
 
 	/* For Occasion */
 	@RequestMapping(value = "/admin-addEditOccasion", method = RequestMethod.POST)
-	public @ResponseBody boolean addEditOccasion(@RequestBody Occasion occasion, BindingResult bindingResult) {
-		System.out.println("/////" + bindingResult.toString());
+	public @ResponseBody boolean addEditOccasion(@RequestBody Occasion occasion) {
+		if(occasion.getEditId() != 0){
+			occasion.setId((occasion.getEditId()));
+		}
 		AdminResponseClass adminResponseClass = occasionService.addEditOccasion(occasion);
 		return adminResponseClass.isStatus();
 	}
 
-	@RequestMapping(value = "/admin-fetchAllOccasions", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin-fetchAllOccasion", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchAllOccasions() {
 		AdminResponseClass adminResponseClass = occasionService.fetchAllOccasions();
 		return adminResponseClass;
 	}
 
-	@RequestMapping(value = "/admin-fetchOccasionsById", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin-fetchOccasionById", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchOccasionsById(@RequestParam("id") long id) {
 		AdminResponseClass adminResponseClass = occasionService.fetchOccasionsById(id);
 		return adminResponseClass;
@@ -641,12 +641,5 @@ public class AdminController {
 		Path path = Paths.get(rpath);
 		byte[] data = Files.readAllBytes(path);
 		return data;
-	}
-	
-	@RequestMapping(value = "/admin-addEditFlowerType", method= RequestMethod.POST)
-	public @ResponseBody boolean adminAddEditFlowerType(@RequestBody FlowerType flowerType) {
-		AdminResponseClass adminResponseClass = flowerTypeService.saveFlowerType(flowerType);
-		return adminResponseClass.isStatus();
-		
 	}
 }
