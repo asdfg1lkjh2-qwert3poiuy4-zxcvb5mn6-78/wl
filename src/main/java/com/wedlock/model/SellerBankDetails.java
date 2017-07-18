@@ -3,6 +3,7 @@ package com.wedlock.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -20,11 +21,13 @@ public class SellerBankDetails implements Serializable{
 	private String branchCode;
 	private String branchName;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private SellerDetails sellerDetails;
 
 	@Transient 
 	private String sellerId;
+	@Transient
+	private long editSellerBankDetailsId;
 	//Setters And Getters
 	
 	public long getId() {
@@ -89,6 +92,14 @@ public class SellerBankDetails implements Serializable{
 
 	public void setSellerId(String sellerId) {
 		this.sellerId = sellerId;
+	}
+
+	public long getEditSellerBankDetailsId() {
+		return editSellerBankDetailsId;
+	}
+
+	public void setEditSellerBankDetailsId(long editSellerBankDetailsId) {
+		this.editSellerBankDetailsId = editSellerBankDetailsId;
 	}
 
 	

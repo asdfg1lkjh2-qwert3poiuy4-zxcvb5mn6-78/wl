@@ -67,9 +67,10 @@
 										<th class="text-center">Name</th>
 										<th class="text-center">Email</th>
 										<th class="text-center">Password</th>
-										<th class="text-center">Phone No.</th>
+										<th class="text-center">Phone</th>
 										<th class="text-center">Address</th>
-										<th class="text-center">Register Date </th>
+										<th class="text-center">Entry Date </th>
+										<th class="text-center">End Date </th>
 										<th class="text-center">Image</th>
 										<th class="text-center">Seller Type</th>
 										<th class="text-center">isActive</th>
@@ -209,6 +210,11 @@
 						}else{
 							active = "No";
 						}
+						var xyz = new Date(data.sellerDetails[i].sellerRegistrationEnd);
+						xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+xyz.getDate();
+
+						var mno = new Date(data.sellerDetails[i].entryTime);
+						mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+mno.getDate();
 						abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
 						+"<td class=\"text-center\">"+data.sellerDetails[i].id+"</td>"
 						+"<td class=\"text-center\">"+data.sellerDetails[i].sellerFirstName+" "+data.sellerDetails[i].sellerLastName+"</td>"
@@ -216,11 +222,12 @@
 						+"<td class=\"text-center\">"+data.sellerDetails[i].sellerPassword+"</td>"
 						+"<td class=\"text-center\">"+data.sellerDetails[i].sellerContactNumber+"</td>"
 						+"<td class=\"text-center\">"+data.sellerDetails[i].sellerPresentAddress+"</td>"
-						+"<td class=\"text-center\">"+data.sellerDetails[i].sellerRegisterDate+"</td>"
+						+"<td class=\"text-center\">"+mno+"</td>"
+						+"<td class=\"text-center\">"+xyz+"</td>"
 						+"<td class=\"text-center\">"+url+"</td>"
-						+"<td class=\"text-center\">Free</td>"
+						+"<td class=\"text-center\">"+data.sellerDetails[i].typeOfSeller+"</td>"
 						+"<td class=\"text-center\">"+active+"</td>"
-						+"<td class=\"text-center\"><a href=\"#\">Edit</a><a href=\"\">Y</a></td></tr>"
+						+"<td class=\"text-center\"><a href=\"admin-addEditSeller?id="+data.sellerDetails[i].id+"\">Edit</a><a href=\"\">Y</a></td></tr>"
 					}
 					$("#sellerTable > tbody").html(abc);
 				}

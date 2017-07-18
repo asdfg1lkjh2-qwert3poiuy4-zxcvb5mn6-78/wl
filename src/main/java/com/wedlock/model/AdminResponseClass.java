@@ -45,6 +45,14 @@ public class AdminResponseClass {
 	private List<SellerDetails> sellerDetails;
 	private SellerDetails sellerDetail;
 	
+	/*For Seller Bank Details*/
+	private List<SellerBankDetails> sellerBankDetails;
+	private SellerBankDetails sellerBankDetail;
+	
+	/*For Seller Inactive Details*/
+	private List<SellerInactiveDetails> sellerInactiveDetails;
+	private SellerInactiveDetails sellerInactiveDetail;
+	
 	// Setters And Getters
 
 	public boolean isStatus() {
@@ -221,6 +229,38 @@ public class AdminResponseClass {
 
 	public void setMssgStatus(String mssgStatus) {
 		this.mssgStatus = mssgStatus;
+	}
+
+	public List<SellerBankDetails> getSellerBankDetails() {
+		return sellerBankDetails;
+	}
+
+	public void setSellerBankDetails(List<SellerBankDetails> sellerBankDetails) {
+		this.sellerBankDetails = sellerBankDetails;
+	}
+
+	public SellerBankDetails getSellerBankDetail() {
+		return sellerBankDetail;
+	}
+
+	public void setSellerBankDetail(SellerBankDetails sellerBankDetail) {
+		this.sellerBankDetail = sellerBankDetail;
+	}
+
+	public List<SellerInactiveDetails> getSellerInactiveDetails() {
+		return sellerInactiveDetails;
+	}
+
+	public void setSellerInactiveDetails(List<SellerInactiveDetails> sellerInactiveDetails) {
+		this.sellerInactiveDetails = sellerInactiveDetails;
+	}
+
+	public SellerInactiveDetails getSellerInactiveDetail() {
+		return sellerInactiveDetail;
+	}
+
+	public void setSellerInactiveDetail(SellerInactiveDetails sellerInactiveDetail) {
+		this.sellerInactiveDetail = sellerInactiveDetail;
 	}
 
 

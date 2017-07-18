@@ -113,3 +113,9 @@ button.add-new {
 .dtp-buttons button.dtp-btn-ok{background: linear-gradient(-90deg, #dd5e89, #f7bb97); color: #fff; }
 .bootstrap-select.btn-group .dropdown-toggle .filter-option{text-transform: capitalize !important}
 .bootstrap-select.btn-group .dropdown-toggle .filter-option{text-transform: capitalize !important}
+
+
+
+.hideDiv {
+	display:none;
+}
