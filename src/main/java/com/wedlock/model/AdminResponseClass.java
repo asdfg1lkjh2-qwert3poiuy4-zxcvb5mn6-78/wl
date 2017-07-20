@@ -53,6 +53,14 @@ public class AdminResponseClass {
 	private List<SellerInactiveDetails> sellerInactiveDetails;
 	private SellerInactiveDetails sellerInactiveDetail;
 	
+	/*For Photography Type*/
+	private List<PhotographyType> listAllPhotographyTypes;
+	private PhotographyType photographyType;
+	
+	/*For Photography Occasion*/
+	private List<PhotographyOccasion> listAllPhotographyOccasions;
+	private PhotographyOccasion photographyOccasion;
+	
 	// Setters And Getters
 
 	public boolean isStatus() {
@@ -261,6 +269,38 @@ public class AdminResponseClass {
 
 	public void setSellerInactiveDetail(SellerInactiveDetails sellerInactiveDetail) {
 		this.sellerInactiveDetail = sellerInactiveDetail;
+	}
+
+	public List<PhotographyType> getListAllPhotographyTypes() {
+		return listAllPhotographyTypes;
+	}
+
+	public void setListAllPhotographyTypes(List<PhotographyType> listAllPhotographyTypes) {
+		this.listAllPhotographyTypes = listAllPhotographyTypes;
+	}
+
+	public PhotographyType getPhotographyType() {
+		return photographyType;
+	}
+
+	public void setPhotographyType(PhotographyType photographyType) {
+		this.photographyType = photographyType;
+	}
+
+	public List<PhotographyOccasion> getListAllPhotographyOccasions() {
+		return listAllPhotographyOccasions;
+	}
+
+	public void setListAllPhotographyOccasions(List<PhotographyOccasion> listAllPhotographyOccasions) {
+		this.listAllPhotographyOccasions = listAllPhotographyOccasions;
+	}
+
+	public PhotographyOccasion getPhotographyOccasion() {
+		return photographyOccasion;
+	}
+
+	public void setPhotographyOccasion(PhotographyOccasion photographyOccasion) {
+		this.photographyOccasion = photographyOccasion;
 	}
 
 

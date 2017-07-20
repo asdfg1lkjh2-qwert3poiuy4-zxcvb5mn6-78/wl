@@ -139,18 +139,18 @@
 			withCredentials : false,
 			parallelUploads : 2,
 			uploadMultiple : false,
-			maxFilesize : 256,
+			maxFilesize : 39,
 			paramName : "file",
 			createImageThumbnails : true,
 			maxThumbnailFilesize : 10,
 			thumbnailWidth : 120,
 			thumbnailHeight : 120,
 			filesizeBase : 1000,
-			maxFiles : null,
+			maxFiles : 3,
 			params : {},
 			clickable : true,
 			ignoreHiddenFiles : true,
-			acceptedFiles : null,
+			acceptedFiles : "",
 			acceptedMimeTypes : null,
 			autoProcessQueue : true,
 			autoQueue : true,
@@ -206,7 +206,6 @@
 				return this.element.appendChild(this.getFallbackForm());
 			},
 			resize : function(file) {
-				alert(file);
 				var info, srcRatio, trgRatio;
 				info = {
 					srcX : 0,
@@ -272,12 +271,12 @@
 				return this.element.classList.remove("dz-started");
 			},
 			addedfile : function(file) {
-				
+				var totalFileCount = this.files.length;
 				var node, removeFileEvent, removeLink, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results;
 				if (this.element === this.previewsContainer) {
+					//var totalFileCount = this.getAcceptedFiles().length;
 					var statusClass="";
 						statusClass = this.element.classList+"";
-						alert(statusClass);
 						statusClass = statusClass.split("_");
 						statusClass = statusClass[1];
 					var checker = Number(0);
@@ -286,13 +285,14 @@
 						checker = Number(1);
 					}
 					this.element.classList.add("dz-started");
+					if(totalFileCount === Number(3)){
+						this.element.classList.add("dz-max-files-reached");
+					}
 					/*var abcs = this.element.classList + "";
 					abcs = abcs.split("_");
 					abcs = abcs[1];*/
 					if(checker === 0){
-						
 						if (!($("form.dz-started").hasClass("_" + statusClass))) {
-							alert("In if");
 							this.element.classList.add("_status"
 									+ Number(statusIncrement));
 							statusIncrement = Number(Number(statusIncrement)
@@ -305,66 +305,72 @@
 						}
 					}
 				}
-				if (this.previewsContainer) {
-					file.previewElement = Dropzone
-							.createElement(this.options.previewTemplate.trim());
-					file.previewTemplate = file.previewElement;
-					this.previewsContainer.appendChild(file.previewElement);
-					_ref = file.previewElement
-							.querySelectorAll("[data-dz-name]");
-					for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-						node = _ref[_i];
-						node.textContent = this._renameFilename(file.name);
-					}
-					_ref1 = file.previewElement
-							.querySelectorAll("[data-dz-size]");
-					for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-						node = _ref1[_j];
-						node.innerHTML = this.filesize(file.size);
-					}
-					if (this.options.addRemoveLinks) {
-						file._removeLink = Dropzone
-								.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>"
-										+ this.options.dictRemoveFile + "</a>");
-						file.previewElement.appendChild(file._removeLink);
-					}
-					removeFileEvent = (function(_this) {
-						return function(e) {
-							e.preventDefault();
-							e.stopPropagation();
-							if (file.status === Dropzone.UPLOADING) {
-								return Dropzone
-										.confirm(
-												_this.options.dictCancelUploadConfirmation,
-												function() {
-													return _this
-															.removeFile(file);
-												});
-							} else {
-								if (_this.options.dictRemoveFileConfirmation) {
+				if(totalFileCount <= Number(3)){
+					if (this.previewsContainer) {
+						alert("In if");
+						file.previewElement = Dropzone
+								.createElement(this.options.previewTemplate.trim());
+						file.previewTemplate = file.previewElement;
+						this.previewsContainer.appendChild(file.previewElement);
+						_ref = file.previewElement
+								.querySelectorAll("[data-dz-name]");
+						for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+							node = _ref[_i];
+							node.textContent = this._renameFilename(file.name);
+						}
+						_ref1 = file.previewElement
+								.querySelectorAll("[data-dz-size]");
+						for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+							node = _ref1[_j];
+							node.innerHTML = this.filesize(file.size);
+						}
+						if (this.options.addRemoveLinks) {
+							file._removeLink = Dropzone
+									.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>"
+											+ this.options.dictRemoveFile + "</a>");
+							file.previewElement.appendChild(file._removeLink);
+						}
+						removeFileEvent = (function(_this) {
+							return function(e) {
+								e.preventDefault();
+								e.stopPropagation();
+								if (file.status === Dropzone.UPLOADING) {
 									return Dropzone
 											.confirm(
-													_this.options.dictRemoveFileConfirmation,
+													_this.options.dictCancelUploadConfirmation,
 													function() {
 														return _this
 																.removeFile(file);
 													});
 								} else {
-									return _this.removeFile(file);
+									if (_this.options.dictRemoveFileConfirmation) {
+										return Dropzone
+												.confirm(
+														_this.options.dictRemoveFileConfirmation,
+														function() {
+															return _this
+																	.removeFile(file);
+														});
+									} else {
+										return _this.removeFile(file);
+									}
 								}
-							}
-						};
-					})(this);
-					_ref2 = file.previewElement
-							.querySelectorAll("[data-dz-remove]");
-					_results = [];
-					for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
-						removeLink = _ref2[_k];
-						_results.push(removeLink.addEventListener("click",
-								removeFileEvent));
+							};
+						})(this);
+						_ref2 = file.previewElement
+								.querySelectorAll("[data-dz-remove]");
+						_results = [];
+						for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+							removeLink = _ref2[_k];
+							_results.push(removeLink.addEventListener("click",
+									removeFileEvent));
+						}
+						return _results;
 					}
-					return _results;
+				}else{
+					alert("Maximum Files reached");
 				}
+				
 			},
 			removedfile : function(file) {
 				var _ref;
@@ -1117,7 +1123,6 @@
 			var abcs = this.element.classList + "";
 			abcs = abcs.split("_");
 			abcs = abcs[1];
-			alert("In accept"+abcs);
 			if (($("form." + "_" + abcs).attr("id")) === "singleUpload") {
 				done();
 				this.on("addedfile", function() {

@@ -95,6 +95,32 @@
 				
 			}
 		});
+		if(location.href.match(/inActive/)){
+			idForFetch = location.search.split("?");
+			idForFetch = idForFetch[1].split("=");
+			idForFetch = idForFetch[1];
+			
+			var job = {};
+			job["sellerEmailId"] = idForFetch
+			alert(JSON.stringify(job));
+			$
+			.ajax({
+				type : "POST",
+				url : "admin-sellerSendMailByEmailId",
+				data : JSON.stringify(job),
+				contentType :"application/json",
+				processData : false,
+				success : function(data) {
+					if(data){
+						alert("Success");
+					}
+				},
+				error : function(e) {
+					alert("Error");
+					
+				}
+			});
+		}
 	});
 	
 	$("#signIn").click(function (event){

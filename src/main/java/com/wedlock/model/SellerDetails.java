@@ -56,6 +56,8 @@ public class SellerDetails implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date sellerRegistrationStart;
 	private String typeOfSeller;
+	private boolean isEmailVerified;
+	//private boolean isMobileVerified;
 	private boolean isActive;
 
 	@Transient
@@ -431,6 +433,14 @@ public class SellerDetails implements Serializable {
 
 	public void setAdminDetails(AdminDetails adminDetails) {
 		this.adminDetails = adminDetails;
+	}
+
+	public boolean isEmailVerified() {
+		return isEmailVerified;
+	}
+
+	public void setEmailVerified(boolean isEmailVerified) {
+		this.isEmailVerified = isEmailVerified;
 	}
 
 	

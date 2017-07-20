@@ -522,7 +522,6 @@
 				idForFetch = idForFetch[1];
 				fetchSellerById(idForFetch);
 			}
-			
 		});
 		var ary = new Array ();   			// Array for storing the state names and Id.
 		var cityAry = new Array ();			//Array for storing city names anf Id
@@ -1329,6 +1328,7 @@
 						contentType :"application/json",
 						success : function(data) {
 							if(data){
+								
 								swal({
 									  title: 'Success!',
 									  text: 'Seller Details Successfully Inserted!!!',

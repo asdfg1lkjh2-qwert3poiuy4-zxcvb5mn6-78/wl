@@ -25,7 +25,14 @@ public class HomeController {
 	public String adminAddEditPhotographer(){
 		return "admin/admin-addEditPhotographer";
 	}
-	
+	@RequestMapping(value= "/admin-addEditPhotographyType")
+	public String adminAddEditPhotographyType(){
+		return "admin/admin-addEditPhotographyType";
+	}
+	@RequestMapping(value ="/admin-addEditPhotographyOccassion")
+	public String adminAddEditPhotographyOccassion(){
+		return "admin/admin-addEditPhotographyOccassion";
+	}
 	@RequestMapping(value= "/admin-addEditHall")
 	public String adminAddEditHall(){
 		return "admin/admin-addEditHall";
@@ -79,5 +86,5 @@ public class HomeController {
 	public String adminViewSeller(){
 		return "admin/admin-viewSeller";
 	}
-
+	
 }

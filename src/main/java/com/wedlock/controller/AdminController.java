@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,6 +35,8 @@ import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.City;
 import com.wedlock.model.FlowerType;
 import com.wedlock.model.Occasion;
+import com.wedlock.model.PhotographyOccasion;
+import com.wedlock.model.PhotographyType;
 import com.wedlock.model.SellerBankDetails;
 import com.wedlock.model.SellerDetails;
 import com.wedlock.model.SellerInactiveDetails;
@@ -44,7 +47,10 @@ import com.wedlock.service.AdminDetailsService;
 import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CityService;
 import com.wedlock.service.FlowerTypeService;
+import com.wedlock.service.MailService;
 import com.wedlock.service.OccasionService;
+import com.wedlock.service.PhotographyOccasionService;
+import com.wedlock.service.PhotographyTypeService;
 import com.wedlock.service.SellerBankDetailsService;
 import com.wedlock.service.SellerInactiveService;
 import com.wedlock.service.SellerService;
@@ -82,6 +88,12 @@ public class AdminController {
 	private SellerInactiveService sellerInactiveService;
 	@Autowired
 	private FlowerTypeService flowerTypeService;
+	@Autowired
+	private MailService mailService;
+	@Autowired
+	private PhotographyTypeService photographyTypeService;
+	@Autowired
+	private PhotographyOccasionService photographyOccasionService;
 	@Autowired
 	HttpSession httpSession;
 	
@@ -602,10 +614,14 @@ public class AdminController {
 				}else{
 					isEdit = "No";
 				}
+				sellerDetails.setEmailVerified(Boolean.FALSE);
 				AdminDetails adminDetails =(AdminDetails)httpSession.getAttribute("adminDetailsSession");
 				sellerDetails.setAdminDetails(adminDetails);
 				adminResponseClass =sellerService.addEditSellerDetails(sellerDetails,isEdit);
 				if(adminResponseClass.isStatus()){
+					if(isEdit.equals("No")){
+						mailService.sendEmailToSeller(sellerDetails,"notVerified");
+					}
 					/*String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
 					String phoneNumber = sellerDetails.getSellerContactNumber();
 					URL url = new URL(smsApi.sendSms(mssg, phoneNumber));
@@ -643,7 +659,6 @@ public class AdminController {
 						sellerInactiveDetails.setAdminDetails(adminDetails);
 						adminResponseClass = sellerInactiveService.saveSellerInactive(sellerInactiveDetails,"Inactive");
 					}
-				  
 				}
 		}
 		
@@ -663,6 +678,27 @@ public class AdminController {
 
 	}
 	
+	@RequestMapping(value = "/admin-sellerSendMailByEmailId", method = RequestMethod.POST)
+	public @ResponseBody boolean sellerSendMailByEmailId(@RequestBody SellerDetails sellerDetails,BindingResult bindingResult) throws ParseException{
+		
+		AdminResponseClass adminResponseClass;
+		sellerDetails = sellerService.fetchSellerByEmailId(sellerDetails.getSellerEmailId());
+		if(sellerDetails !=null){
+			sellerDetails.setEmailVerified(Boolean.TRUE);
+			sellerDetails.setStateId(sellerDetails.getState().getId());
+			sellerDetails.setCityId(sellerDetails.getCity().getId());
+			sellerDetails.setZipCodeId(sellerDetails.getZipCode().getId());
+			adminResponseClass = sellerService.addEditSellerDetails(sellerDetails, "Yes");
+			if(adminResponseClass.isStatus()){
+				mailService.sendEmailToSeller(sellerDetails,"Verified");
+				return true;
+			} else {
+				return false;
+			}
+		}else{
+			return false;
+		}
+}
 	@RequestMapping(value = "/getImage")
 	@ResponseBody
 	public byte[] getImage(@RequestParam("id") String id, HttpServletRequest request) throws IOException {
@@ -689,6 +725,73 @@ public class AdminController {
 		return data;
 	}
 	
+	/*For Photography Type*/
+	@RequestMapping(value = "/admin-addEditPhotographyType", method = RequestMethod.POST)
+	public @ResponseBody boolean addEditPhotographyType(@RequestBody PhotographyType photographyType) {
+		AdminResponseClass adminResponseClass;
+		if(photographyType.getEditPhotographyTypeId()!=0){
+			photographyType.setId(photographyType.getEditPhotographyTypeId());
+			if(photographyType.getPhotographyStatusSelect().equals("Active")){
+				photographyType.setStatus(Boolean.TRUE);
+			}else{
+				photographyType.setStatus(Boolean.FALSE);
+			}
+		}
+		if(photographyType.getOtherTypeDetails()!=null){
+			String photographyTypeValues[] = photographyType.getOtherTypeDetails().split("_");
+		    adminResponseClass = photographyTypeService.savePhotographyType(photographyType, photographyTypeValues);
+		}else{
+			String photographyTypeValues[] = new String[0];
+			adminResponseClass = photographyTypeService.savePhotographyType(photographyType,photographyTypeValues);
+		}
+		return adminResponseClass.isStatus();
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllPhotographyTypes", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllPhotographyTypes() {
+		AdminResponseClass adminResponseClass = photographyTypeService.fetchAllPhotographyTypes();
+		return adminResponseClass;
+	}
+
+	@RequestMapping(value = "/admin-fetchPhotographyTypeById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchPhotographyTypeById(@RequestParam("id") long id) {
+		AdminResponseClass adminResponseClass = photographyTypeService.fetchPhotographyTypeById(id);
+		return adminResponseClass;
+	}
+	
+	/*For Photography Occasion*/
+	@RequestMapping(value = "/admin-addEditPhotographyOccasion", method = RequestMethod.POST)
+	public @ResponseBody boolean addEditPhotographyOccasion(@RequestBody PhotographyOccasion photographyOccasion) {
+		AdminResponseClass adminResponseClass;
+		if(photographyOccasion.getEditPhotographyOccasionId()!=0){
+			photographyOccasion.setId(photographyOccasion.getEditPhotographyOccasionId());
+			if(photographyOccasion.getPhotographyStatusSelect().equals("Active")){
+				photographyOccasion.setStatus(Boolean.TRUE);
+			}else{
+				photographyOccasion.setStatus(Boolean.FALSE);
+			}
+		}
+		if(photographyOccasion.getOtherOccasionDetails()!=null){
+			String photographyOccasionValues[] = photographyOccasion.getOtherOccasionDetails().split("_");
+		    adminResponseClass = photographyOccasionService.savePhotographyOccasion(photographyOccasion, photographyOccasionValues);
+		}else{
+			String photographyOccasionValues[] = new String[0];
+			adminResponseClass = photographyOccasionService.savePhotographyOccasion(photographyOccasion,photographyOccasionValues);
+		}
+		return adminResponseClass.isStatus();
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllPhotographyOccasions", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllPhotographyOccasions() {
+		AdminResponseClass adminResponseClass = photographyOccasionService.fetchAllPhotographyOccasions();
+		return adminResponseClass;
+	}
+
+	@RequestMapping(value = "/admin-fetchPhotographyOccasionById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchPhotographyOccasionById(@RequestParam("id") long id) {
+		AdminResponseClass adminResponseClass = photographyOccasionService.fetchPhotographyOccasionById(id);
+		return adminResponseClass;
+	}
 	@RequestMapping(value = "/admin-addEditFlowerType", method= RequestMethod.POST)
 	public @ResponseBody boolean adminAddEditFlowerType(@RequestBody FlowerType flowerType) {
 		AdminResponseClass adminResponseClass = flowerTypeService.saveFlowerType(flowerType);

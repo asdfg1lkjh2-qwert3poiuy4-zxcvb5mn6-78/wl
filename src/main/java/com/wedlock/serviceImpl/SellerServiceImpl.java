@@ -234,5 +234,16 @@ public class SellerServiceImpl implements SellerService{
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
+	@Override
+	public SellerDetails fetchSellerByEmailId(String emailId) {
+		TypedQuery<SellerDetails> sellerDetails = manager.createQuery("Select s from SellerDetails s where s.sellerEmailId LIKE:sellerEmailId ", SellerDetails.class).setParameter("sellerEmailId", emailId);
+		SellerDetails sellerDetail;
+		if(sellerDetails.getResultList().isEmpty()){
+			sellerDetail = null;
+		}else{
+			sellerDetail = sellerDetails.getSingleResult();
+		}
+		return sellerDetail;
+	}
 	
 }

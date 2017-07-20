@@ -17,7 +17,6 @@ import com.wedlock.dao.StateDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.City;
 import com.wedlock.model.State;
-import com.wedlock.model.SubCategoryAvailable;
 import com.wedlock.service.CityService;
 
 @Transactional
@@ -91,11 +90,12 @@ public class CityServiceImpl implements CityService {
 
 	@Override
 	public AdminResponseClass fetchCityById(long id) {
-		boolean status = true;
+		boolean status = false;
 
 		
 		City city = cityDao.findOne(id);
-
+		status = true;
+		
 		City city2 = new City();
 		State state = stateDao.findOne(city.getState().getId());
 		

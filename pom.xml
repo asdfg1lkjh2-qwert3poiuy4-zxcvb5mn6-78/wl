@@ -254,6 +254,26 @@
 			<artifactId>commons-io</artifactId>
 			<version>${commons.io.version}</version>
 		</dependency>
+	 <dependency>
+		 <groupId>javax.mail</groupId>
+	     <artifactId>javax.mail-api</artifactId>
+	     <version>1.5.1</version>
+    </dependency>
+    <dependency>
+		<groupId>javax.mail</groupId>
+		<artifactId>mail</artifactId>
+		<version>1.4.7</version>
+	</dependency>
+	<dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context-support</artifactId>
+         <version>${spring.core.version}</version>
+        </dependency>
+    <dependency>
+ 		 <groupId>org.jcodec</groupId>
+ 		 <artifactId>jcodec-javase</artifactId>
+  		<version>0.1.9</version>
+	</dependency>
 	</dependencies>
 
 	<build>

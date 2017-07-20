@@ -1,6 +1,7 @@
 package com.wedlock.config;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,11 +15,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
 @Configuration
 @ComponentScan(basePackages = { "com.wedlock" })
 @EnableWebMvc
@@ -64,11 +66,29 @@ public class ApplicationContext extends WebMvcConfigurerAdapter {
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver getCommonsMultipartResolver() {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-		multipartResolver.setMaxUploadSize(20971520);
+		multipartResolver.setMaxUploadSize(30971520);
 		multipartResolver.setMaxInMemorySize(1048576);
 		return multipartResolver;
 	}
 	
-
+	@Bean
+    public JavaMailSender getMailSender(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+         
+        //Using gmail
+        mailSender.setHost("smtpout.asia.secureserver.net");
+        mailSender.setPort(25);
+        mailSender.setUsername("monalisa@wedlock.online");
+        mailSender.setPassword("Munu@1234");
+         
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.put("mail.smtp.starttls.enable", "true");
+        javaMailProperties.put("mail.smtp.auth", "true");
+        javaMailProperties.put("mail.transport.protocol", "smtp");
+        javaMailProperties.put("mail.debug", "true");//Prints out everything on screen
+         
+        mailSender.setJavaMailProperties(javaMailProperties);
+        return mailSender;
+    }
 
 }

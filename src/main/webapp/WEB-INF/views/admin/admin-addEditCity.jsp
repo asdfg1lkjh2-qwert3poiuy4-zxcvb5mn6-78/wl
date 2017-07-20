@@ -523,6 +523,7 @@
 					for(var k =1; k<= Number(i); k++){
 						removeCityDiv(Number(k));
 					}
+					$("#editCityId").val("0");
 					defaultStateList(true,0,"stateName");
 					$("#plusbtn").attr("disabled", false);
 					fetchAllCities();
