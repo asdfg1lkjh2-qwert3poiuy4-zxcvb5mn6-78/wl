@@ -1,30 +1,39 @@
 package com.wedlock.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
-public class FlowerType {
+public class FlowerType implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	private boolean status;
-	@Temporal(TemporalType.DATE)
-	private Date entryTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
+	private Date entryTime = new Date();
 	@OneToMany(mappedBy = "flowerType")
 	private List<Flower> flower;
+	
+	@Transient
+	private long editId;
 
 	// Setters And Getters
 	public long getId() {
@@ -65,6 +74,14 @@ public class FlowerType {
 
 	public void setFlower(List<Flower> flower) {
 		this.flower = flower;
+	}
+
+	public long getEditId() {
+		return editId;
+	}
+
+	public void setEditId(long editId) {
+		this.editId = editId;
 	}
 
 }

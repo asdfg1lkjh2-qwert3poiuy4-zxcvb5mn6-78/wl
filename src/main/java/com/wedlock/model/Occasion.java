@@ -1,13 +1,17 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class Occasion implements Serializable{
@@ -17,12 +21,19 @@ public class Occasion implements Serializable{
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String occasionName;
-	private String occasionDesc;
-	private boolean isActive;
+	private String name;
+	@Column(columnDefinition = "TEXT")
+	private String description;
+	private boolean status;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
+	private Date entryTime = new Date();
+	/*@OneToOne(mappedBy="flower")
+	private Int_Flow_Occ int_Flow_Occ;   */   
 	
-	@OneToOne(mappedBy="flower")
-	private Int_Flow_Occ int_Flow_Occ;
+	@Transient
+	private long editId;
+	
 	//Setters And Getters
 	public long getId() {
 		return id;
@@ -30,29 +41,41 @@ public class Occasion implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getOccasionName() {
-		return occasionName;
+	public String getName() {
+		return name;
 	}
-	public void setOccasionName(String occasionName) {
-		this.occasionName = occasionName;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getOccasionDesc() {
-		return occasionDesc;
+	public String getDescription() {
+		return description;
 	}
-	public void setOccasionDesc(String occasionDesc) {
-		this.occasionDesc = occasionDesc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public boolean isActive() {
-		return isActive;
+	public Date getEntryTime() {
+		return entryTime;
 	}
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public void setEntryTime(Date entryTime) {
+		this.entryTime = entryTime;
 	}
-	public Int_Flow_Occ getInt_Flow_Occ() {
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+	/*public Int_Flow_Occ getInt_Flow_Occ() {
 		return int_Flow_Occ;
 	}
 	public void setInt_Flow_Occ(Int_Flow_Occ int_Flow_Occ) {
 		this.int_Flow_Occ = int_Flow_Occ;
+	}*/
+	public long getEditId() {
+		return editId;
+	}
+	public void setEditId(long editId) {
+		this.editId = editId;
 	}
 	
 	

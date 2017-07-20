@@ -23,7 +23,7 @@ public class OccasionServiceImpl implements OccasionService {
 	public AdminResponseClass addEditOccasion(Occasion occasion) {
 		boolean status = false;
 
-		occasion.setActive(Boolean.TRUE);
+		//occasion.setStatus(Boolean.TRUE);
 		occasionDao.save(occasion);
 
 		status = true;
@@ -38,11 +38,11 @@ public class OccasionServiceImpl implements OccasionService {
 		boolean status = false;
 		
 		List<Occasion> listOccasion = occasionDao.findAll();
-		
+			
 		status=true;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
-		adminResponseClass.setOccasions(listOccasion);
+		adminResponseClass.setListAllOccasion(listOccasion);
 		return adminResponseClass;
 	}
 

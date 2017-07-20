@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Wedlock | Flower Type</title>
+<title>Wedlock | Add Occasion</title>
 <link rel="stylesheet" type="text/css"
 	href="resources/css/sweetalert2.css">
 <%@ include file="admin-includeHeader.jsp"%>
@@ -28,71 +28,76 @@
 	</div>
 	<!-- #END# Page Loader -->
 
-	<!-- Overlay For Sidebars -->
-	<div class="overlay"></div>
-	<!-- #END# Overlay For Sidebars -->
 	<%@ include file="admin-includeRightBar.jsp"%>
 
 	<!-- main content -->
 	<section class="content">
 		<div class="container-fluid">
 			<div class="block-header">
-				<h2>Add Flower Type</h2>
+				<h2>Add Occasion</h2>
 				<small class="text-muted">Welcome to Wedlock application</small>
 			</div>
 			<div class="row clearfix">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="card">
 						<div class="header">
-							<h2>Flower Type Details</h2>
+							<h2>Occasion Information</h2>
 						</div>
 						<div class="body">
-							<form id="flowerTypeForm" method="post">
-								<div class="row clearfix">
-									<div class="col-sm-6 col-xs-12">
+							<div class="row clearfix">
+								<div class="col-sm-12 col-xs-12">
+									<div class="form-group">
+										<div class="form-line">
+											<input type="text" class="form-control"
+											name="occasionName" id="occasionName"
+												placeholder="Occasion Name">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">
+								<div class="col-sm-8 col-xs-12">
+									<div class="form-group">
+										<label for="comment">Occasion Description</label>
+										<textarea class="form-control textarea-add" rows="5"
+										name="occasionDescription" id="occasionDescription"></textarea>
+									</div>
+								</div>
+								<div class="col-sm-4 col-xs-12">
+									<!-- <div class="col-sm-12 col-xs-12">
 										<div class="form-group">
 											<div class="form-line">
 												<input type="text" class="form-control"
-													name="flowerTypeName" id="flowerTypeName"
-													placeholder="Flower Type">
+													placeholder="Discount">
 											</div>
 										</div>
-										<div id="statusDiv">
-											<div class="form-group drop-custum">
-												<select class="form-control show-tick">
-													<option value="true">Active</option>
-													<option value="false">Inactive</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6 col-xs-12">
-										<div class="form-group">
-											<label for="comment">Description</label>
-											<textarea class="form-control textarea-add" rows="5"
-												name="flowerTypeDescription" id="flowerTypeDescription"></textarea>
+									</div> -->
+									<div id="statusDiv">
+										<div class="form-group drop-custum">
+											<select class="form-control show-tick">
+												<option value="true">Active</option>
+												<option value="false">Inactive</option>
+											</select>
 										</div>
 									</div>
 								</div>
-								<div class="row clearfix">
-									<div class="col-xs-12">
-										<input type="hidden" name="editFlowerTypeId"
-											id="editFlowerTypeId" value="0"> <input type="hidden"
-											name="statusClick" id="statusClick" value="">
-										<button type="submit" class="btn btn-raised gradient-right"
-											id="submit">Submit</button>
-										<button type="button" class="btn btn-raised gradient-left"
-											onclick="clearForm()">Clear</button>
-									</div>
+							</div>
+							<div class="row clearfix">
+								<div class="col-xs-12">
+								<input type="hidden" name="editFlowerTypeId" id="editOccasionId" value="0"> 
+								<input type="hidden" name="statusClick" id="statusClick" value="">
+									<button type="submit" class="btn btn-raised gradient-right" id="submit">Submit</button>
+									<button type="button" class="btn btn-raised gradient-left" onclick="clearForm()">Clear</button>
 								</div>
-							</form>
+							</div>
 						</div>
 					</div>
 					
 					<!-- Data Table Start -->
 					<div class="card">
 						<div class="header">
-							<h2>All Listed Flower Type</h2>
+							<h2>All Listed Occasion</h2>
 							<ul class="header-dropdown m-r--5">
 								<li class="dropdown"><a href="javascript:void(0);"
 									class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -109,14 +114,14 @@
 						<div class="body">
 							<table
 								class="table table-bordered table-striped table-hover js-basic-example dataTable"
-								id="flowerTypeTable">
+								id="occasionTable">
 								<thead>
 									<tr>
 										<th class="text-center">Sl.No</th>
-										<th class="text-center">Flower Type Id</th>
-										<th class="text-center">Flower Type Name</th>
-										<th class="text-center">Flower Type Description</th>
-										<th class="text-center">Flower Type Status</th>
+										<th class="text-center">Occasion Id</th>
+										<th class="text-center">Occasion Name</th>
+										<th class="text-center">Occasion Description</th>
+										<th class="text-center">Occasion Status</th>
 										<th class="text-center">Action</th>
 									</tr>
 								</thead>
@@ -136,32 +141,35 @@
 	<script src="resources/js/sweetalert2.min.js"></script>
 	<%@ include file="admin-includeDynamicSideNavBarFromSession.jsp"%>
 
+	<!-- Jquery Js -->
+	
 	<script type="text/javascript">
 		$(document).ready(function() {
-			fetchAllFlowerType();
+			fetchAllOccasion();
 		});
 
-		function fetchAllFlowerType() {
+		function fetchAllOccasion() {
 			$.ajax({
 				type : "GET",
-				url : "admin-fetchAllFlowerType",
+				url : "admin-fetchAllOccasion",
 				data : "",
 				processData : false,
 				contentType : "application/json",
 				success : function(data) {
+					//alert(JSON.stringify(data));
 					if (data.status) {
-						$("#flowerTypeTable > tbody ").html("");
+						$("#occasionTable > tbody ").html("");
 						var abc = "";
-						for (var i = 0; i < data.listAllFlowerType.length; i++) {
-							var flowerTypeDescription;
+						for (var i = 0; i < data.listAllOccasion.length; i++) {
+							var occasionDescription;
 							var status;
-							//alert(data.listAllFlowerType[i].status);
-							if (data.listAllFlowerType[i].description === "") {
+							//alert(data.listAllOccasion[i].status);
+							if (data.listAllOccasion[i].description === "") {
 								description = "---";
 							} else {
-								description = data.listAllFlowerType[i].description;
+								description = data.listAllOccasion[i].description;
 							}
-							if (data.listAllFlowerType[i].status)
+							if (data.listAllOccasion[i].status)
 								status = "Active";
 							else
 								status = "Inactive";
@@ -171,10 +179,10 @@
 									+ Number(Number(i) + Number(1))
 									+ "</td>"
 									+ "<td class =\"text-center\">"
-									+ data.listAllFlowerType[i].id
+									+ data.listAllOccasion[i].id
 									+ "</td>"
 									+ "<td class =\"text-center\">"
-									+ data.listAllFlowerType[i].name
+									+ data.listAllOccasion[i].name
 									+ "</td>"
 									+ "<td class =\"text-center\">"
 									+ description
@@ -182,11 +190,11 @@
 									+ "<td class =\"text-center\">"
 									+ status
 									+ "</td>"
-									+ "<td class =\"text-center\"><a href=\"#\" onclick=\"editFlowerTypeById('"
-									+ data.listAllFlowerType[i].id
-									+ "')\">Edit</a><a href=\"#\">Y</a></td></tr>"
+									+ "<td class =\"text-center\"><a href=\"#\" onclick=\"editOccasionById('"
+									+ data.listAllOccasion[i].id
+									+ "')\">Edit</a>&nbsp &nbsp<a href=\"#\">Y</a></td></tr>"
 						}
-						$("#flowerTypeTable > tbody ").html(abc);
+						$("#occasionTable > tbody ").html(abc);
 					}
 
 				},
@@ -194,7 +202,7 @@
 					//alert("Error");
 					swal({
 						title : 'Error!',
-						text : 'Flower Type Not Fetched Successfully!!!',
+						text : 'Occasion Not Fetched Successfully!!!',
 						type : 'error',
 						confirmButtonText : "OK",
 						allowEscapeKey : true,
@@ -208,13 +216,11 @@
 
 		$("#submit").click(
 				function(event) {
-
 					event.preventDefault();
-
-					if ($("#flowerTypeName").val() === "") {
+					if ($("#occasionName").val() === "") {
 						swal({
 							title : 'Warning!',
-							text : 'Please Enter Flower Type!!!',
+							text : 'Please Enter Occasion Name!!!',
 							type : 'warning',
 							confirmButtonText : 'OK',
 							allowEscapeKey : true,
@@ -223,9 +229,10 @@
 						});
 					} else {
 						var job = {};
-						job["editId"] = $("#editFlowerTypeId").val();
-						job["name"] = $("#flowerTypeName").val();
-						job["description"] = $("#flowerTypeDescription").val();
+						//alert($("#editOccasionId").val());
+						job["editId"] = $("#editOccasionId").val();
+						job["name"] = $("#occasionName").val();
+						job["description"] = $("#occasionDescription").val();
 						if ($("#statusClick").val() === "") {
 							job["status"] = $("#statusDiv option:selected").val();
 						} else {
@@ -235,18 +242,18 @@
 						$("#submit").prop("disabled", true);
 						$.ajax({
 							type : "POST",
-							url : "admin-addEditFlowerType",
+							url : "admin-addEditOccasion",
 							data : JSON.stringify(job),
 							processData : false,
 							contentType : "application/json",
 							success : function(data) {
 								swal({
 									title : 'Success!',
-									text : 'Flower Type Successfully Inserted!!!',
+									text : 'Occasion Successfully Inserted!!!',
 									type : 'success',
-									showConfirmButton : false,
+									showConfirmButton : "OK",
 									allowEscapeKey : true,
-									timer : 3000,
+									timer : 2000,
 									animation : true
 								});
 
@@ -257,7 +264,7 @@
 								//alert("Error");
 								swal({
 									title : 'Error!',
-									text : 'Flower Type Not Inserted Successfully!!!',
+									text : 'Occasion Not Inserted Successfully!!!',
 									type : 'error',
 									confirmButtonText : "OK",
 									allowEscapeKey : true,
@@ -268,40 +275,40 @@
 
 							},
 							complete : function() {
-								$("#flowerTypeName").val("");
-								$("#flowerTypeDescription").val("");
+								$("#occasionName").val("");
+								$("#occasionDescription").val("");
 								$("#statusClick").val("");
-								$("#editFlowerTypeId").val("0");
+								$("#editOccasionId").val("0");
 
-								fetchAllFlowerType();
+								fetchAllOccasion();
 							}
 						});
 					}
 				});
 
 		function clearForm() {
-			$("#flowerTypeName").val("");
-			$("#flowerTypeDescription").val("");
+			$("#occasionName").val("");
+			$("#occasionDescription").val("");
 			$("#statusClick").val("");
-			$("#editFlowerTypeId").val("0");
+			$("#editOccasionId").val("0");
 		}
 
-		function editFlowerTypeById(flowerTypeId) {
+		function editOccasionById(occasionId) {
 			$.ajax({
 				type : "GET",
-				url : "admin-fetchFlowerTypeById?id=" + flowerTypeId,
+				url : "admin-fetchOccasionById?id=" + occasionId,
 				data : "",
 				processData : false,
 				contentType : "application/json",
 				success : function(data) {
 					if (data.status) {
-						$("#flowerTypeName").val(data.flowerType.name);
-						if (data.flowerType.description !== "") {
-							$("#flowerTypeDescription").val(
-									data.flowerType.description);
+						$("#occasionName").val(data.occasion.name);
+						if (data.occasion.description !== "") {
+							$("#occasionDescription").val(
+									data.occasion.description);
 						}
-						$("#editFlowerTypeId").val(flowerTypeId);
-						statusClick(data.flowerType.status);
+						$("#editOccasionId").val(occasionId);
+						statusClick(data.occasion.status); 
 					}
 
 				},
@@ -309,7 +316,7 @@
 					//alert("Error");
 					swal({
 						title : 'Error!',
-						text : 'Flower Type By Id Not Fetched Successfully!!!',
+						text : 'Occasion By Id Not Fetched Successfully!!!',
 						type : 'error',
 						confirmButtonText : "OK",
 						allowEscapeKey : true,
@@ -354,8 +361,8 @@
 		}
 	</script>
 
-
 	<div class="color-bg"></div>
 	<%@ include file="admin-includeFooter.jsp"%>
+
 </body>
 </html>
