@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -405,7 +404,7 @@ public class AdminController {
 			adminDetails.setLastName("MSS");
 			adminDetails.setEmailId("wedlock-mss@gmail.com");
 			adminDetails.setPassword("mss@123");
-			adminDetails.setPhoneNumber("7003082987");
+			adminDetails.setPhoneNumber("7003082897");
 			adminDetails.setAlternateNumber("7278117250");
 			adminDetails.setImageName("resources/images/W_AdminLogo.png");
 			

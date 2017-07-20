@@ -1,10 +1,12 @@
 package com.wedlock.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,8 +41,8 @@ public class Flower {
 	
 	@OneToOne
 	private Discount discount;
-	@OneToOne(mappedBy="flower")
-	private Int_Flow_Occ int_Flow_Occ;
+	@OneToMany(mappedBy="flower")
+	private List<Int_Flow_Occ> int_Flow_Occs;
 	
 	//Setters And Getters
 	public String getId() {
@@ -133,17 +135,17 @@ public class Flower {
 	public void setSellerDetails(SellerDetails sellerDetails) {
 		this.sellerDetails = sellerDetails;
 	}
-	public Int_Flow_Occ getInt_Flow_Occ() {
-		return int_Flow_Occ;
-	}
-	public void setInt_Flow_Occ(Int_Flow_Occ int_Flow_Occ) {
-		this.int_Flow_Occ = int_Flow_Occ;
-	}
 	public Discount getDiscount() {
 		return discount;
 	}
 	public void setDiscount(Discount discount) {
 		this.discount = discount;
+	}
+	public List<Int_Flow_Occ> getInt_Flow_Occs() {
+		return int_Flow_Occs;
+	}
+	public void setInt_Flow_Occs(List<Int_Flow_Occ> int_Flow_Occs) {
+		this.int_Flow_Occs = int_Flow_Occs;
 	}
 	
 }

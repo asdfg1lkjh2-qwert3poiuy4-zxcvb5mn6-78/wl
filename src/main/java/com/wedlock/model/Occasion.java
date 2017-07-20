@@ -2,13 +2,15 @@ package com.wedlock.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -28,8 +30,8 @@ public class Occasion implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date entryTime = new Date();
-	/*@OneToOne(mappedBy="flower")
-	private Int_Flow_Occ int_Flow_Occ;   */   
+	@OneToMany(mappedBy="occasion",fetch=FetchType.EAGER)
+	private List<Int_Flow_Occ> int_Flow_Occs;      
 	
 	@Transient
 	private long editId;
@@ -65,17 +67,17 @@ public class Occasion implements Serializable{
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	/*public Int_Flow_Occ getInt_Flow_Occ() {
-		return int_Flow_Occ;
-	}
-	public void setInt_Flow_Occ(Int_Flow_Occ int_Flow_Occ) {
-		this.int_Flow_Occ = int_Flow_Occ;
-	}*/
 	public long getEditId() {
 		return editId;
 	}
 	public void setEditId(long editId) {
 		this.editId = editId;
+	}
+	public List<Int_Flow_Occ> getInt_Flow_Occs() {
+		return int_Flow_Occs;
+	}
+	public void setInt_Flow_Occs(List<Int_Flow_Occ> int_Flow_Occs) {
+		this.int_Flow_Occs = int_Flow_Occs;
 	}
 	
 	

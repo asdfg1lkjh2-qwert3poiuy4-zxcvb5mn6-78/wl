@@ -2,8 +2,12 @@ package com.wedlock.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -13,9 +17,10 @@ public class Int_Flow_Occ implements Serializable {
 	
 	@Id@GeneratedValue
 	private long id;
-	@OneToOne
+	@ManyToOne
 	private Flower flower;
-	@OneToOne
+	@ManyToOne
+	@JsonIgnore
 	private Occasion occasion;
 	
 	//Setters And Getters
