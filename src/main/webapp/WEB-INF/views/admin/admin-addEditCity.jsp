@@ -541,7 +541,7 @@
 				processData : false,
 				contentType :"application/json",
 				success : function(data) {
-						if(data.status){
+						  if(data.status){
 							$("#cityTable > tbody").html("");
 							var abc ="";
 							for(var i = 0; i< data.listAllCities.length; i++){
@@ -555,11 +555,11 @@
 								+"<td class=\"text-center\">"+data.listAllCities[i].id+"</td>"
 								+"<td class=\"text-center\">"+data.listAllCities[i].cityName+"</td>"
 								+"<td class=\"text-center\">"+cityDescription+"</td>"
-								+"<td class=\"text-center\">"+data.listAllCities[i].stateName+"</td>"
+								+"<td class=\"text-center\">"+data.listAllCities[i].state.stateName+"</td>"
 								+"<td class=\"text-center\"><a href=\"#\" onclick=\"editCityById('"+data.listAllCities[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
 							}
 							$("#cityTable > tbody").html(abc);
-						}
+						}  
 				},
 				error : function(e) {
 					alert("Error");

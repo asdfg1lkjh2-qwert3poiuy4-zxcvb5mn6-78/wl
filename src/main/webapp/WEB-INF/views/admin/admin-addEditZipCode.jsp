@@ -763,7 +763,7 @@
 							+"<td class=\"text-center\">"+data.listAllZipCodes[i].id+"</td>"
 							+"<td class=\"text-center\">"+data.listAllZipCodes[i].zipCode+"</td>"
 							+"<td class=\"text-center\">"+data.listAllZipCodes[i].localityName+"</td>"
-							+"<td class=\"text-center\">"+data.listAllZipCodes[i].cityName+"</td>"
+							+"<td class=\"text-center\">"+data.listAllZipCodes[i].city.cityName+"</td>"
 							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editZipCodeById('"+data.listAllZipCodes[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
 						}
 						$("#zipCodeTable > tbody").html(abc);

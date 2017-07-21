@@ -61,6 +61,8 @@ public class AdminResponseClass {
 	private List<PhotographyOccasion> listAllPhotographyOccasions;
 	private PhotographyOccasion photographyOccasion;
 	
+	
+	
 	// Setters And Getters
 
 	public boolean isStatus() {
@@ -302,7 +304,5 @@ public class AdminResponseClass {
 	public void setPhotographyOccasion(PhotographyOccasion photographyOccasion) {
 		this.photographyOccasion = photographyOccasion;
 	}
-
-
 
 }

@@ -15,6 +15,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class SellerDetails implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -72,17 +77,23 @@ public class SellerDetails implements Serializable {
 	private String idProofFiles;
 	@Transient
 	private String sellerImageFiles;
-	@OneToMany(mappedBy = "sellerDetails")
-	private List<CategoryTaken> serviceTaken;
+	/*@OneToMany(mappedBy = "sellerDetails")
+	private List<CategoryTaken> serviceTaken;*/
 	
 	@OneToOne(mappedBy="sellerDetails")
+	@JsonIgnore
 	private SellerBankDetails sellerBankDetails;
-	@OneToOne(mappedBy="sellerDetails")
-	private Flower flower;
-	@OneToMany(mappedBy="sellerDetails")
+	/*@OneToOne(mappedBy="sellerDetails")
+	private Flower flower;*/
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="sellerDetails",fetch = FetchType.LAZY)
 	private List<SellerInactiveDetails> sellerInactiveDetails;
+	
 	@ManyToOne
 	private AdminDetails adminDetails;
+	/*@OneToMany(mappedBy = "sellerDetails")
+	private List<SellerProductImagesVideos> sellerProductImagesVideos;*/
 	
 	@Transient
 	private String stateName;
@@ -243,13 +254,13 @@ public class SellerDetails implements Serializable {
 		this.zipCode = zipCode;
 	}
 
-	public List<CategoryTaken> getServiceTaken() {
+	/*public List<CategoryTaken> getServiceTaken() {
 		return serviceTaken;
 	}
 
 	public void setServiceTaken(List<CategoryTaken> serviceTaken) {
 		this.serviceTaken = serviceTaken;
-	}
+	}*/
 
 	public SellerBankDetails getSellerBankDetails() {
 		return sellerBankDetails;
@@ -339,13 +350,13 @@ public class SellerDetails implements Serializable {
 		this.sellerPassword = sellerPassword;
 	}
 
-	public Flower getFlower() {
+	/*public Flower getFlower() {
 		return flower;
 	}
 
 	public void setFlower(Flower flower) {
 		this.flower = flower;
-	}
+	}*/
 
 	public String getStateName() {
 		return stateName;
@@ -411,13 +422,13 @@ public class SellerDetails implements Serializable {
 		this.typeOfSeller = typeOfSeller;
 	}
 
-	public List<SellerInactiveDetails> getSellerInactiveDetails() {
+	/*public List<SellerInactiveDetails> getSellerInactiveDetails() {
 		return sellerInactiveDetails;
 	}
 
 	public void setSellerInactiveDetails(List<SellerInactiveDetails> sellerInactiveDetails) {
 		this.sellerInactiveDetails = sellerInactiveDetails;
-	}
+	}*/
 
 	public Date getSellerRegistrationStart() {
 		return sellerRegistrationStart;
@@ -443,5 +454,21 @@ public class SellerDetails implements Serializable {
 		this.isEmailVerified = isEmailVerified;
 	}
 
+	public List<SellerInactiveDetails> getSellerInactiveDetails() {
+		return sellerInactiveDetails;
+	}
+
+	public void setSellerInactiveDetails(List<SellerInactiveDetails> sellerInactiveDetails) {
+		this.sellerInactiveDetails = sellerInactiveDetails;
+	}
+
+	/*public List<SellerProductImagesVideos> getSellerProductImagesVideos() {
+		return sellerProductImagesVideos;
+	}
+
+	public void setSellerProductImagesVideos(List<SellerProductImagesVideos> sellerProductImagesVideos) {
+		this.sellerProductImagesVideos = sellerProductImagesVideos;
+	}
+*/
 	
 }

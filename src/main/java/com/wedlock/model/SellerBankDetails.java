@@ -21,7 +21,7 @@ public class SellerBankDetails implements Serializable{
 	private String branchCode;
 	private String branchName;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	private SellerDetails sellerDetails;
 
 	@Transient 

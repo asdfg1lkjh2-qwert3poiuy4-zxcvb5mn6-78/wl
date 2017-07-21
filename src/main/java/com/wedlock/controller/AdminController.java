@@ -140,6 +140,7 @@ public class AdminController {
 	@RequestMapping(value = "/admin-fetchAllCities", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchAllCities() {
 		AdminResponseClass adminResponseClass = cityService.fetchAllCities();
+		System.out.println("///List is"+adminResponseClass.getListAllCities().size());
 		return adminResponseClass;
 	}
 
@@ -798,4 +799,5 @@ public class AdminController {
 		return adminResponseClass.isStatus();
 
 	}*/
+	
 }

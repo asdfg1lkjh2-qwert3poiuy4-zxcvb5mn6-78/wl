@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class State implements Serializable{
 
@@ -24,10 +26,12 @@ public class State implements Serializable{
 	@Column(columnDefinition = "TEXT")
 	private String stateDescription;
 	
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="state")
+	@OneToMany(mappedBy="state")
+	@JsonIgnore
 	private List<City> cities;
 	
 	@OneToMany(mappedBy="state")
+	@JsonIgnore
 	private List<SellerDetails> sellerDetails;
 	
 	@Transient

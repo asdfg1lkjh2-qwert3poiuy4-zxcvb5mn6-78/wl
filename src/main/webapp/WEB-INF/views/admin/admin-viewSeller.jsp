@@ -212,7 +212,7 @@
 						}
 						var xyz = new Date(data.sellerDetails[i].sellerRegistrationEnd);
 						xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+xyz.getDate();
-
+						
 						var mno = new Date(data.sellerDetails[i].entryTime);
 						mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+mno.getDate();
 						abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
@@ -249,3 +249,5 @@
 	}
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
+	</body>
+	</html>

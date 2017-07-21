@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class AdminDetails implements Serializable{
 	
@@ -25,9 +27,11 @@ public class AdminDetails implements Serializable{
 	private boolean isActive;
 	
 	@OneToMany(mappedBy ="adminDetails")
+	@JsonIgnore
 	private List<SellerInactiveDetails> sellerInactiveDetails;
 	
-	@OneToMany(mappedBy ="adminDetails")
+	@OneToMany(mappedBy="adminDetails")
+	@JsonIgnore
 	private List<SellerDetails> sellerDetails;
 	
 	//Setters And Getters
@@ -91,12 +95,12 @@ public class AdminDetails implements Serializable{
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
 	}
-	public List<SellerInactiveDetails> getSellerInactiveDetails() {
+	/*public List<SellerInactiveDetails> getSellerInactiveDetails() {
 		return sellerInactiveDetails;
 	}
 	public void setSellerInactiveDetails(List<SellerInactiveDetails> sellerInactiveDetails) {
 		this.sellerInactiveDetails = sellerInactiveDetails;
-	}
+	}*/
 	public List<SellerDetails> getSellerDetails() {
 		return sellerDetails;
 	}

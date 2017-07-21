@@ -65,7 +65,7 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 		List<SubCategoryAvailable> listSubCategoryAvailable = subCategoryAvailableDao.findAll(new Sort(Sort.Direction.ASC, "categoryAvailable.categoryName"));
 		status = true;
 		
-		List<SubCategoryAvailable> subCategoryAvailables = new ArrayList<>();
+		/*List<SubCategoryAvailable> subCategoryAvailables = new ArrayList<>();
 		for (SubCategoryAvailable subCategoryAvailable : listSubCategoryAvailable) {
 
 			CategoryAvailable categoryAvailable = categoryAvailableDao.findOne(subCategoryAvailable.getCategoryAvailable().getId());
@@ -80,9 +80,9 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 			subCategoryAvailable2.setActive(subCategoryAvailable.isActive());
 			subCategoryAvailables.add(subCategoryAvailable2);
 			
-		}
+		}*/
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setSubCategoryAvailables(subCategoryAvailables);
+		adminResponseClass.setSubCategoryAvailables(listSubCategoryAvailable);
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
@@ -90,7 +90,7 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 	public List<SubCategoryAvailable> listFetchAllSubCategoryAvailable() {
 		List<SubCategoryAvailable> listSubCategoryAvailable = subCategoryAvailableDao.findAll();
 		
-		List<SubCategoryAvailable> subCategoryAvailables = new ArrayList<>();
+		/*List<SubCategoryAvailable> subCategoryAvailables = new ArrayList<>();
 		for (SubCategoryAvailable subCategoryAvailable : listSubCategoryAvailable) {
 
 			SubCategoryAvailable subCategoryAvailable2 = new SubCategoryAvailable();
@@ -105,10 +105,10 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 
 			subCategoryAvailable2.setCategoryId(subCategoryAvailable.getCategoryAvailable().getId());
 
-			subCategoryAvailables.add(subCategoryAvailable2);
-
-		}
-		return subCategoryAvailables;
+			subCategoryAvailables.add(subCategoryAvailable2);*/
+/*
+		}*/
+		return listSubCategoryAvailable;
 	}
 	@Override
 	public AdminResponseClass fetchAllSubCategoryAvailableById(long id) {
@@ -117,19 +117,19 @@ public class SubCategoryAvailableServiceImpl implements SubCategoryAvailableServ
 		SubCategoryAvailable subCategoryAvailable = subCategoryAvailableDao.findOne(id);
 		status = true;
 		
-		SubCategoryAvailable subCategoryAvailable2 = new SubCategoryAvailable();
-		CategoryAvailable categoryAvailable = categoryAvailableDao.findOne(subCategoryAvailable.getCategoryAvailable().getId());
+		/*SubCategoryAvailable subCategoryAvailable2 = new SubCategoryAvailable();
+		CategoryAvailable categoryAvailable = categoryAvailableDao.findOne(subCategoryAvailable.getCategoryAvailable().getId());*/
 		
-		subCategoryAvailable2.setId(subCategoryAvailable.getId());
+		/*subCategoryAvailable2.setId(subCategoryAvailable.getId());
 		subCategoryAvailable2.setSubCategoryUrl(subCategoryAvailable.getSubCategoryUrl());
 		subCategoryAvailable2.setSubCategoryName(subCategoryAvailable.getSubCategoryName());
 		subCategoryAvailable2.setSubCategoryDescription(subCategoryAvailable.getSubCategoryDescription());
 		subCategoryAvailable2.setCategoryId(categoryAvailable.getId());
 		subCategoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
 		subCategoryAvailable2.setActive(subCategoryAvailable.isActive());
-		
+		*/
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setSubCategoryAvailable(subCategoryAvailable2);
+		adminResponseClass.setSubCategoryAvailable(subCategoryAvailable);
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}

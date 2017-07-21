@@ -6,6 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +50,7 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 		List<CategoryAvailable> listCategoryAvailable = query.getResultList();
 		status = true;
 		
-		List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
+		/*List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
 		for(CategoryAvailable categoryAvailable:listCategoryAvailable){
 			CategoryAvailable categoryAvailable2 = new CategoryAvailable();
 			categoryAvailable2.setId(categoryAvailable.getId());
@@ -56,11 +59,11 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 			categoryAvailable2.setCategoryUrl(categoryAvailable.getCategoryUrl());
 			categoryAvailable2.setActive(categoryAvailable.isActive());
 			list.add(categoryAvailable2);
-		}
+		}*/
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
 	    
-		adminResponseClass.setCategoryAvailables(list);
+		adminResponseClass.setCategoryAvailables(listCategoryAvailable);
 		
 		return adminResponseClass;
 	}
@@ -68,21 +71,22 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 	public AdminResponseClass fetchCategoryAvailableById(long id) {
 		boolean status = false;
 		
+		
 		CategoryAvailable categoryAvailable=categoryAvailableDao.findOne(id);
 		status = true;
 		
-		CategoryAvailable categoryAvailable2 = new CategoryAvailable();
+		/*CategoryAvailable categoryAvailable2 = new CategoryAvailable();
 		categoryAvailable2.setId(categoryAvailable.getId());
 		categoryAvailable2.setCategoryName(categoryAvailable.getCategoryName());
 		categoryAvailable2.setCategoryDescription(categoryAvailable.getCategoryDescription());
 		categoryAvailable2.setIconFile(categoryAvailable.getIconFile());
 		categoryAvailable2.setPackageFor(categoryAvailable.getPackageFor());
 		categoryAvailable2.setRegistrationCharge(categoryAvailable.getRegistrationCharge());
-		categoryAvailable2.setActive(categoryAvailable.isActive());
+		categoryAvailable2.setActive(categoryAvailable.isActive());*/
 		
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
-		adminResponseClass.setCategoryAvailable(categoryAvailable2);
+		adminResponseClass.setCategoryAvailable(categoryAvailable);
 		
 		
 		return adminResponseClass;
@@ -91,8 +95,21 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 	public List<CategoryAvailable> listFetchAllCategoryAvailble() {
 	
 		List<CategoryAvailable> listCategoryAvailable = categoryAvailableDao.findAll();
-
-		List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
+		
+//		CriteriaBuilder cb = manager.getCriteriaBuilder();
+//		CriteriaQuery<CategoryAvailable> cq = cb.createQuery(CategoryAvailable.class);
+//		// write the Root, Path elements as usual
+//		Root<CategoryAvailable> root = cq.from(CategoryAvailable.class);
+//		cq.select(cb.construct(CategoryAvailable.class,root.get("id"),root.get("categoryName"))).distinct(true);  
+//		List<CategoryAvailable> result = manager.createQuery(cq).getResultList();
+//		  
+//		  for(CategoryAvailable categoryAvailable:result){
+//			  System.out.println("/// Id is"+categoryAvailable.getId());
+//			  System.out.println("///CategoryName is"+categoryAvailable.getCategoryName());
+//			  System.out.println("///Category Icon File"+categoryAvailable.getIconFile());
+//		  }
+		
+		/*List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
 		for(CategoryAvailable categoryAvailable:listCategoryAvailable){
 			CategoryAvailable categoryAvailable2 = new CategoryAvailable();
 			categoryAvailable2.setId(categoryAvailable.getId());
@@ -103,8 +120,8 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 			categoryAvailable2.setActive(categoryAvailable.isActive());
 			list.add(categoryAvailable2);
 		}
-		
-		return list;
+		*/
+		return listCategoryAvailable;
 	}
 	@Override
 	public AdminResponseClass fetchAllCategoryAvailbleForDataTable() {
@@ -113,7 +130,7 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 		List<CategoryAvailable> listCategoryAvailable = categoryAvailableDao.findAll(new Sort(Sort.Direction.ASC, "categoryName"));
 		status = true;
 		
-		List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
+		/*List<CategoryAvailable> list = new ArrayList<CategoryAvailable>();
 		for(CategoryAvailable categoryAvailable:listCategoryAvailable){
 			CategoryAvailable categoryAvailable2 = new CategoryAvailable();
 			categoryAvailable2.setId(categoryAvailable.getId());
@@ -127,11 +144,11 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 			categoryAvailable2.setCategoryUrl(categoryAvailable.getCategoryUrl());
 			categoryAvailable2.setActive(categoryAvailable.isActive());
 			list.add(categoryAvailable2);
-		}
+		}*/
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
 	    
-		adminResponseClass.setCategoryAvailables(list);
+		adminResponseClass.setCategoryAvailables(listCategoryAvailable);
 		
 		return adminResponseClass;
 	}

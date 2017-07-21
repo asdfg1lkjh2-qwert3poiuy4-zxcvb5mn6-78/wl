@@ -1667,18 +1667,19 @@
 								checkBoxClick();
 							}
 							var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-							var d = new Date(data.sellerDetail.sellerDOB);
+							var d = new Date(data.sellerDetail.sellerDateOfBirth);
 							var dayName = days[d.getDay()];
 							var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 							var monthName = months[d.getMonth()];
-							var date = data.sellerDetail.sellerDOB;
+							var date = new Date(data.sellerDetail.sellerDOB);
+							date = d.getFullYear()+"-"+ (d.getMonth() + 1 > 9 ? d.getMonth() + 1 : "0"+(d.getMonth()+1)) +"-"+d.getDate();
 							date = date.split("-");
 							$("#sellerDateOfBirth").val(dayName+" "+date[2]+" "+monthName+" "+date[0]);
 							sellerGenderClick(data.sellerDetail.sellerGender);
 							 sellerAddressProofClick(data.sellerDetail.sellerAddressProof);
 							sellerIdProofClick(data.sellerDetail.sellerIdProof); 
 							$("#sellerCompanyName").val(data.sellerDetail.sellerCompanyName);
-							defaultStateList(false,Number(data.sellerDetail.stateId),data.sellerDetail.stateName, Number(data.sellerDetail.cityId), data.sellerDetail.cityName, Number(data.sellerDetail.zipCodeId), data.sellerDetail.zipCodeLocality);
+							defaultStateList(false,Number(data.sellerDetail.state.id),data.sellerDetail.state.stateName, Number(data.sellerDetail.city.id), data.sellerDetail.city.cityName, Number(data.sellerDetail.zipCode.id), data.sellerDetail.zipCode.localityName);
 							isEdit = 1;
 							var editAddressProofImage = data.sellerDetail.sellerAddressProofImg;
 							editAddressProofImage = editAddressProofImage.split("/");

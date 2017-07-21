@@ -106,33 +106,33 @@ public class SellerServiceImpl implements SellerService{
 		List<SellerDetails> listSellerDetails = sellerDao.findAll(new Sort(Sort.Direction.ASC, "sellerFirstName"));
 		status = true;
 		
-		List<SellerDetails> list = new ArrayList<>();
-		for(SellerDetails sellerDetails:listSellerDetails){
-			State state = stateDao.findOne(sellerDetails.getState().getId());
-			City city = cityDao.findOne(sellerDetails.getCity().getId());
-			ZipCode zipCode = zipCodeDao.findOne(sellerDetails.getZipCode().getId());
-			SellerDetails sellerDetails2 = new SellerDetails();
-			sellerDetails2.setId(sellerDetails.getId());
-			sellerDetails2.setSellerFirstName(sellerDetails.getSellerFirstName());
-			sellerDetails2.setSellerLastName(sellerDetails.getSellerLastName());
-			sellerDetails2.setSellerEmailId(sellerDetails.getSellerEmailId());
-			sellerDetails2.setSellerPassword(sellerDetails.getSellerPassword());
-			sellerDetails2.setSellerContactNumber(sellerDetails.getSellerContactNumber());
-			sellerDetails2.setSellerPresentAddress(sellerDetails.getSellerPresentAddress());
-			sellerDetails2.setEntryTime(sellerDetails.getEntryTime());
-			sellerDetails2.setSellerRegistrationEnd(sellerDetails.getSellerRegistrationEnd());
-			sellerDetails2.setStateName(state.getStateName());
-			sellerDetails2.setCityName(city.getCityName());
-			sellerDetails2.setZipCodeName(zipCode.getZipCode());
-			sellerDetails2.setSellerImg(sellerDetails.getSellerImg());
-			sellerDetails2.setTypeOfSeller(sellerDetails.getTypeOfSeller());
-			sellerDetails2.setActive(sellerDetails.isActive());
-			
-			
-			list.add(sellerDetails2);
-		}
+	/*		List<SellerDetails> list = new ArrayList<>();
+			for(SellerDetails sellerDetails:listSellerDetails){
+				State state = stateDao.findOne(sellerDetails.getState().getId());
+				City city = cityDao.findOne(sellerDetails.getCity().getId());
+				ZipCode zipCode = zipCodeDao.findOne(sellerDetails.getZipCode().getId());
+				SellerDetails sellerDetails2 = new SellerDetails();
+				sellerDetails2.setId(sellerDetails.getId());
+				sellerDetails2.setSellerFirstName(sellerDetails.getSellerFirstName());
+				sellerDetails2.setSellerLastName(sellerDetails.getSellerLastName());
+				sellerDetails2.setSellerEmailId(sellerDetails.getSellerEmailId());
+				sellerDetails2.setSellerPassword(sellerDetails.getSellerPassword());
+				sellerDetails2.setSellerContactNumber(sellerDetails.getSellerContactNumber());
+				sellerDetails2.setSellerPresentAddress(sellerDetails.getSellerPresentAddress());
+				sellerDetails2.setEntryTime(sellerDetails.getEntryTime());
+				sellerDetails2.setSellerRegistrationEnd(sellerDetails.getSellerRegistrationEnd());
+				sellerDetails2.setStateName(state.getStateName());
+				sellerDetails2.setCityName(city.getCityName());
+				sellerDetails2.setZipCodeName(zipCode.getZipCode());
+				sellerDetails2.setSellerImg(sellerDetails.getSellerImg());
+				sellerDetails2.setTypeOfSeller(sellerDetails.getTypeOfSeller());
+				sellerDetails2.setActive(sellerDetails.isActive());
+				
+				
+				list.add(sellerDetails2);
+			}*/
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setSellerDetails(list);
+		adminResponseClass.setSellerDetails(listSellerDetails);
 		adminResponseClass.setStatus(status);
 		
 		return adminResponseClass;
@@ -164,7 +164,7 @@ public class SellerServiceImpl implements SellerService{
 		}
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		
-		sellerDetails2.setId(sellerDetails.getId());
+		/*sellerDetails2.setId(sellerDetails.getId());
 		sellerDetails2.setSellerFirstName(sellerDetails.getSellerFirstName());
 		sellerDetails2.setSellerLastName(sellerDetails.getSellerLastName());
 		sellerDetails2.setSellerContactNumber(sellerDetails.getSellerContactNumber());
@@ -189,27 +189,27 @@ public class SellerServiceImpl implements SellerService{
 		sellerDetails2.setSellerAddressProofImg(sellerDetails.getSellerAddressProofImg());
 		sellerDetails2.setSellerIdProofImg(sellerDetails.getSellerIdProofImg());
 		sellerDetails2.setSellerImg(sellerDetails.getSellerImg());
-		sellerDetails2.setActive(sellerDetails.isActive());
+		sellerDetails2.setActive(sellerDetails.isActive());*/
 		if(sellerBankDetails !=null){
-			SellerBankDetails sellerBankDetails2 = new SellerBankDetails();
+			/*SellerBankDetails sellerBankDetails2 = new SellerBankDetails();
 			sellerBankDetails2.setId(sellerBankDetails.getId());
 			sellerBankDetails2.setAccountHolderName(sellerBankDetails.getAccountHolderName());
 			sellerBankDetails2.setAccountNumber(sellerBankDetails.getAccountNumber());
 			sellerBankDetails2.setIfscCode(sellerBankDetails.getIfscCode());
 			sellerBankDetails2.setBranchName(sellerBankDetails.getBranchName());
-			sellerBankDetails2.setBranchCode(sellerBankDetails.getBranchCode());
-			adminResponseClass.setSellerBankDetail(sellerBankDetails2);
+			sellerBankDetails2.setBranchCode(sellerBankDetails.getBranchCode());*/
+			adminResponseClass.setSellerBankDetail(sellerBankDetails);
 		}
 		if(sellerInactiveDetails != null){
-			SellerInactiveDetails sellerInactiveDetails2 = new SellerInactiveDetails();
+			/*SellerInactiveDetails sellerInactiveDetails2 = new SellerInactiveDetails();
 			sellerInactiveDetails2.setId(sellerInactiveDetails.getId());
 			sellerInactiveDetails2.setInactiveReason(sellerInactiveDetails.getInactiveReason());
-			sellerInactiveDetails2.setDateOfInactivity(sellerInactiveDetails.getDateOfInactivity());
-			adminResponseClass.setSellerInactiveDetail(sellerInactiveDetails2);
+			sellerInactiveDetails2.setDateOfInactivity(sellerInactiveDetails.getDateOfInactivity());*/
+			adminResponseClass.setSellerInactiveDetail(sellerInactiveDetails);
 		}
 		
 		
-		adminResponseClass.setSellerDetail(sellerDetails2);
+		adminResponseClass.setSellerDetail(sellerDetails);
 		adminResponseClass.setStatus(status);
 		
 		

@@ -107,7 +107,7 @@
 
 					<div class="card">
 						<div class="header">
-							<h2>All Departments</h2>
+							<h2>All Listed SubCategories</h2>
 							<ul class="header-dropdown m-r--5">
 								<li class="dropdown"><a href="javascript:void(0);"
 									class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -578,7 +578,7 @@
 							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].subCategoryName+"</td>"
 							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].subCategoryDescription+"</td>"
 							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].subCategoryUrl+"</td>"
-							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].categoryName+"</td>"
+							+"<td class=\"text-center\">"+data.subCategoryAvailables[i].categoryAvailable.categoryName+"</td>"
 							+"<td class=\"text-center\">"+active+"</td>"
 							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editSubCategoryById('"+data.subCategoryAvailables[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
 						}
@@ -609,7 +609,7 @@
 				contentType :"application/json",
 				success : function(data) {
 					if(data.status){
-						defaultCategoryList(false,Number(data.subCategoryAvailable.categoryId),data.subCategoryAvailable.categoryName);
+						defaultCategoryList(false,Number(data.subCategoryAvailable.categoryAvailable.id),data.subCategoryAvailable.categoryAvailable.categoryName);
 						$("#subCategoryName").val(data.subCategoryAvailable.subCategoryName);
 						$("#subCategoryDescription").val(data.subCategoryAvailable.subCategoryDescription);
 						$("#subCategoryUrl").val(data.subCategoryAvailable.subCategoryUrl);

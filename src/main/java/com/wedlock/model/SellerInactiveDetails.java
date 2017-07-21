@@ -11,6 +11,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class SellerInactiveDetails implements Serializable{
 
@@ -23,6 +25,7 @@ public class SellerInactiveDetails implements Serializable{
 	private boolean isActive;
 	
 	@ManyToOne
+	@JsonIgnore
 	private SellerDetails sellerDetails;
 	@ManyToOne
 	private AdminDetails adminDetails;

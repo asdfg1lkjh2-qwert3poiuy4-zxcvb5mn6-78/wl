@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class CategoryAvailable implements Serializable{
@@ -29,18 +31,31 @@ private static final long serialVersionUID = 1L;
 	private double registrationCharge;
 	private boolean isActive;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch =FetchType.EAGER, mappedBy="categoryAvailable")
+	@OneToMany(mappedBy="categoryAvailable")
+	@JsonIgnore
 	private List<SubCategoryAvailable> subCategoryAvailable;
 	
-	@OneToMany(mappedBy="categoryAvailable")
+	/*@OneToMany(mappedBy="categoryAvailable")
 	private List<Flower> flower;
 	@OneToMany(mappedBy="categoryAvailable")
 	private List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable;
+	@OneToMany(mappedBy="categoryAvailable")
+	private List<SellerProductImagesVideos> sellerProductImagesVideos;*/
 	@Transient
 	private String allFiles;
 	
 	@Transient
 	private long editCategoryId;
+	
+	
+	public CategoryAvailable() {
+		super();
+	}
+	public CategoryAvailable(long id,String categoryName) {
+		super();
+		this.id = id;
+		this.categoryName = categoryName;
+	}
 	//Setters And Getters
 	public long getId() {
 		return id;
@@ -110,7 +125,7 @@ private static final long serialVersionUID = 1L;
 	public void setEditCategoryId(long editCategoryId) {
 		this.editCategoryId = editCategoryId;
 	}
-	public List<Flower> getFlower() {
+	/*public List<Flower> getFlower() {
 		return flower;
 	}
 	public void setFlower(List<Flower> flower) {
@@ -122,6 +137,12 @@ private static final long serialVersionUID = 1L;
 	public void setInt_Vat_CategoryAvailable(List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable) {
 		this.int_Vat_CategoryAvailable = int_Vat_CategoryAvailable;
 	}
-	
+	public List<SellerProductImagesVideos> getSellerProductImagesVideos() {
+		return sellerProductImagesVideos;
+	}
+	public void setSellerProductImagesVideos(List<SellerProductImagesVideos> sellerProductImagesVideos) {
+		this.sellerProductImagesVideos = sellerProductImagesVideos;
+	}
+	*/
   
 }

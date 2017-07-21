@@ -32,9 +32,9 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 	private CityDao cityDao;
 	@PersistenceContext
 	EntityManager manager;
-
 	@Autowired
 	private StateDao stateDao;
+	
 	@Override
 	public AdminResponseClass saveZipCode(ZipCode zipCode, String zipCodeValues[]) {
 		boolean status = false;
@@ -72,7 +72,7 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 		List<ZipCode> zipCode = zipCodeDao.findAll(new Sort(Sort.Direction.ASC, "city.cityName"));
 		status = true;
 
-		List<ZipCode> zipCodes = new ArrayList<>();
+		/*List<ZipCode> zipCodes = new ArrayList<>();
 		for (ZipCode zipCode2 : zipCode) {
 			City city = cityDao.findOne(zipCode2.getCity().getId());
 			
@@ -85,10 +85,10 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 			zipCode3.setCityName(city.getCityName());
 			zipCodes.add(zipCode3);
 		}
-
+*/
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
-		adminResponseClass.setListAllZipCodes(zipCodes);
+		adminResponseClass.setListAllZipCodes(zipCode);
 		return adminResponseClass;
 	}
 

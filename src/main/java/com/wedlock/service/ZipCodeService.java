@@ -8,4 +8,5 @@ public interface ZipCodeService {
 	AdminResponseClass fetchAllZipCodes();
 	AdminResponseClass fetchZipCodeById(long id);
 	AdminResponseClass fetchZipCodeByCityId(long id);
+
 }

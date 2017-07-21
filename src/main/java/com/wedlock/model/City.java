@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class City implements Serializable{
 
@@ -28,10 +30,12 @@ public class City implements Serializable{
 	@ManyToOne
 	private State state;
 	
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="city")
+	@OneToMany(mappedBy="city")
+	@JsonIgnore
 	private List<ZipCode> zipCodes;
 	
 	@OneToMany(mappedBy="city")
+	@JsonIgnore
 	private List<SellerDetails> sellerDetails;
 	
 	@Transient

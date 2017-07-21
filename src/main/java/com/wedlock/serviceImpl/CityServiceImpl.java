@@ -68,22 +68,25 @@ public class CityServiceImpl implements CityService {
 		List<City> cityList = cityDao.findAll(new Sort(Sort.Direction.ASC, "state.stateName"));
 		status = true;
 
-		List<City> cities = new ArrayList<>();
+		/*List<City> cities = new ArrayList<>();
 		for (City city : cityList) {
-			State state = stateDao.findOne(city.getState().getId());
 			
 			City city2 = new City();
 			city2.setId(city.getId());
 			city2.setCityName(city.getCityName());
 			city2.setCityDescription(city.getCityDescription());
-			city2.setStateId(state.getId());
-			city2.setStateName(state.getStateName());
+			city2.setState(city.getState());
 			cities.add(city2);
-		}
+		}*/
 
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
-		adminResponseClass.setListAllCities(cities);
+		adminResponseClass.setListAllCities(cityList);
+		for(City city: adminResponseClass.getListAllCities() ){
+			System.out.println("/////City is"+city.getId());
+			System.out.println("////City Name is"+city.getCityName());
+			System.out.println("////State id is"+city.getState().getId());
+		}
 
 		return adminResponseClass;
 	}

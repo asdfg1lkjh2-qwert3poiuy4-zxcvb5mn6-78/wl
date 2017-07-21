@@ -4,12 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 @Entity
 public class ZipCode implements Serializable {
@@ -25,6 +30,7 @@ public class ZipCode implements Serializable {
 	private City city;
 
 	@OneToMany(mappedBy = "zipCode")
+	@JsonIgnore
 	private List<SellerDetails> sellerDetails;
 	
 	@Transient
