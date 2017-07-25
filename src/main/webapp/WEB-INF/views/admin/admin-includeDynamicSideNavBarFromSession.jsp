@@ -24,7 +24,7 @@
 					var="subCategoryList">
 					<script type="text/javascript">
 						var categoryId = "${categoryList.id}";
-											var subCategory = "${subCategoryList.categoryId}";
+											var subCategory = "${subCategoryList.categoryAvailable.id}";
 											efg = "<ul class=\"ml-menu font-list\" id='sideNavBarUl"
 													+ (Number(Number(i)) + (Number(1)))
 													+ "'>"

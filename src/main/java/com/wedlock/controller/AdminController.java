@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,10 +27,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.wedlock.model.AdminDetails;
 import com.wedlock.model.AdminResponseClass;
+import com.wedlock.model.ApiResponseClass;
 import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.City;
 import com.wedlock.model.FlowerType;
@@ -57,6 +61,7 @@ import com.wedlock.service.StateService;
 import com.wedlock.service.SubCategoryAvailableService;
 import com.wedlock.service.ZipCodeService;
 import com.wedlock.util.createId;
+import com.wedlock.util.smsApi;
 
 /*Please Don't Delete Any Of The Imports As They Are Not Unnecessary. 
 They look so because of some commented api's which we will be taken care afterwards.
@@ -622,15 +627,16 @@ public class AdminController {
 					if(isEdit.equals("No")){
 						mailService.sendEmailToSeller(sellerDetails,"notVerified");
 					}
-					/*String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
+				    String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
 					String phoneNumber = sellerDetails.getSellerContactNumber();
 					URL url = new URL(smsApi.sendSms(mssg, phoneNumber));
 					ObjectMapper objectMapper = new ObjectMapper();
 					objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 					ApiResponseClass apiResponseClass = objectMapper.readValue(url, ApiResponseClass.class);
+					System.out.println("////APIResponseClass"+apiResponseClass.getTotal_sms());
 					if(apiResponseClass.getTotal_sms() == 0){
 						adminResponseClass.setStatus(Boolean.FALSE);
-					}*/
+					}
 					
 					if(objectNode.get("hasValue").asInt() == 1){
 						SellerBankDetails sellerBankDetails = new SellerBankDetails();

@@ -1661,7 +1661,7 @@
 							$("#sellerPermanentAddress").val(data.sellerDetail.sellerPermanentAddress);
 							$("#sellerEmailId").val(data.sellerDetail.sellerEmailId);
 							$("#sellerPassword").val(data.sellerDetail.sellerPassword);
-							$("#zipCode").val(data.sellerDetail.zipCodeName);
+							$("#zipCode").val(data.sellerDetail.zipCode.zipCode);
 							if($("#sellerPresentAddress").val() === $("#sellerPermanentAddress").val()){
 								$("#checkBoxId").prop("checked",true);
 								checkBoxClick();

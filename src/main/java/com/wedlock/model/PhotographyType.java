@@ -1,12 +1,21 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class PhotographyType implements Serializable{
@@ -18,6 +27,14 @@ public class PhotographyType implements Serializable{
 	@Column(columnDefinition = "TEXT")
 	private String typeDescription;
 	private boolean status;
+	
+	@OneToMany(mappedBy="photographyType")
+	@JsonIgnore
+	private List<SellerPhotographer> sellerPhotographer;
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="photographyType", fetch= FetchType.LAZY)
+	private List<Int_PhtographyType_SellerPhotographer> int_PhotographyType_SellerPhotographer;
 	
 	@Transient
 	private long editPhotographyTypeId;
@@ -67,6 +84,18 @@ public class PhotographyType implements Serializable{
 	}
 	public void setPhotographyStatusSelect(String photographyStatusSelect) {
 		this.photographyStatusSelect = photographyStatusSelect;
+	}
+	public List<SellerPhotographer> getSellerPhotographer() {
+		return sellerPhotographer;
+	}
+	public void setSellerPhotographer(List<SellerPhotographer> sellerPhotographer) {
+		this.sellerPhotographer = sellerPhotographer;
+	}
+	public List<Int_PhtographyType_SellerPhotographer> getInt_PhotographyType_SellerPhotographer() {
+		return int_PhotographyType_SellerPhotographer;
+	}
+	public void setInt_PhotographyType_SellerPhotographer(List<Int_PhtographyType_SellerPhotographer> int_PhotographyType_SellerPhotographer) {
+		this.int_PhotographyType_SellerPhotographer = int_PhotographyType_SellerPhotographer;
 	}
 
 }

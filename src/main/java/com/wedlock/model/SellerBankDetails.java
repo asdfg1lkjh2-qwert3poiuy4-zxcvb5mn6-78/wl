@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class SellerBankDetails implements Serializable{
 
@@ -22,6 +24,7 @@ public class SellerBankDetails implements Serializable{
 	private String branchName;
 	
 	@OneToOne
+	@JsonIgnore
 	private SellerDetails sellerDetails;
 
 	@Transient 

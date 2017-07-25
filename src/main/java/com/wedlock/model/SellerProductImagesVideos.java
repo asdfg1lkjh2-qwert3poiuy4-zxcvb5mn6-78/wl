@@ -5,7 +5,10 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class SellerProductImagesVideos implements Serializable{
@@ -14,11 +17,13 @@ public class SellerProductImagesVideos implements Serializable{
 	private long id;
 	private String productImageVideoUrl;
 	private boolean isPhotoVideo;
-	@OneToOne
+	
+	@ManyToOne
 	private SellerDetails sellerDetails;
 	@OneToOne
 	private CategoryAvailable categoryAvailable;
-	@OneToOne
+	@ManyToOne
+	@JsonIgnore
 	private SellerPhotographer product;
 	
 	//Setters And Getters

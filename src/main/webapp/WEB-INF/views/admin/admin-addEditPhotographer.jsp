@@ -368,14 +368,14 @@
                             </div>
                             <div class="body">
                                 <div class="row clearfix">
-                                    <div class="col-sm-6 col-xs-12">
+                                    <div class="col-sm-12 col-xs-12">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" placeholder="Product Name">
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="col-sm-6 col-xs-12">
+                                     <div class="col-sm-6 col-xs-12 hideDiv">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" placeholder="Product ID">
@@ -400,15 +400,16 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4 col-xs-12">
-                                    <div class="form-group drop-custum" id="photographyOccasionDiv">
-                                            <select class="form-control show-tick">
-                                                <option value="">-- Occasion --</option>
-                                                <option value="10">XXX</option>
-                                                <option value="20">XXXX</option>
-                                            </select>
-                                        </div>
-                                       <!--  <div class="form-group">
+								<div class="col-sm-4 col-xs-12">
+									<div class="form-group div-center hundred-width"
+										id="photographyOccasionDiv">
+										<select class="form-control show-tick">
+											<option value="">-- Occasion --</option>
+											<option value="10">XXX</option>
+											<option value="20">XXXX</option>
+										</select>
+									</div>
+									<!--  <div class="form-group">
                                             <div class="div-center hundred-width new-brdr added">
                                                 <select name="langOpt2[]" class="selectHeader add-padding-hide" multiple id="langOpt2">
                                                     <option value="Flower">Flower</option>
@@ -422,8 +423,8 @@
                                                 </select>
                                             </div>
                                         </div> -->
-                                    </div>
-                                </div>
+								</div>
+							</div>
 							<div class="row clearfix">
 							<div class="header marginb15 margin-bottom10">
 									<h2>Photographer Image Files</h2>
@@ -512,65 +513,104 @@
                                         <h2>Photographer Pricing </h2>
                                     </div>
                                 </div>
-                                <div class="row clearfix">
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="datepicker form-control" name="fromDate" id="fromDate"
-												placeholder="From Date">
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="datepicker form-control" name="toDate" id="toDate"
-												placeholder="To Date">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Price">
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Discount">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <button class="g-bg-blush2 pull-right add-new">
-                                            <i class="fa fa-plus"></i> Add
-                                        </button>
+							<div class="photographerPricingDiv">
+								<div class="row clearfix">
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="datepicker form-control"
+													name="fromDate" id="fromDate" placeholder="From Date">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="datepicker form-control"
+													name="toDate" id="toDate" placeholder="To Date">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="form-control" name="price" id="price" placeholder="Price">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group">
+											<button type="button" class="btn btn-raised gradient-right"
+												id="plusbtn">Add</button>
+										</div>
+									</div>
+								</div>
+								<div class="row clearfix hideDiv" id="photographerPricing2">
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="datepicker form-control"
+													name="fromDate" id="fromDate" placeholder="From Date">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="datepicker form-control"
+													name="toDate" id="toDate" placeholder="To Date">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="form-control" name="price" id="price" placeholder="Price">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group">
+											<button type="button" class="btn btn-raised gradient-right"
+												id="plusbtn">Add</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row clearfix">
+                                    <div class="header marginb15">
+                                        <h2>Advance Payment / Discount / Availability Details</h2>
                                     </div>
                                 </div>
-                                <div class="row clearfix">                                   
-                                    <div class="col-sm-4 col-xs-12">
+                                <div class="row clearfix">
+                                    <div class="col-sm-3 col-xs-12">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" placeholder="Advance Payment percentage">
                                             </div>
                                         </div>
                                     </div> 
-                                    <div class="col-sm-4 col-xs-12">
+                                     <div class="col-sm-3 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" placeholder="Discount">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-xs-12">
+                                        <div class="form-group drop-custum">
+                                            <select class="form-control show-tick">
+                                                <option value="">-- Availability  --</option>
+                                                <option value="10">XXX</option>
+                                                <option value="20">XXXX</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                     <div class="col-sm-3 col-xs-12">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" placeholder="Freebie">
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4 col-xs-12">
-                                        <div class="form-group drop-custum">
-                                            <select class="form-control show-tick">
-                                                <option value="">-- Availabiliy  --</option>
-                                                <option value="10">XXX</option>
-                                                <option value="20">XXXX</option>
-                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -718,12 +758,12 @@
 			success : function(data) {
 				$("#photographyTypeDiv").html("");
 				if (data.status) {
-					var arValue = "";
+					 var arValue = "";
 					while(ary.length > 0){
 						ary.pop();
 					}
 					var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Photo Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Photo Type--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-							+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+							+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulPhotoType0\">"
 							+"<li data-original-index=\"0\" class=\"selected\" id=\"photoTypeLi0\" onclick=\"clickPhotoTypeLi('"+0+"','Photo Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Photo Type --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 					var cde = "";		
 							for(var i = 0; i < data.listAllPhotographyTypes.length; i++){	
@@ -732,7 +772,7 @@
 								ary.push(arValue);
 							}
 						cde = cde +"</ul></div>"
-						$("#photographyTypeDiv").html(abc + cde);
+						$("#photographyTypeDiv").html(abc + cde); 
 				}
 
 			},
@@ -753,17 +793,17 @@
 	
 	
 	var previousLi; 			// For previous li id to remove the class selected
-	
 	//On click of each li in Photography Type list 
 	 function clickPhotoTypeLi(liId,title1,photographyTypeId){
 		$("#photographyTypeName").val(photographyTypeId);			//Hidden field to store the Photography Type Id
 		var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--"+title1+ "--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"
 		+ title1
-		+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-
+		+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulPhotoType0\">"
+		
 		if(Number(liId) > Number(0)){
 			 var selectedId = $(".selected").attr("id");
 				previouLi = liId;
+				
 
 			abc = abc + "<li data-original-index=\"0\" class=\"\" id=\"photoTypeLi0\" onclick=\"clickPhotoTypeLi('"
 					+ 0
@@ -776,18 +816,19 @@
 					cde = cde
 							+ "<li data-original-index='"
 							+ Number(Number(i) + Number(1))
-							+ "' class =\"selected\" id='photoTypeLi"
+							+ "' class=\"selected\" id='photoTypeLi"
 							+ Number(Number(i) + Number(1))
 							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoTypeLi('"+Number(Number(i) + Number(1))+"','"+splittedArray[1]+"','"+splittedArray[0]+"')\"><span class=\"text\">"
 							+ splittedArray[1]
 							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 				} else {
+					
 					cde = cde
 							+ "<li data-original-index='"
 							+ Number(Number(i) + Number(1))
-							+ "' id='photoTypeLi"
+							+ "' class=\"\" id='photoTypeLi"
 							+ Number(Number(i) + Number(1))
-							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoTypeLi('"+Number(Number(i) + Number(1))+"','"+splittedArray[1]+"','"+splittedArray[0]+"')\"><span class=\"text\">"
+							+ "'><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick =\"clickPhotoTypeLi('"+Number(Number(i) + Number(1))+"','"+splittedArray[1]+"','"+splittedArray[0]+"')\"><span class=\"text\">"
 							+ splittedArray[1]
 							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 				}
@@ -845,7 +886,7 @@
 							arry3.pop();
 						}
 						var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Occasion --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Occasion --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-								+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+								+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulPhotoOccasion0\">"
 								+"<li data-original-index=\"0\" class=\"selected\" id=\"photoOccasionLi0\" onclick=\"clickPhotoOccasionLi('"+0+"','Occasion')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Occasion --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 						var cde = "";		
 								for(var i = 0; i < data.listAllPhotographyOccasions.length; i++){	
@@ -873,13 +914,39 @@
 			});
 		}
 	
-	
+	var title = "";
+
 	//On click of each li in Photography Occasion list 
-	 function clickPhotoOccasionLi(liId,title1,photographyOccasionId){
+	 function clickPhotoOccasionLi(liId,title1,photographyOccasionId,classSelected){
+		 if(classSelected === undefined || classSelected === ""){
+				if(title === "" || title1 === "Occasion"){
+					title = title1;
+				}else{
+					title = title + "," + title1;
+				}
+			}else{
+				var a  = title.split(",");
+				title = "";
+				for(var i =0; i< a.length; i++){
+					if(a[i] === title1){
+						a[i] = "";
+					}else{
+						if(title === ""){
+							title = a[i];
+						}else{
+							title = title + "," +a[i];
+						}
+					}
+				}
+				if(title === "" && (classSelected !== undefined || classSelected !== "")){
+					alert("In if");
+					title = "Occasion";
+				}
+			}
 		$("#photographyOccasionName").val(photographyOccasionId);			//Hidden field to store the Photography Occasion Id
-		var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--"+title1+ "--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"
-		+ title1
-		+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+		var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--"+title+ "--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"
+		+ title
+		+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulPhotoOccasion0\">"
 
 		if(Number(liId) > Number(0)){
 			 var selectedId = $(".selected").attr("id");
@@ -893,21 +960,29 @@
 				var splittedArray = arry3[i].split("_");
 
 				if (Number(i) === Number(Number(liId) - Number(1))) {
+					var classSelected = "";
+					if(!($("#photoOccasionLi"+ Number(liId)).hasClass("selected"))){
+						classSelected = "class = selected";
+					}
 					cde = cde
 							+ "<li data-original-index='"
 							+ Number(Number(i) + Number(1))
-							+ "' class =\"selected\" id='photoOccasionLi"
+							+ "' "+classSelected+" id='photoOccasionLi"
 							+ Number(Number(i) + Number(1))
-							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoOccasionLi('"+Number(Number(i) + Number(1))+"','"+splittedArray[1]+"','"+splittedArray[0]+"')\"><span class=\"text\">"
+							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoOccasionLi('"+Number(Number(i) + Number(1))+"','"+splittedArray[1]+"','"+splittedArray[0]+"','"+classSelected+"')\"><span class=\"text\">"
 							+ splittedArray[1]
 							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 				} else {
+					var classSelected = "";
+					if($("#photoOccasionLi"+Number(Number(i) + Number(1))).hasClass("selected")){
+						classSelected = "class = selected";
+					}
 					cde = cde
 							+ "<li data-original-index='"
 							+ Number(Number(i) + Number(1))
-							+ "' id='photoOccasionLi"
+							+ "' "+classSelected+" id='photoOccasionLi"
 							+ Number(Number(i) + Number(1))
-							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoOccasionLi('"+Number(Number(i) + Number(1))+"','"+splittedArray[1]+"','"+splittedArray[0]+"')\"><span class=\"text\">"
+							+ "'><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoOccasionLi('"+Number(Number(i) + Number(1))+"','"+splittedArray[1]+"','"+splittedArray[0]+"','"+classSelected+"')\"><span class=\"text\">"
 							+ splittedArray[1]
 							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 				}
@@ -920,10 +995,10 @@
 		} else {
 			$("#photoOccasionLi" + previousLi).removeClass("selected");
 			$("#photoOccasionLi0").addClass("selected");
-			
+			var classSelected = "";
 			 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"photoOccasionLi0\" onclick=\"clickPhotoOccasionLi('"
 			+ 0
-			+ "','Occasion')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Occasion --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+ "','Occasion','"+classSelected+"')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Occasion --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 	var cde = "";
 	for (var i = 0; i < arry3.length; i++) {
 		var splittedArray = arry3[i].split("_");
@@ -936,18 +1011,96 @@
 					+ Number(Number(i) + Number(1))
 					+ "','"
 					+ splittedArray[1]
-					+ "','"
+					+ "','"	
 					+ splittedArray[0]
 					+ "')\"><span class=\"text\">"
 					+ splittedArray[1]
 					+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 		
-}
+				}
 	cde = cde + "</ul></div>"
 
 	$("#photographyOccasionDiv").html(abc + cde);
 			}
 	 }
+	
+	 var i = Number(0); 			//Variable to  know number of times the new div has been added
+		
+		//On click of Add button
+		$("#plusbtn").click(function() {
+			addDiv();
+		});
+		
+		 //For Adding new div
+		function addDiv() {
+			if ($("#fromDate" + i).val() === ""
+					|| $("#fromDate").val() === "") {
+				swal({
+					title : 'Warning!',
+					text : 'Please Enter Starting Date of Price!!!',
+					type : 'warning',
+					confirmButtonText : 'OK',
+					allowEscapeKey : true,
+					confirmButtonClass : "btn btn-raised gradient-right",
+					animation : true
+				});
+			
+			}else if($("#toDate" + i).val() === ""
+				|| $("#toDate").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Ending Date of Price!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			} else if($("#price" + i).val() === ""
+				|| $("#price").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Price of Product!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else {
+				if(Number(i) < Number(2)){
+					i = Number(Number(i) + Number(1));
+					$(".photographerPricingDiv")
+							.append("<div class=\"row clearfix\">"
+									+"<div class=\"col-sm-3 col-xs-12\">"
+									+"<div class=\"form-group\">"
+									+"<div class=\"form-line\">"
+									+"<input type=\"text\" class=\"datepicker form-control\" name=\"fromDate\" id=\"fromDate1\" data-dtp=\"dtp_TDJwF\" placeholder=\"From Date\">"
+								    +"</div>"
+									+"</div>"
+									+"</div></div>")
+				}else{
+					swal({
+						title : 'Warning!',
+						text : 'You can only add 3 pricings at a time!!!',
+						type : 'warning',
+						confirmButtonText : 'OK',
+						allowEscapeKey : true,
+						confirmButtonClass : "btn btn-raised gradient-right",
+						animation : true
+					});
+				}
+				
+			}
+		}
+ 
+ 	/* 	function addDiv(){
+	 $("#photographerPricing2").attr("style","display:block");
+ } */
+		// For removing present div
+		function removePhotographyPricingDiv(removeId) {
+			$("#photographerPricingDiv" + removeId).remove();
+		}
 	</script>
     <div class="color-bg"></div>
     <!-- Jquery Js --> 

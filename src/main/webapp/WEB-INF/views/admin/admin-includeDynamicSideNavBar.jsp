@@ -15,7 +15,7 @@ function fetchSideNavBar(str){
 				for(var i = 0; i<data.categoryAvailables.length; i++){
 					 for(var k = 0; k<data.subCategoryAvailables.length; k++){
 						efg = "<ul class=\"ml-menu font-list\" id='sideNavBarUl"+(Number(Number(i)) + (Number(1)))+"'>"
-						 if(data.categoryAvailables[i].id === data.subCategoryAvailables[k].categoryId){
+						 if(data.categoryAvailables[i].id === data.subCategoryAvailables[k].categoryAvailable.id){
 							 cde = cde +"<li><a href="+data.subCategoryAvailables[k].subCategoryUrl+">"+data.subCategoryAvailables[k].subCategoryName+"</a></li>"
 						 }
 					 }

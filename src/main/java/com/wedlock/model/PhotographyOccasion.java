@@ -1,12 +1,16 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class PhotographyOccasion implements Serializable{
@@ -18,6 +22,10 @@ public class PhotographyOccasion implements Serializable{
 	@Column(columnDefinition = "TEXT")
 	private String occasionDescription;
 	private boolean status;
+	
+	@OneToMany(mappedBy="occasion")
+	@JsonIgnore
+	private List<SellerPhotographer> sellerPhotographer;
 	
 	@Transient
 	private long editPhotographyOccasionId;
@@ -69,6 +77,12 @@ public class PhotographyOccasion implements Serializable{
 	}
 	public void setPhotographyStatusSelect(String photographyStatusSelect) {
 		this.photographyStatusSelect = photographyStatusSelect;
+	}
+	public List<SellerPhotographer> getSellerPhotographer() {
+		return sellerPhotographer;
+	}
+	public void setSellerPhotographer(List<SellerPhotographer> sellerPhotographer) {
+		this.sellerPhotographer = sellerPhotographer;
 	}
 	
 	

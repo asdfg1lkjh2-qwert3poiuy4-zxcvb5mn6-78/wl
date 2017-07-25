@@ -81,7 +81,6 @@ public class SellerDetails implements Serializable {
 	private List<CategoryTaken> serviceTaken;*/
 	
 	@OneToOne(mappedBy="sellerDetails")
-	@JsonIgnore
 	private SellerBankDetails sellerBankDetails;
 	/*@OneToOne(mappedBy="sellerDetails")
 	private Flower flower;*/
@@ -92,8 +91,15 @@ public class SellerDetails implements Serializable {
 	
 	@ManyToOne
 	private AdminDetails adminDetails;
-	/*@OneToMany(mappedBy = "sellerDetails")
-	private List<SellerProductImagesVideos> sellerProductImagesVideos;*/
+	
+	@OneToMany(mappedBy = "sellerDetails")
+	@JsonIgnore
+	private List<SellerProductImagesVideos> sellerProductImagesVideos;
+	
+	@OneToMany(mappedBy = "sellerDetails")
+	@JsonIgnore
+	private List<SellerPhotographer> sellerPhotographer;
+	
 	
 	@Transient
 	private String stateName;
@@ -462,13 +468,20 @@ public class SellerDetails implements Serializable {
 		this.sellerInactiveDetails = sellerInactiveDetails;
 	}
 
-	/*public List<SellerProductImagesVideos> getSellerProductImagesVideos() {
+	public List<SellerProductImagesVideos> getSellerProductImagesVideos() {
 		return sellerProductImagesVideos;
 	}
 
 	public void setSellerProductImagesVideos(List<SellerProductImagesVideos> sellerProductImagesVideos) {
 		this.sellerProductImagesVideos = sellerProductImagesVideos;
 	}
-*/
+
+	public List<SellerPhotographer> getSellerPhotographer() {
+		return sellerPhotographer;
+	}
+
+	public void setSellerPhotographer(List<SellerPhotographer> sellerPhotographer) {
+		this.sellerPhotographer = sellerPhotographer;
+	}
 	
 }

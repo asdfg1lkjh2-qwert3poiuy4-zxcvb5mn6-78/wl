@@ -1,20 +1,6 @@
 <!-- Jquery Core Js --> 
 <script src="resources/js/jquery.min.js"></script> <!--jquery.min Library Js --> 
 
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#bank-check").click(function () {
-            $("#open-bank-account").slideToggle('slow');
-        });
-
-        $('#langOpt2').multiselect({
-            columns: 1,
-            placeholder: 'Select Languages',
-            search: true
-        });
-    });
-</script>
 <!-- Jquery Core Js --> 
 <script src="resources/js/sparkline.min.js"></script> 
 <script src="resources/js/chartjs.min.js"></script>

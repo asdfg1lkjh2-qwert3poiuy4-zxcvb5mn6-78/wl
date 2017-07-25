@@ -38,12 +38,14 @@ private static final long serialVersionUID = 1L;
 	/*@OneToMany(mappedBy="categoryAvailable")
 	private List<Flower> flower;
 	@OneToMany(mappedBy="categoryAvailable")
-	private List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable;
+	private List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable;*/
+	
 	@OneToMany(mappedBy="categoryAvailable")
-	private List<SellerProductImagesVideos> sellerProductImagesVideos;*/
+	@JsonIgnore
+	private List<SellerProductImagesVideos> sellerProductImagesVideos;
+	
 	@Transient
 	private String allFiles;
-	
 	@Transient
 	private long editCategoryId;
 	
@@ -136,13 +138,13 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setInt_Vat_CategoryAvailable(List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable) {
 		this.int_Vat_CategoryAvailable = int_Vat_CategoryAvailable;
-	}
+	}*/
 	public List<SellerProductImagesVideos> getSellerProductImagesVideos() {
 		return sellerProductImagesVideos;
 	}
 	public void setSellerProductImagesVideos(List<SellerProductImagesVideos> sellerProductImagesVideos) {
 		this.sellerProductImagesVideos = sellerProductImagesVideos;
 	}
-	*/
+	
   
 }

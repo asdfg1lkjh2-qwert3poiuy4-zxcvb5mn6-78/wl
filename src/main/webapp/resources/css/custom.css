@@ -45,7 +45,6 @@ body{font-family: Ubuntu;}
 .hundred-width .bootstrap-select{width: 100% !important}
 .div-center.hundred-width .bootstrap-select .dropdown-menu li.selected a {
     background-color: #F5B596 !important;
-    border-bottom: 1px solid #c89075;
 }
 .theme-blush .dropdown-menu li.selected a:hover {
     background: #dd5e89;
@@ -61,7 +60,7 @@ body{font-family: Ubuntu;}
     text-align: center;
     line-height: 24px;
     border-radius: 50%;
-    margin-top: 5px;
+    margin-top: 6px;
 }
 .quick-price-link {margin-top: 25px; margin-left: 20px;}
 .quick-price-link span {color: #f15f79; font-size: 15px;}
@@ -115,7 +114,10 @@ button.add-new {
 .bootstrap-select.btn-group .dropdown-toggle .filter-option{text-transform: capitalize !important}
 
 
-
+.div-center{
+	margin-top: 18px !important;
+	border-bottom: 1px solid #c89075;
+}
 .hideDiv {
 	display:none;
 }
