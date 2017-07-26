@@ -21,6 +21,7 @@ public class FlowerType implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	private String name;
 	@Column(columnDefinition = "TEXT")

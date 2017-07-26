@@ -94,12 +94,15 @@ public class SellerDetails implements Serializable {
 	
 	@OneToMany(mappedBy = "sellerDetails")
 	@JsonIgnore
-	private List<SellerProductImagesVideos> sellerProductImagesVideos;
-	
-	@OneToMany(mappedBy = "sellerDetails")
-	@JsonIgnore
 	private List<SellerPhotographer> sellerPhotographer;
 	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "sellerDetails",fetch = FetchType.LAZY)
+	private List<AllProducts> allProducts;
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="sellerDetails",fetch=FetchType.LAZY)
+	private List<SellerProductCancellation> sellerProductCancellation;
 	
 	@Transient
 	private String stateName;
@@ -468,20 +471,20 @@ public class SellerDetails implements Serializable {
 		this.sellerInactiveDetails = sellerInactiveDetails;
 	}
 
-	public List<SellerProductImagesVideos> getSellerProductImagesVideos() {
-		return sellerProductImagesVideos;
-	}
-
-	public void setSellerProductImagesVideos(List<SellerProductImagesVideos> sellerProductImagesVideos) {
-		this.sellerProductImagesVideos = sellerProductImagesVideos;
-	}
-
 	public List<SellerPhotographer> getSellerPhotographer() {
 		return sellerPhotographer;
 	}
 
 	public void setSellerPhotographer(List<SellerPhotographer> sellerPhotographer) {
 		this.sellerPhotographer = sellerPhotographer;
+	}
+
+	public List<SellerProductCancellation> getSellerProductCancellation() {
+		return sellerProductCancellation;
+	}
+
+	public void setSellerProductCancellation(List<SellerProductCancellation> sellerProductCancellation) {
+		this.sellerProductCancellation = sellerProductCancellation;
 	}
 	
 }

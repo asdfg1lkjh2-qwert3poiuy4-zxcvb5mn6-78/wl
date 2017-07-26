@@ -168,7 +168,7 @@
 			dictCancelUpload : "Cancel upload",
 			dictCancelUploadConfirmation : "Are you sure you want to cancel this upload?",
 			dictRemoveFile : "Remove file",
-			dictRemoveFileConfirmation : null,
+			dictRemoveFileConfirmation : "Are you sure you want to remove file from server?",
 			dictMaxFilesExceeded : "You can not upload any more files.",
 			accept : function(file, done) {
 				return done();
@@ -326,7 +326,7 @@
 						}
 						if (this.options.addRemoveLinks) {
 							file._removeLink = Dropzone
-									.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>"
+									.createElement("<a class=\"dz-remove sample\" href=\"javascript:undefined;\" data-dz-remove>"
 											+ this.options.dictRemoveFile + "</a>");
 							file.previewElement.appendChild(file._removeLink);
 						}
@@ -345,9 +345,7 @@
 								} else {
 									if (_this.options.dictRemoveFileConfirmation) {
 										return Dropzone
-												.confirm(
-														_this.options.dictRemoveFileConfirmation,
-														function() {
+												.confirm(_this.options.dictRemoveFileConfirmation,function() {
 															return _this
 																	.removeFile(file);
 														});
@@ -369,6 +367,7 @@
 					}
 				}else{
 					alert("Maximum Files reached");
+					
 				}
 				
 			},
@@ -1796,13 +1795,30 @@
 		}
 		return elements;
 	};
-
+	
 	Dropzone.confirm = function(question, accepted, rejected) {
-		if (window.confirm(question)) {
-			return accepted();
-		} else if (rejected != null) {
-			return rejected();
+		if(accepted !=null){
+			swal({
+				  title: "Are you sure?",
+				  text: "You will not be able to recover this imaginary file!",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Yes, delete it!",
+				  closeOnConfirm: false
+				},
+				function(isConfirm){
+					if(isConfirm){
+						 swal("Deleted!", "Your imaginary file has been deleted.", "success");
+						  return accepted();
+					}else{
+						swal("Cancelled", "Your imaginary file is safe :)", "error");
+						return rejected();
+					}
+				 
+				});
 		}
+		
 	};
 
 	Dropzone.isValidFile = function(file, acceptedFiles) {

@@ -3,7 +3,6 @@ package com.wedlock.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,6 +23,7 @@ public class CategoryAvailable implements Serializable{
 private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	private String categoryName;
 	@Column(columnDefinition = "TEXT")
@@ -36,13 +39,20 @@ private static final long serialVersionUID = 1L;
 	private List<SubCategoryAvailable> subCategoryAvailable;
 	
 	/*@OneToMany(mappedBy="categoryAvailable")
-	private List<Flower> flower;
-	@OneToMany(mappedBy="categoryAvailable")
-	private List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable;*/
+	private List<Flower> flower;*/
 	
 	@OneToMany(mappedBy="categoryAvailable")
 	@JsonIgnore
-	private List<SellerProductImagesVideos> sellerProductImagesVideos;
+	private List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable;
+	
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="categoryAvailable",fetch = FetchType.LAZY)
+	private List<AllProducts> allProducts;
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="categoryAvailable",fetch = FetchType.LAZY)
+	private List<SellerProductCancellation> sellerProductCancellation;
 	
 	@Transient
 	private String allFiles;
@@ -132,19 +142,18 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setFlower(List<Flower> flower) {
 		this.flower = flower;
-	}
+	}*/
 	public List<Int_Vat_CategoryAvailable> getInt_Vat_CategoryAvailable() {
 		return int_Vat_CategoryAvailable;
 	}
 	public void setInt_Vat_CategoryAvailable(List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable) {
 		this.int_Vat_CategoryAvailable = int_Vat_CategoryAvailable;
-	}*/
-	public List<SellerProductImagesVideos> getSellerProductImagesVideos() {
-		return sellerProductImagesVideos;
 	}
-	public void setSellerProductImagesVideos(List<SellerProductImagesVideos> sellerProductImagesVideos) {
-		this.sellerProductImagesVideos = sellerProductImagesVideos;
+	public List<SellerProductCancellation> getSellerProductCancellation() {
+		return sellerProductCancellation;
+	}
+	public void setSellerProductCancellation(List<SellerProductCancellation> sellerProductCancellation) {
+		this.sellerProductCancellation = sellerProductCancellation;
 	}
 	
-  
 }

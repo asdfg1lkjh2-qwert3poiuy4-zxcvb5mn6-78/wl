@@ -4,25 +4,33 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 public class Vat implements Serializable{
  
  private static final long serialVersionUID = 1L;
  @Id @GeneratedValue
+ @Column(columnDefinition = "bigint(20) unsigned")
  private long id; 
  private String vatName;
  private double vatAmount;
  private boolean status;
- @Temporal(TemporalType.DATE)
+ @Temporal(TemporalType.TIMESTAMP)
  private Date entryTime;
- @OneToMany(mappedBy="vat")
+ 
+ @LazyCollection(LazyCollectionOption.FALSE)
+ @OneToMany(mappedBy="vat",fetch=FetchType.LAZY)
  private List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable;
  
  //Setters And Getters

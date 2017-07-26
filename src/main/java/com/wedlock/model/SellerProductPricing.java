@@ -3,6 +3,7 @@ package com.wedlock.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,21 +14,27 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class PhotographerProductPricing implements Serializable{
+public class SellerProductPricing implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	@Id@GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	@Temporal(TemporalType.DATE)
 	private Date priceFromDate;
 	@Temporal(TemporalType.DATE)
 	private Date priceToDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date entryTime;
 	private double price;
 	private boolean status;
 	
 	@ManyToOne
 	@JsonIgnore
 	private SellerPhotographer sellerPhotographer;
+	
+	@ManyToOne
+	private AllProducts allProducts;
 	
 	//Setters And Getters
 	
@@ -69,6 +76,22 @@ public class PhotographerProductPricing implements Serializable{
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public Date getEntryTime() {
+		return entryTime;
+	}
+
+	public void setEntryTime(Date entryTime) {
+		this.entryTime = entryTime;
+	}
+
+	public AllProducts getAllProducts() {
+		return allProducts;
+	}
+
+	public void setAllProducts(AllProducts allProducts) {
+		this.allProducts = allProducts;
 	}
 	
 

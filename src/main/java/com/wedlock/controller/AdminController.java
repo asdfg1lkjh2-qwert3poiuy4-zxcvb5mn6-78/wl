@@ -278,6 +278,18 @@ public class AdminController {
 		adminResponseClass.setStatus(status);
 		return adminResponseClass.isStatus();
 	}
+	@RequestMapping(value = "/admin-removeUnusedImagesVideos", method = RequestMethod.POST)
+	public @ResponseBody boolean removeUnusedImagesVideos(@RequestBody ObjectNode objectNode,BindingResult bindingResult , HttpServletRequest request) {
+		boolean status = false;
+		String imageFile[] = objectNode.get("imageId").asText().split("_");
+		ServletContext context = request.getServletContext();
+		File currentFile = new File(context.getRealPath("/" + imageFile[0] + "/temp/" + imageFile[1].trim()));
+		currentFile.delete();
+		status = true;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setStatus(status);
+		return adminResponseClass.isStatus();
+	}
 
 	@RequestMapping(value = "/admin-addEditCategoryAvailable", method = RequestMethod.POST)
 	public @ResponseBody boolean addEditCategoryAvailable(@RequestBody CategoryAvailable categoryAvailable,
@@ -799,6 +811,7 @@ public class AdminController {
 		AdminResponseClass adminResponseClass = photographyOccasionService.fetchPhotographyOccasionById(id);
 		return adminResponseClass;
 	}
+	
 	/*@RequestMapping(value = "/admin-addEditFlowerType", method= RequestMethod.POST)
 	public @ResponseBody boolean adminAddEditFlowerType(@RequestBody FlowerType flowerType) {
 		AdminResponseClass adminResponseClass = flowerTypeService.saveFlowerType(flowerType);

@@ -39,8 +39,6 @@ public class Flower {
 	@OneToOne
 	private FlowerType flowerType;
 	
-	@OneToOne
-	private Discount discount;
 	@OneToMany(mappedBy="flower")
 	private List<Int_Flow_Occ> int_Flow_Occs;
 	
@@ -135,12 +133,7 @@ public class Flower {
 	public void setSellerDetails(SellerDetails sellerDetails) {
 		this.sellerDetails = sellerDetails;
 	}
-	public Discount getDiscount() {
-		return discount;
-	}
-	public void setDiscount(Discount discount) {
-		this.discount = discount;
-	}
+
 	public List<Int_Flow_Occ> getInt_Flow_Occs() {
 		return int_Flow_Occs;
 	}

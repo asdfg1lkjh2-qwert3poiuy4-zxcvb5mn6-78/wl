@@ -3,6 +3,7 @@ package com.wedlock.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ public class AdminDetails implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	@Id @GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	private String firstName;
 	private String lastName;

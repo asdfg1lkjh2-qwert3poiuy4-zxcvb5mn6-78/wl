@@ -17,6 +17,7 @@ public class PhotographyOccasion implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	@Id@GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	private String occasionName;
 	@Column(columnDefinition = "TEXT")

@@ -2,10 +2,13 @@ package com.wedlock.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Int_Vat_CategoryAvailable implements Serializable {
@@ -14,11 +17,15 @@ public class Int_Vat_CategoryAvailable implements Serializable {
 
 	@Id
 	@GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 
 	@ManyToOne
+	@JsonIgnore
 	private CategoryAvailable categoryAvailable;
+	
 	@ManyToOne
+	@JsonIgnore
 	private Vat vat;
 
 	// Setters And Getters

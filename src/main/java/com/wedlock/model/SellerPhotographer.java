@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -24,7 +25,6 @@ public class SellerPhotographer implements Serializable {
 	@Id
 	private String id;
 	private String productName;
-	private String productId;
 	@Column(columnDefinition = "TEXT")
 	private String photoDescription;
 	private int noOfPhotosProvided;
@@ -35,11 +35,9 @@ public class SellerPhotographer implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date entryTime;
 	private double advancePaymentPercentage;
+	@Column(columnDefinition = "TEXT")
+	private String freebie;
 	private boolean isActive;
-	
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="product",fetch = FetchType.LAZY)
-	private List<SellerProductImagesVideos> sellerProductImagesVideos;
 	
 	@ManyToOne
 	private PhotographyType photographyType;
@@ -52,15 +50,14 @@ public class SellerPhotographer implements Serializable {
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="sellerPhotographer",fetch = FetchType.LAZY)
-	private List<PhotographerProductPricing> photographerProductPricing;
-	
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="sellerPhotographer",fetch = FetchType.LAZY)
-	private List<PhotographerProductCancellation> photographerProductCancellation;
+	private List<SellerProductPricing> photographerProductPricing;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="sellerPhotographer",fetch = FetchType.LAZY)
 	private List<Int_PhtographyType_SellerPhotographer> int_PhtographyType_SellerPhotographer;
+	
+	@OneToOne
+	private AllProducts allProducts;
 	
 	//Setters And Getters
 	
@@ -78,14 +75,6 @@ public class SellerPhotographer implements Serializable {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
-	}
-
-	public String getProductId() {
-		return productId;
-	}
-
-	public void setProductId(String productId) {
-		this.productId = productId;
 	}
 
 	public String getPhotoDescription() {
@@ -152,14 +141,6 @@ public class SellerPhotographer implements Serializable {
 		this.isActive = isActive;
 	}
 
-	public List<SellerProductImagesVideos> getSellerProductImagesVideos() {
-		return sellerProductImagesVideos;
-	}
-
-	public void setSellerProductImagesVideos(List<SellerProductImagesVideos> sellerProductImagesVideos) {
-		this.sellerProductImagesVideos = sellerProductImagesVideos;
-	}
-
 	public PhotographyType getPhotographyType() {
 		return photographyType;
 	}
@@ -184,20 +165,12 @@ public class SellerPhotographer implements Serializable {
 		this.sellerDetails = sellerDetails;
 	}
 
-	public List<PhotographerProductPricing> getPhotographerProductPricing() {
+	public List<SellerProductPricing> getPhotographerProductPricing() {
 		return photographerProductPricing;
 	}
 
-	public void setPhotographerProductPricing(List<PhotographerProductPricing> photographerProductPricing) {
+	public void setPhotographerProductPricing(List<SellerProductPricing> photographerProductPricing) {
 		this.photographerProductPricing = photographerProductPricing;
-	}
-
-	public List<PhotographerProductCancellation> getPhotographerProductCancellation() {
-		return photographerProductCancellation;
-	}
-
-	public void setPhotographerProductCancellation(List<PhotographerProductCancellation> photographerProductCancellation) {
-		this.photographerProductCancellation = photographerProductCancellation;
 	}
 
 	public List<Int_PhtographyType_SellerPhotographer> getInt_PhtographyType_SellerPhotographer() {
@@ -206,6 +179,22 @@ public class SellerPhotographer implements Serializable {
 
 	public void setInt_PhtographyType_SellerPhotographer(List<Int_PhtographyType_SellerPhotographer> int_PhtographyType_SellerPhotographer) {
 		this.int_PhtographyType_SellerPhotographer = int_PhtographyType_SellerPhotographer;
+	}
+
+	public String getFreebie() {
+		return freebie;
+	}
+
+	public void setFreebie(String freebie) {
+		this.freebie = freebie;
+	}
+
+	public AllProducts getAllProducts() {
+		return allProducts;
+	}
+
+	public void setAllProducts(AllProducts allProducts) {
+		this.allProducts = allProducts;
 	}
 	
 	

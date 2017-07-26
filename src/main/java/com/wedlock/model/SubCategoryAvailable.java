@@ -19,6 +19,7 @@ public class SubCategoryAvailable implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id @GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	private String subCategoryName;
 	@Column(columnDefinition = "TEXT")

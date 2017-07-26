@@ -1,30 +1,30 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class SellerProductImagesVideos implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id@GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	private String productImageVideoUrl;
 	private boolean isPhotoVideo;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date entryTime;
 	
 	@ManyToOne
-	private SellerDetails sellerDetails;
-	@OneToOne
-	private CategoryAvailable categoryAvailable;
-	@ManyToOne
-	@JsonIgnore
-	private SellerPhotographer product;
+	private AllProducts allProducts;
 	
 	//Setters And Getters
 	public long getId() {
@@ -45,24 +45,19 @@ public class SellerProductImagesVideos implements Serializable{
 	public void setPhotoVideo(boolean isPhotoVideo) {
 		this.isPhotoVideo = isPhotoVideo;
 	}
-	public SellerDetails getSellerDetails() {
-		return sellerDetails;
+	public AllProducts getAllProducts() {
+		return allProducts;
 	}
-	public void setSellerDetails(SellerDetails sellerDetails) {
-		this.sellerDetails = sellerDetails;
+	public void setAllProducts(AllProducts allProducts) {
+		this.allProducts = allProducts;
 	}
-	public CategoryAvailable getCategoryAvailable() {
-		return categoryAvailable;
+	public Date getEntryTime() {
+		return entryTime;
 	}
-	public void setCategoryAvailable(CategoryAvailable categoryAvailable) {
-		this.categoryAvailable = categoryAvailable;
+	public void setEntryTime(Date entryTime) {
+		this.entryTime = entryTime;
 	}
-	public SellerPhotographer getProduct() {
-		return product;
-	}
-	public void setProduct(SellerPhotographer product) {
-		this.product = product;
-	}
+	
 	
 	
 	

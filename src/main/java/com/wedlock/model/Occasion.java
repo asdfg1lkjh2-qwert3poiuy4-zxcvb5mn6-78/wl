@@ -22,6 +22,7 @@ public class Occasion implements Serializable{
 	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	private String name;
 	@Column(columnDefinition = "TEXT")
@@ -30,6 +31,7 @@ public class Occasion implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date entryTime = new Date();
+	
 	@OneToMany(mappedBy="occasion",fetch=FetchType.EAGER)
 	private List<Int_Flow_Occ> int_Flow_Occs;      
 	

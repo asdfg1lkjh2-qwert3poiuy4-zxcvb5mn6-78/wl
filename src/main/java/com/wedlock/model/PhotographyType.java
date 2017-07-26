@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -22,6 +21,7 @@ public class PhotographyType implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	@Id@GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	private String typeName;
 	@Column(columnDefinition = "TEXT")
