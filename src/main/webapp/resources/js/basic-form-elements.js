@@ -1,12 +1,13 @@
 $(function () {
     //Textare auto growth
     autosize($('textarea.auto-growth'));
-
+    momentCalender($,moment);
     //Datetimepicker plugin
     $('.datetimepicker').bootstrapMaterialDatePicker({
         format: 'dddd DD MMMM YYYY - HH:mm',
         clearButton: true,
         weekStart: 1
+       
     });
 
     $('.datepicker').bootstrapMaterialDatePicker({
@@ -21,4 +22,5 @@ $(function () {
         clearButton: true,
         date: false
     });
+    
 });

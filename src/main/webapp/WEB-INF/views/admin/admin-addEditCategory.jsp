@@ -554,11 +554,12 @@
 					editImage = editImage.split("/");
 					$("#defaultIconFile").val(editImage[2]);
 					Dropzone.forElement("#singleUpload").destroy();
-					var file = {
+					 var file = {
 						    name: editImage[2],
-						    size: 4096,
+						    size: 60096,
 						    status: Dropzone.ADDED,
 						    accepted: true
+						    
 						};
 						var myDropzone = new Dropzone("#singleUpload",{clickable:false})
 						myDropzone.emit("addedfile", file);  

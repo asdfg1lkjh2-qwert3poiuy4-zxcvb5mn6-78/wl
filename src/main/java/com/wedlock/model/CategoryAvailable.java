@@ -45,9 +45,8 @@ private static final long serialVersionUID = 1L;
 	@JsonIgnore
 	private List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable;
 	
-	
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="categoryAvailable",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="categoryAvailable")
+	@JsonIgnore
 	private List<AllProducts> allProducts;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -154,6 +153,12 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setSellerProductCancellation(List<SellerProductCancellation> sellerProductCancellation) {
 		this.sellerProductCancellation = sellerProductCancellation;
+	}
+	public List<AllProducts> getAllProducts() {
+		return allProducts;
+	}
+	public void setAllProducts(List<AllProducts> allProducts) {
+		this.allProducts = allProducts;
 	}
 	
 }

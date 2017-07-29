@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.wedlock.dao.CategoryAvailableDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.CategoryAvailable;
+import com.wedlock.model.SellerBankDetails;
 import com.wedlock.service.CategoryAvailableService;
 
 @Transactional
@@ -150,6 +152,18 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 	    
 		adminResponseClass.setCategoryAvailables(listCategoryAvailable);
 		
+		return adminResponseClass;
+	}
+	@Override
+	public AdminResponseClass fetchCategoryByCategoryName(String categoryName) {
+		boolean status = false;
+		
+		TypedQuery<CategoryAvailable> categoryAvailables = manager.createQuery("Select c from CategoryAvailable c where c.categoryName LIKE:categoryName", CategoryAvailable.class).setParameter("categoryName", categoryName.trim());
+		CategoryAvailable categoryAvailable = categoryAvailables.getResultList().get(0);
+		status = true;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setCategoryAvailable(categoryAvailable);
+		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
 

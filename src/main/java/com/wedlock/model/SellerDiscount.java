@@ -19,9 +19,9 @@ public class SellerDiscount implements Serializable{
 	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
 	@Temporal(TemporalType.DATE)
-	private Date fromDate;
+	private Date fromDateDiscount;
 	@Temporal(TemporalType.DATE)
-	private Date toDate;
+	private Date toDateDiscount;
 	@Column(columnDefinition = "bigint(20) unsigned")
 	private double discount;
 	private boolean isFlatDiscount;
@@ -31,7 +31,7 @@ public class SellerDiscount implements Serializable{
 	
 	@ManyToOne
 	private AllProducts allProducts;
-
+	
 	//Setters And Getters
 	public long getId() {
 		return id;
@@ -41,21 +41,6 @@ public class SellerDiscount implements Serializable{
 		this.id = id;
 	}
 
-	public Date getFromDate() {
-		return fromDate;
-	}
-
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
-	}
-
-	public Date getToDate() {
-		return toDate;
-	}
-
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
-	}
 
 	public double getDiscount() {
 		return discount;
@@ -88,5 +73,29 @@ public class SellerDiscount implements Serializable{
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
+
+	public Date getFromDateDiscount() {
+		return fromDateDiscount;
+	}
+
+	public void setFromDateDiscount(Date fromDateDiscount) {
+		this.fromDateDiscount = fromDateDiscount;
+	}
+
+	public Date getToDateDiscount() {
+		return toDateDiscount;
+	}
+
+	public void setToDateDiscount(Date toDateDiscount) {
+		this.toDateDiscount = toDateDiscount;
+	}
+
+	public AllProducts getAllProducts() {
+		return allProducts;
+	}
+
+	public void setAllProducts(AllProducts allProducts) {
+		this.allProducts = allProducts;
+	}
+
 }

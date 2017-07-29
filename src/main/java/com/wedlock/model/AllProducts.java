@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -25,16 +26,16 @@ public class AllProducts implements Serializable{
 	private long id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date entryTime;
+	private boolean status;
 	
 	@ManyToOne
-	@JsonIgnore
 	private CategoryAvailable categoryAvailable;
 	
 	@ManyToOne
-	@JsonIgnore
 	private SellerDetails sellerDetails;
 	
 	@OneToOne(mappedBy="allProducts")
+	@JsonIgnore
 	private SellerPhotographer sellerPhotographer;
 
 	@OneToMany(mappedBy="allProducts")
@@ -49,6 +50,9 @@ public class AllProducts implements Serializable{
 	@JsonIgnore
 	private List<SellerDiscount> sellerDiscount;
 	
+	@OneToMany(mappedBy="allProducts")
+	@JsonIgnore
+	private List<SellerPhotographyOccasion> sellerPhotographyOccasions;
 	//Setters And Getters
 	public long getId() {
 		return id;
@@ -112,6 +116,22 @@ public class AllProducts implements Serializable{
 
 	public void setSellerDiscount(List<SellerDiscount> sellerDiscount) {
 		this.sellerDiscount = sellerDiscount;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public List<SellerPhotographyOccasion> getSellerPhotographyOccasions() {
+		return sellerPhotographyOccasions;
+	}
+
+	public void setSellerPhotographyOccasions(List<SellerPhotographyOccasion> sellerPhotographyOccasions) {
+		this.sellerPhotographyOccasions = sellerPhotographyOccasions;
 	}
 	
 	

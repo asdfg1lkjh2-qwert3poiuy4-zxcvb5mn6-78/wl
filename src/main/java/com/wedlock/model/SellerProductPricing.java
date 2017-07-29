@@ -30,10 +30,6 @@ public class SellerProductPricing implements Serializable{
 	private boolean status;
 	
 	@ManyToOne
-	@JsonIgnore
-	private SellerPhotographer sellerPhotographer;
-	
-	@ManyToOne
 	private AllProducts allProducts;
 	
 	//Setters And Getters
@@ -93,6 +89,5 @@ public class SellerProductPricing implements Serializable{
 	public void setAllProducts(AllProducts allProducts) {
 		this.allProducts = allProducts;
 	}
-	
 
 }

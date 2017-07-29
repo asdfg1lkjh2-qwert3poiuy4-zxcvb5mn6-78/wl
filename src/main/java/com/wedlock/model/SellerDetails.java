@@ -94,10 +94,6 @@ public class SellerDetails implements Serializable {
 	
 	@OneToMany(mappedBy = "sellerDetails")
 	@JsonIgnore
-	private List<SellerPhotographer> sellerPhotographer;
-	
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy = "sellerDetails",fetch = FetchType.LAZY)
 	private List<AllProducts> allProducts;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -469,14 +465,6 @@ public class SellerDetails implements Serializable {
 
 	public void setSellerInactiveDetails(List<SellerInactiveDetails> sellerInactiveDetails) {
 		this.sellerInactiveDetails = sellerInactiveDetails;
-	}
-
-	public List<SellerPhotographer> getSellerPhotographer() {
-		return sellerPhotographer;
-	}
-
-	public void setSellerPhotographer(List<SellerPhotographer> sellerPhotographer) {
-		this.sellerPhotographer = sellerPhotographer;
 	}
 
 	public List<SellerProductCancellation> getSellerProductCancellation() {

@@ -61,7 +61,9 @@ public class AdminResponseClass {
 	private List<PhotographyOccasion> listAllPhotographyOccasions;
 	private PhotographyOccasion photographyOccasion;
 	
-	
+	/*For Seller Photographer*/
+	private List<SellerPhotographer> listSellerPhotographers;
+	private SellerPhotographer sellerPhotographer;
 	
 	// Setters And Getters
 
@@ -303,6 +305,22 @@ public class AdminResponseClass {
 
 	public void setPhotographyOccasion(PhotographyOccasion photographyOccasion) {
 		this.photographyOccasion = photographyOccasion;
+	}
+
+	public List<SellerPhotographer> getListSellerPhotographers() {
+		return listSellerPhotographers;
+	}
+
+	public void setListSellerPhotographers(List<SellerPhotographer> listSellerPhotographers) {
+		this.listSellerPhotographers = listSellerPhotographers;
+	}
+
+	public SellerPhotographer getSellerPhotographer() {
+		return sellerPhotographer;
+	}
+
+	public void setSellerPhotographer(SellerPhotographer sellerPhotographer) {
+		this.sellerPhotographer = sellerPhotographer;
 	}
 
 }

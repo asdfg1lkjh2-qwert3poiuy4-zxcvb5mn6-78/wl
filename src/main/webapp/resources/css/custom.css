@@ -42,6 +42,7 @@ body{font-family: Ubuntu;}
 .header .header-add label{font-family: 'Caveat', cursive; font-size: 23px; color: #111; font-weight: 500;}
 .header .header-add label span{font-size: 14px; margin-top: 7px;}
 #open-bank-account{display: none}
+#discountDiv{display: none}
 .hundred-width .bootstrap-select{width: 100% !important}
 .div-center.hundred-width .bootstrap-select .dropdown-menu li.selected a {
     background-color: #F5B596 !important;
@@ -120,4 +121,7 @@ button.add-new {
 }
 .hideDiv {
 	display:none;
+}
+.checkbox .labelCheckbox{
+	margin-top:14px;
 }

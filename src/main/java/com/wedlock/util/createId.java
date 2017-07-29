@@ -4,22 +4,49 @@ public class createId {
 	
 	public static String IdGeneration(String lastId){
 		String sellerId = "SELLER-0003000";
+		String photographerId = "PHOTO-0090000";
 		String result ="";
-		if(lastId.equals("SELLER0")){
-			result = sellerId;
+		String caseValue = "";
+		String Id[]  = lastId.split("-");
+		if(lastId.indexOf("-") >=0){
+			caseValue = Id[0];
 		}else{
-			String Id[] = lastId.split("-");
-			int a = Integer.parseInt(Id[1]) + 1;
-			int c = String.valueOf(Id[1]).length();
-			if(c == 4 || c== 7){
-				result = Id[0]+"-000"+a;
-			}else if(c == 5){
-				result = Id[0]+"-00"+a;
-			}else if(c == 6){
-				result = Id[0]+"-0"+a;
-			}else{
-				result = Id[0]+"-"+a;
+			caseValue = lastId;
+		}
+		switch (caseValue) {
+		case "SELLER0":
+			result = sellerId;
+			break;
+		case "SELLER":
+			int sellerA = Integer.parseInt(Id[1]) + 1;
+			int sellerC = String.valueOf(Id[1]).length();
+			if (sellerC == 4 || sellerC == 7) {
+				result = Id[0] + "-000" + sellerA;
+			} else if (sellerC == 5) {
+				result = Id[0] + "-00" + sellerA;
+			} else if (sellerC == 6) {
+				result = Id[0] + "-0" + sellerA;
+			} else {
+				result = Id[0] + "-" + sellerA;
 			}
+			break;
+		case "PHOTO0":
+			result = photographerId;
+			break;
+		case "PHOTO":
+			int photoA = Integer.parseInt(Id[1]) + 1;
+			int phototC = String.valueOf(Id[1]).length();
+			if (phototC == 5 || phototC == 7) {
+				result = Id[0] + "-00" + photoA;
+			} else if (phototC == 6) {
+				result = Id[0] + "-0" + photoA;
+			} else {
+				result = Id[0] + "-" + photoA;
+			}
+			break;
+		default:
+			result = "No Id Found";
+			break;
 		}
 		return result;
 	}

@@ -416,6 +416,7 @@
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
 	<script src="resources/js/sweetalert2.min.js"></script>
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
+	<script src="resources/js/basic-form-elements.js"></script> 
 	<!--jquery-2.1.3.min Library Js -->
 	<script type="text/javascript">
 		
@@ -1819,7 +1820,6 @@
 					}else{
 						$("#liSellerInactive"+Number(i)).removeClass("selected");
 					}
-				
 			}
 			
 		}
@@ -1878,6 +1878,6 @@
 		});
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
-
+	
 </body>
 </html>

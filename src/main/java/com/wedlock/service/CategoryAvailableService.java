@@ -8,6 +8,7 @@ import com.wedlock.model.CategoryAvailable;
 public interface CategoryAvailableService {
 	AdminResponseClass saveCategoryAvailable(CategoryAvailable categoryAvailable);
 	AdminResponseClass fetchAllCategoryAvailble();
+	AdminResponseClass fetchCategoryByCategoryName(String categoryName);
 	AdminResponseClass fetchCategoryAvailableById(long id);
 	List<CategoryAvailable> listFetchAllCategoryAvailble();
 	AdminResponseClass fetchAllCategoryAvailbleForDataTable();

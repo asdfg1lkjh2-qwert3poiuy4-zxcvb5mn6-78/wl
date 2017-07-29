@@ -28,6 +28,10 @@ public class PhotographyOccasion implements Serializable{
 	@JsonIgnore
 	private List<SellerPhotographer> sellerPhotographer;
 	
+	@OneToMany(mappedBy="photographyOccasion")
+	@JsonIgnore
+	private List<SellerPhotographyOccasion> sellerPhotographyOccassion;
+	
 	@Transient
 	private long editPhotographyOccasionId;
 	@Transient

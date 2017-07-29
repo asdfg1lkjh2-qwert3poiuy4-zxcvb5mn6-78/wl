@@ -371,7 +371,7 @@
 								<div class="col-sm-12 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" name="productName" id ="productName"
 												placeholder="Product Name">
 										</div>
 									</div>
@@ -389,7 +389,7 @@
 								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" name="sellerId" id="sellerId"
 												placeholder="Seller ID">
 										</div>
 									</div>
@@ -457,7 +457,7 @@
 							<div class="row clearfix">
 								<div class="col-sm-8 col-xs-12">
 									<div class="form-group">
-										<textarea class="form-control textarea-add" rows="5"
+										<textarea class="form-control textarea-add" rows="5" name="photoDescription" id="photoDescription"
 											placeholder="Photo Description"></textarea>
 									</div>
 								</div>
@@ -465,7 +465,7 @@
 								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" name="noOfPhotosProvided" id="noOfPhotosProvided"
 												placeholder="No. of Photo Provided">
 										</div>
 									</div>
@@ -502,7 +502,7 @@
 								</div>
 								<div class="col-sm-8 col-xs-12">
 									<div class="form-group">
-										<textarea class="form-control textarea-add" rows="5"
+										<textarea class="form-control textarea-add" rows="5" name="videoDescription" id="videoDescription"
 											placeholder="Video Description"></textarea>
 									</div>
 								</div>
@@ -510,7 +510,7 @@
 								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" name="videoLength" id="videoLength"
 												placeholder="Video Length">
 										</div>
 									</div>
@@ -521,11 +521,11 @@
 									<h2>Photographer Pricing</h2>
 								</div>
 							</div>
-							<div class="photographerPricingDiv">
+							<div class="photographerPricingDiv ">
 								<div class="row clearfix">
 									<div class="col-sm-3 col-xs-12">
 										<div class="form-group">
-											<div class="form-line">
+											<div class="form-line _removeFocus">
 												<input type="text" class="datepicker form-control"
 													name="fromDate" id="fromDate" placeholder="From Date">
 											</div>
@@ -533,7 +533,7 @@
 									</div>
 									<div class="col-sm-3 col-xs-12">
 										<div class="form-group">
-											<div class="form-line">
+											<div class="form-line _removeFocus">
 												<input type="text" class="datepicker form-control"
 													name="toDate" id="toDate" placeholder="To Date">
 											</div>
@@ -557,7 +557,7 @@
 								<div class="row clearfix hideDiv" id="photographerPricing1">
 									<div class="col-sm-3 col-xs-12">
 										<div class="form-group">
-											<div class="form-line">
+											<div class="form-line _removeFocus">
 												<input type="text" class="datepicker form-control"
 													name="fromDate" id="fromDate1" placeholder="From Date">
 											</div>
@@ -565,7 +565,7 @@
 									</div>
 									<div class="col-sm-3 col-xs-12">
 										<div class="form-group">
-											<div class="form-line">
+											<div class="form-line _removeFocus">
 												<input type="text" class="datepicker form-control"
 													name="toDate" id="toDate1" placeholder="To Date">
 											</div>
@@ -591,7 +591,7 @@
 								<div class="row clearfix hideDiv" id="photographerPricing2">
 									<div class="col-sm-3 col-xs-12">
 										<div class="form-group">
-											<div class="form-line">
+											<div class="form-line _removeFocus">
 												<input type="text" class="datepicker form-control"
 													name="fromDate" id="fromDate2" placeholder="From Date">
 											</div>
@@ -599,7 +599,7 @@
 									</div>
 									<div class="col-sm-3 col-xs-12">
 										<div class="form-group">
-											<div class="form-line">
+											<div class="form-line _removeFocus">
 												<input type="text" class="datepicker form-control"
 													name="toDate" id="toDate2" placeholder="To Date">
 											</div>
@@ -629,50 +629,105 @@
 								</div>
 							</div>
 							<div class="row clearfix">
-								<div class="col-sm-3 col-xs-12">
+								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" name="advancePaymentPercentage" id="advancePaymentPercentage"
 												placeholder="Advance Payment percentage">
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-3 col-xs-12">
-									<div class="form-group">
-										<div class="form-line">
-											<input type="text" class="form-control"
-												placeholder="Discount">
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3 col-xs-12">
+								<div class="col-sm-4 col-xs-12" id="availabilityDiv">
 									<div class="form-group drop-custum">
-										<select class="form-control show-tick">
+										<select class="form-control show-tick" name="availability" id="availability">
 											<option value="">-- Availability --</option>
-											<option value="10">XXX</option>
-											<option value="20">XXXX</option>
+											<option value="Yes">Yes</option>
+											<option value="No">No</option>
 										</select>
 									</div>
 								</div>
-								<div class="col-sm-3 col-xs-12">
+								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
-											<input type="text" class="form-control" placeholder="Freebie">
+											<input type="text" class="form-control" name="freebie" id="freebie" placeholder="Freebie">
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="row clearfix">
+							</div><div class="row clearfix">
 								<div class="header marginb15">
 									<h2>Delivery Details</h2>
+								</div>
+							</div>
+							<div class="row clearfix">
+								<div class="header marginb15 margin-bottom10">
+									<div class="checkbox header-add">
+										<label> <input type="checkbox" value="" id="discountCheck" > <span
+											class="cr" id="bank-check"> <i
+												class="cr-icon glyphicon glyphicon-ok"></i>
+										</span> Discount Details(if any)
+										</label>
+									</div>
+								</div>
+							</div>
+							<div id="discountDiv">
+								<div class="row clearfix">
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group mrgn-less-15">
+											<div class="form-line">
+												<input type="text" class="datepicker form-control"
+													name="fromDateDiscount" id="fromDateDiscount"
+													placeholder="From Date">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group mrgn-less-15">
+											<div class="form-line">
+												<input type="text" class="datepicker form-control"
+													name="toDateDiscount" id="toDateDiscount"
+													placeholder="To Date">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-2 col-xs-12">
+										<div class="form-group mrgn-less-15">
+											<div class="form-line">
+												<input type="text" class="form-control" name="discount" id="discount"
+												placeholder="Amount / Percentage">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-2 col-xs-12">
+										<div class="form-group mrgn-less-15">
+											<div class="checkbox">
+												<label class="labelCheckbox"> <input type="checkbox"
+													name="checkBoxDiscountAmount" id="checkBoxDiscountAmount">
+													<span class="cr"><i
+														class="cr-icon glyphicon glyphicon-ok"></i></span> Discount Amount
+												</label> 
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-2 col-xs-12">
+										<div class="form-group mrgn-less-15">
+											<div class="checkbox">
+												<label class="labelCheckbox"> <input type="checkbox"
+													name="checkBoxDiscountPercent" id="checkBoxDiscountPercent">
+													<span class="cr"><i
+														class="cr-icon glyphicon glyphicon-ok"></i></span> Discount Percent
+												</label> 
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="row clearfix"></div>
 							<div class="row clearfix">
 								<div class="col-xs-12">
-									<input type="hidden" name="photographyTypeName"
-										value="photographyTypeName" value="">
-									<button type="submit" class="btn btn-raised gradient-right">Submit</button>
+									<input type="hidden" name="photographyTypeName" id="photographyTypeName" value="">
+									<input type="hidden" name="photographyOccasionName" id="photographyOccasionName" value="">
+									<input type="hidden" name="photoAvailabiltyClick" id="photoAvailabiltyClick" value="">	
+									<button type="submit" class="btn btn-raised gradient-right" id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
 								</div>
 							</div>
@@ -695,11 +750,13 @@
 		fetchAllPhotographerType();
 		fetchAllPhotographerOccasion();
 		
+		
 	});
 	/* <img src = \"resources/images/videoIcon.png\" height = \"60\" width = \"60\" /> */
 	var dateTime = new Date().getTime(); 
 	var videoFiles = "";
 	var videoClassPath = "";
+	var hasValue = Number(0);
 	//Upload and renaming the files being uploaded in dropzone.js
 	Dropzone.options.videoUpload = {
 		url : "singleUpload",
@@ -782,7 +839,6 @@
 							        var i, len;
 							         for (i = 0, len = self.files.length; i < len - 1; i++) // -1 to exclude current file
 							        {
-							        	alert(i);
 							            if(self.files[i].name === file.name && self.files[i].size === file.size && self.files[i].lastModifiedDate.toString() === file.lastModifiedDate.toString())
 							            {
 							                self.removeFile(file);
@@ -823,8 +879,6 @@
 					    if (videoFiles.indexOf(",") >= 0) {
 					    	videoFiles = "";
 					    	for(var i =0; i< abc.length; i++){
-					    		alert(abc[i]);
-					    		alert(sample);
 					    		if(abc[i] === sample){
 					    			abc[i] = "";
 					    		}else{
@@ -837,7 +891,6 @@
 					    	}
 					    	
 					    }
-					    alert(videoFiles);
 						var job = {};
 					     job["imageId"] = imageId;
 					    $
@@ -866,7 +919,7 @@
 					});
 				});
 				
-				
+				this.on("error", function(file){if (!file.accepted) this.removeFile(file);});
 			},
 			
 		renameFilename : function(fileName) {
@@ -971,6 +1024,8 @@
 						} 
 				   }
 				});
+				
+				this.on("error", function(file){if (!file.accepted) this.removeFile(file);});
 			},
 			renameFilename : function(fileName) {
 				var classpath = fileName;
@@ -1196,36 +1251,50 @@
 		}
 
 		var title = "";
-
+		var id ="";
 		//On click of each li in Photography Occasion list 
-		function clickPhotoOccasionLi(liId, title1, photographyOccasionId,
-				classSelected) {
+		function clickPhotoOccasionLi(liId, title1, photographyOccasionId,classSelected) {
 			if (classSelected === undefined || classSelected === "") {
-				if (title === "" || title1 === "Occasion") {
+				if (title === "") {
 					title = title1;
-				} else {
-					title = title + "," + title1;
+					id = photographyOccasionId;
+				}else {
+					if(title1 === "Occasion" || title.indexOf("Occasion") >=0){
+					title = "";
+					}
+					if(title === ""){
+						title = title1;
+						id = photographyOccasionId;
+					}else{
+						title = title + "," + title1;
+						id = id + "," + photographyOccasionId;
+					}
 				}
+					
 			} else {
 				var a = title.split(",");
+				var b = id.split(",");
 				title = "";
+				id = "";
 				for (var i = 0; i < a.length; i++) {
 					if (a[i] === title1) {
 						a[i] = "";
+						b[i] = "";
 					} else {
 						if (title === "") {
 							title = a[i];
+							id = b[i];
 						} else {
-							title = title + "," + a[i];
+							
+								title = title + "," + a[i];
+								id = id +"," + b[i];
+							
 						}
 					}
 				}
-				if (title === ""
-						&& (classSelected !== undefined || classSelected !== "")) {
-					title = "Occasion";
-				}
+				
 			}
-			$("#photographyOccasionName").val(photographyOccasionId); //Hidden field to store the Photography Occasion Id
+			$("#photographyOccasionName").val(id); //Hidden field to store the Photography Occasion Id
 			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--"+title+ "--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"
 					+ title
 					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulPhotoOccasion0\">"
@@ -1334,7 +1403,7 @@
 			}
 		}
 
-		var i = Number(0); //Variable to  know number of times the new div has been added
+		var pricingsDivNumber = Number(0); //Variable to  know number of times the new div has been added
 
 		//On click of Add button
 		$("#plusbtn,#plusbtn1,#plusbtn2").click(function() {
@@ -1343,7 +1412,8 @@
 
 		//For Adding new div
 		function addDiv() {
-			if ($("#fromDate" + i).val() === "" || $("#fromDate").val() === "") {
+			
+			if ($("#fromDate" + pricingsDivNumber).val() === "" || $("#fromDate").val() === "") {
 				swal({
 					title : 'Warning!',
 					text : 'Please Enter Starting Date of Price!!!',
@@ -1354,7 +1424,7 @@
 					animation : true
 				});
 
-			} else if ($("#toDate" + i).val() === ""
+			} else if ($("#toDate" + pricingsDivNumber).val() === ""
 					|| $("#toDate").val() === "") {
 				swal({
 					title : 'Warning!',
@@ -1365,7 +1435,7 @@
 					confirmButtonClass : "btn btn-raised gradient-right",
 					animation : true
 				});
-			} else if ($("#price" + i).val() === "" || $("#price").val() === "") {
+			} else if ($("#price" + pricingsDivNumber).val() === "" || $("#price").val() === "") {
 				swal({
 					title : 'Warning!',
 					text : 'Please Enter Price of Product!!!',
@@ -1376,15 +1446,66 @@
 					animation : true
 				});
 			} else {
-				alert(i);
-				if (Number(i) < Number(2)) {
-					i = Number(Number(i) + Number(1));
-					if (i === 1) {
-						alert("In first if");
+				
+				if (Number(pricingsDivNumber) < Number(2)) {
+					pricingsDivNumber = Number(Number(pricingsDivNumber) + Number(1));
+					if (pricingsDivNumber === 1) {
+						
+						  var fromDate1 = moment($("#toDate").val(),"dddd DD MMMM YYYY");
+						    fromDate1 = fromDate1.add(1,'days')
+						    fromDate1 = moment(fromDate1).format("dddd DD MMMM YYYY");
+ 							
+ 							
+						    momentCalender($,moment);
+						    $("#fromDate1").bootstrapMaterialDatePicker({
+								 format: 'dddd DD MMMM YYYY',
+							     clearButton: true,
+							     weekStart: 1,
+							     time: false,
+								 minDate:fromDate1
+							});
+						    
+						     var toDate1 = moment(fromDate1,"dddd DD MMMM YYYY");
+						    toDate1 = toDate1.add(1,'days')
+						    toDate1 = moment(toDate1).format("dddd DD MMMM YYYY"); 
+						    
+						    $("#toDate1").bootstrapMaterialDatePicker({
+								 format: 'dddd DD MMMM YYYY',
+							     clearButton: true,
+							     weekStart: 1,
+							     time: false,
+								 minDate:toDate1
+							}); 
+						    
 						addDiv1();
-					} else if (i === 2) {
+					} else if (pricingsDivNumber === 2) {
+						
+						var fromDate2 = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
+					    fromDate2 = fromDate2.add(1,'days')
+					    fromDate2 = moment(fromDate2).format("dddd DD MMMM YYYY");
+					    
+						momentCalender($,moment);
+					    $("#fromDate2").bootstrapMaterialDatePicker({
+							 format: 'dddd DD MMMM YYYY',
+						     clearButton: true,
+						     weekStart: 1,
+						     time: false,
+							 minDate:fromDate2
+						});
+					    
+					    var toDate2 = moment(fromDate2,"dddd DD MMMM YYYY");
+					    toDate2 = toDate2.add(1,'days')
+					    toDate2 = moment(toDate2).format("dddd DD MMMM YYYY");
+					    
+					    $("#toDate2").bootstrapMaterialDatePicker({
+							 format: 'dddd DD MMMM YYYY',
+						     clearButton: true,
+						     weekStart: 1,
+						     time: false,
+							 minDate:toDate2
+						}); 
 						addDiv2();
-					} else {
+					} else{
 						addDiv3();
 					}
 
@@ -1422,8 +1543,581 @@
 			$("#toDate"+removeId).val("");
 			$("#price"+removeId).val("");
 			$("#photographerPricing" + removeId).attr("style", "display:none");
-			i = 0;
+			pricingsDivNumber = 0;
 		}
+		
+		$("#submit").click(function(){
+			if($("#productName").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Product Name!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#photographyTypeName").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Photo Type!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#photographyOccasionName").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Occasion Name!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#photoDescription").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Photo Description!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#noOfPhotosProvided").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter No. of Photos That Will Be Provided!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#videoDescription").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Video Description!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#videoLength").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Approximate Video Length That Will Be Provided!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#fromDate").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Starting Date For The Respective Price!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#toDate").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Ending Date For The Respective Price!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#price").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter At Least One Price For The Product!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#advancePaymentPercentage").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Advance Payment Percentage!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if($("#availability").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Availability Of The Product!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else if(multipleFiles === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Upload AtLeast One Product Image!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else{
+				
+				var job = {};
+				job["productName"] = $("#productName").val();
+				job["sellerId"] = $("#sellerId").val();
+				job["photographyTypeName"] = $("#photographyTypeName").val();
+				job["photographyOccasionName"] = $("#photographyOccasionName").val();
+				job["multipleFiles"] = multipleFiles;
+				job["photoDescription"] = $("#photoDescription").val();
+				job["noOfPhotosProvided"] = $("#noOfPhotosProvided").val();
+				job["videoFiles"] = videoFiles;
+				job["videoDescription"] = $("#videoDescription").val();
+				job["videoLength"] = $("#videoLength").val();
+				
+				var fromDate = ($("#fromDate").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+				var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
+				if(fromMonth < 10){
+					fromMonth = "0"+fromMonth;
+				} 
+				job["fromDate"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]; 
+				
+				var toDate = ($("#toDate").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
+				var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
+				if(toMonth < 10){
+					toMonth = "0"+toMonth;
+				} 
+				job["toDate"] = toDate[3]+"-"+toMonth+"-"+toDate[1]; 
+				
+				job["price"] = $("#price").val();
+				if(pricingsDivNumber > Number(0)){
+					alert(pricingsDivNumber);
+					for(var k = 1; k<= Number(pricingsDivNumber) ; k++){
+						if(!(($("#fromDate"+k).val() === undefined) && ($("#toDate"+k).val() === undefined) && ($("#price"+k).val() === undefined))){
+							 var fromDate = ($("#fromDate"+k).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+							var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
+							if(fromMonth < 10){
+								fromMonth = "0"+fromMonth;
+							} 
+							
+							var toDate = ($("#toDate"+k).val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
+							var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
+							if(toMonth < 10){
+								toMonth = "0"+toMonth;
+							} 
+							if(k === Number(1)){
+								job["otherPriceDetails"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]+","+toDate[3]+"-"+toMonth+"-"+toDate[1]+","+$("#price"+k).val();
+							}else{
+								job["otherPriceDetails"] = job["otherPriceDetails"]+"_"+fromDate[3]+"-"+fromMonth+"-"+fromDate[1]+","+toDate[3]+"-"+toMonth+"-"+toDate[1]+","+$("#price"+k).val();
+							}
+						}
+					}
+				}
+				var categoryName = window.location+"";
+				categoryName = categoryName.split("/");
+				job["categoryName"] = categoryName[4];
+				job["advancePaymentPercentage"] = $("#advancePaymentPercentage").val();
+				if($("#photoAvailabiltyClick").val() !== ""){
+					job["availability"] = $("#photoAvailabiltyClick").val();
+				}else{
+					job["availability"] = $("#availability").val();
+				}
+				job["freebie"] = $("#freebie").val();
+				
+					if((($("#fromDateDiscount").val() || $("#toDateDiscount").val() || $("#discount").val())!="") || $("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))
+					{
+						hasValue = Number(1);
+						if($("#fromDateDiscount").val() === ""){
+							swal({
+								  title: 'Warning!',
+								  text: 'Please Enter Starting Date For The Respective Discount!!!',
+								  type: 'warning',
+								  confirmButtonText: 'OK',
+								  allowEscapeKey:true,
+								  confirmButtonClass:"btn btn-raised gradient-right",
+								  animation:true
+								});
+						}else if($("#toDateDiscount").val() === ""){
+							swal({
+								  title: 'Warning!',
+								  text: 'Please Enter Ending Date For The Respective Discount!!!',
+								  type: 'warning',
+								  confirmButtonText: 'OK',
+								  allowEscapeKey:true,
+								  confirmButtonClass:"btn btn-raised gradient-right",
+								  animation:true
+								});
+						}else if($("#discount").val() === ""){
+							swal({
+								  title: 'Warning!',
+								  text: 'Please Enter Discount Amount / Percentage!!!',
+								  type: 'warning',
+								  confirmButtonText: 'OK',
+								  allowEscapeKey:true,
+								  confirmButtonClass:"btn btn-raised gradient-right",
+								  animation:true
+								});
+						}else if(!($("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))){
+							swal({
+								  title: 'Warning!',
+								  text: 'Please Check Either The Discount Entered Is Flat Discount Or Percentage Discount!!!',
+								  type: 'warning',
+								  confirmButtonText: 'OK',
+								  allowEscapeKey:true,
+								  confirmButtonClass:"btn btn-raised gradient-right",
+								  animation:true
+								});
+						}else{
+							job["hasValue"] = hasValue;
+							var fromDate = ($("#fromDateDiscount").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+							var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
+							if(fromMonth < 10){
+								fromMonth = "0"+fromMonth;
+							} 
+							job["fromDateDiscount"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1];
+							
+							var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
+							var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
+							if(toMonth < 10){
+								toMonth = "0"+toMonth;
+							} 
+							job["toDateDiscount"] =toDate[3]+"-"+toMonth+"-"+toDate[1];
+							job["discount"] = $("#discount").val();
+							if($("#checkBoxDiscountAmount").is(':checked')){
+								job["isFlat"] = Number(1);
+							}else{
+								job["isFlat"] = Number(0);
+							}
+							
+							alert(JSON.stringify(job));
+							$("#submit").prop("disabled", true);
+							$.ajax({
+							type : "POST",
+							url : "admin-addEditPhotographer",
+							data : JSON.stringify(job),
+							processData : false,
+							contentType :"application/json",
+							success : function(data) {
+								if(data){
+									swal({
+										  title: 'Success!',
+										  text: 'Product Details Successfully Inserted!!!',
+										  type: 'success',
+										  showConfirmButton :false,
+										  allowEscapeKey:true,
+										  timer:3000,
+										  animation:true
+										});
+								}
+								$("#submit").prop("disabled", false);
+	
+							},
+							error : function(e) {
+								alert("Error");
+								swal({
+									  title: 'Error!',
+									  text: 'Product Details Not Inserted Successfully!!!',
+									  type: 'error',
+									  confirmButtonText :"OK",
+									  allowEscapeKey:true,
+									  confirmButtonClass:"btn btn-raised gradient-right",
+									  animation:true
+									});
+								$("#submit").prop("disabled", false);
+	
+							},complete : function (){
+								removeAllFields();
+							}
+							
+							}); 
+						}
+				 }else{
+						job["hasValue"] = hasValue;
+						
+						alert(JSON.stringify(job));
+						$("#submit").prop("disabled", true);
+						$.ajax({
+						type : "POST",
+						url : "admin-addEditPhotographer",
+						data : JSON.stringify(job),
+						processData : false,
+						contentType :"application/json",
+						success : function(data) {
+							if(data){
+								swal({
+									  title: 'Success!',
+									  text: 'Product Details Successfully Inserted!!!',
+									  type: 'success',
+									  showConfirmButton :false,
+									  allowEscapeKey:true,
+									  timer:3000,
+									  animation:true
+									});
+							}
+							$("#submit").prop("disabled", false);
+	
+						},
+						error : function(e) {
+							alert("Error");
+							swal({
+								  title: 'Error!',
+								  text: 'Product Details Not Inserted Successfully!!!',
+								  type: 'error',
+								  confirmButtonText :"OK",
+								  allowEscapeKey:true,
+								  confirmButtonClass:"btn btn-raised gradient-right",
+								  animation:true
+								});
+							$("#submit").prop("disabled", false);
+	
+						},complete : function (){
+							removeAllFields();
+						}
+						
+						}); 
+					}
+					
+					 
+					
+				}
+	});
+		//Converting month name to month number
+		function getMonth(monthStr){
+		    return new Date(monthStr+'-1-01').getMonth()+1
+		}
+		$("#discountCheck").click(function(){
+			if($(this).is(':checked')) {
+		       $("#discountDiv").attr("style","display:block");
+		    }else{
+		    	$("#discountDiv").attr("style","display:none");
+		    }
+		});
+		
+		function removeAllFields(){
+			$("#productName").val("");
+			$("#photographyTypeName").val("");
+			$("#photographyOccasionName").val("");
+			multipleFiles = "";
+			$("#photoDescription").val("");
+			$("#noOfPhotosProvided").val("");
+			videoFiles = "";
+			$("#videoDescription").val("");
+			$("#videoLength").val("");
+			$("#fromDate").val("");
+			$("#toDate").val("");
+			$("#price").val("");
+			categoryName = "";
+			$("#advancePaymentPercentage").val("");
+			$("#availability").val("");
+			$("#freebie").val("");
+			videoClassPath = "";
+			classPath = "";
+			title = "";
+			id = "";
+			if(hasValue === Number(1)){
+				$("#fromDateDiscount").val("");
+				$("#toDateDiscount").val("");
+				$("#discount").val("");
+				$("#checkBoxDiscountAmount,#checkBoxDiscountPercent").prop("checked",false);
+			}
+			if($("#discountCheck").is(':checked')){
+				$("#discountCheck").prop("checked",false);
+				$("#discountDiv").attr("style","display:none");
+			}
+			hasValue = Number(0);
+			
+			var j = pricingsDivNumber
+			for(var k =1; k<= j ;k++){
+				alert(k)
+				removePhotographyPricingDiv(k);
+			}
+			
+			$("#availabilityDiv").html("");
+			 var mno ="<div class=\"form-group drop-custum\">"
+					+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\"-- Availability --\"><span class=\"filter-option pull-left\">-- Availability --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+					+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
+					+"<li data-original-index=\"0\" class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Availability --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"photoAvailabilityClick('Yes')\"><span class=\"text\">Yes</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"photoAvailabilityClick('No')\"><span class=\"text\">No</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+					+"</div>"
+				$("#availabilityDiv").html(mno);
+				$("#photoAvailabiltyClick").val("");
+				
+				//Removing the values from photography type list
+				var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Photo Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Photo Type"
+					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" id=\"ulPhotoType0\">"
+					 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"photoTypeLi0\"  onclick=\"clickPhotoTypeLi('"
+						+ 0
+						+ "','Photo Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Photo Type --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				var cde = "";
+				for (var i = 0; i < ary.length; i++) {
+					var splittedArray = ary[i].split("_");
+						cde = cde
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' id='photoTypeLi"
+								+ Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoTypeLi('"
+								+ Number(Number(i) + Number(1))
+								+ "','"
+								+ splittedArray[1]
+								+ "','"
+								+ splittedArray[0]
+								+ "')\"><span class=\"text\">"
+								+ splittedArray[1]
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					
+			}
+				cde = cde + "</ul></div>"
+			
+				$("#photographyTypeDiv").html(abc + cde);
+				
+				//Removing the values from photography type list
+				var efg = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Occasion--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Occasion"
+					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" id=\"ulPhotoOccasion0\">"
+					 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"photoOccasionLi0\"  onclick=\"clickPhotoOccasionLi('"
+						+ 0
+						+ "','Photo Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Photo Type --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				var ghi = "";
+				for (var i = 0; i < arry3.length; i++) {
+					var splittedArray = arry3[i].split("_");
+						ghi = ghi
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' id='photoOccasionLi0"
+								+ Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoOccasionLi('"
+								+ Number(Number(i) + Number(1))
+								+ "','"
+								+ splittedArray[1]
+								+ "','"
+								+ splittedArray[0]
+								+ "')\"><span class=\"text\">"
+								+ splittedArray[1]
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					
+			}
+				ghi = ghi + "</ul></div>"
+			
+				$("#photographyOccasionDiv").html(efg + ghi);
+			//Remove the thumbnails after each insertion being completed from dropzone.js
+			$('.dropzone')[0].dropzone.files.forEach(function(file) { 
+					file.previewElement.remove(); 
+				});
+
+			 $('.dropzone')[1].dropzone.files.forEach(function(file) { 
+					 file.previewElement.remove(); 
+				});
+			
+			 $('.dropzone').removeClass(' dz-started ');
+			 Dropzone.forElement("._photographerImages #multipleUpload").removeAllFiles();
+			 Dropzone.forElement("._photographerVideos #videoUpload").removeAllFiles();
+		}
+	$("#checkBoxDiscountAmount, #checkBoxDiscountPercent").click(function(){
+		var check = Number(0);
+		if($("#"+this.id).is(':checked')){
+			check = Number(1);
+		}
+		$("#checkBoxDiscountAmount,#checkBoxDiscountPercent").prop("checked",false);
+		
+		if(check === Number(1)){
+			$("#"+this.id).prop("checked",true);
+		}
+	});
+	function photoAvailabilityClick(str,str3){
+		$("#photoAvailabiltyClick").val(str);
+		var clicked;
+		$("#availabilityDiv").html("");
+			var mno ="<div class=\"form-group drop-custum\">"
+				+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+				+"<ul class=\"dropdown-menu inner\" role=\"menu\" id=\"photoAvailabiltyUl\">"
+				+"<li data-original-index=\"0\" id=\"photoAvailabiltyLi0\"class=\"selected\"><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"photoAvailabilityClick('Availability','"+0+"')\"><span class=\"text\">-- Id Proof --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"1\" id=\"photoAvailabiltyLi1\"><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"photoAvailabilityClick('Yes','"+1+"')\"><span class=\"text\">Yes</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"2\" id=\"photoAvailabiltyLi2\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"photoAvailabilityClick('No','"+2+"')\"><span class=\"text\">No</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"</div>"
+		$("#availabilityDiv").html(mno);	
+			var lengthOfUl = $("#photoAvailabiltyUl li").size();
+			for(var i = 0;i<lengthOfUl; i++){
+				
+				if(str3 === undefined){
+					var getdata = $("ul#photoAvailabiltyUl li#photoAvailabiltyLi"+Number(i)).find('span').text();
+					if(getdata === str){
+						$("#photoAvailabiltyLi0").removeClass("selected");
+						$("#photoAvailabiltyLi"+Number(i)).addClass("selected");
+					}
+				}else{
+					if(Number(i) === Number(str3)){
+						$("#photoAvailabiltyLi"+Number(i)).addClass("selected");
+					}else{
+						$("#photoAvailabiltyLi"+Number(i)).removeClass("selected");
+					}
+				}
+			}
+	}
+	
+	$("#fromDate,#toDate").mouseenter(function(){
+		momentCalender($,moment);
+		 var fromDate = moment();
+		    fromDate = fromDate.add(1,'days')
+		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+
+		    $("#fromDate").bootstrapMaterialDatePicker({
+				 format: 'dddd DD MMMM YYYY',
+			     clearButton: true,
+			     weekStart: 1,
+			     time: false,
+				 minDate:new Date()
+			});
+		    
+		    $("#toDate").bootstrapMaterialDatePicker({
+				 format: 'dddd DD MMMM YYYY',
+			     clearButton: true,
+			     weekStart: 1,
+			     time: false,
+				 minDate:fromDate
+			});
+		
+	});
+	
+	$("#fromDateDiscount,#toDateDiscount").mouseenter(function(){
+		momentCalender($,moment);
+		 var fromDate = moment();
+		    fromDate = fromDate.add(1,'days')
+		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+
+		    $("#fromDateDiscount").bootstrapMaterialDatePicker({
+				 format: 'dddd DD MMMM YYYY',
+			     clearButton: true,
+			     weekStart: 1,
+			     time: false,
+				 minDate:new Date()
+			});
+		    
+		    $("#toDateDiscount").bootstrapMaterialDatePicker({
+				 format: 'dddd DD MMMM YYYY',
+			     clearButton: true,
+			     weekStart: 1,
+			     time: false,
+				 minDate:fromDate
+			});
+		
+	});
 	</script>
     <div class="color-bg"></div>
     <!-- Jquery Js --> 

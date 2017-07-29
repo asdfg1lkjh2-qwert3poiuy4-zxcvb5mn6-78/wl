@@ -22,6 +22,7 @@ public class SellerProductImagesVideos implements Serializable{
 	private boolean isPhotoVideo;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date entryTime;
+	private boolean status;
 	
 	@ManyToOne
 	private AllProducts allProducts;
@@ -56,6 +57,12 @@ public class SellerProductImagesVideos implements Serializable{
 	}
 	public void setEntryTime(Date entryTime) {
 		this.entryTime = entryTime;
+	}
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 	
 	

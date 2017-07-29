@@ -31,7 +31,7 @@ public class SellerPhotographer implements Serializable {
 	@Column(columnDefinition = "TEXT")
 	private String videoDescription;
 	private int videoLength;
-	private boolean availability;
+	private String availability;
 	@Temporal(TemporalType.DATE)
 	private Date entryTime;
 	private double advancePaymentPercentage;
@@ -45,19 +45,12 @@ public class SellerPhotographer implements Serializable {
 	@ManyToOne
 	private PhotographyOccasion occasion;
 	
-	@ManyToOne
-	private SellerDetails sellerDetails;
-	
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="sellerPhotographer",fetch = FetchType.LAZY)
-	private List<SellerProductPricing> photographerProductPricing;
-	
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="sellerPhotographer",fetch = FetchType.LAZY)
-	private List<Int_PhtographyType_SellerPhotographer> int_PhtographyType_SellerPhotographer;
-	
 	@OneToOne
 	private AllProducts allProducts;
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="sellerPhotographer",fetch = FetchType.LAZY)
+	private List<SellerPhotographyOccasion> sellerPhotographyOccasions;
 	
 	//Setters And Getters
 	
@@ -109,14 +102,7 @@ public class SellerPhotographer implements Serializable {
 		this.videoLength = videoLength;
 	}
 
-	public boolean isAvailability() {
-		return availability;
-	}
-
-	public void setAvailability(boolean availability) {
-		this.availability = availability;
-	}
-
+	
 	public Date getEntryTime() {
 		return entryTime;
 	}
@@ -157,30 +143,6 @@ public class SellerPhotographer implements Serializable {
 		this.occasion = occasion;
 	}
 
-	public SellerDetails getSellerDetails() {
-		return sellerDetails;
-	}
-
-	public void setSellerDetails(SellerDetails sellerDetails) {
-		this.sellerDetails = sellerDetails;
-	}
-
-	public List<SellerProductPricing> getPhotographerProductPricing() {
-		return photographerProductPricing;
-	}
-
-	public void setPhotographerProductPricing(List<SellerProductPricing> photographerProductPricing) {
-		this.photographerProductPricing = photographerProductPricing;
-	}
-
-	public List<Int_PhtographyType_SellerPhotographer> getInt_PhtographyType_SellerPhotographer() {
-		return int_PhtographyType_SellerPhotographer;
-	}
-
-	public void setInt_PhtographyType_SellerPhotographer(List<Int_PhtographyType_SellerPhotographer> int_PhtographyType_SellerPhotographer) {
-		this.int_PhtographyType_SellerPhotographer = int_PhtographyType_SellerPhotographer;
-	}
-
 	public String getFreebie() {
 		return freebie;
 	}
@@ -195,6 +157,22 @@ public class SellerPhotographer implements Serializable {
 
 	public void setAllProducts(AllProducts allProducts) {
 		this.allProducts = allProducts;
+	}
+
+	public String getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(String availability) {
+		this.availability = availability;
+	}
+
+	public List<SellerPhotographyOccasion> getSellerPhotographyOccasions() {
+		return sellerPhotographyOccasions;
+	}
+
+	public void setSellerPhotographyOccasions(List<SellerPhotographyOccasion> sellerPhotographyOccasions) {
+		this.sellerPhotographyOccasions = sellerPhotographyOccasions;
 	}
 	
 	
