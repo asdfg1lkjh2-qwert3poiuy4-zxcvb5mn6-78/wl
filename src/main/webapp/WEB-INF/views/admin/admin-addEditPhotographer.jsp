@@ -6,10 +6,147 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | Photographer</title>
 <link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="resources/css/roundster.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
-        <!-- Page Loader -->
+<!-- Test Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content row singleImageEdit">
+				<div class="col-md-4 col-xs-6 col-sm-12 thumbnail" id="editImageDiv">
+					<img src="resources/images/camera-icon.png" class="img-responsive"/>
+				</div>
+				<div class="col-md-8 col-xs-6 col-sm-12 _photographerImages" id="dynamicDropzoneDiv">
+					  <form action="#" id="singleUpload" class="dropzone" method="post"
+						enctype="multipart/form-data">
+						<div class="dz-message">
+							<div class="drag-icon-cph">
+								<i class="material-icons">touch_app</i>
+							</div>
+							<h3>Drop files here or click to upload.</h3>
+							<em>(This is just a demo dropzone. Selected files are <strong>not</strong>
+								actually uploaded.)
+							</em>
+						</div>
+						<div class="fallback">
+							<input name="file" type="file" multiple />
+						</div>
+					</form> 
+				</div> 
+				<div class ="row">
+				<div class="modal-footer col-md-12 col-sm-12 col-xs-12 footerModal">
+					<button type="button" class="btn btn-secondary btn-raised"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-raised gradient-right">Save changes</button>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
+	<!-- Test 3 Modal -->
+	<div class="modal fade" id="showPriceModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content row priceShow">
+				<div class="col-md-12 col-xs-12 col-sm-12 card">
+					<div class="header">
+						<h2>All Listed Prices</h2>
+						<ul class="header-dropdown m-r--5">
+							<li class="dropdown"><a href="javascript:void(0);"
+								class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false"> <i
+									class="material-icons">more_vert</i>
+							</a>
+								<ul class="dropdown-menu pull-right">
+									<li><a href="javascript:void(0);">Action</a></li>
+									<li><a href="javascript:void(0);">Another action</a></li>
+									<li><a href="javascript:void(0);">Something else here</a></li>
+								</ul></li>
+						</ul>
+					</div>
+					<div class="body">
+						<table
+							class="table table-bordered table-striped table-hover js-basic-example dataTable"
+							id="priceTable">
+							<thead>
+								<tr>
+									<th class="text-center">Sl.No</th>
+									<th class="text-center">Start Date</th>
+									<th class="text-center">End Date</th>
+									<th class="text-center">Price</th>
+									<th class="text-center">Status</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+		
+				<div class ="row">
+				<div class="modal-footer col-md-12 col-sm-12 col-xs-12 priceFooter">
+					<button type="button" class="btn btn-secondary btn-raised"
+						data-dismiss="modal">Close</button>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
+	<!-- Test11 Modal -->
+	<div class="modal fade" id="showDiscountModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content row priceShow">
+				<div class="col-md-12 col-xs-12 col-sm-12 card">
+					<div class="header">
+						<h2>All Listed Discounts</h2>
+						<ul class="header-dropdown m-r--5">
+							<li class="dropdown"><a href="javascript:void(0);"
+								class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false"> <i
+									class="material-icons">more_vert</i>
+							</a>
+								<ul class="dropdown-menu pull-right">
+									<li><a href="javascript:void(0);">Action</a></li>
+									<li><a href="javascript:void(0);">Another action</a></li>
+									<li><a href="javascript:void(0);">Something else here</a></li>
+								</ul></li>
+						</ul>
+					</div>
+					<div class="body">
+						<table
+							class="table table-bordered table-striped table-hover js-basic-example dataTable"
+							id="discountTable">
+							<thead>
+								<tr>
+									<th class="text-center">Sl.No</th>
+									<th class="text-center">Start Date</th>
+									<th class="text-center">End Date</th>
+									<th class="text-center">Discount</th>
+									<th class="text-center">Status</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+		
+				<div class ="row">
+				<div class="modal-footer col-md-12 col-sm-12 col-xs-12 priceFooter">
+					<button type="button" class="btn btn-secondary btn-raised"
+						data-dismiss="modal">Close</button>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
+	<!-- Page Loader -->
         <div class="page-loader-wrapper">
             <div class="loader">
                 <div class="preloader">
@@ -367,20 +504,12 @@
 							<h2>Photographer Basic Information</h2>
 						</div>
 						<div class="body">
-							<div class="row clearfix">
+							<div class="row clearfix" id="productNameDiv">
 								<div class="col-sm-12 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
 											<input type="text" class="form-control" name="productName" id ="productName"
 												placeholder="Product Name">
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-6 col-xs-12 hideDiv">
-									<div class="form-group">
-										<div class="form-line">
-											<input type="text" class="form-control"
-												placeholder="Product ID">
 										</div>
 									</div>
 								</div>
@@ -432,7 +561,7 @@
 								<div class="header marginb15 margin-bottom10">
 									<h2>Photographer Image Files</h2>
 								</div>
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 _photographerImages">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 _photographerImages" id="photographerImagesDiv">
 									<form action="#" id="multipleUpload" class="dropzone"
 										method="post" enctype="multipart/form-data">
 										<div class="dz-message">
@@ -477,7 +606,7 @@
 									<h2>Photographer Video Files</h2>
 								</div>
 								<div
-									class="col-lg-12 col-md-12 col-sm-12 col-xs-12 _photographerVideos">
+									class="col-lg-12 col-md-12 col-sm-12 col-xs-12 _photographerVideos" id="photographerVideosDiv">
 									<form action="#" id="videoUpload" class="dropzone" method="post"
 										enctype="multipart/form-data">
 										<div class="dz-message">
@@ -509,11 +638,46 @@
 
 								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
-										<div class="form-line">
-											<input type="text" class="form-control" name="videoLength" id="videoLength"
+											<div class="form-line">
+												<input type="text" class="form-control" name="videoLength" id="videoLength"
 												placeholder="Video Length">
+											</div>
 										</div>
-									</div>
+									<!-- <div class="row clearfix">
+										<div class="col-sm-3 col-xs-12">
+											<div class="form-group">
+												<div class="form-line">
+													<input type="text" class="form-control" name="videoLength"
+														id="videoLengthHH" placeholder="hh">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-1 col-xs-12">
+											<label class="customLabel"><span> : </span></label>
+										</div>
+										<div class="col-sm-3 col-xs-12">
+											<div class="form-group">
+												<div class="form-line">
+													<input type="text" class="form-control" name="videoLength"
+														id="videoLengthmm" readonly="readonly" placeholder="mm">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-1 col-xs-12">
+											<label class="customLabel"><span> : </span></label>
+										</div>
+										<div class="col-sm-3 col-xs-12">
+											<div class="form-group">
+												<div class="form-line">
+													<input type="text" class="form-control" name="videoLength"
+														id="videoLengthss" readonly="readonly" placeholder="ss">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-1 col-xs-12">
+										
+										</div>
+									</div> -->
 								</div>
 							</div>
 							<div class="row clearfix">
@@ -551,6 +715,8 @@
 										<div class="form-group">
 											<button type="button" class="btn btn-raised gradient-right"
 												id="plusbtn">Add</button>
+											<button type="button" class="btn btn-raised gradient-right hideDiv"
+												id="showPreviousPrices" data-toggle="modal" data-target="#showPriceModal">Show Prices</button>	
 										</div>
 									</div>
 								</div>
@@ -632,7 +798,7 @@
 								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
-											<input type="text" class="form-control" name="advancePaymentPercentage" id="advancePaymentPercentage"
+											<input type="number" class="form-control" name="advancePaymentPercentage" id="advancePaymentPercentage"
 												placeholder="Advance Payment percentage">
 										</div>
 									</div>
@@ -653,11 +819,13 @@
 										</div>
 									</div>
 								</div>
-							</div><div class="row clearfix">
+							</div>
+							<div class="row clearfix">
 								<div class="header marginb15">
 									<h2>Delivery Details</h2>
 								</div>
 							</div>
+							<div class="row clearfix"></div>
 							<div class="row clearfix">
 								<div class="header marginb15 margin-bottom10">
 									<div class="checkbox header-add">
@@ -720,15 +888,44 @@
 										</div>
 									</div>
 								</div>
+								<div class="row clearfix">
+							<div class="col-md-12 col-xs-12 hideDiv" id="showDiscountDiv">
+							<div class="form-group">
+											<button type="button" class="btn btn-raised gradient-right"
+												id="showPreviousDiscounts" data-toggle="modal" data-target="#showDiscountModal">Show Discount</button>
+										</div>
+							</div>
+							</div>
 							</div>
 							<div class="row clearfix"></div>
+							<div class="row clearfix hideDiv" id="productStatusHeader">
+								<div class="header marginb15">
+									<h2>Product Status</h2>
+								</div>
+							</div>
+							<div class="row clearfix">
+							<div class="col-md-6 col-xs-6 hideDiv" id="productStatusDiv">
+									<div class="form-group drop-custum">
+										<select class="form-control show-tick">
+											<option value="">-- Availability --</option>
+											<option value="Yes">Yes</option>
+											<option value="No">No</option>
+										</select>
+									</div>
+								</div>
+								</div>
 							<div class="row clearfix">
 								<div class="col-xs-12">
 									<input type="hidden" name="photographyTypeName" id="photographyTypeName" value="">
 									<input type="hidden" name="photographyOccasionName" id="photographyOccasionName" value="">
-									<input type="hidden" name="photoAvailabiltyClick" id="photoAvailabiltyClick" value="">	
+<!-- 									<input type="hidden" name="photoAvailabiltyClick" id="photoAvailabiltyClick" value="">
+ -->								<input type="hidden" name="editProductId" id="editProductId" value="">
+ 									<input type="hidden" name="allProductId" id="allProductId" value="">	
+ 									<input type="hidden" name="productStatus" id="productStatus" value="">
+									<input type="hidden" name="productAvailability" id="productAvailability" value="">
 									<button type="submit" class="btn btn-raised gradient-right" id="submit">Submit</button>
-									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
+									<button type="submit" class="btn btn-raised gradient-left" data-toggle="modal" data-target="#myModal" data-dismiss="modal">Cancel</button>
+									
 								</div>
 							</div>
 						</div>
@@ -736,20 +933,35 @@
 				</div>
 			</div>
             </div>
+            
+           
     </section>
+    
+    
     <script src="resources/js/dropzone.js"></script>
     <script src="resources/js/rsvp.js"></script>
     <script src="resources/js/frame-grab.js"></script>
 	<!-- Dropzone Plugin Js  -->
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
+		<script src="resources/js/jwplayer.js"></script> 
+<script>jwplayer.key="5ZvM0G/PeHL2Q+mOm6ysDiHoWSpMMo3CSiYc7Q==";</script> 
+	<!-- <script src="resources/js/bootstrap.js"></script> -->
 	<script src="resources/js/sweetalert.min.js"></script>
+
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
 	<script type="text/javascript">
-	
+	var idForFetch;
 	$(document).ready(function (){
 		fetchAllPhotographerType();
 		fetchAllPhotographerOccasion();
 		
+		if(location.href.match(/id/)){
+			idForFetch = location.search.split("?");
+			idForFetch = idForFetch[1].split("=");
+			idForFetch = idForFetch[1];
+			fetchPhotographerById(idForFetch);
+		}
+		$("#advancePaymentPercentage,#price,#price1,#price2,#discount").val(parseFloat("0").toFixed(2));
 		
 	});
 	/* <img src = \"resources/images/videoIcon.png\" height = \"60\" width = \"60\" /> */
@@ -757,6 +969,10 @@
 	var videoFiles = "";
 	var videoClassPath = "";
 	var hasValue = Number(0);
+	var defaultImageId = "";
+	var defaultVideoId = "";
+	var modelId = "";
+	var modelVideoId = "";
 	//Upload and renaming the files being uploaded in dropzone.js
 	Dropzone.options.videoUpload = {
 		url : "singleUpload",
@@ -1034,7 +1250,62 @@
 			}
 			
 		};
-
+	//Upload and renaming the files being uploaded in dropzone.js
+ var modalImageId;
+ Dropzone.options.singleUpload = {
+		url : "singleUpload",
+		init : function() {
+			this.on("success", function(file, response) {
+				if(defaultImageId === Number(1)){
+					defaultImageId = "";
+				}
+				var a = this.element.classList+"";
+				a = a.split("_");
+				classPath = $("form." + "_" + a[1]).parent().attr("class");
+				classPath = classPath.split("_");
+				if(defaultImageId === ""){
+					defaultImageId = "Photographer"+"_"+classPath[1]+"_"+dateTime+file.name+"_"+modalImageId;
+				}else{
+					defaultImageId = defaultImageId + ","+"Photographer"+"_"+classPath[1]+"_"+dateTime+file.name+"_"+modalImageId;
+				}
+				alert(defaultImageId);
+ 			});
+		},
+		renameFilename : function(fileName) {
+			var classpath = fileName;
+			classpath = classpath.split("_");
+			return "Photographer" + "_" + dateTime+classpath[0];
+			
+		}
+	};
+ var modalVideoId;
+ Dropzone.options.singleVideoUpload = {
+			url : "singleUpload",
+			acceptedFiles: ".mp4,.mkv,.avi,.wmv",
+			init : function() {
+				this.on("success", function(file, response) {
+					if(defaultVideoId === Number(1)){
+						defaultVideoId = "";
+					}
+					var a = this.element.classList+"";
+					a = a.split("_");
+					classPath = $("form." + "_" + a[1]).parent().attr("class");
+					classPath = classPath.split("_");
+					if(defaultVideoId === ""){
+						defaultVideoId = "Photographer"+"_"+classPath[1]+"_"+dateTime+file.name+"_"+modalVideoId;
+					}else{
+						defaultVideoId = defaultImageId + ","+"Photographer"+"_"+classPath[1]+"_"+dateTime+file.name+"_"+modalVideoId;
+					}
+					alert(defaultVideoId);
+	 			});
+			},
+			renameFilename : function(fileName) {
+				var classpath = fileName;
+				classpath = classpath.split("_");
+				return "Photographer" + "_" + dateTime+classpath[0];
+				
+			}
+		}; 
 		var ary = new Array();
 		var arry3 = new Array();
 		function fetchAllPhotographerType() {
@@ -1252,6 +1523,8 @@
 
 		var title = "";
 		var id ="";
+		var lengthOccasions="";
+		var titleLength = "";
 		//On click of each li in Photography Occasion list 
 		function clickPhotoOccasionLi(liId, title1, photographyOccasionId,classSelected) {
 			if (classSelected === undefined || classSelected === "") {
@@ -1294,6 +1567,15 @@
 				}
 				
 			}
+			 
+			if(lengthOccasions !=""){
+				if(lengthOccasions > title.split(",").length){
+					titleLength = "minus";
+				}else if(lengthOccasions < title.split(",").length){
+					titleLength = "plus";
+				}
+			}
+				
 			$("#photographyOccasionName").val(id); //Hidden field to store the Photography Occasion Id
 			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--"+title+ "--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"
 					+ title
@@ -1407,12 +1689,10 @@
 
 		//On click of Add button
 		$("#plusbtn,#plusbtn1,#plusbtn2").click(function() {
-			addDiv();
+			 addDiv();
 		});
-
 		//For Adding new div
 		function addDiv() {
-			
 			if ($("#fromDate" + pricingsDivNumber).val() === "" || $("#fromDate").val() === "") {
 				swal({
 					title : 'Warning!',
@@ -1446,84 +1726,146 @@
 					animation : true
 				});
 			} else {
+				if(idForFetch !== undefined){
+					var job = {};
+					if(pricingsDivNumber === Number(0)){
+						 var fromDate = ($("#toDate").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+						 var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
+						 if(fromMonth < 10){
+								fromMonth = "0"+fromMonth;
+						  } 
+						 job["priceToDate"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]; 
+					}else{
+						 var fromDate = ($("#toDate"+pricingsDivNumber).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+						 var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
+						 if(fromMonth < 10){
+								fromMonth = "0"+fromMonth;
+						  } 
+						 job["priceToDate"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]; 
 				
-				if (Number(pricingsDivNumber) < Number(2)) {
-					pricingsDivNumber = Number(Number(pricingsDivNumber) + Number(1));
-					if (pricingsDivNumber === 1) {
 						
-						  var fromDate1 = moment($("#toDate").val(),"dddd DD MMMM YYYY");
-						    fromDate1 = fromDate1.add(1,'days')
-						    fromDate1 = moment(fromDate1).format("dddd DD MMMM YYYY");
- 							
- 							
-						    momentCalender($,moment);
-						    $("#fromDate1").bootstrapMaterialDatePicker({
-								 format: 'dddd DD MMMM YYYY',
-							     clearButton: true,
-							     weekStart: 1,
-							     time: false,
-								 minDate:fromDate1
+					}
+					job["allProductsId"] = $("#allProductId").val();
+					$.ajax({
+					type : "POST",
+					url : "admin-checkSellerPricings",
+					data : JSON.stringify(job),
+					processData : false,
+					contentType :"application/json",
+					success : function(data) {
+						if(data.status){
+							addOtherDivs();
+						}else{
+							swal({
+								title : 'Warning!',
+								text : 'Please Select Differnt Ending Date As Price Is Already Present For This Date. You Can Click On Show Prices To Know About Previous Prices!!!',
+								type : 'warning',
+								confirmButtonText : 'OK',
+								allowEscapeKey : true,
+								confirmButtonClass : "btn btn-raised gradient-right",
+								animation : true
 							});
-						    
-						     var toDate1 = moment(fromDate1,"dddd DD MMMM YYYY");
-						    toDate1 = toDate1.add(1,'days')
-						    toDate1 = moment(toDate1).format("dddd DD MMMM YYYY"); 
-						    
-						    $("#toDate1").bootstrapMaterialDatePicker({
-								 format: 'dddd DD MMMM YYYY',
-							     clearButton: true,
-							     weekStart: 1,
-							     time: false,
-								 minDate:toDate1
-							}); 
-						    
-						addDiv1();
-					} else if (pricingsDivNumber === 2) {
-						
-						var fromDate2 = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
-					    fromDate2 = fromDate2.add(1,'days')
-					    fromDate2 = moment(fromDate2).format("dddd DD MMMM YYYY");
-					    
-						momentCalender($,moment);
-					    $("#fromDate2").bootstrapMaterialDatePicker({
+							
+							if(pricingsDivNumber === Number(0)){
+								$("#toDate").val("");
+							}else{
+								$("#toDate"+pricingsDivNumber).val("");
+							}
+						}
+				},error : function(){
+					swal({
+						  title: 'Error!',
+						  text: 'Pricings can not be checked.!!!',
+						  type: 'error',
+						  showConfirmButton :false,
+						  allowEscapeKey:true,
+						  timer:3000,
+						  animation:true
+						});
+				}
+			});
+		}else{
+			addOtherDivs();
+		}
+				
+	}
+}
+
+		function addOtherDivs(){
+			if (Number(pricingsDivNumber) < Number(2)) {
+				pricingsDivNumber = Number(Number(pricingsDivNumber) + Number(1));
+				if (pricingsDivNumber === 1) {
+					
+					  var fromDate1 = moment($("#toDate").val(),"dddd DD MMMM YYYY");
+					    fromDate1 = fromDate1.add(1,'days')
+					    fromDate1 = moment(fromDate1).format("dddd DD MMMM YYYY");
+							
+							
+					    momentCalender($,moment);
+					    $("#fromDate1").bootstrapMaterialDatePicker({
 							 format: 'dddd DD MMMM YYYY',
 						     clearButton: true,
 						     weekStart: 1,
 						     time: false,
-							 minDate:fromDate2
+							 minDate:fromDate1
 						});
 					    
-					    var toDate2 = moment(fromDate2,"dddd DD MMMM YYYY");
-					    toDate2 = toDate2.add(1,'days')
-					    toDate2 = moment(toDate2).format("dddd DD MMMM YYYY");
+					     var toDate1 = moment(fromDate1,"dddd DD MMMM YYYY");
+					    toDate1 = toDate1.add(1,'days')
+					    toDate1 = moment(toDate1).format("dddd DD MMMM YYYY"); 
 					    
-					    $("#toDate2").bootstrapMaterialDatePicker({
+					    $("#toDate1").bootstrapMaterialDatePicker({
 							 format: 'dddd DD MMMM YYYY',
 						     clearButton: true,
 						     weekStart: 1,
 						     time: false,
-							 minDate:toDate2
+							 minDate:toDate1
 						}); 
-						addDiv2();
-					} else{
-						addDiv3();
-					}
-
-				} else {
-					swal({
-						title : 'Warning!',
-						text : 'You can only add 3 pricings at a time!!!',
-						type : 'warning',
-						confirmButtonText : 'OK',
-						allowEscapeKey : true,
-						confirmButtonClass : "btn btn-raised gradient-right",
-						animation : true
+					    
+					addDiv1();
+				} else if (pricingsDivNumber === 2) {
+					
+					var fromDate2 = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
+				    fromDate2 = fromDate2.add(1,'days')
+				    fromDate2 = moment(fromDate2).format("dddd DD MMMM YYYY");
+				    
+					momentCalender($,moment);
+				    $("#fromDate2").bootstrapMaterialDatePicker({
+						 format: 'dddd DD MMMM YYYY',
+					     clearButton: true,
+					     weekStart: 1,
+					     time: false,
+						 minDate:fromDate2
 					});
+				    
+				    var toDate2 = moment(fromDate2,"dddd DD MMMM YYYY");
+				    toDate2 = toDate2.add(1,'days')
+				    toDate2 = moment(toDate2).format("dddd DD MMMM YYYY");
+				    
+				    $("#toDate2").bootstrapMaterialDatePicker({
+						 format: 'dddd DD MMMM YYYY',
+					     clearButton: true,
+					     weekStart: 1,
+					     time: false,
+						 minDate:toDate2
+					}); 
+					addDiv2();
+				} else{
+					addDiv3();
 				}
 
+			} else {
+				swal({
+					title : 'Warning!',
+					text : 'You can only add 3 pricings at a time!!!',
+					type : 'warning',
+					confirmButtonText : 'OK',
+					allowEscapeKey : true,
+					confirmButtonClass : "btn btn-raised gradient-right",
+					animation : true
+				});
 			}
 		}
-
 		function addDiv1() {
 			$("#photographerPricing1").attr("style", "display:block");
 		}
@@ -1617,7 +1959,7 @@
 					  confirmButtonClass:"btn btn-raised gradient-right",
 					  animation:true
 					});
-			}else if($("#fromDate").val() === ""){
+			}else if($("#fromDate").val() === "" && idForFetch ===""){
 				swal({
 					  title: 'Warning!',
 					  text: 'Please Enter Starting Date For The Respective Price!!!',
@@ -1627,7 +1969,7 @@
 					  confirmButtonClass:"btn btn-raised gradient-right",
 					  animation:true
 					});
-			}else if($("#toDate").val() === ""){
+			}else if($("#toDate").val() === "" && idForFetch === ""){
 				swal({
 					  title: 'Warning!',
 					  text: 'Please Enter Ending Date For The Respective Price!!!',
@@ -1637,7 +1979,7 @@
 					  confirmButtonClass:"btn btn-raised gradient-right",
 					  animation:true
 					});
-			}else if($("#price").val() === ""){
+			}else if($("#price").val() === "" && idForFetch === ""){
 				swal({
 					  title: 'Warning!',
 					  text: 'Please Enter At Least One Price For The Product!!!',
@@ -1667,7 +2009,7 @@
 					  confirmButtonClass:"btn btn-raised gradient-right",
 					  animation:true
 					});
-			}else if(multipleFiles === ""){
+			}else if(multipleFiles === "" && defaultImageId ===""){
 				swal({
 					  title: 'Warning!',
 					  text: 'Please Upload AtLeast One Product Image!!!',
@@ -1680,34 +2022,56 @@
 			}else{
 				
 				var job = {};
+				job["editProductId"] = $("#editProductId").val();
+				job["allProductId"] = $("#allProductId").val();
 				job["productName"] = $("#productName").val();
 				job["sellerId"] = $("#sellerId").val();
 				job["photographyTypeName"] = $("#photographyTypeName").val();
 				job["photographyOccasionName"] = $("#photographyOccasionName").val();
-				job["multipleFiles"] = multipleFiles;
+				if(multipleFiles === ""){
+					job["multipleFiles"] = defaultImageId;
+				}else{
+					job["multipleFiles"] = multipleFiles;
+				}
 				job["photoDescription"] = $("#photoDescription").val();
 				job["noOfPhotosProvided"] = $("#noOfPhotosProvided").val();
-				job["videoFiles"] = videoFiles;
+				if(videoFiles === ""){
+					job["videoFiles"] =defaultVideoId;
+				}else{
+					job["videoFiles"] = videoFiles;
+				}
 				job["videoDescription"] = $("#videoDescription").val();
 				job["videoLength"] = $("#videoLength").val();
+				if(titleLength !=""){
+					job["titleLength"] = titleLength;
+				}
+				if(modelId !== ""){
+					job["modelId"] = modelId;
+				}
+				if(modelVideoId !== ""){
+					job["modelVideoId"] = modelVideoId;
+				}
+				if($("#fromDate").val() !==""){
+					var fromDate = ($("#fromDate").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+					var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
+					if(fromMonth < 10){
+						fromMonth = "0"+fromMonth;
+					} 
+					job["fromDate"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]; 
+				}
 				
-				var fromDate = ($("#fromDate").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
-				var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
-				if(fromMonth < 10){
-					fromMonth = "0"+fromMonth;
-				} 
-				job["fromDate"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]; 
+				if($("#toDate").val() !=""){
+					var toDate = ($("#toDate").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
+					var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
+					if(toMonth < 10){
+						toMonth = "0"+toMonth;
+					} 
+					job["toDate"] = toDate[3]+"-"+toMonth+"-"+toDate[1]; 
+				}
 				
-				var toDate = ($("#toDate").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
-				var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
-				if(toMonth < 10){
-					toMonth = "0"+toMonth;
-				} 
-				job["toDate"] = toDate[3]+"-"+toMonth+"-"+toDate[1]; 
 				
 				job["price"] = $("#price").val();
 				if(pricingsDivNumber > Number(0)){
-					alert(pricingsDivNumber);
 					for(var k = 1; k<= Number(pricingsDivNumber) ; k++){
 						if(!(($("#fromDate"+k).val() === undefined) && ($("#toDate"+k).val() === undefined) && ($("#price"+k).val() === undefined))){
 							 var fromDate = ($("#fromDate"+k).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
@@ -1733,8 +2097,8 @@
 				categoryName = categoryName.split("/");
 				job["categoryName"] = categoryName[4];
 				job["advancePaymentPercentage"] = $("#advancePaymentPercentage").val();
-				if($("#photoAvailabiltyClick").val() !== ""){
-					job["availability"] = $("#photoAvailabiltyClick").val();
+				if($("#productAvailability").val() !== ""){
+					job["availability"] = $("#productAvailability").val();
 				}else{
 					job["availability"] = $("#availability").val();
 				}
@@ -1785,6 +2149,9 @@
 								});
 						}else{
 							job["hasValue"] = hasValue;
+							if($("#fromDateDiscount").val() !== ""){
+								
+							}
 							var fromDate = ($("#fromDateDiscount").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
 							var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
 							if(fromMonth < 10){
@@ -1806,7 +2173,7 @@
 							}
 							
 							alert(JSON.stringify(job));
-							$("#submit").prop("disabled", true);
+							 $("#submit").prop("disabled", true);
 							$.ajax({
 							type : "POST",
 							url : "admin-addEditPhotographer",
@@ -1843,7 +2210,7 @@
 	
 							},complete : function (){
 								removeAllFields();
-							}
+							} 
 							
 							}); 
 						}
@@ -1851,7 +2218,7 @@
 						job["hasValue"] = hasValue;
 						
 						alert(JSON.stringify(job));
-						$("#submit").prop("disabled", true);
+						 $("#submit").prop("disabled", true);
 						$.ajax({
 						type : "POST",
 						url : "admin-addEditPhotographer",
@@ -1890,7 +2257,7 @@
 							removeAllFields();
 						}
 						
-						}); 
+						});  
 					}
 					
 					 
@@ -1930,6 +2297,12 @@
 			classPath = "";
 			title = "";
 			id = "";
+			titleLength = "";
+			lengthOccasions = "";
+			defaultImageId = "";
+			defaultVideoId = "";
+			modelId = "";
+			modelVideoId = "";
 			if(hasValue === Number(1)){
 				$("#fromDateDiscount").val("");
 				$("#toDateDiscount").val("");
@@ -1944,11 +2317,10 @@
 			
 			var j = pricingsDivNumber
 			for(var k =1; k<= j ;k++){
-				alert(k)
 				removePhotographyPricingDiv(k);
 			}
 			
-			$("#availabilityDiv").html("");
+			/* $("#availabilityDiv").html("");
 			 var mno ="<div class=\"form-group drop-custum\">"
 					+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\"-- Availability --\"><span class=\"filter-option pull-left\">-- Availability --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
 					+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
@@ -1957,9 +2329,9 @@
 					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"photoAvailabilityClick('No')\"><span class=\"text\">No</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
 					+"</div>"
 				$("#availabilityDiv").html(mno);
-				$("#photoAvailabiltyClick").val("");
+				$("#photoAvailabiltyClick").val(""); */
 				
-				//Removing the values from photography type list
+				/* //Removing the values from photography type list
 				var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Photo Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Photo Type"
 					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" id=\"ulPhotoType0\">"
 					 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"photoTypeLi0\"  onclick=\"clickPhotoTypeLi('"
@@ -1986,8 +2358,9 @@
 			}
 				cde = cde + "</ul></div>"
 			
-				$("#photographyTypeDiv").html(abc + cde);
+				$("#photographyTypeDiv").html(abc + cde); */
 				
+				defaultPhotoType(true,0,"Photo Type");
 				//Removing the values from photography type list
 				var efg = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Occasion--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Occasion"
 					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" id=\"ulPhotoOccasion0\">"
@@ -2040,7 +2413,9 @@
 			$("#"+this.id).prop("checked",true);
 		}
 	});
-	function photoAvailabilityClick(str,str3){
+	abc = "";
+	cde = "";
+	/* function photoAvailabilityClick(str,str3){
 		$("#photoAvailabiltyClick").val(str);
 		var clicked;
 		$("#availabilityDiv").html("");
@@ -2069,8 +2444,7 @@
 					}
 				}
 			}
-	}
-	
+	} */
 	$("#fromDate,#toDate").mouseenter(function(){
 		momentCalender($,moment);
 		 var fromDate = moment();
@@ -2118,6 +2492,504 @@
 			});
 		
 	});
+	
+	
+		$("#discount").on("blur",function(){
+			if(idForFetch !== undefined){
+			var job = {};
+			var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
+			var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
+			if(toMonth < 10){
+				toMonth = "0"+toMonth;
+			} 
+			job["toDateDiscount"] = toDate[3]+"-"+toMonth+"-"+toDate[1];
+			job["allProductsId"] = $("#allProductId").val();
+			$.ajax({
+				type : "POST",
+				url : "admin-checkSellerDiscounts",
+				data : JSON.stringify(job),
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+					if(!(data.status)){
+						swal({
+							title : 'Warning!',
+							text : 'Please Select Differnt Ending Date As Discount Is Already Present For This Date. You Can Click On Show Discounts To Know About Previous Discounts!!!',
+							type : 'warning',
+							confirmButtonText : 'OK',
+							allowEscapeKey : true,
+							confirmButtonClass : "btn btn-raised gradient-right",
+							animation : true
+						});
+						
+						$("#toDateDiscount").val("");
+					}
+			},error : function(){
+				swal({
+					  title: 'Error!',
+					  text: 'Discounts can not be checked.!!!',
+					  type: 'error',
+					  showConfirmButton :false,
+					  allowEscapeKey:true,
+					  timer:3000,
+					  animation:true
+					});
+			}
+		});
+	  }
+	});
+
+	
+	var abc = "";
+	function showImagesEdit(imageName,imageId){
+
+		//$("#photographerImagesDiv").html("");
+			abc = abc + "<div class=\"col-md-2 col-sm-6 col-xs-12 editImages\">"
+			+"<div class=\"thumbnail\">"
+			+"<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\" data-toggle=\"modal\" data-target=\"#showModal\" onclick=\"showModal('"+imageName+"','"+imageId+"')\"/>"
+			+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
+		    +"</div>"
+	        +"</div>";
+		
+	      $("#photographerImagesDiv").html(abc);
+	}
+	var checkForImageId = "";
+	function showModal(imageName, imageId){
+		modalImageId = imageId;
+		var check = Number(0);
+		$("#myModal").modal({
+			backdrop: 'static',
+		    keyboard: false,
+		    show:true
+		});
+		$("#editImageDiv").html("<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\">");
+		/*  if (checkForImageId === ""){
+			checkForImageId = imageId;
+		}else{
+			if(checkForImageId.indexOf(",")>=0){
+				var a = checkForImageId.split(",");
+				for(var i =0; i<a.length; i++){
+					if(a[i] === imageId){
+						check = Number(1);
+					}
+				}
+				if(check === 0){
+					checkForImageId = checkForImageId + "," + imageId;
+				}
+			}else{
+				if(checkForImageId === imageId){
+					alert("In if");
+					check = Number(1);
+				}else
+				  {
+					alert("///In else");
+					checkForImageId = checkForImageId+ "," +imageId;
+				}
+			}
+		}
+		 alert(imageId);
+			 if(Number(imageId) === Number(273)){
+				 alert("In if");
+				 Dropzone.forElement("._photographerImages #singleUpload").destroy();
+				 var file9 = {
+						    name: "resources/images/camera-icon.png",
+						    size: 90094,
+						    status: Dropzone.ADDED,
+						    accepted: true
+						};
+				 
+				 		var myDropzone = new Dropzone("._photographerImages #singleUpload",{clickable:false})
+						myDropzone.emit("addedfile", file9);  
+						myDropzone.emit("thumbnail", file9, file9.name);
+						myDropzone.emit("processing",file9);
+						myDropzone.emit("success",file9);
+						myDropzone.emit("complete", file9);
+						myDropzone.files.push(file9);
+			 }else{ */
+				 Dropzone.forElement("._photographerImages #singleUpload").destroy();
+				 var myDropzone = new Dropzone("._photographerImages #singleUpload",{clickable:false});
+			/*  } */
+		
+		 
+		 
+		
+		
+	}
+	var cde = ""
+	function showVideosEdit(videoName,videoId){
+		modalVideoId = videoId;
+		cde = cde + "<div class=\"col-md-6 col-sm-6 col-xs-12 editVideos\">"
+			+"<div class=\"thumbnail\">"
+			+"<div id = \"myDiv\"></div>"
+			+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
+		    +"</div>"
+	        +"</div>";
+	      $("#photographerVideosDiv").html(cde);
+	      videoPlayer(videoName);
+	}
+	function videoPlayer(videoName){
+		jwplayer("myDiv").setup({
+			 sources: [{
+			        file: "resources/images/VID-20170226-WA0000.mp4",
+			        label: "720p HD"
+			      }],
+		    	    height: 360,
+		    	    width: 640,
+		    	    skin: {
+		    	       name: "roundster",
+		    	       /*  active: "red", */
+		    	       /* inactive: "white", */
+		    	      /*  background: "black"  */
+		    	    },
+		    	    autostart: false,
+		    	    controls: true,
+		    	    width: "50%",
+		    	    ratio: "16:10",
+		    	    aspectratio: "16:10",
+		    	    stretching: "fill",
+		    	    fullscreen: false,
+		    	    responsive: true,
+		    	    preload: "metadata",
+		    	    players: [
+						{ type: "flash", src: "resources/js/jwplayer.flash.swf" },
+						{ type: "html5" }
+					]
+		    	    
+		    	   /*  type: "hls",
+		            hlslabels: {
+		            "415": "128p",
+		            "515": "160p",
+		            "650": "208p",
+		            "881":"252p",
+		            "1200":"332p",
+		            "1600": "432p",
+		            "2300": "560p",
+		            "3200":"720p"
+		            }  */
+		    	    });
+	}
+	
+	function fetchPhotographerById(photoId){
+		$.ajax({
+			type : "GET",
+			url : "admin-fetchPhotographerById?id="+photoId,
+			data : "",
+			processData : false,
+			contentType : "application/json",
+			success : function(data) {
+				alert(JSON.stringify(data));
+					if(data.status){
+						/* $("#productName").val(data.sellerPhotographer.productName); */
+						$("#photoDescription").val(data.sellerPhotographer.photoDescription);
+						$("#noOfPhotosProvided").val(data.sellerPhotographer.noOfPhotosProvided);
+						$("#videoDescription").val(data.sellerPhotographer.videoDescription);
+						$("#videoLength").val(data.sellerPhotographer.videoLength);
+						$("#advancePaymentPercentage").val(data.sellerPhotographer.advancePaymentPercentage);
+						$("#freebie").val(data.sellerPhotographer.freebie);
+						$("#photographerImagesDiv").html("");
+						$("#photographerVideosDiv").html("");
+						for(var i =0; i< data.listProductImagesVideos.length; i++){
+							 if(data.listProductImagesVideos[i].photoVideo){
+								showImagesEdit(data.listProductImagesVideos[i].productImageVideoUrl,data.listProductImagesVideos[i].id);
+								defaultImageId = Number(1);
+								if(i === Number(0)){
+									modelId = data.listProductImagesVideos[i].id;
+								}else{
+									modelId = modelId +"," + data.listProductImagesVideos[i].id;
+									
+								}
+							}else{
+								showVideosEdit(data.listProductImagesVideos[i].productImageVideoUrl,data.listProductImagesVideos[i].id);
+								defaultVideoId = Number(1);
+								if(i === Number(0)){
+									modelVideoId = data.listProductImagesVideos[i].id;
+								}else{
+									modelVideoId = modelVideoId +"," + data.listProductImagesVideos[i].id;
+									
+								}
+							}
+							
+						}
+						$("#showPreviousPrices").attr("style","display:block");
+						var priceDataTable = "";
+						$("#priceTable > tbody").html("");
+						for(var i=0; i<data.listProductPricings.length; i++){
+							var active;
+							if(data.listProductPricings[i].status){
+								active = "Yes";
+							}else{
+								active = "No";
+							}
+							var xyz = new Date(data.listProductPricings[i].priceFromDate);
+							xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+(xyz.getDate() > 9 ? xyz.getDate() : "0"+(xyz.getDate())) ;
+							
+							var mno = new Date(data.listProductPricings[i].priceToDate);
+							mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+(mno.getDate() > 9 ? mno.getDate() : "0"+(mno.getDate()));
+							
+							priceDataTable = priceDataTable + "<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+							+"<td class=\"text-center\">"+xyz+"</td>"
+							+"<td class=\"text-center\">"+mno+"</td>"
+							+"<td class=\"text-center\"><i class=\"fa fa-inr\" aria-hidden=\"true\">"+data.listProductPricings[i].price+"</i></td>"
+							+"<td class=\"text-center\">"+active+"</td>"
+						}
+						$("#priceTable > tbody").html(priceDataTable);
+						if(data.listSellerDiscount[0] !== null){
+							$("#discountCheck").prop("checked",true);
+							$("#discountDiv").attr("style","display:block");
+							var discountDataTable = "";
+							$("#discountTable > tbody").html("");
+							$("#showDiscountDiv").attr("style","display:block");
+							for(var i = 0; i< data.listSellerDiscount.length; i++){
+								var active;
+								if(data.listSellerDiscount[i].status){
+									active = "Yes";
+								}else{
+									active = "No";
+								}
+								var discount;
+								if(data.listSellerDiscount[i].isFlatDiscount){
+									discount ="<i class=\"fa fa-inr\" aria-hidden=\"true\">"+data.listSellerDiscount[i].discount+"</i>";
+								}else{
+								discount = data.listSellerDiscount[i].discount+" "+"%";
+								}
+								var xyz = new Date(data.listSellerDiscount[i].fromDateDiscount);
+								xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+(xyz.getDate() > 9 ? xyz.getDate() : "0"+(xyz.getDate()));
+								
+								var mno = new Date(data.listSellerDiscount[i].toDateDiscount);
+								mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+(mno.getDate() > 9 ? mno.getDate() : "0"+(mno.getDate()));
+								discountDataTable = discountDataTable +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+								+"<td class=\"text-center\">"+xyz+"</td>"
+								+"<td class=\"text-center\">"+mno+"</td>"
+								+"<td class=\"text-center\">"+discount+"</td>"
+								+"<td class=\"text-center\">"+active+"</td>"
+							}
+							$("#discountTable > tbody").html(discountDataTable);
+						}
+						$("#productStatusDiv").attr("style","display:block");
+						if(data.sellerPhotographer.active){
+							productStatus("Active");
+						}else{
+							productStatus("Inactive");
+						}
+						if(data.sellerPhotographer.availability === "Available"){
+							productAvailability("Available");
+						}else{
+							productAvailability("Unavailable");
+						}
+						$("#photographyTypeName").val(data.sellerPhotographer.photographyType.id);
+						defaultPhotoType(false,Number(data.sellerPhotographer.photographyType.id),data.sellerPhotographer.photographyType.typeName);
+						var occasionId = "";
+						var occasionName = "";
+						for(var i=0; i<data.listPhotographyOccasions.length;i++){
+							if(Number(i) === Number(0)){
+								occasionId = data.listPhotographyOccasions[i].photographyOccasion.id;
+								occasionName = data.listPhotographyOccasions[i].photographyOccasion.occasionName;
+							}else{
+								occasionId = occasionId +","+data.listPhotographyOccasions[i].photographyOccasion.id;
+								occasionName = occasionName +","+data.listPhotographyOccasions[i].photographyOccasion.occasionName;
+							}
+						}
+						$("#productStatusHeader").removeClass("hideDiv");
+						
+						$("#photographyOccasionName").val(occasionId);
+						title = occasionName;
+						id = occasionId;
+						lengthOccasions = data.listPhotographyOccasions.length;
+						titleLength = "same";
+						defaultPhotoOccasion(false,occasionId,occasionName);
+						$("#productNameDiv").html("");
+						var productNameDiv = "<div class=\"col-sm-6 col-xs-12\">"
+						+"<div class=\"form-group\">"
+						+"<div class=\"form-line\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"productName\" id =\"productName\" value="+data.sellerPhotographer.productName+" placeholder=\"Product Name\">"
+						+"</div>"
+						+"</div>"
+						+"</div>"
+						+"<div class=\"col-sm-6 col-xs-12\">"
+						+"<div class=\"form-group\">"
+						+"<div class=\"form-line\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"productName\" id =\"productName\" value ="+data.sellerPhotographer.id+" readonly=\"readonly\" placeholder=\"Product Name\">"
+						+"</div>"
+					    +"</div>"
+						+"</div>"
+						$("#productNameDiv").html(productNameDiv);
+						$("#editProductId").val(data.sellerPhotographer.id);
+						$("#allProductId").val(data.sellerPhotographer.allProducts.id);
+					}
+			},error : function (data){
+				alert("Error");
+			}
+		});
+	}
+	
+	function productStatus(str,str3){
+		$("#productStatus").val(str);
+		if(str === "0" || str === undefined){
+			str = "Product Status";
+		}
+		var mno ="<div class=\"form-group drop-custum\">"
+			+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+			+"<ul class=\"dropdown-menu inner\" role=\"menu\" id=\"productStatusUl\">"
+			+"<li data-original-index=\"0\" id=\"productStatusLi0\"class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"productStatus('Product Status','"+0+"')\"><span class=\"text\">Product Status</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"1\" id=\"productStatusLi1\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productStatus('Active','"+1+"')\"><span class=\"text\">Active</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"2\" id=\"productStatusLi2\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productStatus('Inactive','"+2+"')\"><span class=\"text\">Inactive</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+			+"</div>"
+			
+		$("#productStatusDiv").html(mno);	
+		var lengthOfUl = $("#productStatusUl li").size();
+		for(var i = 0;i<lengthOfUl; i++){
+			var getdata = $("ul#productStatusUl li#productStatusLi"+Number(i)).find('span').text();
+				if(str === getdata){
+					$("#productStatusLi"+Number(i)).addClass("selected");
+				}else{
+					$("#productStatusLi"+Number(i)).removeClass("selected");
+				}
+		}
+		
+	}
+	
+	function productAvailability(str,str3){
+		$("#productAvailability").val(str);
+		if(str === "0" || str === undefined){
+			str = "Availability";
+		}
+		var mno ="<div class=\"form-group drop-custum\">"
+			+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+			+"<ul class=\"dropdown-menu inner\" role=\"menu\" id=\"productAvailabilityUl\">"
+			+"<li data-original-index=\"0\" id=\"productAvailabilityLi0\"class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('Product Status','"+0+"')\"><span class=\"text\">Availability</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"1\" id=\"productAvailabilityLi1\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('Available','"+1+"')\"><span class=\"text\">Available</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"2\" id=\"productAvailabilityLi2\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('Unavailable','"+2+"')\"><span class=\"text\">Unavailable</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+			+"</div>"
+			
+		$("#availabilityDiv").html(mno);	
+		var lengthOfUl = $("#productAvailabilityUl li").size();
+		for(var i = 0;i<lengthOfUl; i++){
+			var getdata = $("ul#productAvailabilityUl li#productAvailabilityLi"+Number(i)).find('span').text();
+				if(str === getdata){
+					$("#productAvailabilityLi"+Number(i)).addClass("selected");
+				}else{
+					$("#productAvailabilityLi"+Number(i)).removeClass("selected");
+				}
+		}
+		
+	}
+	function defaultPhotoType(isInComplete,typeId,typeName){
+		// Removing the values from the photo type list
+		var abc ="";
+		if(isInComplete){
+			 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Photo Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Photo Type"
+				+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulPhotoType0\">"
+				 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"photoTypeLi0\" onclick=\"clickPhotoTypeLi('"
+					+ 0
+					+ "','Photo Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">Photo Type</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+		}else{
+			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=--"+typeName+"-- aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+typeName
+			+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+			+ "<li data-original-index=\"0\" id=\"photoTypeLi0\" onclick=\"clickPhotoTypeLi('"+ 0+ "','Photo Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Photo Type --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+		}
+		var cde = "";
+		for (var i = 0; i < ary.length; i++) {
+			var splittedArray = ary[i].split("_");
+			var classSelected = ""
+			if(!isInComplete){
+				if(Number(splittedArray[0]) === Number(typeId)){
+					classSelected = "class = selected";
+				}
+			}
+				cde = cde
+				+ "<li data-original-index='"
+				+ Number(Number(i) + Number(1))+ "'id='photoTypeLi"+ Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoTypeLi('"
+				+ Number(Number(i) + Number(1))
+				+ "','"
+				+ splittedArray[1]
+				+ "','"
+				+ splittedArray[0]
+				+ "')\"><span class=\"text\">"
+				+ splittedArray[1]
+				+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				
+				
+		}
+		cde = cde + "</ul></div>"
+		
+		$("#photographyTypeDiv").html(abc + cde);
+		
+	}
+	function defaultPhotoOccasion(isInComplete,occasionId,occasionName){
+		// Removing the values from the photo type list
+		var abc ="";
+		if(isInComplete){
+			 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Occasion --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Occasion --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+				+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulPhotoOccasion0\">"
+				+ "<li data-original-index=\"0\" class=\"selected\" id=\"photoOccasionLi0\" onclick=\"clickPhotoOccasionLi('"
+				+ 0
+				+ "','Occasion')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Occasion --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+		}else{
+			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\--" +occasionName+ "--\ aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- "+occasionName+" --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+				+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulPhotoOccasion0\">"
+				+ "<li data-original-index=\"0\" class=\"\" id=\"photoOccasionLi0\" onclick=\"clickPhotoOccasionLi('"
+				+ 0
+				+ "','Occasion')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Occasion --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+		}
+		var cde = "";
+		var subOccasion = occasionId+"";
+		if(subOccasion.length !== 1){
+			subOccasion = occasionId.split(","); 
+		}
+		
+		for (var i = 0; i < arry3.length; i++) {
+			var splittedArray = arry3[i].split("_");
+			var classSelected = ""
+			if(!isInComplete){
+				for(var j=0; j< subOccasion.length; j++){
+					
+					if(Number(splittedArray[0]) === Number(subOccasion[j])){
+						classSelected = "class = selected";
+					}
+				}
+				
+			}
+				cde = cde
+				+ "<li data-original-index='"
+				+ Number(Number(i) + Number(1))+ "'id='photoOccasionLi"+ Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickPhotoOccasionLi('"
+				+ Number(Number(i) + Number(1))
+				+ "','"
+				+ splittedArray[1]
+				+ "','"
+				+ splittedArray[0]
+				+ "','"
+				+ classSelected
+				+ "')\"><span class=\"text\">"
+				+ splittedArray[1]
+				+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				
+				
+		}
+		cde = cde + "</ul></div>"
+		
+		$("#photographyOccasionDiv").html(abc + cde);
+		
+	}
+	/* $("#advancePaymentPercentage").on("change",function(){
+		$("#advancePaymentPercentage").val(addZeroes($("#advancePaymentPercentage").val()));
+	});
+	function addZeroes( num ) {
+		 var num = Number(num);
+		   if (String(num).split(".")[0].length < 2){
+		          num = num.toFixed(2);
+		      }
+		   return num;
+		} */
+	
+		$("#advancePaymentPercentage").on("change",function(){
+			$("#advancePaymentPercentage").val(parseFloat(this.value).toFixed(2));
+		});
+		$("#videoLengthHH").on("keypress",function(){
+			if(this.value.length === Number(1)){
+				$("#videoLengthmm").prop("readonly",false);
+			}
+		});
+		
 	</script>
     <div class="color-bg"></div>
     <!-- Jquery Js --> 

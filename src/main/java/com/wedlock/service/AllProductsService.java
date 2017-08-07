@@ -5,4 +5,5 @@ import com.wedlock.model.AllProducts;
 
 public interface AllProductsService {
 	AdminResponseClass saveAllProducts(AllProducts products);
+	AdminResponseClass fetchAllProductById(long id);
 }

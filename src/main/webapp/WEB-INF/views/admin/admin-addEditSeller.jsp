@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | Seller</title>
-<link rel="stylesheet" type="text/css" href="resources/css/sweetalert2.css">
+<link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
@@ -414,7 +414,7 @@
 	<script src="resources/js/dropzone.js"></script>
 	<!-- Dropzone Plugin Js  -->
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
-	<script src="resources/js/sweetalert2.min.js"></script>
+	<script src="resources/js/sweetalert.min.js"></script>
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
 	<script src="resources/js/basic-form-elements.js"></script> 
 	<!--jquery-2.1.3.min Library Js -->
@@ -1368,7 +1368,8 @@
 							$("#submit").prop("disabled", false);
 
 						},complete : function (){
-							 if($("#editSellerId").val() !=""){
+							 if($("#editSellerId").val() !==""){
+								 alert("In if");
 								window.location = "admin-viewSeller";
 							}else{
 								if(doNotRemoveFields === 0){

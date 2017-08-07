@@ -20,6 +20,8 @@ public class SellerProductImagesVideosServiceImpl implements SellerProductImages
 	private SellerProductImagesVideosDao sellerProductImagesVideosDao;
 	@Override
 	public AdminResponseClass saveSellerProductImagesVideos(SellerProductImagesVideos sellerProductImagesVideos) {
+		System.out.println("//// Seller Product Images Id is"+sellerProductImagesVideos.getId());
+		System.out.println("//// Product Images Url is"+sellerProductImagesVideos.getProductImageVideoUrl());
 		boolean status = false;
 		sellerProductImagesVideos.setEntryTime(new Date());
 		sellerProductImagesVideos.setStatus(Boolean.TRUE);
@@ -27,6 +29,16 @@ public class SellerProductImagesVideosServiceImpl implements SellerProductImages
 		status = true;
 		
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
+	}
+	@Override
+	public AdminResponseClass fetchSellerProductImagesVideosById(long id) {
+		boolean status = false;
+		SellerProductImagesVideos sellerProductImageVideo = sellerProductImagesVideosDao.findOne(id);
+		status = true;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setSellerProductImageVideo(sellerProductImageVideo);
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}

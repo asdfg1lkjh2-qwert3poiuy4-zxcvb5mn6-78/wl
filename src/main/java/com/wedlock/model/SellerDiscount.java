@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class SellerDiscount implements Serializable{
@@ -32,6 +33,8 @@ public class SellerDiscount implements Serializable{
 	@ManyToOne
 	private AllProducts allProducts;
 	
+	@Transient
+	private Long allProductsId;
 	//Setters And Getters
 	public long getId() {
 		return id;
@@ -96,6 +99,14 @@ public class SellerDiscount implements Serializable{
 
 	public void setAllProducts(AllProducts allProducts) {
 		this.allProducts = allProducts;
+	}
+
+	public Long getAllProductsId() {
+		return allProductsId;
+	}
+
+	public void setAllProductsId(Long allProductsId) {
+		this.allProductsId = allProductsId;
 	}
 
 }

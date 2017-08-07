@@ -1,11 +1,17 @@
 package com.wedlock.serviceImpl;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,19 +23,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wedlock.dao.CityDao;
 import com.wedlock.dao.SellerBankDetailsDao;
 import com.wedlock.dao.SellerDao;
 import com.wedlock.dao.StateDao;
 import com.wedlock.dao.ZipCodeDao;
 import com.wedlock.model.AdminResponseClass;
+import com.wedlock.model.ApiResponseClass;
 import com.wedlock.model.City;
+import com.wedlock.model.Otp;
 import com.wedlock.model.SellerBankDetails;
 import com.wedlock.model.SellerDetails;
 import com.wedlock.model.SellerInactiveDetails;
 import com.wedlock.model.State;
 import com.wedlock.model.ZipCode;
+import com.wedlock.service.OtpService;
 import com.wedlock.service.SellerService;
+import com.wedlock.util.OtpGenerator;
+import com.wedlock.util.smsApi;
 
 
 @Transactional
@@ -44,6 +59,8 @@ public class SellerServiceImpl implements SellerService{
 	private CityDao cityDao;
 	@Autowired
 	private ZipCodeDao zipCodeDao;
+	@Autowired
+	private OtpService otpService;
 	@PersistenceContext
 	EntityManager manager;
 	@Override
@@ -244,6 +261,80 @@ public class SellerServiceImpl implements SellerService{
 			sellerDetail = sellerDetails.getSingleResult();
 		}
 		return sellerDetail;
+	}
+	@Override
+	public AdminResponseClass checkSelleroginCredentials(SellerDetails sellerDetails) throws ParseException, JsonParseException, JsonMappingException, IOException, NoSuchProviderException {
+		boolean status = false;
+		String mssg = "";
+		
+		TypedQuery<SellerDetails> typedQuery = manager.createQuery("Select s from SellerDetails s where s.sellerEmailId LIKE:sellerEmailId AND s.sellerPassword LIKE:sellerPassword ",SellerDetails.class).setParameter("sellerEmailId", sellerDetails.getSellerEmailId()).setParameter("sellerPassword", sellerDetails.getSellerPassword());
+		status = true;
+		if(typedQuery.getResultList().isEmpty()){
+			mssg = "Email Id or Password is Incorrect";
+			status = false;
+		}else {
+			System.out.println("////In else");
+			SellerDetails sellerDetails2 = typedQuery.getSingleResult();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			String checkDate = simpleDateFormat.format(date);
+			date = simpleDateFormat.parse(checkDate);
+			if(sellerDetails2.isActive()){
+				System.out.println("///In if");
+				if(date.after(sellerDetails2.getSellerRegistrationEnd())){
+					System.out.println("////In first if");
+					mssg = "Trial Period has ended on"+sellerDetails2.getSellerRegistrationEnd()+" .Please";
+					status = false;
+					SellerDetails sellerDetails3 = new SellerDetails();
+					sellerDetails3 = typedQuery.getSingleResult();
+					sellerDetails3.setActive(Boolean.FALSE);
+					sellerDao.save(sellerDetails3);
+				}
+				if(!(sellerDetails2.isEmailVerified() || sellerDetails2.isMobileVerified())){
+					System.out.println("In second if");
+					mssg = "Please Verfiy Your Mobile For Login";
+					
+					Random ranGen = new SecureRandom();
+					int random = OtpGenerator.otpGenerateNumber(ranGen.nextInt(2999));
+					Otp otp = new Otp();
+					otp.setOtp(random);
+					otp.setSellerDetails(sellerDetails2);
+					AdminResponseClass responseClass = otpService.saveOtpForSeller(otp);
+					if(responseClass.isStatus()){
+						System.out.println("///Seller Contact Number is"+sellerDetails2.getSellerContactNumber());
+						 /*String mssg2 = "Your 4 digits passcode for Wedlock is "+ random +" .Please donot share this with anyone";
+						 URL url = new URL(smsApi.sendSms(mssg2, sellerDetails2.getSellerContactNumber()));
+						 ObjectMapper objectMapper = new ObjectMapper();
+						 objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+						 ApiResponseClass apiResponseClass = objectMapper.readValue(url, ApiResponseClass.class);
+						 System.out.println("////APIResponseClass"+apiResponseClass.getTotal_sms());*/
+						 status = false;
+					}
+				}
+			}
+			if(!(sellerDetails2.isActive())){
+				if(date.after(sellerDetails2.getSellerRegistrationEnd())){
+					mssg = "Trial Period has ended on"+sellerDetails2.getSellerRegistrationEnd()+" .Please";
+					status = false;
+				}else{
+					for(SellerInactiveDetails inactiveDetails :sellerDetails2.getSellerInactiveDetails()){
+						if((inactiveDetails.isActive()) && (inactiveDetails.getSellerDetails().getId().equals(sellerDetails2.getId()))){
+							mssg = "Your account has been locked by the administrator on "+inactiveDetails.getDateOfInactivity()+" due to "+inactiveDetails.getInactiveReason();
+							status = false;
+						}
+					}
+				}
+			}
+			
+		}
+		
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setMssgStatus(mssg);
+		if(status){
+			adminResponseClass.setSellerDetail(typedQuery.getSingleResult());
+		}
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
 	}
 	
 }

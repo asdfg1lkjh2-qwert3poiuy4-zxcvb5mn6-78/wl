@@ -91,5 +91,8 @@ public class HomeController {
 	public String adminViewSeller(){
 		return "admin/admin-viewSeller";
 	}
-	
+	@RequestMapping(value ="/admin-viewPhotographyProducts")
+	public String adminViewPhotographyProducts(){
+		return "admin/admin-viewPhotographyProducts";
+	}
 }

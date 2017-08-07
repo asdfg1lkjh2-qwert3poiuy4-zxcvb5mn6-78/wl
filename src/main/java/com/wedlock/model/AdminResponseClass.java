@@ -65,6 +65,25 @@ public class AdminResponseClass {
 	private List<SellerPhotographer> listSellerPhotographers;
 	private SellerPhotographer sellerPhotographer;
 	
+	/*For Seller ImagesVideos*/
+	private List<SellerProductImagesVideos> listProductImagesVideos;
+	private SellerProductImagesVideos sellerProductImageVideo;
+	
+	/*For Seller ProductPricings*/
+	private List<SellerProductPricing> listProductPricings;
+	private SellerProductPricing sellerProductPricing;
+	
+	/*For Seller ProductDiscount*/
+	private List<SellerDiscount> listSellerDiscount;
+	private SellerDiscount sellerDiscount;
+	
+	/*For Seller PhotographyOccasions*/
+	private List<SellerPhotographyOccasion> listPhotographyOccasions;
+	private SellerPhotographyOccasion sellerPhotographyOccasion;
+	
+	/*For AllProducts*/
+	private List<AllProducts> listAllProducts;
+	private AllProducts allProducts;
 	// Setters And Getters
 
 	public boolean isStatus() {
@@ -321,6 +340,86 @@ public class AdminResponseClass {
 
 	public void setSellerPhotographer(SellerPhotographer sellerPhotographer) {
 		this.sellerPhotographer = sellerPhotographer;
+	}
+
+	public List<SellerProductImagesVideos> getListProductImagesVideos() {
+		return listProductImagesVideos;
+	}
+
+	public void setListProductImagesVideos(List<SellerProductImagesVideos> listProductImagesVideos) {
+		this.listProductImagesVideos = listProductImagesVideos;
+	}
+
+	public SellerProductImagesVideos getSellerProductImageVideo() {
+		return sellerProductImageVideo;
+	}
+
+	public void setSellerProductImageVideo(SellerProductImagesVideos sellerProductImageVideo) {
+		this.sellerProductImageVideo = sellerProductImageVideo;
+	}
+
+	public List<SellerProductPricing> getListProductPricings() {
+		return listProductPricings;
+	}
+
+	public void setListProductPricings(List<SellerProductPricing> listProductPricings) {
+		this.listProductPricings = listProductPricings;
+	}
+
+	public SellerProductPricing getSellerProductPricing() {
+		return sellerProductPricing;
+	}
+
+	public void setSellerProductPricing(SellerProductPricing sellerProductPricing) {
+		this.sellerProductPricing = sellerProductPricing;
+	}
+
+	public List<SellerDiscount> getListSellerDiscount() {
+		return listSellerDiscount;
+	}
+
+	public void setListSellerDiscount(List<SellerDiscount> listSellerDiscount) {
+		this.listSellerDiscount = listSellerDiscount;
+	}
+
+	public SellerDiscount getSellerDiscount() {
+		return sellerDiscount;
+	}
+
+	public void setSellerDiscount(SellerDiscount sellerDiscount) {
+		this.sellerDiscount = sellerDiscount;
+	}
+
+	public List<SellerPhotographyOccasion> getListPhotographyOccasions() {
+		return listPhotographyOccasions;
+	}
+
+	public void setListPhotographyOccasions(List<SellerPhotographyOccasion> listPhotographyOccasions) {
+		this.listPhotographyOccasions = listPhotographyOccasions;
+	}
+
+	public SellerPhotographyOccasion getSellerPhotographyOccasion() {
+		return sellerPhotographyOccasion;
+	}
+
+	public void setSellerPhotographyOccasion(SellerPhotographyOccasion sellerPhotographyOccasion) {
+		this.sellerPhotographyOccasion = sellerPhotographyOccasion;
+	}
+
+	public List<AllProducts> getListAllProducts() {
+		return listAllProducts;
+	}
+
+	public void setListAllProducts(List<AllProducts> listAllProducts) {
+		this.listAllProducts = listAllProducts;
+	}
+
+	public AllProducts getAllProducts() {
+		return allProducts;
+	}
+
+	public void setAllProducts(AllProducts allProducts) {
+		this.allProducts = allProducts;
 	}
 
 }

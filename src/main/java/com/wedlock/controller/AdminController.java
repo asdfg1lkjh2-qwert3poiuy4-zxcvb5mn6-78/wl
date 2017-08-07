@@ -5,16 +5,24 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchProviderException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.RequestWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +47,7 @@ import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.City;
 import com.wedlock.model.FlowerType;
 import com.wedlock.model.Occasion;
+import com.wedlock.model.Otp;
 import com.wedlock.model.PhotographyOccasion;
 import com.wedlock.model.PhotographyType;
 import com.wedlock.model.SellerBankDetails;
@@ -59,6 +68,7 @@ import com.wedlock.service.CityService;
 import com.wedlock.service.FlowerTypeService;
 import com.wedlock.service.MailService;
 import com.wedlock.service.OccasionService;
+import com.wedlock.service.OtpService;
 import com.wedlock.service.PhotographyOccasionService;
 import com.wedlock.service.PhotographyTypeService;
 import com.wedlock.service.SellerBankDetailsService;
@@ -123,6 +133,8 @@ public class AdminController {
 	private SellerPhotographyOccasionService sellerPhotographyOccasionService;
 	@Autowired
 	private SellerDiscountService sellerDiscountService;
+	@Autowired
+	private OtpService otpService;
 	@Autowired
 	HttpSession httpSession;
 	
@@ -480,7 +492,7 @@ public class AdminController {
 	
 	/*For Login Admin*/
 	@RequestMapping(value = "/admin-loginCredentials", method = RequestMethod.POST)
-	public @ResponseBody boolean adminLoginCredentials(@RequestParam("username") String username, @RequestParam("password") String password) {
+	public @ResponseBody boolean adminLoginCredentials(@RequestParam("sellerEmailId") String username, @RequestParam("sellerPassword") String password) {
 		AdminResponseClass adminResponseClass = adminDetailsService.checkAdminLoginCredentials(username,password);
 		if(adminResponseClass.isStatus()){
 			httpSession.setAttribute("adminDetailsSession", adminResponseClass.getAdminDetail());
@@ -520,6 +532,21 @@ public class AdminController {
 		return "admin/index";
 	}
 	
+	/*For Login Seller*/
+	@RequestMapping(value = "/seller-loginCredentials", method = RequestMethod.POST)
+	public @ResponseBody AdminResponseClass sellerLoginCredentials(@RequestBody SellerDetails sellerDetails) throws ParseException, JsonParseException, JsonMappingException, IOException, NoSuchProviderException {
+		AdminResponseClass adminResponseClass = sellerService.checkSelleroginCredentials(sellerDetails);
+		if(adminResponseClass.isStatus()){
+			httpSession.setAttribute("sellerDetailsSession", adminResponseClass.getSellerDetail());
+			adminFetchAllCategorySubCategory();
+		}
+		return adminResponseClass;
+	}
+	@RequestMapping(value = "/seller-checkOtp", method = RequestMethod.POST)
+	public @ResponseBody AdminResponseClass checkOtp(@RequestBody Otp otp) {
+		AdminResponseClass adminResponseClass = otpService.checkOtpByEmailIdAndPassword(otp);
+		return adminResponseClass;
+	}
 	/*For Seller*/
 	@RequestMapping(value = "/admin-addEditSellerDetails", method = RequestMethod.POST)
 	public @ResponseBody boolean addEditSellerDetails(@RequestBody ObjectNode objectNode,BindingResult bindingResult, HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException, ParseException {
@@ -662,19 +689,21 @@ public class AdminController {
 				adminResponseClass =sellerService.addEditSellerDetails(sellerDetails,isEdit);
 				if(adminResponseClass.isStatus()){
 					if(isEdit.equals("No")){
-						mailService.sendEmailToSeller(sellerDetails,"notVerified");
+						 mailService.sendEmailToSeller(sellerDetails,"notVerified");
+						 
+						 String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
+						 String phoneNumber = sellerDetails.getSellerContactNumber();
+						 URL url = new URL(smsApi.sendSms(mssg, phoneNumber));
+						 ObjectMapper objectMapper = new ObjectMapper();
+						 objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+						 ApiResponseClass apiResponseClass = objectMapper.readValue(url, ApiResponseClass.class);
+						 System.out.println("////APIResponseClass"+apiResponseClass.getTotal_sms());
+						 if(apiResponseClass.getTotal_sms() == 0){
+							adminResponseClass.setStatus(Boolean.FALSE);
+						 }
+							
 					}
-				    String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
-					String phoneNumber = sellerDetails.getSellerContactNumber();
-					URL url = new URL(smsApi.sendSms(mssg, phoneNumber));
-					ObjectMapper objectMapper = new ObjectMapper();
-					objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-					ApiResponseClass apiResponseClass = objectMapper.readValue(url, ApiResponseClass.class);
-					System.out.println("////APIResponseClass"+apiResponseClass.getTotal_sms());
-					if(apiResponseClass.getTotal_sms() == 0){
-						adminResponseClass.setStatus(Boolean.FALSE);
-					}
-					
+				   
 					if(objectNode.get("hasValue").asInt() == 1){
 						SellerBankDetails sellerBankDetails = new SellerBankDetails();
 						
@@ -844,31 +873,48 @@ public class AdminController {
 		String photographerId = "";
 		AdminResponseClass adminResponseClass;
 		AllProducts products = new AllProducts();
+		String categoryName;
 		//All Products Entry
-		String categoryName = AllCategoryNames.getCategoryName(objectNode.get("categoryName").asText());
-		adminResponseClass = categoryAvailableService.fetchCategoryByCategoryName(categoryName);
-		if(adminResponseClass.isStatus()){
-			
-			products.setCategoryAvailable(adminResponseClass.getCategoryAvailable());
-			//products.setSellerDetails();
-			adminResponseClass = allProductsService.saveAllProducts(products);
+		System.out.println("////Edit Product Id"+objectNode.get("editProductId").asText());
+		if(!(objectNode.get("editProductId").asText().equals(""))){
+			products.setId(objectNode.get("allProductId").asLong());
+			adminResponseClass = new AdminResponseClass();
+			adminResponseClass.setStatus(Boolean.TRUE);
+		}else{
+			System.out.println("///In else");
+			categoryName = AllCategoryNames.getCategoryName(objectNode.get("categoryName").asText());
+			adminResponseClass = categoryAvailableService.fetchCategoryByCategoryName(categoryName);
 		}
+			
+			if(adminResponseClass.isStatus()){
+				
+				products.setCategoryAvailable(adminResponseClass.getCategoryAvailable());
+				//products.setSellerDetails();
+				adminResponseClass = allProductsService.saveAllProducts(products);
+			}
+		
+			System.out.println("////All Products id"+products.getId());
 		//SellerPhotographer Entry
 		if(adminResponseClass.isStatus()){
 			SellerPhotographer sellerPhotographer = new SellerPhotographer();
-			adminResponseClass = sellerPhotographerService.findLastSellerPhotographerId();
-			if(adminResponseClass.getLastId().equals("0")){
-				String id = createId.IdGeneration("PHOTO0");
-				sellerPhotographer.setId(id);
-				photographerId = id;
-			}else{
-				String id = createId.IdGeneration(adminResponseClass.getLastId());
-				if(!(id.equals("No Id Found"))){
+			if(objectNode.get("editProductId").asText().equals("")){
+				adminResponseClass = sellerPhotographerService.findLastSellerPhotographerId();
+				if(adminResponseClass.getLastId().equals("0")){
+					String id = createId.IdGeneration("PHOTO0");
 					sellerPhotographer.setId(id);
 					photographerId = id;
+				}else{
+					String id = createId.IdGeneration(adminResponseClass.getLastId());
+					if(!(id.equals("No Id Found"))){
+						sellerPhotographer.setId(id);
+						photographerId = id;
+					}
 				}
+				
+			}else{
+				sellerPhotographer.setId(objectNode.get("editProductId").asText());
+				photographerId = objectNode.get("editProductId").asText();
 			}
-			
 				sellerPhotographer.setProductName(objectNode.get("productName").asText());
 				adminResponseClass = photographyTypeService.fetchPhotographyTypeById(objectNode.get("photographyTypeName").asLong());
 				sellerPhotographer.setPhotographyType(adminResponseClass.getPhotographyType());
@@ -885,103 +931,288 @@ public class AdminController {
 				adminResponseClass = sellerPhotographerService.saveSellerPhotographer(sellerPhotographer);
 			
 		}
+		int isEdit = 0;
+		if(!objectNode.get("editProductId").asText().equals("")){
+			isEdit = 1;
+		}
 		
 		if(adminResponseClass.isStatus()){
 			//SellerProductImagesVideos Entry
 			ServletContext context = request.getServletContext();
-			if(objectNode.get("multipleFiles").asText().indexOf(",")>=0){
-				String productImages[] = objectNode.get("multipleFiles").asText().split(",");
-				for(int i=0; i< productImages.length; i++){
-					SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-					String subProductImages[] = productImages[i].split("_");
-					
-						String uploadPath = context.getRealPath("/" + subProductImages[0]);
-						File uploadDir = new File(uploadPath);
-						if (uploadDir.exists()) {
-
-							File upLoadSubFolder = new File(uploadDir + "/" + subProductImages[1] + "_"+ photographerId);
-							if (!upLoadSubFolder.exists()) {
-								boolean success = upLoadSubFolder.mkdir();
+			if(objectNode.get("multipleFiles").asInt() != 1){
+				if(objectNode.get("multipleFiles").asText().indexOf(",")>=0){
+					String productImages[] = objectNode.get("multipleFiles").asText().split(",");
+					List<String> listString =new ArrayList<String>();
+					for(String abc:productImages){
+						listString.add(abc);
+					}
+					if(isEdit == 1){
+						String modal = objectNode.get("modelId").asText();
+						String [] modalId = modal.split(",");
+						for(int i =0; i<modalId.length;i++){
+							String a ="";
+							/*for(int j=0; j<productImages.length;j++){
+								if(productImages[j].indexOf("_"+modalId[i])>=0){
+									if(a.equals("")){
+										a = productImages[j];
+										listString.remove(productImages[j]);
+										
+									}else{
+										a = a +","+productImages[j];
+										listString.remove(productImages[j]);
+									}
+								}
+							}*/
+							Iterator<String> iterator = listString.iterator();
+							while(iterator.hasNext()){
+								String strings = iterator.next();
+								if(strings.indexOf("_"+modalId[i])>=0){
+									if(a.equals("")){
+										a = strings;
+									}else{
+										a = a +","+strings;
+									}
+									iterator.remove();
+								}
+								
 							}
-							
+							if(!a.equals("")){
+								String [] subA = a.split(",");
+								for(int k = 0; k<subA.length;k++){
+									SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
+									String subSellerImages[] = subA[k].split("_");
+									System.out.println("//// Sub A Length"+subA.length+" "+(subA.length - 1));
+									if (k == (subA.length - 1)) {
+										String uploadPath = context.getRealPath("/" + subSellerImages[0]);
+										File uploadDir = new File(uploadPath);
+										if (uploadDir.exists()) {
+
+											File upLoadSubFolder = new File(uploadDir + "/" + subSellerImages[1] + "_"+ photographerId);
+											if (!upLoadSubFolder.exists()) {
+												boolean success = upLoadSubFolder.mkdir();
+											}
+											
+										}
+										System.out.println("/////"+subSellerImages[0]+" "+subSellerImages[1]+" "+subSellerImages[2]+" "+subSellerImages[3]);
+										File file = new File(context.getRealPath("/" + subSellerImages[0] + "/temp/" + subSellerImages[2].trim()));
+										file.renameTo(new File(context.getRealPath("/" + subSellerImages[0] + "/" + subSellerImages[1]+ "_" + photographerId + "/"+ subSellerImages[2].trim())));
+										productImagesVideos.setProductImageVideoUrl(subSellerImages[0] + "/" + subSellerImages[1]+ "_" + photographerId + "/"+ subSellerImages[2].trim());
+										productImagesVideos.setPhotoVideo(Boolean.TRUE);
+										productImagesVideos.setAllProducts(products);
+										productImagesVideos.setId(Long.valueOf(subSellerImages[3]));
+										adminResponseClass = sellerProductImagesVideosService.fetchSellerProductImagesVideosById(productImagesVideos.getId());
+										String path = adminResponseClass.getSellerProductImageVideo().getProductImageVideoUrl();
+										adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+										if(adminResponseClass.isStatus()){
+											File currentFile = new File(context.getRealPath("/"+path));
+											currentFile.delete();
+										}
+									}else{
+										File currentFile = new File(context.getRealPath("/" + subSellerImages[0] + "/temp/" + subSellerImages[2].trim()));
+										currentFile.delete();
+									}
+								}
+							}
 						}
 						
-						File file = new File(context.getRealPath("/" + subProductImages[0] + "/temp/" + subProductImages[2].trim()));
-						file.renameTo(new File(context.getRealPath("/" + subProductImages[0] + "/" + subProductImages[1]+ "_" + photographerId + "/"+ subProductImages[2].trim())));
-						productImagesVideos.setProductImageVideoUrl(subProductImages[0] + "/" + subProductImages[1]+ "_" + photographerId + "/"+ subProductImages[2].trim());
+					}else{
+						for(int i=0; i< productImages.length; i++){
+							SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
+							String subProductImages[] = productImages[i].split("_");
+							
+								String uploadPath = context.getRealPath("/" + subProductImages[0]);
+								File uploadDir = new File(uploadPath);
+								if (uploadDir.exists()) {
+
+									File upLoadSubFolder = new File(uploadDir + "/" + subProductImages[1] + "_"+ photographerId);
+									if (!upLoadSubFolder.exists()) {
+										boolean success = upLoadSubFolder.mkdir();
+									}
+									
+								}
+								
+								File file = new File(context.getRealPath("/" + subProductImages[0] + "/temp/" + subProductImages[2].trim()));
+								file.renameTo(new File(context.getRealPath("/" + subProductImages[0] + "/" + subProductImages[1]+ "_" + photographerId + "/"+ subProductImages[2].trim())));
+								productImagesVideos.setProductImageVideoUrl(subProductImages[0] + "/" + subProductImages[1]+ "_" + photographerId + "/"+ subProductImages[2].trim());
+								productImagesVideos.setPhotoVideo(Boolean.TRUE);
+								productImagesVideos.setAllProducts(products);
+								adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+						}
+					}
+					
+				}else{
+					SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
+					String productImages[] = objectNode.get("multipleFiles").asText().split("_");
+					
+					String uploadPath = context.getRealPath("/" + productImages[0]);
+					File uploadDir = new File(uploadPath);
+					if (uploadDir.exists()) {
+
+						File upLoadSubFolder = new File(uploadDir + "/" + productImages[1] + "_"+ photographerId);
+						if (!upLoadSubFolder.exists()) {
+							boolean success = upLoadSubFolder.mkdir();
+						}
+						File file = new File(context.getRealPath("/" + productImages[0] + "/temp/" + productImages[2].trim()));
+						file.renameTo(new File(context.getRealPath("/" + productImages[0] + "/" + productImages[1]+ "_" + photographerId + "/"+ productImages[2].trim())));
+						productImagesVideos.setProductImageVideoUrl(productImages[0] + "/" + productImages[1]+ "_" + photographerId + "/"+ productImages[2].trim());
 						productImagesVideos.setPhotoVideo(Boolean.TRUE);
 						productImagesVideos.setAllProducts(products);
-						adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
-				}
-			}else{
-				SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-				String productImages[] = objectNode.get("multipleFiles").asText().split("_");
-				
-				String uploadPath = context.getRealPath("/" + productImages[0]);
-				File uploadDir = new File(uploadPath);
-				if (uploadDir.exists()) {
-
-					File upLoadSubFolder = new File(uploadDir + "/" + productImages[1] + "_"+ photographerId);
-					if (!upLoadSubFolder.exists()) {
-						boolean success = upLoadSubFolder.mkdir();
-					}
-					File file = new File(context.getRealPath("/" + productImages[0] + "/temp/" + productImages[2].trim()));
-					file.renameTo(new File(context.getRealPath("/" + productImages[0] + "/" + productImages[1]+ "_" + photographerId + "/"+ productImages[2].trim())));
-					productImagesVideos.setProductImageVideoUrl(productImages[0] + "/" + productImages[1]+ "_" + photographerId + "/"+ productImages[2].trim());
-					productImagesVideos.setPhotoVideo(Boolean.TRUE);
-					productImagesVideos.setAllProducts(products);
-					adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
-					
-				}
-			}
-			
-			if(!(objectNode.get("videoFiles").asText().equals(""))){
-				String productVideos[] = objectNode.get("videoFiles").asText().split(",");
-				for(int i=0; i< productVideos.length; i++){
-					SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-					String subProductVideos[] = productVideos[i].split("_");
-					
-						String uploadPath = context.getRealPath("/" + subProductVideos[0]);
-						File uploadDir = new File(uploadPath);
-						if (uploadDir.exists()) {
-
-							File upLoadSubFolder = new File(uploadDir + "/" + subProductVideos[1] + "_"+ photographerId);
-							if (!upLoadSubFolder.exists()) {
-								boolean success = upLoadSubFolder.mkdir();
+						if(isEdit == 1){
+							productImagesVideos.setId(Long.valueOf(productImages[3]));
+							adminResponseClass = sellerProductImagesVideosService.fetchSellerProductImagesVideosById(productImagesVideos.getId());
+							String path = adminResponseClass.getSellerProductImageVideo().getProductImageVideoUrl();
+							adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+							if(adminResponseClass.isStatus()){
+								File currentFile = new File(context.getRealPath("/"+path));
+								currentFile.delete();
 							}
-							
 						}
+						adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
 						
-						File file = new File(context.getRealPath("/" + subProductVideos[0] + "/temp/" + subProductVideos[2].trim()));
-						file.renameTo(new File(context.getRealPath("/" + subProductVideos[0] + "/" + subProductVideos[1]+ "_" + photographerId + "/"+ subProductVideos[2].trim())));
-						productImagesVideos.setProductImageVideoUrl(subProductVideos[0] + "/" + subProductVideos[1]+ "_" + photographerId + "/"+ subProductVideos[2].trim());
+					}
+			}
+			}
+				
+			
+			
+			if((!(objectNode.get("videoFiles").asText().equals(""))) || (objectNode.get("videoFiles").asInt() != 1)){
+				if(objectNode.get("videoFiles").asText().indexOf(",")>=0){
+					String productVideos[] = objectNode.get("videoFiles").asText().split(",");
+					List<String> listString =new ArrayList<String>();
+					for(String abc:productVideos){
+						listString.add(abc);
+					}
+					if(isEdit == 1){
+						String modal = objectNode.get("modalVideoId").asText();
+						String [] modalId = modal.split(",");
+						for(int i =0; i<modalId.length;i++){
+							String a ="";
+							for(int j=0; j<productVideos.length;j++){
+								if(productVideos[j].indexOf("_"+modalId[i])>=0){
+									if(a.equals("")){
+										a = productVideos[j];
+										listString.remove(productVideos[j]);
+										
+									}else{
+										a = a +","+productVideos[j];
+										listString.remove(productVideos[j]);
+									}
+								}
+							}
+							Iterator<String> iterator = listString.iterator();
+							while(iterator.hasNext()){
+								String strings = iterator.next();
+								if(strings.indexOf("_"+modalId[i])>=0){
+									if(a.equals("")){
+										a = strings;
+									}else{
+										a = a +","+strings;
+									}
+									iterator.remove();
+								}
+								
+							}
+							if(!a.equals("")){
+								String [] subA = a.split(",");
+								for(int k = 0; k<subA.length;k++){
+									SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
+									String subSellerVideos[] = subA[k].split("_");
+									if (k == (subA.length - 1)) {
+										String uploadPath = context.getRealPath("/" + subSellerVideos[0]);
+										File uploadDir = new File(uploadPath);
+										if (uploadDir.exists()) {
+
+											File upLoadSubFolder = new File(uploadDir + "/" + subSellerVideos[1] + "_"+ photographerId);
+											if (!upLoadSubFolder.exists()) {
+												boolean success = upLoadSubFolder.mkdir();
+											}
+											
+										}
+										File file = new File(context.getRealPath("/" + subSellerVideos[0] + "/temp/" + subSellerVideos[2].trim()));
+										file.renameTo(new File(context.getRealPath("/" + subSellerVideos[0] + "/" + subSellerVideos[1]+ "_" + photographerId + "/"+ subSellerVideos[2].trim())));
+										productImagesVideos.setProductImageVideoUrl(subSellerVideos[0] + "/" + subSellerVideos[1]+ "_" + photographerId + "/"+ subSellerVideos[2].trim());
+										productImagesVideos.setPhotoVideo(Boolean.FALSE);
+										productImagesVideos.setAllProducts(products);
+										productImagesVideos.setId(Long.valueOf(subSellerVideos[3]));
+										adminResponseClass = sellerProductImagesVideosService.fetchSellerProductImagesVideosById(productImagesVideos.getId());
+										String path = adminResponseClass.getSellerProductImageVideo().getProductImageVideoUrl();
+										adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+										if(adminResponseClass.isStatus()){
+											File currentFile = new File(context.getRealPath("/"+path));
+											currentFile.delete();
+										}
+									}else{
+										File currentFile = new File(context.getRealPath("/" + subSellerVideos[0] + "/temp/" + subSellerVideos[2].trim()));
+										currentFile.delete();
+									}
+								}
+							}
+						}
+					
+					}else{
+						for(int i=0; i< productVideos.length; i++){
+							SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
+							String subProductVideos[] = productVideos[i].split("_");
+							
+								String uploadPath = context.getRealPath("/" + subProductVideos[0]);
+								File uploadDir = new File(uploadPath);
+								if (uploadDir.exists()) {
+
+									File upLoadSubFolder = new File(uploadDir + "/" + subProductVideos[1] + "_"+ photographerId);
+									if (!upLoadSubFolder.exists()) {
+										boolean success = upLoadSubFolder.mkdir();
+									}
+									
+								}
+								
+								File file = new File(context.getRealPath("/" + subProductVideos[0] + "/temp/" + subProductVideos[2].trim()));
+								file.renameTo(new File(context.getRealPath("/" + subProductVideos[0] + "/" + subProductVideos[1]+ "_" + photographerId + "/"+ subProductVideos[2].trim())));
+								productImagesVideos.setProductImageVideoUrl(subProductVideos[0] + "/" + subProductVideos[1]+ "_" + photographerId + "/"+ subProductVideos[2].trim());
+								productImagesVideos.setPhotoVideo(Boolean.FALSE);
+								productImagesVideos.setAllProducts(products);
+								adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+						}
+					}
+				}else{
+					SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
+					String productVideos[] = objectNode.get("videoFiles").asText().split("_");
+					
+					String uploadPath = context.getRealPath("/" + productVideos[0]);
+					File uploadDir = new File(uploadPath);
+					if (uploadDir.exists()) {
+
+						File upLoadSubFolder = new File(uploadDir + "/" + productVideos[1] + "_"+ photographerId);
+						if (!upLoadSubFolder.exists()) {
+							boolean success = upLoadSubFolder.mkdir();
+						}
+						File file = new File(context.getRealPath("/" + productVideos[0] + "/temp/" + productVideos[2].trim()));
+						file.renameTo(new File(context.getRealPath("/" + productVideos[0] + "/" + productVideos[1]+ "_" + photographerId + "/"+ productVideos[2].trim())));
+						productImagesVideos.setProductImageVideoUrl(productVideos[0] + "/" + productVideos[1]+ "_" + photographerId + "/"+ productVideos[2].trim());
 						productImagesVideos.setPhotoVideo(Boolean.FALSE);
 						productImagesVideos.setAllProducts(products);
+						if(isEdit == 1){
+							productImagesVideos.setId(Long.valueOf(productVideos[3]));
+							adminResponseClass = sellerProductImagesVideosService.fetchSellerProductImagesVideosById(productImagesVideos.getId());
+							String path = adminResponseClass.getSellerProductImageVideo().getProductImageVideoUrl();
+							adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+							if(adminResponseClass.isStatus()){
+								File currentFile = new File(context.getRealPath("/"+path));
+								currentFile.delete();
+							}
+						}
 						adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
-				}
-			}else{
-				SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-				String productVideos[] = objectNode.get("multipleFiles").asText().split("_");
-				
-				String uploadPath = context.getRealPath("/" + productVideos[0]);
-				File uploadDir = new File(uploadPath);
-				if (uploadDir.exists()) {
-
-					File upLoadSubFolder = new File(uploadDir + "/" + productVideos[1] + "_"+ photographerId);
-					if (!upLoadSubFolder.exists()) {
-						boolean success = upLoadSubFolder.mkdir();
 					}
-					File file = new File(context.getRealPath("/" + productVideos[0] + "/temp/" + productVideos[2].trim()));
-					file.renameTo(new File(context.getRealPath("/" + productVideos[0] + "/" + productVideos[1]+ "_" + photographerId + "/"+ productVideos[2].trim())));
-					productImagesVideos.setProductImageVideoUrl(productVideos[0] + "/" + productVideos[1]+ "_" + photographerId + "/"+ productVideos[2].trim());
-					productImagesVideos.setPhotoVideo(Boolean.FALSE);
-					productImagesVideos.setAllProducts(products);
-					adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
-					
+				
 				}
+			
 			}
+			
+			System.out.println("////Admin Response Class is"+adminResponseClass.isStatus());
 		}
+		
+		System.out.println("//// Price is "+objectNode.get("fromDate"));
 		if(adminResponseClass.isStatus()){
+			System.out.println("////Inside there reh");
 			//SellerProductPricing Entry
 			SellerProductPricing sellerProductPricing = new SellerProductPricing();
 			sellerProductPricing.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("fromDate").asText()));
@@ -1015,27 +1246,41 @@ public class AdminController {
 			}
 		}
 		
+		
+		System.out.println("///Photography Occasion Name is"+objectNode.get("photographyOccasionName").asText());
 		if(adminResponseClass.isStatus()){
-			if(objectNode.get("photographyOccasionName").asText().indexOf(",")>=0){
-				String photographyOccasionNames[] = objectNode.get("photographyOccasionName").asText().split(",");
-				for(int i=0; i<photographyOccasionNames.length; i++){
+			if(!(objectNode.get("titleLength").asText().equals("same"))){
+				if(objectNode.get("photographyOccasionName").asText().indexOf(",")>=0){
+					String photographyOccasionNames[] = objectNode.get("photographyOccasionName").asText().split(",");
+					for(int i=0; i<photographyOccasionNames.length; i++){
+						SellerPhotographyOccasion sellerPhotographyOccasion = new SellerPhotographyOccasion();
+						sellerPhotographyOccasion.setAllProducts(products);
+						if(objectNode.get("titleLength").asText().equals("minus")){
+							adminResponseClass = sellerPhotographyOccasionService.deleteSellerPhotographyOccasionByAllProductsAndOccasionId(sellerPhotographyOccasion.getAllProducts().getId(),Long.valueOf(Long.valueOf(photographyOccasionNames[i])));
+						}else{
+							adminResponseClass = photographyOccasionService.fetchPhotographyOccasionById(Long.valueOf(photographyOccasionNames[i]));
+							sellerPhotographyOccasion.setPhotographyOccasion(adminResponseClass.getPhotographyOccasion());
+							adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
+							sellerPhotographyOccasion.setSellerPhotographer(adminResponseClass.getSellerPhotographer());
+							adminResponseClass = sellerPhotographyOccasionService.saveSellerPhotographyOccasion(sellerPhotographyOccasion,isEdit);
+						}
+						
+					}
+				}else{
 					SellerPhotographyOccasion sellerPhotographyOccasion = new SellerPhotographyOccasion();
+					String photographyOccasionName = objectNode.get("photographyOccasionName").asText();
 					sellerPhotographyOccasion.setAllProducts(products);
-					adminResponseClass = photographyOccasionService.fetchPhotographyOccasionById(Long.valueOf(photographyOccasionNames[i]));
-					sellerPhotographyOccasion.setPhotographyOccasion(adminResponseClass.getPhotographyOccasion());
-					adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
-					sellerPhotographyOccasion.setSellerPhotographer(adminResponseClass.getSellerPhotographer());
-					adminResponseClass = sellerPhotographyOccasionService.saveSellerPhotographyOccasion(sellerPhotographyOccasion);
+					if(objectNode.get("titleLength").asText().equals("minus")){
+						adminResponseClass = sellerPhotographyOccasionService.deleteSellerPhotographyOccasionByAllProductsAndOccasionId(sellerPhotographyOccasion.getAllProducts().getId(),Long.valueOf(photographyOccasionName));
+					}else{
+						adminResponseClass = photographyOccasionService.fetchPhotographyOccasionById(Long.valueOf(photographyOccasionName));
+						sellerPhotographyOccasion.setPhotographyOccasion(adminResponseClass.getPhotographyOccasion());
+						adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
+						sellerPhotographyOccasion.setSellerPhotographer(adminResponseClass.getSellerPhotographer());
+						adminResponseClass = sellerPhotographyOccasionService.saveSellerPhotographyOccasion(sellerPhotographyOccasion,isEdit);
+					}
+					
 				}
-			}else{
-				SellerPhotographyOccasion sellerPhotographyOccasion = new SellerPhotographyOccasion();
-				String photographyOccasionName = objectNode.get("photographyOccasionName").asText();
-				sellerPhotographyOccasion.setAllProducts(products);
-				adminResponseClass = photographyOccasionService.fetchPhotographyOccasionById(Long.valueOf(photographyOccasionName));
-				sellerPhotographyOccasion.setPhotographyOccasion(adminResponseClass.getPhotographyOccasion());
-				adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
-				sellerPhotographyOccasion.setSellerPhotographer(adminResponseClass.getSellerPhotographer());
-				adminResponseClass = sellerPhotographyOccasionService.saveSellerPhotographyOccasion(sellerPhotographyOccasion);
 			}
 		}
 
@@ -1057,11 +1302,26 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin-fetchAllPhotographyProducts", method = RequestMethod.GET)
-	public @ResponseBody AdminResponseClass fetchAllPhotographyProducts(){
+	public @ResponseBody AdminResponseClass fetchAllPhotographyProducts() throws ParseException{
 		AdminResponseClass adminResponseClass = sellerPhotographerService.fetchAllPhotographyProducts();
 		return adminResponseClass;
 	}
+	@RequestMapping(value = "/admin-fetchPhotographerById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchPhotographerById(@RequestParam("id") String id) throws ParseException{
+		AdminResponseClass adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(id);
+		return adminResponseClass;
+	}
 	
+	@RequestMapping(value = "/admin-checkSellerPricings", method = RequestMethod.POST)
+	public @ResponseBody AdminResponseClass checkSellerPricings(@RequestBody SellerProductPricing productPricing) throws ParseException{
+		AdminResponseClass adminResponseClass = sellerProductPricingService.checkSellerPricings(productPricing);
+		return adminResponseClass;
+	}
+	@RequestMapping(value = "/admin-checkSellerDiscounts", method = RequestMethod.POST)
+	public @ResponseBody AdminResponseClass checkSellerDiscounts(@RequestBody SellerDiscount sellerDiscount) throws ParseException{
+		AdminResponseClass adminResponseClass = sellerDiscountService.checkSellerDiscounts(sellerDiscount);
+		return adminResponseClass;
+	}
 	/*@RequestMapping(value = "/admin-addEditFlowerType", method= RequestMethod.POST)
 	public @ResponseBody boolean adminAddEditFlowerType(@RequestBody FlowerType flowerType) {
 		AdminResponseClass adminResponseClass = flowerTypeService.saveFlowerType(flowerType);

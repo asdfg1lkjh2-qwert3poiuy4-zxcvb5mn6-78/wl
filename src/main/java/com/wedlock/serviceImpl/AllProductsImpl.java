@@ -29,5 +29,15 @@ public class AllProductsImpl implements AllProductsService{
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
+	@Override
+	public AdminResponseClass fetchAllProductById(long id) {
+		boolean status = false;
+		AllProducts allProducts = allProductsDao.findOne(id);
+		status = true;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setAllProducts(allProducts);
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
+	}
 
 }

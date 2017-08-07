@@ -62,7 +62,7 @@ public class SellerDetails implements Serializable {
 	private Date sellerRegistrationStart;
 	private String typeOfSeller;
 	private boolean isEmailVerified;
-	//private boolean isMobileVerified;
+	private boolean isMobileVerified;
 	private boolean isActive;
 
 	@Transient
@@ -99,6 +99,10 @@ public class SellerDetails implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="sellerDetails",fetch=FetchType.LAZY)
 	private List<SellerProductCancellation> sellerProductCancellation;
+	
+	@OneToOne(mappedBy = "sellerDetails")
+	@JsonIgnore
+	private Otp otp;
 	
 	@Transient
 	private String stateName;
@@ -473,6 +477,14 @@ public class SellerDetails implements Serializable {
 
 	public void setSellerProductCancellation(List<SellerProductCancellation> sellerProductCancellation) {
 		this.sellerProductCancellation = sellerProductCancellation;
+	}
+
+	public boolean isMobileVerified() {
+		return isMobileVerified;
+	}
+
+	public void setMobileVerified(boolean isMobileVerified) {
+		this.isMobileVerified = isMobileVerified;
 	}
 	
 }

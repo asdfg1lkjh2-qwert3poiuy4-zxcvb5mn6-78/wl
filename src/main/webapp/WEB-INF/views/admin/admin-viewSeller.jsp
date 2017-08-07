@@ -211,10 +211,10 @@
 							active = "No";
 						}
 						var xyz = new Date(data.sellerDetails[i].sellerRegistrationEnd);
-						xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+xyz.getDate();
+						xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+(xyz.getDate() > 9 ? xyz.getDate() : "0"+(xyz.getDate()));
 						
 						var mno = new Date(data.sellerDetails[i].entryTime);
-						mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+mno.getDate();
+						mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+(mno.getDate() > 9 ? mno.getDate() : "0"+(mno.getDate()));
 						abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
 						+"<td class=\"text-center\">"+data.sellerDetails[i].id+"</td>"
 						+"<td class=\"text-center\">"+data.sellerDetails[i].sellerFirstName+" "+data.sellerDetails[i].sellerLastName+"</td>"

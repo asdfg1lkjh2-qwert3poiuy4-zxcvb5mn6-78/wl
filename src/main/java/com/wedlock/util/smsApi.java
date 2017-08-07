@@ -11,7 +11,7 @@ public class smsApi {
 		String sender ="WEDLCK";
 		String api = "";
 		try {
-			api="http://new.msgtrunk.com/api/pushsms.php?username="+URLEncoder.encode(username, "UTF-8")+"&password="+URLEncoder.encode(password, "UTF-8")+"&sender="+URLEncoder.encode(sender, "UTF-8")+"&message="+URLEncoder.encode(mssg,"UTF-8")+"&numbers="+phoneNumber+"&unicode=false&flash=false";
+			api="http://root.msgtrunk.com/api/pushsms.php?username="+URLEncoder.encode(username, "UTF-8")+"&password="+URLEncoder.encode(password, "UTF-8")+"&sender="+URLEncoder.encode(sender, "UTF-8")+"&message="+URLEncoder.encode(mssg,"UTF-8")+"&numbers="+phoneNumber+"&unicode=false&flash=false";
 			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

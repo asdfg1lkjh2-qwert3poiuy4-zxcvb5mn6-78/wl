@@ -125,3 +125,117 @@ button.add-new {
 .checkbox .labelCheckbox{
 	margin-top:14px;
 }
+
+.thumbnails .thumbnail h3
+{
+	margin:0px;
+	font-family: 'Caveat', cursive;
+	font-weight: 500; 
+	font-size: 29px; 
+	text-transform: inherit; 
+	text-align: center;
+}
+.thumbnails .thumbnail p{
+	font-family: 'Ubuntu';
+	font-weight: 500; 
+	font-size: 16px; 
+	text-align: center;
+	color: #fc536c;
+}
+.thumbnails .thumbnail {
+	border-radius: 25px;
+    border: 1px groove #e8848f;
+    padding: 5px; 
+ 	height:auto;
+	width:100%; 
+	min-height:300px;
+	
+}
+
+.thumbnails .thumbnail img{
+	border-radius: 25px;
+	border:1px solid #;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px; 
+	
+}
+
+.thumbnails .thumbnail:HOVER
+{
+box-shadow: 0 2px 2px 4px rgba(0, 0, 0, 0.14), 0 3px 1px -2px
+		rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+	transition:all ease-out 500ms;
+}
+.thumbnails{
+	padding:5px;
+}
+
+.editImages .thumbnail{
+	 border: 2px groove #e8848f;
+    padding: 5px; 
+ 	height:auto;
+	width:100%; 
+	min-height:100px; 
+}
+.prdctName{
+	left: 0;
+    position: absolute;
+    top: 6px;
+	padding:5px;
+	opacity:0;
+	transition:all ease-in 300ms;
+	margin-left:34px;
+	}	
+.editImages .thumbnail:HOVER .prdctName{
+	opacity:1;
+}
+.editImages .thumbnail:HOVER{
+	cursor:pointer;
+}
+.singleImageEdit{
+	padding:5px;
+}
+.singleImageEdit .thumbnail{
+	border:none;
+}
+.singleImageEdit .thumbnail img{
+	border-radius: 25px;
+    border: 1px groove #e8848f;
+    padding: 5px; 
+ 	height:auto;
+	width:100%; 
+	min-height:100px;
+	
+}
+.singleImageEdit .modal-footer{
+	padding-right:32px !important;
+}
+
+.priceShow{
+	padding:6px;
+}
+.priceShow .modal-footer{
+	padding-top: 0px !important;
+    padding-right: 17px !important;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+.customLabel {
+	margin-top: 52px;
+    padding: 0px;
+} 
+
+#otpDiv h2{
+	font-family: 'Caveat', cursive;
+}
+#otpDiv .input-group-addon{
+	padding-top: 21px;
+}
+#otpDiv .linkDisable {
+   pointer-events: none;
+   cursor: default;
+}
