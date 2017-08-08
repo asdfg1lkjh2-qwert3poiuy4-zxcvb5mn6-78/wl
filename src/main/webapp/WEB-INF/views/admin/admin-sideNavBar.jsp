@@ -35,7 +35,7 @@
                     <li><a href="admin-addEditSubCategory" id="showSubMiscLi5">Add & View Sub Category</a></li>
                     <li><a href="admin-addEditOccasion" id="showSubMiscLi6" >Add & View Occasion</a></li>
                     <li><a href="admin-addEditPhotographyOccassion" id="showSubMiscLi7" >Add & View Photographer Occasion</a></li>
-                    <li><a href="admin-addEditFlowerType" id="showSubMiscLi8">Add & View Flower Type</a></li>
+                    <li><a href="admin-addEditProductType" id="showSubMiscLi8">Add & View Product Type</a></li>
                     <li><a href="admin-addEditPhotographyType" id="showSubMiscLi9">Add & View Photography Type</a></li>
                 </ul>
             </li>

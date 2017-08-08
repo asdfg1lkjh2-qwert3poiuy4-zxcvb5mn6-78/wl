@@ -15,6 +15,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 public class Occasion implements Serializable{
 
@@ -28,9 +31,14 @@ public class Occasion implements Serializable{
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	private boolean status;
+
+	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
-	private Date entryTime = new Date();
+	@Column(updatable=false)
+	private Date entryTime;
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;
 	
 	@OneToMany(mappedBy="occasion",fetch=FetchType.EAGER)
 	private List<Int_Flow_Occ> int_Flow_Occs;      

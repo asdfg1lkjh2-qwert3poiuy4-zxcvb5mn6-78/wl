@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -19,11 +18,12 @@ public class Int_Flow_Occ implements Serializable {
 	@Id@GeneratedValue
 	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
+	
 	@ManyToOne
 	private Flower flower;
 	
 	@ManyToOne
-	@JsonIgnore
+	//@JsonIgnore
 	private Occasion occasion;
 	
 	//Setters And Getters

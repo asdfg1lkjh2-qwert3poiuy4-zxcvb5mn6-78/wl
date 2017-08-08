@@ -38,13 +38,12 @@ private static final long serialVersionUID = 1L;
 	@JsonIgnore
 	private List<SubCategoryAvailable> subCategoryAvailable;
 	
-	/*@OneToMany(mappedBy="categoryAvailable")
-	private List<Flower> flower;*/
 	
 	@OneToMany(mappedBy="categoryAvailable")
 	@JsonIgnore
 	private List<Int_Vat_CategoryAvailable> int_Vat_CategoryAvailable;
-	
+
+
 	@OneToMany(mappedBy="categoryAvailable")
 	@JsonIgnore
 	private List<AllProducts> allProducts;
@@ -52,6 +51,10 @@ private static final long serialVersionUID = 1L;
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="categoryAvailable",fetch = FetchType.LAZY)
 	private List<SellerProductCancellation> sellerProductCancellation;
+
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="categoryAvailable",fetch = FetchType.LAZY)
+	private List<ProductType> productType;
 	
 	@Transient
 	private String allFiles;
@@ -136,12 +139,6 @@ private static final long serialVersionUID = 1L;
 	public void setEditCategoryId(long editCategoryId) {
 		this.editCategoryId = editCategoryId;
 	}
-	/*public List<Flower> getFlower() {
-		return flower;
-	}
-	public void setFlower(List<Flower> flower) {
-		this.flower = flower;
-	}*/
 	public List<Int_Vat_CategoryAvailable> getInt_Vat_CategoryAvailable() {
 		return int_Vat_CategoryAvailable;
 	}
