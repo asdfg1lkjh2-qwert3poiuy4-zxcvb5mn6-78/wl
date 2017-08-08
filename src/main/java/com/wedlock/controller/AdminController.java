@@ -889,7 +889,7 @@ public class AdminController {
 			if(adminResponseClass.isStatus()){
 				
 				products.setCategoryAvailable(adminResponseClass.getCategoryAvailable());
-				//products.setSellerDetails();
+				products.setSellerDetails((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
 				adminResponseClass = allProductsService.saveAllProducts(products);
 			}
 		
@@ -1211,7 +1211,7 @@ public class AdminController {
 		}
 		
 		System.out.println("//// Price is "+objectNode.get("fromDate"));
-		if(adminResponseClass.isStatus()){
+		if(adminResponseClass.isStatus() && (objectNode.get("fromDate") !=null)){
 			System.out.println("////Inside there reh");
 			//SellerProductPricing Entry
 			SellerProductPricing sellerProductPricing = new SellerProductPricing();

@@ -2747,7 +2747,8 @@
 									active = "No";
 								}
 								var discount;
-								if(data.listSellerDiscount[i].isFlatDiscount){
+								alert(data.listSellerDiscount[i].flatDiscount)
+								if(data.listSellerDiscount[i].flatDiscount){
 									discount ="<i class=\"fa fa-inr\" aria-hidden=\"true\">"+data.listSellerDiscount[i].discount+"</i>";
 								}else{
 								discount = data.listSellerDiscount[i].discount+" "+"%";
@@ -2970,7 +2971,7 @@
 		$("#photographyOccasionDiv").html(abc + cde);
 		
 	}
-	/* $("#advancePaymentPercentage").on("change",function(){
+	/*  $("#advancePaymentPercentage").on("keyup",function(){
 		$("#advancePaymentPercentage").val(addZeroes($("#advancePaymentPercentage").val()));
 	});
 	function addZeroes( num ) {
@@ -2979,9 +2980,9 @@
 		          num = num.toFixed(2);
 		      }
 		   return num;
-		} */
+		}  */
 	
-		$("#advancePaymentPercentage").on("change",function(){
+		$("#advancePaymentPercentage").on("keyup",function(){
 			$("#advancePaymentPercentage").val(parseFloat(this.value).toFixed(2));
 		});
 		$("#videoLengthHH").on("keypress",function(){

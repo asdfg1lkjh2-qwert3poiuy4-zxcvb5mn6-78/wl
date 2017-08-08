@@ -271,28 +271,35 @@
 								<div class="header marginb15">
 									<h2>Our Service Available</h2>
 								</div>
-								<div class="col-sm-12 col-xs-12">
-									<div
-										class="col-xs-12 col-sm-12 col-md-6 div-center hundred-width padding-left-right">
-										<select name="langOpt2[]" class="selectHeader" multiple
-											id="langOpt2">
-											<option value="Flower">Flower</option>
-											<option value="Grocery">Grocery</option>
-											<option value="Priest">Priest</option>
-											<option value="Wedding">Wedding Cards</option>
-											<option value="Transport">Transport</option>
-											<option value="Photographer">Photographer</option>
-											<option value="Cook">Cook</option>
-											<option value="Catering">Catering</option>
-										</select>
+							</div>
+							<div class="row clearfix">
+							<div class="col-md-12 col-xs-12">
+								<div class="main-service-section" id="serviceTakenDiv">
+									      <div class="view view-eighth">
+                                                            <div class="service-modal-image">
+                                                                <img src="resources/images/16.jpg" class="img-responsive" alt="">
+                                                                <div class="flower-position">
+                                                                    <span><img src="images/flower-ico.png" alt=""></span>
+                                                                    <label>Flourist</label>
+                                                                </div> 
+                                                            </div>
+                                                            <div id="servicePriceDetails" class="mask">
+                                                                <div class="pricemodal-details">
+                                                                    <div class="serviceHalfYearly">
+                                                                        <span>Half-yearly</span>
+                                                                        <p class=""><i class="fa fa-inr"></i>12500</p>
+                                                                    </div>
+                                                                     <div class="serviceAnually">
+                                                                        <span>Annually</span>
+                                                                        <p class=""><i class="fa fa-inr"></i>12500</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="serviceChecked hideDiv">
+                                                                	<img src="resources/images/smileyService.png" alt="Service Added To Cart" class="img-responsive">
+                                                                </div>
+                                                            </div>
 									</div>
-
-									<div class="col-xs-12 col-sm-12 col-md-6 privew-link-panel">
-										<div class="quick-price-link">
-											<span><i class="fa fa-inr"></i>Lorem Ipsum</span> <label>Lorem
-												Ipsum is</label>
-										</div>
-									</div>
+								</div>
 								</div>
 							</div>
 							<div class="row clearfix">
@@ -523,6 +530,9 @@
 				idForFetch = idForFetch[1];
 				fetchSellerById(idForFetch);
 			}
+			  if(idForFetch !== ""){
+				fetchAllCategories();
+			} 
 		});
 		var ary = new Array ();   			// Array for storing the state names and Id.
 		var cityAry = new Array ();			//Array for storing city names anf Id
@@ -1877,6 +1887,132 @@
 		    	$("#open-bank-account").attr("style","display:none");
 		    }
 		});
+		/* if(!$("#servicePriceDetails").hasClass("clicked")){
+		$(".view-eighth").mouseover(function(){
+			$("#servicePriceDetails").removeClass("mask");
+			$("#servicePriceDetails").addClass('mask1');
+		});
+		}
+		
+			$(".view-eighth").mouseleave(function(){
+				if($("#servicePriceDetails").hasClass("mask1")){
+					if(!$("#servicePriceDetails").hasClass("clicked")){
+						$("#servicePriceDetails").removeClass("mask1");
+						$("#serviceChecked").addClass("hideDiv");
+						$(".servicePriceDetails").addClass('mask');
+					}else{
+						$(".servicePriceDetails").addClass('mask');
+					}
+				}
+			});		
+		
+		
+		$(".view-eighth").click(function(){
+			if($("#servicePriceDetails").hasClass("clicked")){
+				$("#servicePriceDetails").removeClass('mask1');
+				$("#servicePriceDetails").removeClass("clicked");
+				$("#servicePriceDetails").addClass("mask");
+				$(".serviceChecked").addClass("hideDiv");
+			}else{
+				if($("#servicePriceDetails").hasClass("mask")){
+					$("#servicePriceDetails").removeClass("mask");
+				}
+				$("#servicePriceDetails").addClass('mask1');
+				$("#servicePriceDetails").addClass("clicked");
+				$(".serviceChecked").removeClass("hideDiv");
+			}
+		}) */
+	
+		   function fetchAllCategories(){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchAllCategoryAvailbleForDatatable",
+				data : "",
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+					if(data.status){
+						$("#serviceTakenDiv").html("");
+						var abc = "";
+						for(var i = 0; i< data.categoryAvailables.length; i++){
+							abc = abc +"<div class=\"view view-eighth\" id='service"+Number(Number(i) + Number(1))+"' onclick=\"serviceTakenClick('"+Number(Number(i) + Number(1))+"')\" \" onmouseover=\"serviceTakenMouseOver('"+Number(Number(i) + Number(1))+"')\" onmouseleave=\"serviceTakenMouseLeave('"+Number(Number(i) + Number(1))+"')\">"
+                             +"<div class=\"service-modal-image\">"
+                             +"<img src=\"resources/images/16.jpg\" class=\"img-responsive\" alt=\"\">"
+                             +"<div class=\"flower-position\">"
+                             +"<span><img src=\"images/flower-ico.png\" alt=\"\"></span>"
+                             +"<label>"+data.categoryAvailables[i].categoryName+"</label>"
+                             +"</div>"                                                              
+                             +"</div>"
+                             +"<div id='servicePriceDetails"+Number(Number(i) + Number(1))+"' class=\"servicePriceDetails mask\">"
+                             +"<div class=\"pricemodal-details\">"
+                             +"<div class=\"serviceHalfYearly\">"
+                             +"<span>Half-yearly</span>"
+                             +"<p><i class=\"fa fa-inr\"></i>125</p>"
+                             +"</div>"
+                             +"<div class=\"serviceAnually\">"
+                             +"<span>Annually</span>"
+                             +"<p><i class=\"fa fa-inr\"></i>125</p>"
+                             +"</div>"
+                             +"</div>"
+                             +"<div class=\"serviceChecked hideDiv\" id='serviceCheckedId"+Number(Number(i) + Number(1))+"'>"
+                             +"<img src=\"resources/images/smileyService.png\" alt=\"Service Added To Cart\" class=\"img-responsive\">"
+                             +"</div>"
+                             +"</div>"
+                             +"</div>"
+						}
+						$("#serviceTakenDiv").html(abc);
+					}
+				},
+				error : function(e) {
+					alert("Error");
+					swal({
+						  title: 'Error!',
+						  text: 'Category Not Fetched Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+
+				}
+		});
+		}  
+		
+		function serviceTakenClick(id){
+			if($("#servicePriceDetails"+id).hasClass("clicked")){
+				$("#servicePriceDetails"+id).removeClass('mask1');
+				$("#servicePriceDetails"+id).removeClass("clicked");
+				$("#servicePriceDetails"+id).addClass("mask");
+				$("#serviceCheckedId"+id).addClass("hideDiv");
+			}else{
+				if($("#servicePriceDetails"+id).hasClass("mask")){
+					$("#servicePriceDetails"+id).removeClass("mask");
+				}
+				$("#servicePriceDetails"+id).addClass('mask1');
+				$("#servicePriceDetails"+id).addClass("clicked");
+				$("#serviceCheckedId"+id).removeClass("hideDiv");
+			}
+		}
+		
+		function serviceTakenMouseOver(id){
+			if(!$("#servicePriceDetails"+id).hasClass("clicked")){
+				$("#servicePriceDetails"+id).removeClass("mask");
+				$("#servicePriceDetails"+id).addClass('mask1');
+			}
+		}
+		
+		function serviceTakenMouseLeave(id){
+			if($("#servicePriceDetails"+id).hasClass("mask1")){
+				if(!$("#servicePriceDetails"+id).hasClass("clicked")){
+					$("#servicePriceDetails"+id).removeClass("mask1");
+					$("#serviceCheckedId"+id).addClass("hideDiv");
+					$("#servicePriceDetails"+id).addClass('mask');
+				}else{
+					$("#servicePriceDetails"+id).addClass('mask');
+				}
+			}
+		}
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
 	

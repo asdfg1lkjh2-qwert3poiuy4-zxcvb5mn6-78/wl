@@ -13,6 +13,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+
+
 @Entity
 public class Otp implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -23,7 +25,7 @@ public class Otp implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date sentDate;
 	
-	@Index(name="otp_sellerDetailsIndex", unique="id")
+	
 	@OneToOne
 	private SellerDetails sellerDetails;
 	
