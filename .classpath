@@ -28,55 +28,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/SANJAY/.m2/repository/com/google/gwt/gwt-dev/2.7.0/gwt-dev-2.7.0.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.archivename" value="gwt-dev-2.7.0.jar"/>
-			<attribute name="maven.groupId" value="com.google.gwt"/>
-			<attribute name="maven.artifactId" value="gwt-dev"/>
-			<attribute name="maven.version" value="2.7.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/SANJAY/.m2/repository/org/hibernate/hibernate-core/3.6.3.Final/hibernate-core-3.6.3.Final.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.archivename" value="hibernate-core-3.6.3.Final.jar"/>
-			<attribute name="maven.groupId" value="org.hibernate"/>
-			<attribute name="maven.artifactId" value="hibernate-core"/>
-			<attribute name="maven.version" value="3.6.3.Final"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/SANJAY/.m2/repository/org/hibernate/hibernate-core/5.2.10.Final/hibernate-core-5.2.10.Final.jar" sourcepath="C:/Users/SANJAY/.m2/repository/org/hibernate/hibernate-core/5.2.10.Final/hibernate-core-5.2.10.Final-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.archivename" value="hibernate-core-5.2.10.Final.jar"/>
-			<attribute name="maven.groupId" value="org.hibernate"/>
-			<attribute name="maven.artifactId" value="hibernate-core"/>
-			<attribute name="maven.version" value="5.2.10.Final"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/SANJAY/.m2/repository/org/apache/geronimo/specs/geronimo-jpa_2.0_spec/1.1/geronimo-jpa_2.0_spec-1.1.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.archivename" value="geronimo-jpa_2.0_spec-1.1.jar"/>
-			<attribute name="maven.groupId" value="org.apache.geronimo.specs"/>
-			<attribute name="maven.artifactId" value="geronimo-jpa_2.0_spec"/>
-			<attribute name="maven.version" value="1.1"/>
-			<attribute name="maven.scope" value="runtime"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/SANJAY/.m2/repository/com/google/guava/guava/11.0.2/guava-11.0.2.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.archivename" value="guava-11.0.2.jar"/>
-			<attribute name="maven.groupId" value="com.google.guava"/>
-			<attribute name="maven.artifactId" value="guava"/>
-			<attribute name="maven.version" value="11.0.2"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -53,7 +52,19 @@ public class AllProducts implements Serializable{
 	@OneToMany(mappedBy="allProducts")
 	@JsonIgnore
 	private List<SellerPhotographyOccasion> sellerPhotographyOccasions;
+	
+	/*
+	@OneToMany(mappedBy="allProducts")
+	@JsonIgnore
+	private List<FreesProduct> freeWith;
+	
+	@OneToMany(mappedBy="allProducts")
+	@JsonIgnore
+	private List<FreesProduct> freeTo;
+	*/
+	
 	//Setters And Getters
+	
 	public long getId() {
 		return id;
 	}

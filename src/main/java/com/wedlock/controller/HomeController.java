@@ -33,6 +33,12 @@ public class HomeController {
 	public String adminAddEditPhotographyOccassion(){
 		return "admin/admin-addEditPhotographyOccassion";
 	}
+	
+	@RequestMapping(value= "/admin-addEditProductType")
+	public String adminAddEditProductType(){
+		return "admin/admin-addEditProductType";
+	}
+	
 	@RequestMapping(value= "/admin-addEditHall")
 	public String adminAddEditHall(){
 		return "admin/admin-addEditHall";

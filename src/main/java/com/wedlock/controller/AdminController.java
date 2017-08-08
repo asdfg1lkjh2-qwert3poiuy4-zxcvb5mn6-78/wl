@@ -45,11 +45,11 @@ import com.wedlock.model.AllProducts;
 import com.wedlock.model.ApiResponseClass;
 import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.City;
-import com.wedlock.model.FlowerType;
 import com.wedlock.model.Occasion;
 import com.wedlock.model.Otp;
 import com.wedlock.model.PhotographyOccasion;
 import com.wedlock.model.PhotographyType;
+import com.wedlock.model.ProductType;
 import com.wedlock.model.SellerBankDetails;
 import com.wedlock.model.SellerDetails;
 import com.wedlock.model.SellerDiscount;
@@ -65,12 +65,12 @@ import com.wedlock.service.AdminDetailsService;
 import com.wedlock.service.AllProductsService;
 import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CityService;
-import com.wedlock.service.FlowerTypeService;
 import com.wedlock.service.MailService;
 import com.wedlock.service.OccasionService;
 import com.wedlock.service.OtpService;
 import com.wedlock.service.PhotographyOccasionService;
 import com.wedlock.service.PhotographyTypeService;
+import com.wedlock.service.ProductTypeService;
 import com.wedlock.service.SellerBankDetailsService;
 import com.wedlock.service.SellerDiscountService;
 import com.wedlock.service.SellerInactiveService;
@@ -114,9 +114,9 @@ public class AdminController {
 	@Autowired
 	private SellerInactiveService sellerInactiveService;
 	@Autowired
-	private FlowerTypeService flowerTypeService;
-	@Autowired
 	private MailService mailService;
+	@Autowired
+	private ProductTypeService productTypeService;
 	@Autowired
 	private PhotographyTypeService photographyTypeService;
 	@Autowired
@@ -234,7 +234,7 @@ public class AdminController {
 		return adminResponseClass;
 	}
 	
-	//for flower Type
+	/*//for flower Type
 	
 	@RequestMapping(value = "/admin-addEditFlowerType", method= RequestMethod.POST)
 	public @ResponseBody boolean adminAddEditFlowerType(@RequestBody FlowerType flowerType) {
@@ -257,7 +257,7 @@ public class AdminController {
 	public @ResponseBody AdminResponseClass fetchFlowerTypeById(@RequestParam("id") Long id) {
 		AdminResponseClass adminResponseClass = flowerTypeService.fetchFlowerTypeById(id);
 		return adminResponseClass;
-	}
+	}*/
 
 	/* For Service Available */
 
@@ -401,6 +401,12 @@ public class AdminController {
 	@RequestMapping(value = "/admin-fetchOccasionById", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchOccasionsById(@RequestParam("id") long id) {
 		AdminResponseClass adminResponseClass = occasionService.fetchOccasionsById(id);
+		return adminResponseClass;
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllOccasionWithStatus", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllOccasionsWithStatus() {
+		AdminResponseClass adminResponseClass = occasionService.fetchAllOccasionsWithStatus();
 		return adminResponseClass;
 	}
 	
@@ -796,6 +802,46 @@ public class AdminController {
 		byte[] data = Files.readAllBytes(path);
 		return data;
 
+	}
+
+	/*For Product Type*/
+	@RequestMapping(value = "/admin-addEditProductType", method = RequestMethod.POST)
+	public @ResponseBody boolean addEditProductType(@RequestBody ProductType productType) {
+		AdminResponseClass adminResponseClass;
+		if(productType.getEditTypeId()!=0){
+			productType.setId(productType.getEditTypeId());
+			if(productType.getStatusSelect().equals("Active")){
+				productType.setStatus(Boolean.TRUE);
+			}else{
+				productType.setStatus(Boolean.FALSE);
+			}
+		}
+		if(productType.getOtherTypeDetails()!=null){
+			String productTypeValues[] = productType.getOtherTypeDetails().split("_");
+		    adminResponseClass = productTypeService.saveProductType(productType, productTypeValues);
+		}else{
+			String productTypeValues[] = new String[0];
+			adminResponseClass = productTypeService.saveProductType(productType,productTypeValues);
+		}
+		return adminResponseClass.isStatus();
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllProductTypes", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllProductTypes() {
+		AdminResponseClass adminResponseClass = productTypeService.fetchAllProductTypes();
+		return adminResponseClass;
+	}
+
+	@RequestMapping(value = "/admin-fetchProductTypeById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchProductTypeById(@RequestParam("id") long id) {
+		AdminResponseClass adminResponseClass = productTypeService.fetchProductTypeById(id);
+		return adminResponseClass;
+	}
+	
+	@RequestMapping(value = "/admin-fetchProductTypesWithStatusByCat", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchProductTypesWithStatusByCat(@RequestParam("catName") String catName) {
+		AdminResponseClass adminResponseClass = productTypeService.fetchProductTypesWithStatusByCat(catName);
+		return adminResponseClass;
 	}
 	
 	/*For Photography Type*/

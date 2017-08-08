@@ -22,8 +22,8 @@ public class AdminResponseClass {
 	private ZipCode zipCode;
 
 	/*For Flower Type*/
-	private List<FlowerType> listAllFlowerType;
-	private FlowerType flowerType;
+	/*private List<FlowerType> listAllFlowerType;
+	private FlowerType flowerType;*/
 	
 	/*For Category Available*/
 	private List<CategoryAvailable> categoryAvailables;
@@ -52,6 +52,10 @@ public class AdminResponseClass {
 	/*For Seller Inactive Details*/
 	private List<SellerInactiveDetails> sellerInactiveDetails;
 	private SellerInactiveDetails sellerInactiveDetail;
+
+	/*For Product Type*/
+	private List<ProductType> listAllProductTypes;
+	private ProductType productType;
 	
 	/*For Photography Type*/
 	private List<PhotographyType> listAllPhotographyTypes;
@@ -142,7 +146,7 @@ public class AdminResponseClass {
 		this.zipCode = zipCode;
 	}
 
-	public List<FlowerType> getListAllFlowerType() {
+	/*public List<FlowerType> getListAllFlowerType() {
 		return listAllFlowerType;
 	}
 
@@ -156,7 +160,7 @@ public class AdminResponseClass {
 
 	public void setFlowerType(FlowerType flowerType) {
 		this.flowerType = flowerType;
-	}
+	}*/
 
 	public List<CategoryAvailable> getCategoryAvailables() {
 		return categoryAvailables;
@@ -292,6 +296,22 @@ public class AdminResponseClass {
 
 	public void setSellerInactiveDetail(SellerInactiveDetails sellerInactiveDetail) {
 		this.sellerInactiveDetail = sellerInactiveDetail;
+	}
+
+	public List<ProductType> getListAllProductTypes() {
+		return listAllProductTypes;
+	}
+
+	public void setListAllProductTypes(List<ProductType> listAllProductTypes) {
+		this.listAllProductTypes = listAllProductTypes;
+	}
+
+	public ProductType getProductType() {
+		return productType;
+	}
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
 	}
 
 	public List<PhotographyType> getListAllPhotographyTypes() {

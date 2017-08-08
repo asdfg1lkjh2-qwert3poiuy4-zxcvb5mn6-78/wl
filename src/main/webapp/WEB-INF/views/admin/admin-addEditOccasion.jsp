@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | Add Occasion</title>
 <link rel="stylesheet" type="text/css"
-	href="resources/css/sweetalert2.css">
+	href="resources/css/sweetalert.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
@@ -138,7 +138,7 @@
 	</section>
 
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
-	<script src="resources/js/sweetalert2.min.js"></script>
+	<script src="resources/js/sweetalert.min.js"></script>
 	<%@ include file="admin-includeDynamicSideNavBarFromSession.jsp"%>
 
 	<!-- Jquery Js -->
