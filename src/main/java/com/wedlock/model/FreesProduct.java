@@ -48,7 +48,6 @@ public class FreesProduct implements Serializable {
 	private Date entryTime;
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	// @Column(nullable = false)
 	private Date updateTime;
 
 	public long getId() {

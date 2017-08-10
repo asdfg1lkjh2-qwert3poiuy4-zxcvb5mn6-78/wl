@@ -61,16 +61,13 @@ public class AllProducts implements Serializable{
 	@JsonIgnore
 	private List<SellerPhotographyOccasion> sellerPhotographyOccasions;
 	
-	/*
-	@OneToMany(mappedBy="allProducts")
+	@OneToMany(mappedBy="withId")
 	@JsonIgnore
 	private List<FreesProduct> freeWith;
 	
-	
-	@OneToMany(mappedBy="allProducts")
-	//@JsonIgnore
+	@OneToMany(mappedBy="toId")
+	@JsonIgnore
 	private List<FreesProduct> freeTo;
-	*/
 	
 	//Setters And Getters
 	

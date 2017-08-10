@@ -42,6 +42,7 @@ import com.wedlock.model.ApiResponseClass;
 import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.City;
 import com.wedlock.model.Flower;
+import com.wedlock.model.FreesProduct;
 import com.wedlock.model.IntProductOccasion;
 import com.wedlock.model.Occasion;
 import com.wedlock.model.Otp;
@@ -64,6 +65,7 @@ import com.wedlock.service.AllProductsService;
 import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CityService;
 import com.wedlock.service.FlowerService;
+import com.wedlock.service.FreesProductService;
 import com.wedlock.service.MailService;
 import com.wedlock.service.OccasionService;
 import com.wedlock.service.OtpService;
@@ -138,6 +140,8 @@ public class AdminController {
 	HttpSession httpSession;
 	@Autowired
 	private FlowerService flowerService;
+	@Autowired
+	private FreesProductService freesProductService;
 	
 	final String timeZoneApi = "http://api.timezonedb.com/v2/get-time-zone?key=U33W5JLS2CRZ&format=json&by=zone&zone=Asia/Kolkata";
     
@@ -1133,7 +1137,8 @@ public class AdminController {
 								currentFile.delete();
 							}
 						}
-						adminResponseClass = sellerProductImagesVideosService
+						else
+							adminResponseClass = sellerProductImagesVideosService
 								.saveSellerProductImagesVideos(productImagesVideos);
 
 					}
@@ -1460,7 +1465,6 @@ public class AdminController {
 			try {
 				adminResponseClass1 = sellerService.checkSelleroginCredentials(sellerDetails);
 			} catch (NoSuchProviderException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(adminResponseClass1.isStatus())
@@ -1468,6 +1472,7 @@ public class AdminController {
 			
 			//products.setSellerDetails((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
 			adminResponseClass = allProductsService.saveAllProducts(products);
+			System.out.println("////Admin Response Class after allProduct insert: " + adminResponseClass.isStatus());
 		}
 
 		System.out.println("////All Products id" + products.getId());
@@ -1498,7 +1503,11 @@ public class AdminController {
 			adminResponseClass = productTypeService.fetchProductTypeByIdWithStatus(objectNode.get("typeName").asLong());
 			flower.setProductType(adminResponseClass.getProductType());
 			flower.setDescription(objectNode.get("description").asText());
-			flower.setColor(objectNode.get("color").asText());
+			if(objectNode.get("colorSelect").asText().trim().equalsIgnoreCase("MultiColor"))
+				flower.setColor(objectNode.get("color").asText().trim());
+			else
+				flower.setColor("#@"+objectNode.get("color").asText().trim());
+				
 			flower.setNoOfPieces(objectNode.get("noOfPieces").asInt());
 			flower.setAdvancePaymentPercentage(objectNode.get("advancePaymentPercentage").asDouble());
 			
@@ -1511,13 +1520,13 @@ public class AdminController {
 			
 			
 			String dpImages[] = objectNode.get("singleFiles").asText().trim().split("-,@_");
-			System.out.println("\\\\DPImages "+ dpImages[1]);
+			//System.out.println("\\\\DPImages "+ dpImages[1]);
 			ServletContext context = request.getServletContext();
 			for(int i = 0; i<dpImages.length;i++){
 				String image[] = dpImages[i].split("\\+@-");
-				System.out.println("\\\\Image1 "+ image[0]);
-				System.out.println("\\\\Image2 "+ image[1]);
-				System.out.println("\\\\Image3 "+ image[2]);
+				//System.out.println("\\\\Image1 "+ image[0]);
+				//System.out.println("\\\\Image2 "+ image[1]);
+				//System.out.println("\\\\Image3 "+ image[2]);
 				if (i == (dpImages.length - 1)) {
 					String uploadPath = context.getRealPath("/" + image[0]);
 					File uploadDir = new File(uploadPath);
@@ -1542,95 +1551,78 @@ public class AdminController {
 			}
 			flower.setAllProducts(products);
 			adminResponseClass = flowerService.saveFlower(flower);
-
+			System.out.println("////Admin Response Class after flower insert: " + adminResponseClass.isStatus());
 		}
+		
+		//For Edit Check
 		int isEdit = 0;
 		if (!objectNode.get("editProductId").asText().equals("")) {
 			isEdit = 1;
 		}
 
-		/*if (adminResponseClass.isStatus()) {
-			// SellerProductImagesVideos Entry
+		// SellerProductImagesVideos Entry
+		if (adminResponseClass.isStatus()) {
 			ServletContext context = request.getServletContext();
 			if (objectNode.get("multipleFiles").asInt() != 1) {
-				if (objectNode.get("multipleFiles").asText().indexOf(",") >= 0) {
-					String productImages[] = objectNode.get("multipleFiles").asText().split(",");
+				if (objectNode.get("multipleFiles").asText().indexOf("-,@_") >= 0) {
+					String productImages[] = objectNode.get("multipleFiles").asText().split("-,@_");
 					List<String> listString = new ArrayList<String>();
 					for (String abc : productImages) {
 						listString.add(abc);
 					}
 					if (isEdit == 1) {
 						String modal = objectNode.get("modelId").asText();
-						String[] modalId = modal.split(",");
+						String[] modalId = modal.split("-,@_");
 						for (int i = 0; i < modalId.length; i++) {
 							String a = "";
-							/*
-							 * for(int j=0; j<productImages.length;j++){
-							 * if(productImages[j].indexOf("_"+modalId[i])>=0){ if(a.equals("")){ a =
-							 * productImages[j]; listString.remove(productImages[j]);
-							 * 
-							 * }else{ a = a +","+productImages[j]; listString.remove(productImages[j]); } }
-							 * }
-							 */
-		
-		
-							/*Iterator<String> iterator = listString.iterator();
+							Iterator<String> iterator = listString.iterator();
 							while (iterator.hasNext()) {
 								String strings = iterator.next();
-								if (strings.indexOf("_" + modalId[i]) >= 0) {
+								if (strings.indexOf("\\+@-" + modalId[i]) >= 0) {
 									if (a.equals("")) {
 										a = strings;
 									} else {
-										a = a + "," + strings;
+										a = a + "-,@_" + strings;
 									}
 									iterator.remove();
 								}
 
 							}
 							if (!a.equals("")) {
-								String[] subA = a.split(",");
+								String[] subA = a.split("-,@_");
 								for (int k = 0; k < subA.length; k++) {
 									SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-									String subSellerImages[] = subA[k].split("_");
+									String subSellerImages[] = subA[k].split("\\+@-");
 									System.out.println("//// Sub A Length" + subA.length + " " + (subA.length - 1));
 									if (k == (subA.length - 1)) {
 										String uploadPath = context.getRealPath("/" + subSellerImages[0]);
 										File uploadDir = new File(uploadPath);
-										if (uploadDir.exists()) {
+										if (uploadDir.exists()) 
+										{
 
-											File upLoadSubFolder = new File(
-													uploadDir + "/" + subSellerImages[1] + "_" + photographerId);
-											if (!upLoadSubFolder.exists()) {
+											File upLoadSubFolder = new File(uploadDir + "/" + subSellerImages[1] + "\\+@-" + flowerId);
+											if (!upLoadSubFolder.exists())
+											{
 												boolean success = upLoadSubFolder.mkdir();
 											}
 
 										}
-										System.out.println("/////" + subSellerImages[0] + " " + subSellerImages[1] + " "
-												+ subSellerImages[2] + " " + subSellerImages[3]);
-										File file = new File(context.getRealPath(
-												"/" + subSellerImages[0] + "/temp/" + subSellerImages[2].trim()));
-										file.renameTo(new File(
-												context.getRealPath("/" + subSellerImages[0] + "/" + subSellerImages[1]
-														+ "_" + photographerId + "/" + subSellerImages[2].trim())));
-										productImagesVideos
-												.setProductImageVideoUrl(subSellerImages[0] + "/" + subSellerImages[1]
-														+ "_" + photographerId + "/" + subSellerImages[2].trim());
+										System.out.println("/////" + subSellerImages[0] + " " + subSellerImages[1] + " " + subSellerImages[2] + " " + subSellerImages[3]);
+										File file = new File(context.getRealPath("/" + subSellerImages[0] + "/temp/" + subSellerImages[2].trim()));
+										file.renameTo(new File(context.getRealPath("/" + subSellerImages[0] + "/" + subSellerImages[1] + "\\+@-" + flowerId + "/" + subSellerImages[2].trim())));
+										productImagesVideos.setProductImageVideoUrl(subSellerImages[0] + "/" + subSellerImages[1]+ "\\+@-" + flowerId + "/" + subSellerImages[2].trim());
 										productImagesVideos.setPhotoVideo(Boolean.TRUE);
 										productImagesVideos.setAllProducts(products);
 										productImagesVideos.setId(Long.valueOf(subSellerImages[3]));
-										adminResponseClass = sellerProductImagesVideosService
-												.fetchSellerProductImagesVideosById(productImagesVideos.getId());
-										String path = adminResponseClass.getSellerProductImageVideo()
-												.getProductImageVideoUrl();
-										adminResponseClass = sellerProductImagesVideosService
-												.saveSellerProductImagesVideos(productImagesVideos);
+										adminResponseClass = sellerProductImagesVideosService.fetchSellerProductImagesVideosById(productImagesVideos.getId());
+										String path = adminResponseClass.getSellerProductImageVideo().getProductImageVideoUrl();
+										adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
 										if (adminResponseClass.isStatus()) {
 											File currentFile = new File(context.getRealPath("/" + path));
 											currentFile.delete();
 										}
 									} else {
-										File currentFile = new File(context.getRealPath(
-												"/" + subSellerImages[0] + "/temp/" + subSellerImages[2].trim()));
+										File currentFile = new File(context.getRealPath("/" + subSellerImages[0] + "/temp/" + subSellerImages[2].trim()));
 										currentFile.delete();
 									}
 								}
@@ -1640,233 +1632,77 @@ public class AdminController {
 					} else {
 						for (int i = 0; i < productImages.length; i++) {
 							SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-							String subProductImages[] = productImages[i].split("_");
+							String subProductImages[] = productImages[i].split("\\+@-");
 
 							String uploadPath = context.getRealPath("/" + subProductImages[0]);
 							File uploadDir = new File(uploadPath);
-							if (uploadDir.exists()) {
-
-								File upLoadSubFolder = new File(
-										uploadDir + "/" + subProductImages[1] + "_" + photographerId);
-								if (!upLoadSubFolder.exists()) {
+							if (uploadDir.exists()) 
+							{
+								File upLoadSubFolder = new File(uploadDir + "/" + subProductImages[1] + "\\+@-" + flowerId);
+								if (!upLoadSubFolder.exists()) 
+								{
 									boolean success = upLoadSubFolder.mkdir();
 								}
 
 							}
 
-							File file = new File(context
-									.getRealPath("/" + subProductImages[0] + "/temp/" + subProductImages[2].trim()));
-							file.renameTo(new File(context.getRealPath("/" + subProductImages[0] + "/"
-									+ subProductImages[1] + "_" + photographerId + "/" + subProductImages[2].trim())));
-							productImagesVideos.setProductImageVideoUrl(subProductImages[0] + "/" + subProductImages[1]
-									+ "_" + photographerId + "/" + subProductImages[2].trim());
+							File file = new File(context.getRealPath("/" + subProductImages[0] + "/temp/" + subProductImages[2].trim()));
+							file.renameTo(new File(context.getRealPath("/" + subProductImages[0] + "/" + subProductImages[1] + "\\+@-" + flowerId + "/" + subProductImages[2].trim())));
+							productImagesVideos.setProductImageVideoUrl(subProductImages[0] + "/" + subProductImages[1] + "\\+@-" + flowerId + "/" + subProductImages[2].trim());
 							productImagesVideos.setPhotoVideo(Boolean.TRUE);
 							productImagesVideos.setAllProducts(products);
-							adminResponseClass = sellerProductImagesVideosService
-									.saveSellerProductImagesVideos(productImagesVideos);
+							adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
 						}
 					}
 
-				} else {
+				}
+				else 
+				{
 					SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-					String productImages[] = objectNode.get("multipleFiles").asText().split("_");
+					String productImages[] = objectNode.get("multipleFiles").asText().split("\\+@-");
 
 					String uploadPath = context.getRealPath("/" + productImages[0]);
 					File uploadDir = new File(uploadPath);
-					if (uploadDir.exists()) {
+					if (uploadDir.exists()) 
+					{
 
-						File upLoadSubFolder = new File(uploadDir + "/" + productImages[1] + "_" + photographerId);
-						if (!upLoadSubFolder.exists()) {
+						File upLoadSubFolder = new File(uploadDir + "/" + productImages[1] + "\\+@-" + flowerId);
+						if (!upLoadSubFolder.exists()) 
+						{
 							boolean success = upLoadSubFolder.mkdir();
 						}
-						File file = new File(
-								context.getRealPath("/" + productImages[0] + "/temp/" + productImages[2].trim()));
-						file.renameTo(new File(context.getRealPath("/" + productImages[0] + "/" + productImages[1] + "_"
-								+ photographerId + "/" + productImages[2].trim())));
-						productImagesVideos.setProductImageVideoUrl(productImages[0] + "/" + productImages[1] + "_"
-								+ photographerId + "/" + productImages[2].trim());
+						File file = new File(context.getRealPath("/" + productImages[0] + "/temp/" + productImages[2].trim()));
+						file.renameTo(new File(context.getRealPath("/" + productImages[0] + "/" + productImages[1] + "\\+@-" + flowerId + "/" + productImages[2].trim())));
+						productImagesVideos.setProductImageVideoUrl(productImages[0] + "/" + productImages[1] + "\\+@-" + flowerId + "/" + productImages[2].trim());
 						productImagesVideos.setPhotoVideo(Boolean.TRUE);
 						productImagesVideos.setAllProducts(products);
-						if (isEdit == 1) {
+						if (isEdit == 1) 
+						{
 							productImagesVideos.setId(Long.valueOf(productImages[3]));
-							adminResponseClass = sellerProductImagesVideosService
-									.fetchSellerProductImagesVideosById(productImagesVideos.getId());
+							adminResponseClass = sellerProductImagesVideosService.fetchSellerProductImagesVideosById(productImagesVideos.getId());
 							String path = adminResponseClass.getSellerProductImageVideo().getProductImageVideoUrl();
-							adminResponseClass = sellerProductImagesVideosService
-									.saveSellerProductImagesVideos(productImagesVideos);
-							if (adminResponseClass.isStatus()) {
+							adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+							if (adminResponseClass.isStatus()) 
+							{
 								File currentFile = new File(context.getRealPath("/" + path));
 								currentFile.delete();
 							}
 						}
-						adminResponseClass = sellerProductImagesVideosService
-								.saveSellerProductImagesVideos(productImagesVideos);
+						else
+						{
+							adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+						}
 
 					}
 				}
 			}
-
-			if ((!(objectNode.get("videoFiles").asText().equals(""))) || (objectNode.get("videoFiles").asInt() != 1)) {
-				if (objectNode.get("videoFiles").asText().indexOf(",") >= 0) {
-					String productVideos[] = objectNode.get("videoFiles").asText().split(",");
-					List<String> listString = new ArrayList<String>();
-					for (String abc : productVideos) {
-						listString.add(abc);
-					}
-					if (isEdit == 1) {
-						String modal = objectNode.get("modalVideoId").asText();
-						String[] modalId = modal.split(",");
-						for (int i = 0; i < modalId.length; i++) {
-							String a = "";
-							for (int j = 0; j < productVideos.length; j++) {
-								if (productVideos[j].indexOf("_" + modalId[i]) >= 0) {
-									if (a.equals("")) {
-										a = productVideos[j];
-										listString.remove(productVideos[j]);
-
-									} else {
-										a = a + "," + productVideos[j];
-										listString.remove(productVideos[j]);
-									}
-								}
-							}
-							Iterator<String> iterator = listString.iterator();
-							while (iterator.hasNext()) {
-								String strings = iterator.next();
-								if (strings.indexOf("_" + modalId[i]) >= 0) {
-									if (a.equals("")) {
-										a = strings;
-									} else {
-										a = a + "," + strings;
-									}
-									iterator.remove();
-								}
-
-							}
-							if (!a.equals("")) {
-								String[] subA = a.split(",");
-								for (int k = 0; k < subA.length; k++) {
-									SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-									String subSellerVideos[] = subA[k].split("_");
-									if (k == (subA.length - 1)) {
-										String uploadPath = context.getRealPath("/" + subSellerVideos[0]);
-										File uploadDir = new File(uploadPath);
-										if (uploadDir.exists()) {
-
-											File upLoadSubFolder = new File(
-													uploadDir + "/" + subSellerVideos[1] + "_" + photographerId);
-											if (!upLoadSubFolder.exists()) {
-												boolean success = upLoadSubFolder.mkdir();
-											}
-
-										}
-										File file = new File(context.getRealPath(
-												"/" + subSellerVideos[0] + "/temp/" + subSellerVideos[2].trim()));
-										file.renameTo(new File(
-												context.getRealPath("/" + subSellerVideos[0] + "/" + subSellerVideos[1]
-														+ "_" + photographerId + "/" + subSellerVideos[2].trim())));
-										productImagesVideos
-												.setProductImageVideoUrl(subSellerVideos[0] + "/" + subSellerVideos[1]
-														+ "_" + photographerId + "/" + subSellerVideos[2].trim());
-										productImagesVideos.setPhotoVideo(Boolean.FALSE);
-										productImagesVideos.setAllProducts(products);
-										productImagesVideos.setId(Long.valueOf(subSellerVideos[3]));
-										adminResponseClass = sellerProductImagesVideosService
-												.fetchSellerProductImagesVideosById(productImagesVideos.getId());
-										String path = adminResponseClass.getSellerProductImageVideo()
-												.getProductImageVideoUrl();
-										adminResponseClass = sellerProductImagesVideosService
-												.saveSellerProductImagesVideos(productImagesVideos);
-										if (adminResponseClass.isStatus()) {
-											File currentFile = new File(context.getRealPath("/" + path));
-											currentFile.delete();
-										}
-									} else {
-										File currentFile = new File(context.getRealPath(
-												"/" + subSellerVideos[0] + "/temp/" + subSellerVideos[2].trim()));
-										currentFile.delete();
-									}
-								}
-							}
-						}
-
-					} else {
-						for (int i = 0; i < productVideos.length; i++) {
-							SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-							String subProductVideos[] = productVideos[i].split("_");
-
-							String uploadPath = context.getRealPath("/" + subProductVideos[0]);
-							File uploadDir = new File(uploadPath);
-							if (uploadDir.exists()) {
-
-								File upLoadSubFolder = new File(
-										uploadDir + "/" + subProductVideos[1] + "_" + photographerId);
-								if (!upLoadSubFolder.exists()) {
-									boolean success = upLoadSubFolder.mkdir();
-								}
-
-							}
-
-							File file = new File(context
-									.getRealPath("/" + subProductVideos[0] + "/temp/" + subProductVideos[2].trim()));
-							file.renameTo(new File(context.getRealPath("/" + subProductVideos[0] + "/"
-									+ subProductVideos[1] + "_" + photographerId + "/" + subProductVideos[2].trim())));
-							productImagesVideos.setProductImageVideoUrl(subProductVideos[0] + "/" + subProductVideos[1]
-									+ "_" + photographerId + "/" + subProductVideos[2].trim());
-							productImagesVideos.setPhotoVideo(Boolean.FALSE);
-							productImagesVideos.setAllProducts(products);
-							adminResponseClass = sellerProductImagesVideosService
-									.saveSellerProductImagesVideos(productImagesVideos);
-						}
-					}
-				} else {
-					SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-					String productVideos[] = objectNode.get("videoFiles").asText().split("_");
-
-					String uploadPath = context.getRealPath("/" + productVideos[0]);
-					File uploadDir = new File(uploadPath);
-					if (uploadDir.exists()) {
-
-						File upLoadSubFolder = new File(uploadDir + "/" + productVideos[1] + "_" + photographerId);
-						if (!upLoadSubFolder.exists()) {
-							boolean success = upLoadSubFolder.mkdir();
-						}
-						File file = new File(
-								context.getRealPath("/" + productVideos[0] + "/temp/" + productVideos[2].trim()));
-						file.renameTo(new File(context.getRealPath("/" + productVideos[0] + "/" + productVideos[1] + "_"
-								+ photographerId + "/" + productVideos[2].trim())));
-						productImagesVideos.setProductImageVideoUrl(productVideos[0] + "/" + productVideos[1] + "_"
-								+ photographerId + "/" + productVideos[2].trim());
-						productImagesVideos.setPhotoVideo(Boolean.FALSE);
-						productImagesVideos.setAllProducts(products);
-						if (isEdit == 1) {
-							productImagesVideos.setId(Long.valueOf(productVideos[3]));
-							adminResponseClass = sellerProductImagesVideosService
-									.fetchSellerProductImagesVideosById(productImagesVideos.getId());
-							String path = adminResponseClass.getSellerProductImageVideo().getProductImageVideoUrl();
-							adminResponseClass = sellerProductImagesVideosService
-									.saveSellerProductImagesVideos(productImagesVideos);
-							if (adminResponseClass.isStatus()) {
-								File currentFile = new File(context.getRealPath("/" + path));
-								currentFile.delete();
-							}
-						}
-						adminResponseClass = sellerProductImagesVideosService
-								.saveSellerProductImagesVideos(productImagesVideos);
-					}
-
-				}
-
-			}
-
-			System.out.println("////Admin Response Class is" + adminResponseClass.isStatus());
-		}*/
-		
+			System.out.println("////Admin Response Class after image insert: " + adminResponseClass.isStatus());
+		}
 
 		// SellerProductPricing Entry
-		System.out.println("//// Price is " + objectNode.get("fromDate"));
+		//System.out.println("//// Price is " + objectNode.get("fromDate"));
 		if (adminResponseClass.isStatus() && (objectNode.get("fromDate") != null)) {
-			System.out.println("////Inside there reh");
+			//System.out.println("////Inside there reh");
 			SellerProductPricing sellerProductPricing = new SellerProductPricing();
 			sellerProductPricing.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("fromDate").asText()));
 			sellerProductPricing.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("toDate").asText()));
@@ -1897,10 +1733,11 @@ public class AdminController {
 					adminResponseClass = sellerProductPricingService.saveSellerProductPricing(sellerProductPricings);
 				}
 			}
+			System.out.println("////Admin Response Class after price insert: " + adminResponseClass.isStatus());
 		}
 
 		//Interminiate-Product-Occasion Table Entry
-		System.out.println("///Occasion Id are" + objectNode.get("occasion").asText());
+		//System.out.println("///Occasion Id are" + objectNode.get("occasion").asText());
 		if (adminResponseClass.isStatus()) {
 			if (!(objectNode.get("titleLength").asText().equals("same"))) {
 				if (objectNode.get("occasion").asText().indexOf(",") >= 0) {
@@ -1933,8 +1770,10 @@ public class AdminController {
 					}
 				}
 			}
+			System.out.println("////Admin Response Class after IntProductOccasion insert: " + adminResponseClass.isStatus());
 		}
 
+		//DiscountDetails Entry to SellerDiscount Table
 		if ((objectNode.get("hasValue").asInt() == 1) && (adminResponseClass.isStatus())) {
 			SellerDiscount sellerDiscount = new SellerDiscount();
 			sellerDiscount.setFromDateDiscount(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("fromDateDiscount").asText()));
@@ -1985,8 +1824,62 @@ public class AdminController {
 				}
 			}
 		}
+		System.out.println("////Admin Response Class after discount insert: " + adminResponseClass.isStatus());
 		
-		System.out.println("/////AdminResponseClass is" + adminResponseClass.isStatus());
+		//For freeProduct Insert
+		if(adminResponseClass.isStatus())
+		{
+			if (!objectNode.get("freeProduct").asText().equals("") || !objectNode.get("freeProductQty").asText().equals("") || !objectNode.get("freeProductValidity").asText().equals(""))
+			{
+				if (objectNode.get("freeProduct").asText().indexOf(",") >= 0)
+				{
+					String freeProductIds[] = objectNode.get("freeProduct").asText().trim().split(",");
+					String freeProductQtys[] = objectNode.get("freeProductQty").asText().trim().split(",");
+					String freeProductvalidities[] = objectNode.get("freeProductValidity").asText().trim().split(",");
+					
+					for(int i=0;i<freeProductIds.length;i++)
+					{
+						FreesProduct freesProduct = new FreesProduct();
+						AdminResponseClass singleProduct = new AdminResponseClass();
+						singleProduct = allProductsService.fetchAllProductById(Integer.parseInt(freeProductIds[i].trim()));	
+						
+						freesProduct.setToId(singleProduct.getAllProducts());
+						freesProduct.setWithId(products);
+						freesProduct.setQty(Integer.parseInt(freeProductQtys[i].trim()));
+						freesProduct.setValidTo(new SimpleDateFormat("yyyy-MM-dd").parse(freeProductvalidities[i].trim()));
+						freesProduct.setStatus(Boolean.TRUE);
+						if(!singleProduct.isStatus())
+						{
+							adminResponseClass = freesProductService.saveFreesProduct(freesProduct);
+							adminResponseClass.setMssgStatus("Free Product Successfully Inserted");
+						}
+					}
+				}
+				else
+				{
+					FreesProduct freesProduct = new FreesProduct();
+					AdminResponseClass singleProduct = new AdminResponseClass();
+					singleProduct = allProductsService.fetchAllProductById(Integer.parseInt(objectNode.get("freeProduct").asText().trim()));
+					
+					freesProduct.setToId(singleProduct.getAllProducts());
+					freesProduct.setWithId(products);
+					freesProduct.setQty(Integer.parseInt(objectNode.get("freeProductQty").asText().trim().trim()));
+					freesProduct.setValidTo(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("freeProductValidity").asText().trim()));
+					freesProduct.setStatus(Boolean.TRUE);
+					if(!singleProduct.isStatus())
+					{
+						adminResponseClass = freesProductService.saveFreesProduct(freesProduct);
+						adminResponseClass.setMssgStatus("Free Product Successfully Inserted");
+					}
+				}
+			}
+		}
+		//Testing Purpose
+		if(!adminResponseClass.getMssgStatus().equals("Free Product Successfully Inserted"))
+			adminResponseClass.setMssgStatus("No Free Product Found For Insert");
+		System.out.println("\\\\"+adminResponseClass.getMssgStatus());
+		
+		
 		return adminResponseClass.isStatus();
 	}
 	
