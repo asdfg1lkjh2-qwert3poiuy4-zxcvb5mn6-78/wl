@@ -7,6 +7,9 @@ public class AllCategoryNames {
 		case "admin-addEditPhotographer":
 			categoryName = "Photographer";
 			break;
+		case "admin-addEditFlower":
+			categoryName = "Florist";
+			break;
 
 		default:
 			throw new IllegalArgumentException("Invalid requestUrl");

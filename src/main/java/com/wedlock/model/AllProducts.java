@@ -36,6 +36,14 @@ public class AllProducts implements Serializable{
 	@OneToOne(mappedBy="allProducts")
 	@JsonIgnore
 	private SellerPhotographer sellerPhotographer;
+	
+	@OneToMany(mappedBy = "allProducts")
+	@JsonIgnore
+	private List<IntProductOccasion> intProductOcc;
+	
+	@OneToOne(mappedBy="allProducts")
+	@JsonIgnore
+	private Flower flower;
 
 	@OneToMany(mappedBy="allProducts")
 	@JsonIgnore
@@ -58,8 +66,9 @@ public class AllProducts implements Serializable{
 	@JsonIgnore
 	private List<FreesProduct> freeWith;
 	
+	
 	@OneToMany(mappedBy="allProducts")
-	@JsonIgnore
+	//@JsonIgnore
 	private List<FreesProduct> freeTo;
 	*/
 	
@@ -91,6 +100,22 @@ public class AllProducts implements Serializable{
 
 	public SellerPhotographer getSellerPhotographer() {
 		return sellerPhotographer;
+	}
+
+	public List<IntProductOccasion> getIntProductOcc() {
+		return intProductOcc;
+	}
+
+	public void setIntProductOcc(List<IntProductOccasion> intProductOcc) {
+		this.intProductOcc = intProductOcc;
+	}
+
+	public Flower getFlower() {
+		return flower;
+	}
+
+	public void setFlower(Flower flower) {
+		this.flower = flower;
 	}
 
 	public void setSellerPhotographer(SellerPhotographer sellerPhotographer) {

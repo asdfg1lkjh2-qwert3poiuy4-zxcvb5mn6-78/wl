@@ -8,4 +8,5 @@ public interface ProductTypeService {
 	AdminResponseClass fetchAllProductTypes();
 	AdminResponseClass fetchProductTypeById(long id);
 	AdminResponseClass fetchProductTypesWithStatusByCat(String catName);
+	AdminResponseClass fetchProductTypeByIdWithStatus(long id);
 }

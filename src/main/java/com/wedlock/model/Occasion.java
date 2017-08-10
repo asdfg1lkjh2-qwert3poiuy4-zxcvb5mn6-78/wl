@@ -41,7 +41,7 @@ public class Occasion implements Serializable{
 	private Date updateTime;
 	
 	@OneToMany(mappedBy="occasion",fetch=FetchType.EAGER)
-	private List<Int_Flow_Occ> int_Flow_Occs;      
+	private List<IntProductOccasion> intProductOcc;      
 	
 	@Transient
 	private long editId;
@@ -83,13 +83,11 @@ public class Occasion implements Serializable{
 	public void setEditId(long editId) {
 		this.editId = editId;
 	}
-	public List<Int_Flow_Occ> getInt_Flow_Occs() {
-		return int_Flow_Occs;
+	public List<IntProductOccasion> getIntProductOcc() {
+		return intProductOcc;
 	}
-	public void setInt_Flow_Occs(List<Int_Flow_Occ> int_Flow_Occs) {
-		this.int_Flow_Occs = int_Flow_Occs;
+	public void setIntProductOcc(List<IntProductOccasion> intProductOcc) {
+		this.intProductOcc = intProductOcc;
 	}
 	
-	
-
 }

@@ -9,20 +9,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+
 @Entity
 public class Flower implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 	@Id
-	@Column(columnDefinition = "bigint(20) unsigned")
-	private long id;
+	private String id;
 	private String name;
 	@Column(columnDefinition = "TEXT")
 	private String description;
@@ -31,8 +31,10 @@ public class Flower implements Serializable {
 	@Column(columnDefinition = "int(11) unsigned")
 	private int noOfPieces;
 	private boolean availability;
-	@Column(columnDefinition = "bigint(20) unsigned")
-	private long deliveryWithin;
+	
+	/*@Column(columnDefinition = "bigint(20) unsigned")
+	private long deliveryWithin;*/
+	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(updatable = false)
@@ -42,24 +44,31 @@ public class Flower implements Serializable {
 	private Date updateTime;
 	private String freebie;
 	private boolean status;
+	private double advancePaymentPercentage;
 	
-
+	@OneToOne
+	private AllProducts allProducts;
+	
 	@ManyToOne
 	// @JsonIgnore
 	private ProductType productType;
-	
-
-	@OneToMany(mappedBy = "flower")
-	private List<Int_Flow_Occ> int_Flow_Occs;
 
 	// Setters And Getters
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+
+	public AllProducts getAllProducts() {
+		return allProducts;
+	}
+
+	public void setAllProducts(AllProducts allProducts) {
+		this.allProducts = allProducts;
 	}
 
 	public String getName() {
@@ -110,13 +119,13 @@ public class Flower implements Serializable {
 		this.availability = availability;
 	}
 
-	public long getDeliveryWithin() {
+	/*public long getDeliveryWithin() {
 		return deliveryWithin;
 	}
 
 	public void setDeliveryWithin(long deliveryWithin) {
 		this.deliveryWithin = deliveryWithin;
-	}
+	}*/
 
 	public Date getEntryTime() {
 		return entryTime;
@@ -142,20 +151,20 @@ public class Flower implements Serializable {
 		this.status = status;
 	}
 
+	public double getAdvancePaymentPercentage() {
+		return advancePaymentPercentage;
+	}
+
+	public void setAdvancePaymentPercentage(double advancePaymentPercentage) {
+		this.advancePaymentPercentage = advancePaymentPercentage;
+	}
+
 	public ProductType getProductType() {
 		return productType;
 	}
 
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
-	}
-
-	public List<Int_Flow_Occ> getInt_Flow_Occs() {
-		return int_Flow_Occs;
-	}
-
-	public void setInt_Flow_Occs(List<Int_Flow_Occ> int_Flow_Occs) {
-		this.int_Flow_Occs = int_Flow_Occs;
 	}
 
 }

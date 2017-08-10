@@ -5,6 +5,8 @@ public class createId {
 	public static String IdGeneration(String lastId){
 		String sellerId = "SELLER-0003000";
 		String photographerId = "PHOTO-0090000";
+		String flowerId = "FLR-0080000";
+		
 		String result ="";
 		String caseValue = "";
 		String Id[]  = lastId.split("-");
@@ -42,6 +44,20 @@ public class createId {
 				result = Id[0] + "-0" + photoA;
 			} else {
 				result = Id[0] + "-" + photoA;
+			}
+			break;
+		case "FLR0":
+			result = flowerId;
+			break;
+		case "FLR":
+			int flrA = Integer.parseInt(Id[1]) + 1;
+			int flrC = String.valueOf(Id[1]).length();
+			if (flrC == 5 /*|| flrC == 7*/) {
+				result = Id[0] + "-00" + flrA;
+			} else if (flrC == 6) {
+				result = Id[0] + "-0" + flrA;
+			} else {
+				result = Id[0] + "-" + flrA;
 			}
 			break;
 		default:

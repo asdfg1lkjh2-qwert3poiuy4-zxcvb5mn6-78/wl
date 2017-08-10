@@ -143,5 +143,23 @@ public class ProductTypeServiceImpl implements ProductTypeService{
 		return null;
 		
 	}
+	
+	@Override
+	public AdminResponseClass fetchProductTypeByIdWithStatus(long id) {
+		boolean status = false;
+		Query query = manager.createQuery("Select pt from ProductType pt where pt.id=:id AND pt.categoryAvailable.isActive=true AND pt.status=true");
+		query.setParameter("id", id);
+		
+		if(!(query.getResultList().isEmpty()))
+		{
+			ProductType productType = (ProductType) query.getResultList().get(0);
+			status = true;
+			AdminResponseClass adminResponseClass = new AdminResponseClass();
+			adminResponseClass.setProductType(productType);
+			adminResponseClass.setStatus(status);
+			return adminResponseClass;
+		}
+		return null;
+	}
 
 }

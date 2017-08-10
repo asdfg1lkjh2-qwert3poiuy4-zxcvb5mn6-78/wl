@@ -166,5 +166,18 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
+	
+	@Override
+	public AdminResponseClass fetchCategoryByCategoryNameWithStatus(String categoryName) {
+		boolean status = false;
+		
+		TypedQuery<CategoryAvailable> categoryAvailables = manager.createQuery("Select c from CategoryAvailable c where c.isActive = true and c.categoryName LIKE:categoryName", CategoryAvailable.class).setParameter("categoryName", categoryName.trim());
+		CategoryAvailable categoryAvailable = categoryAvailables.getResultList().get(0);
+		status = true;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setCategoryAvailable(categoryAvailable);
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
+	}
 
 }
