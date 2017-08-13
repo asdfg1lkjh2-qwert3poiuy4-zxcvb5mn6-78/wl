@@ -114,7 +114,8 @@ public class ProductTypeServiceImpl implements ProductTypeService{
 	@Override
 	public AdminResponseClass fetchProductTypesWithStatusByCat(String catName)
 	{
-		boolean status = false;
+		boolean status = false;	
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		
 		Query query = manager.createQuery("Select pt from ProductType pt where pt.categoryAvailable.categoryName=:catName AND pt.categoryAvailable.isActive=true AND pt.status=true order by pt.typeName");
 		query.setParameter("catName", catName);
@@ -133,20 +134,19 @@ public class ProductTypeServiceImpl implements ProductTypeService{
 				productType2.setStatus(productType.isStatus());
 				modProductTypesList.add(productType2);
 			}
-			status = true;	
-			AdminResponseClass adminResponseClass = new AdminResponseClass();
+			status = true;
 			adminResponseClass.setListAllProductTypes(modProductTypesList);
-			adminResponseClass.setStatus(status);
-			return adminResponseClass;
 		}
-	  
-		return null;
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
 		
 	}
 	
 	@Override
 	public AdminResponseClass fetchProductTypeByIdWithStatus(long id) {
 		boolean status = false;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		
 		Query query = manager.createQuery("Select pt from ProductType pt where pt.id=:id AND pt.categoryAvailable.isActive=true AND pt.status=true");
 		query.setParameter("id", id);
 		
@@ -154,12 +154,10 @@ public class ProductTypeServiceImpl implements ProductTypeService{
 		{
 			ProductType productType = (ProductType) query.getResultList().get(0);
 			status = true;
-			AdminResponseClass adminResponseClass = new AdminResponseClass();
 			adminResponseClass.setProductType(productType);
-			adminResponseClass.setStatus(status);
-			return adminResponseClass;
 		}
-		return null;
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
 	}
 
 }

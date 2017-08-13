@@ -7,8 +7,8 @@ import com.wedlock.model.Flower;
 import com.wedlock.model.SellerDetails;
 
 public interface FlowerService {
-	public AdminResponseClass findLastFlowerId();
+	AdminResponseClass findLastFlowerId();
 	AdminResponseClass saveFlower(Flower flower);
-	AdminResponseClass fetchAllFlowerProductsById(SellerDetails sellerDetails) throws ParseException;
+    AdminResponseClass fetchAllFlowerProductsById(SellerDetails sellerDetails) throws ParseException;
 
 }

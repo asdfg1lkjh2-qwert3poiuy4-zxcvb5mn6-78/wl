@@ -1472,8 +1472,8 @@ public class AdminController {
 			
 			/* Temporary Seller Fetch*/
 			SellerDetails sellerDetails = new SellerDetails();
-			sellerDetails.setSellerEmailId("sanjayroy6606@gmail.com");
-			sellerDetails.setSellerPassword("1");
+			sellerDetails.setSellerEmailId("swarajcell@gmail.com");
+			sellerDetails.setSellerPassword("1234");
 			AdminResponseClass adminResponseClass1 = new AdminResponseClass();
 			try {
 				adminResponseClass1 = sellerService.checkSelleroginCredentials(sellerDetails);
@@ -1483,6 +1483,7 @@ public class AdminController {
 			if(adminResponseClass1.isStatus())
 				products.setSellerDetails(adminResponseClass1.getSellerDetail());
 			
+			//products.setSellerDetails((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
 			adminResponseClass = allProductsService.saveAllProducts(products);
 		}
 
@@ -1703,6 +1704,7 @@ public class AdminController {
 			}
 			System.out.println("////Admin Response Class after image insert: " + adminResponseClass.isStatus());
 		}
+
 		// SellerProductPricing Entry
 		System.out.println("//// Price is " + objectNode.get("fromDate"));
 		if (adminResponseClass.isStatus() && (objectNode.get("fromDate") != null)) {
@@ -1773,8 +1775,10 @@ public class AdminController {
 					}
 				}
 			}
+			//System.out.println("////Admin Response Class after IntProductOccasion insert: " + adminResponseClass.isStatus());
 		}
 
+		//DiscountDetails Entry to SellerDiscount Table
 		if ((objectNode.get("hasValue").asInt() == 1) && (adminResponseClass.isStatus())) {
 			SellerDiscount sellerDiscount = new SellerDiscount();
 			sellerDiscount.setFromDateDiscount(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("fromDateDiscount").asText()));
@@ -1825,6 +1829,7 @@ public class AdminController {
 				}
 			}*/
 		}
+		//System.out.println("////Admin Response Class after discount insert: " + adminResponseClass.isStatus());
 		
 		/*//For freeProduct Insert
 		if(adminResponseClass.isStatus())
@@ -1841,7 +1846,7 @@ public class AdminController {
 					{
 						FreesProduct freesProduct = new FreesProduct();
 						AdminResponseClass singleProduct = new AdminResponseClass();
-						singleProduct = allProductsService.fetchAllProductById(Integer.parseInt(freeProductIds[i].trim()));	
+						singleProduct = allProductsService.fetchAllProductByIdAndSeller(Integer.parseInt(freeProductIds[i].trim()), products.getSellerDetails().getId());	
 						
 						freesProduct.setToId(singleProduct.getAllProducts());
 						freesProduct.setWithId(products);
@@ -1859,7 +1864,7 @@ public class AdminController {
 				{
 					FreesProduct freesProduct = new FreesProduct();
 					AdminResponseClass singleProduct = new AdminResponseClass();
-					singleProduct = allProductsService.fetchAllProductById(Integer.parseInt(objectNode.get("freeProduct").asText().trim()));
+					singleProduct = allProductsService.fetchAllProductByIdAndSeller(Integer.parseInt(objectNode.get("freeProduct").asText().trim()), products.getSellerDetails().getId());
 					
 					freesProduct.setToId(singleProduct.getAllProducts());
 					freesProduct.setWithId(products);
@@ -1877,12 +1882,13 @@ public class AdminController {
 		//Testing Purpose
 		if(!adminResponseClass.getMssgStatus().equals("Free Product Successfully Inserted"))
 			adminResponseClass.setMssgStatus("No Free Product Found For Insert");*/
-		System.out.println("\\\\"+adminResponseClass.getMssgStatus());
+		//System.out.println("\\\\"+adminResponseClass.getMssgStatus());
 		
 		
 		return adminResponseClass.isStatus();
 	}
 	
+
 	
 	@RequestMapping(value = "/admin-fetchAllFlowerProductsById", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchAllFlowerProductsById() throws ParseException {

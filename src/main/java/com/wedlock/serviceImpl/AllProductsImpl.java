@@ -1,7 +1,11 @@
 package com.wedlock.serviceImpl;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,9 @@ public class AllProductsImpl implements AllProductsService{
 
 	@Autowired
 	private AllProductsDao allProductsDao;
+	@PersistenceContext
+	EntityManager manager;
+	
 	@Override
 	public AdminResponseClass saveAllProducts(AllProducts products) {
 		boolean status = false;
@@ -29,15 +36,72 @@ public class AllProductsImpl implements AllProductsService{
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
+	
 	@Override
-	public AdminResponseClass fetchAllProductById(long id) {
+	public AdminResponseClass fetchAllProductByIdAndSeller(long id, String sellerId) 
+	{
 		boolean status = false;
-		AllProducts allProducts = allProductsDao.findOne(id);
-		status = true;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setAllProducts(allProducts);
+		//AllProducts allProducts = allProductsDao.findOne(id);
+		Query query = manager.createQuery("Select ap from AllProducts ap where ap.id =:allProductId and ap.sellerDetails.id =:sellerId order by ap.id");
+		query.setParameter("allProductId", id);
+		query.setParameter("sellerId", sellerId);
+		
+		if(!(query.getResultList().isEmpty()))
+		{
+			AllProducts allProducts = (AllProducts)query.getResultList().get(0);
+			adminResponseClass.setAllProducts(allProducts);
+			status = true;
+		}
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
 
+	@Override
+	public AdminResponseClass fetchAllProductBySellerIdWithStatus(String sellerId) 
+	{
+		boolean status = false;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		Query query = manager.createQuery("Select ap from AllProducts ap where ap.status = true and ap.sellerDetails.id =:sellerId order by ap.entryTime");
+		query.setParameter("sellerId", sellerId);
+		
+		if(!(query.getResultList().isEmpty()))
+		{
+			AllProducts allProducts = (AllProducts)query.getResultList().get(0);
+			adminResponseClass.setAllProducts(allProducts);
+			status = true;
+		}
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
+	}
+	
+	@Override
+	public AdminResponseClass fetchAllProductBySellerIdAndCatName(String sellerId, String catName)
+	{
+		boolean status = false;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		
+		/* long catId = 0;
+		Query query = manager.createQuery("Select cat.id from CategoryAvailable cat where cat.isActive =true and cat.categoryName =:catName");
+		query.setParameter("catName", catName);
+		if(!(query.getResultList().isEmpty()))
+		{
+			catId = (long)query.getResultList().get(0);
+		}*/
+		
+		Query query = manager.createQuery("Select ap from AllProducts ap where ap.sellerDetails.id =:sellerId and ap.categoryAvailable.categoryName =:catName and ap.categoryAvailable.isActive =true order by ap.entryTime");
+		query.setParameter("sellerId", sellerId);
+		query.setParameter("catName", catName);
+		
+		if(!(query.getResultList().isEmpty()))
+		{
+			@SuppressWarnings("unchecked")
+			List<AllProducts> allProducts = query.getResultList();
+			adminResponseClass.setListAllProducts(allProducts);
+			status = true;
+		}
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
+	}
+	
 }

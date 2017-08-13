@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.FlowerDao;
-import com.wedlock.dao.PhotographyOccasionDao;
-import com.wedlock.dao.SellerProductPricingDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.Flower;
 import com.wedlock.model.SellerDetails;
@@ -29,11 +27,6 @@ public class FlowerServiceImpl implements FlowerService{
 
 	@Autowired
 	private FlowerDao flowerDao;
-	/*
-	@Autowired
-	private SellerProductPricingDao sellerProductPricingDao;
-	@Autowired
-	private PhotographyOccasionDao photographyOccasionDao;*/
 	
 	@PersistenceContext
 	EntityManager manager;
@@ -71,41 +64,51 @@ public class FlowerServiceImpl implements FlowerService{
 	public AdminResponseClass fetchAllFlowerProductsById(SellerDetails sellerDetails) throws ParseException {
 		boolean status = false;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		
+		/* long catId = 0;
+		Query query = manager.createQuery("Select cat.id from CategoryAvailable cat where cat.isActive =true and cat.categoryName =:catName");
+		query.setParameter("catName", catName);
+		if(!(query.getResultList().isEmpty()))
+		{
+			catId = (long)query.getResultList().get(0);
+		}*/
+		
 		Query query = manager.createQuery("Select fl from Flower fl where fl.allProducts.sellerDetails.id =:sellerId and fl.status =true order by fl.entryTime");
 		query.setParameter("sellerId", sellerDetails.getId());
-				if(!(query.getResultList().isEmpty()))
-				{
-					int hasFound = 0;
-					@SuppressWarnings("unchecked")
-					List<Flower> listFlower = query.getResultList();
-					List<SellerProductPricing> listProductPricings = new ArrayList<>();
-					
-					for(Flower flower : listFlower)
-					{
-						Date date = new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-						for(SellerProductPricing sellerProductPricing :flower.getAllProducts().getSellerProductPricing()){
-							if((date.after(sellerProductPricing.getPriceFromDate()) && date.before(sellerProductPricing.getPriceToDate())) || (date.equals(sellerProductPricing.getPriceFromDate())) || (date.equals(sellerProductPricing.getPriceToDate()))){
-								SellerProductPricing sellerProductPricing2 = new SellerProductPricing();
-								sellerProductPricing2.setPrice(sellerProductPricing.getPrice());
-								System.out.println("///In if"+sellerProductPricing2.getPrice());
-								listProductPricings.add(sellerProductPricing2);
-								hasFound = 1;
-								break;
-							}
-						}
-						if(hasFound == 0){
-							SellerProductPricing sellerProductPricing = new SellerProductPricing();
-							sellerProductPricing.setPrice(0.00);
-							listProductPricings.add(sellerProductPricing);
-						}else{
-							hasFound = 0;
-						}
+		
+		if(!(query.getResultList().isEmpty()))
+		{
+			int hasFound = 0;
+			@SuppressWarnings("unchecked")
+			List<Flower> listFlower = query.getResultList();
+			List<SellerProductPricing> listProductPricings = new ArrayList<>();
+			
+			for(Flower flower : listFlower)
+			{
+				Date date = new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+				for(SellerProductPricing sellerProductPricing :flower.getAllProducts().getSellerProductPricing()){
+					if((date.after(sellerProductPricing.getPriceFromDate()) && date.before(sellerProductPricing.getPriceToDate())) || (date.equals(sellerProductPricing.getPriceFromDate())) || (date.equals(sellerProductPricing.getPriceToDate()))){
+						SellerProductPricing sellerProductPricing2 = new SellerProductPricing();
+						sellerProductPricing2.setPrice(sellerProductPricing.getPrice());
+						System.out.println("///In if"+sellerProductPricing2.getPrice());
+						listProductPricings.add(sellerProductPricing2);
+						hasFound = 1;
+						break;
 					}
-					adminResponseClass.setListAllFlower(listFlower);
-					adminResponseClass.setListProductPricings(listProductPricings);
-					status = true;
 				}
+				if(hasFound == 0){
+					SellerProductPricing sellerProductPricing = new SellerProductPricing();
+					sellerProductPricing.setPrice(0.00);
+					listProductPricings.add(sellerProductPricing);
+				}else{
+					hasFound = 0;
+				}
+			}
+			adminResponseClass.setListAllFlower(listFlower);
+			adminResponseClass.setListProductPricings(listProductPricings);
+			status = true;
+		}
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
+		}
 	}
-}
