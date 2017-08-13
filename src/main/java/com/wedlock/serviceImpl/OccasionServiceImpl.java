@@ -74,6 +74,7 @@ public class OccasionServiceImpl implements OccasionService {
 	@Override
 	public AdminResponseClass fetchAllOccasionsWithStatus() {
 		boolean status = false;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		
 		Query query = manager.createQuery("Select occ from Occasion occ where occ.status=true order by occ.name");
 		
@@ -94,15 +95,11 @@ public class OccasionServiceImpl implements OccasionService {
 				
 				occasions.add(occasion2);
 			}
-			
-			status=true;
-			AdminResponseClass adminResponseClass = new AdminResponseClass();
-			adminResponseClass.setStatus(status);
 			adminResponseClass.setListAllOccasion(occasions);
-			return adminResponseClass;
+			status=true;
 		}
-
-		return null;
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
 	}
 	
 	@Override
@@ -133,7 +130,8 @@ public class OccasionServiceImpl implements OccasionService {
 			}
 		}
 		
-		if(isEdit == 0){
+		if(isEdit == 0)
+		{
 			intProductOcc.setEntryTime(new Date());
 			intProductOcc.setStatus(Boolean.TRUE);
 			productOccasionDao.save(intProductOcc);
