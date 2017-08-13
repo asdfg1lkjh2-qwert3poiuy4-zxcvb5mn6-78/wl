@@ -11,41 +11,8 @@
 </head>
 <body class="theme-blush">
 <!-- Test Modal -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content row singleImageEdit">
-				<div class="col-md-4 col-xs-6 col-sm-12 thumbnail" id="editImageDiv">
-					<img src="resources/images/camera-icon.png" class="img-responsive"/>
-				</div>
-				<div class="col-md-8 col-xs-6 col-sm-12 _photographerImages" id="dynamicDropzoneDiv">
-					  <form action="#" id="singleUpload" class="dropzone" method="post"
-						enctype="multipart/form-data">
-						<div class="dz-message">
-							<div class="drag-icon-cph">
-								<i class="material-icons">touch_app</i>
-							</div>
-							<h3>Drop files here or click to upload.</h3>
-							<em>(This is just a demo dropzone. Selected files are <strong>not</strong>
-								actually uploaded.)
-							</em>
-						</div>
-						<div class="fallback">
-							<input name="file" type="file" multiple />
-						</div>
-					</form> 
-				</div> 
-				<div class ="row">
-				<div class="modal-footer col-md-12 col-sm-12 col-xs-12 footerModal">
-					<button type="button" class="btn btn-secondary btn-raised"
-						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-raised gradient-right">Save changes</button>
-				</div>
-				</div>
-				
-			</div>
-		</div>
-	</div> 
+	<div id="allModals">
+	</div>
 	<!-- Test 3 Modal -->
 	<div class="modal fade" id="showPriceModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -966,6 +933,7 @@
 	});
 	/* <img src = \"resources/images/videoIcon.png\" height = \"60\" width = \"60\" /> */
 	var dateTime = new Date().getTime(); 
+	var doNotRemoveFields = 0;
 	var videoFiles = "";
 	var videoClassPath = "";
 	var hasValue = Number(0);
@@ -1250,34 +1218,6 @@
 			}
 			
 		};
-	//Upload and renaming the files being uploaded in dropzone.js
- var modalImageId;
- Dropzone.options.singleUpload = {
-		url : "singleUpload",
-		init : function() {
-			this.on("success", function(file, response) {
-				if(defaultImageId === Number(1)){
-					defaultImageId = "";
-				}
-				var a = this.element.classList+"";
-				a = a.split("_");
-				classPath = $("form." + "_" + a[1]).parent().attr("class");
-				classPath = classPath.split("_");
-				if(defaultImageId === ""){
-					defaultImageId = "Photographer"+"_"+classPath[1]+"_"+dateTime+file.name+"_"+modalImageId;
-				}else{
-					defaultImageId = defaultImageId + ","+"Photographer"+"_"+classPath[1]+"_"+dateTime+file.name+"_"+modalImageId;
-				}
-				alert(defaultImageId);
- 			});
-		},
-		renameFilename : function(fileName) {
-			var classpath = fileName;
-			classpath = classpath.split("_");
-			return "Photographer" + "_" + dateTime+classpath[0];
-			
-		}
-	};
  var modalVideoId;
  Dropzone.options.singleVideoUpload = {
 			url : "singleUpload",
@@ -1296,7 +1236,6 @@
 					}else{
 						defaultVideoId = defaultImageId + ","+"Photographer"+"_"+classPath[1]+"_"+dateTime+file.name+"_"+modalVideoId;
 					}
-					alert(defaultVideoId);
 	 			});
 			},
 			renameFilename : function(fileName) {
@@ -2036,7 +1975,7 @@
 				job["photoDescription"] = $("#photoDescription").val();
 				job["noOfPhotosProvided"] = $("#noOfPhotosProvided").val();
 				if(videoFiles === ""){
-					job["videoFiles"] =defaultVideoId;
+					job["videoFiles"] = Number(0);
 				}else{
 					job["videoFiles"] = videoFiles;
 				}
@@ -2044,6 +1983,8 @@
 				job["videoLength"] = $("#videoLength").val();
 				if(titleLength !=""){
 					job["titleLength"] = titleLength;
+				}else{
+					job["titleLength"] = "";
 				}
 				if(modelId !== ""){
 					job["modelId"] = modelId;
@@ -2096,6 +2037,9 @@
 				var categoryName = window.location+"";
 				categoryName = categoryName.split("/");
 				job["categoryName"] = categoryName[4];
+				if($("#productStatus").val() !== ""){
+					job["productStatus"] = $("#productStatus").val();
+				}
 				job["advancePaymentPercentage"] = $("#advancePaymentPercentage").val();
 				if($("#productAvailability").val() !== ""){
 					job["availability"] = $("#productAvailability").val();
@@ -2104,7 +2048,7 @@
 				}
 				job["freebie"] = $("#freebie").val();
 				
-					if((($("#fromDateDiscount").val() || $("#toDateDiscount").val() || $("#discount").val())!="") || $("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))
+					if((($("#fromDateDiscount").val() || $("#toDateDiscount").val())!="") || ($("#discount").val() !="" && $("#discount").val() !="0.00") || $("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))
 					{
 						hasValue = Number(1);
 						if($("#fromDateDiscount").val() === ""){
@@ -2172,8 +2116,7 @@
 								job["isFlat"] = Number(0);
 							}
 							
-							alert(JSON.stringify(job));
-							 $("#submit").prop("disabled", true);
+							$("#submit").prop("disabled", true);
 							$.ajax({
 							type : "POST",
 							url : "admin-addEditPhotographer",
@@ -2182,21 +2125,27 @@
 							contentType :"application/json",
 							success : function(data) {
 								if(data){
-									swal({
-										  title: 'Success!',
-										  text: 'Product Details Successfully Inserted!!!',
-										  type: 'success',
-										  showConfirmButton :false,
-										  allowEscapeKey:true,
-										  timer:3000,
-										  animation:true
-										});
+									if($("#editProductId").val() !=""){
+										window.location = "admin-viewPhotographyProducts";
+									}else{
+										swal({
+											  title: 'Success!',
+											  text: 'Product Details Successfully Inserted!!!',
+											  type: 'success',
+											  showConfirmButton :false,
+											  allowEscapeKey:true,
+											  timer:3000,
+											  animation:true
+											});
+									}
+									
+								}else{
+									doNotRemoveFields = 1;
 								}
 								$("#submit").prop("disabled", false);
 	
 							},
 							error : function(e) {
-								alert("Error");
 								swal({
 									  title: 'Error!',
 									  text: 'Product Details Not Inserted Successfully!!!',
@@ -2209,16 +2158,19 @@
 								$("#submit").prop("disabled", false);
 	
 							},complete : function (){
-								removeAllFields();
-							} 
+										if(doNotRemoveFields === 0){
+											removeAllFields();
+										}else{
+											doNotRemoveFields = 0;
+										}
+								} 
 							
 							}); 
 						}
 				 }else{
 						job["hasValue"] = hasValue;
 						
-						alert(JSON.stringify(job));
-						 $("#submit").prop("disabled", true);
+						$("#submit").prop("disabled", true);
 						$.ajax({
 						type : "POST",
 						url : "admin-addEditPhotographer",
@@ -2227,15 +2179,19 @@
 						contentType :"application/json",
 						success : function(data) {
 							if(data){
-								swal({
-									  title: 'Success!',
-									  text: 'Product Details Successfully Inserted!!!',
-									  type: 'success',
-									  showConfirmButton :false,
-									  allowEscapeKey:true,
-									  timer:3000,
-									  animation:true
-									});
+								if($("#editProductId").val() !=""){
+									window.location = "admin-viewPhotographyProducts";
+								}else{
+									swal({
+										  title: 'Success!',
+										  text: 'Product Details Successfully Inserted!!!',
+										  type: 'success',
+										  showConfirmButton :false,
+										  allowEscapeKey:true,
+										  timer:3000,
+										  animation:true
+										});
+								}
 							}
 							$("#submit").prop("disabled", false);
 	
@@ -2254,16 +2210,18 @@
 							$("#submit").prop("disabled", false);
 	
 						},complete : function (){
-							removeAllFields();
-						}
+							
+								if(doNotRemoveFields === 0){
+									removeAllFields();
+								}else{
+									doNotRemoveFields = 0;
+								}
+							} 
 						
 						});  
 					}
-					
-					 
-					
 				}
-	});
+		});
 		//Converting month name to month number
 		function getMonth(monthStr){
 		    return new Date(monthStr+'-1-01').getMonth()+1
@@ -2389,18 +2347,21 @@
 				ghi = ghi + "</ul></div>"
 			
 				$("#photographyOccasionDiv").html(efg + ghi);
-			//Remove the thumbnails after each insertion being completed from dropzone.js
-			$('.dropzone')[0].dropzone.files.forEach(function(file) { 
-					file.previewElement.remove(); 
-				});
+				if(idForFetch === undefined){
+					alert("In if");
+					//Remove the thumbnails after each insertion being completed from dropzone.js
+					$('.dropzone')[0].dropzone.files.forEach(function(file) { 
+							file.previewElement.remove(); 
+						});
 
-			 $('.dropzone')[1].dropzone.files.forEach(function(file) { 
-					 file.previewElement.remove(); 
-				});
-			
-			 $('.dropzone').removeClass(' dz-started ');
-			 Dropzone.forElement("._photographerImages #multipleUpload").removeAllFiles();
-			 Dropzone.forElement("._photographerVideos #videoUpload").removeAllFiles();
+					 $('.dropzone')[1].dropzone.files.forEach(function(file) { 
+							 file.previewElement.remove(); 
+						});
+					
+					 $('.dropzone').removeClass(' dz-started ');
+					 Dropzone.forElement("._photographerImages #multipleUpload").removeAllFiles();
+					 Dropzone.forElement("._photographerVideos #videoUpload").removeAllFiles();
+				}
 		}
 	$("#checkBoxDiscountAmount, #checkBoxDiscountPercent").click(function(){
 		var check = Number(0);
@@ -2542,79 +2503,89 @@
 	
 	var abc = "";
 	function showImagesEdit(imageName,imageId){
-
-		//$("#photographerImagesDiv").html("");
 			abc = abc + "<div class=\"col-md-2 col-sm-6 col-xs-12 editImages\">"
 			+"<div class=\"thumbnail\">"
-			+"<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\" data-toggle=\"modal\" data-target=\"#showModal\" onclick=\"showModal('"+imageName+"','"+imageId+"')\"/>"
+			+"<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\" data-toggle=\"modal\" onclick=\"showModal('"+imageName+"','"+imageId+"')\"/>"
 			+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
 		    +"</div>"
 	        +"</div>";
 		
 	      $("#photographerImagesDiv").html(abc);
 	}
-	var checkForImageId = "";
+	
 	function showModal(imageName, imageId){
 		modalImageId = imageId;
-		var check = Number(0);
-		$("#myModal").modal({
+		if(!($("#allModals").children("#"+imageId).length > 0)){
+			var abc ="<div class=\"modal fade\" id="+imageId+" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">"
+			+"<div class=\"modal-dialog\" role=\"document\">"
+			+"<div class=\"modal-content row singleImageEdit\">"
+			+"<div class=\"col-md-4 col-xs-6 col-sm-12 thumbnail\" id=\"editImageDiv\">"
+			+"<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\"/>"
+			+"</div>"
+			+"<div class=\"col-md-8 col-xs-6 col-sm-12 _photographerImages\">"
+			+"<form action=\"#\" id=\'singleUpload"+imageId+"\' class=\"dropzone\" method=\"post\" enctype=\"multipart/form-data\">"
+			+"<div class=\"dz-message\">"
+			+"<div class=\"drag-icon-cph\">"
+			+"<i class=\"material-icons\">touch_app</i>"
+			+"</div>"
+			+"<h3>Drop files here or click to upload.</h3>"
+			+"<em>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.</em>"
+			+"</div>"
+			+"<div class=\"fallback\">"
+			+"<input name=\"file\" type=\"file\" multiple />"
+			+"</div>"
+			+"</form>"
+			+"</div>"
+			+"<div class =\"row\">"
+			+"<div class=\"modal-footer col-md-12 col-sm-12 col-xs-12 footerModal\">"
+			+"<button type=\"button\" class=\"btn btn-secondary btn-raised\" data-dismiss=\"modal\">Close</button>"
+			+"<button type=\"button\" class=\"btn btn-raised gradient-right\">Save changes</button>"
+			+"</div>"
+			+"</div>"
+			+"</div>"
+			+"</div>"
+			+"</div>"
+			$("#allModals").append(abc);
+			createUserDropzone(imageId);
+		}
+		$("#"+imageId).modal({
 			backdrop: 'static',
 		    keyboard: false,
 		    show:true
 		});
-		$("#editImageDiv").html("<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\">");
-		/*  if (checkForImageId === ""){
-			checkForImageId = imageId;
-		}else{
-			if(checkForImageId.indexOf(",")>=0){
-				var a = checkForImageId.split(",");
-				for(var i =0; i<a.length; i++){
-					if(a[i] === imageId){
-						check = Number(1);
-					}
-				}
-				if(check === 0){
-					checkForImageId = checkForImageId + "," + imageId;
-				}
-			}else{
-				if(checkForImageId === imageId){
-					alert("In if");
-					check = Number(1);
-				}else
-				  {
-					alert("///In else");
-					checkForImageId = checkForImageId+ "," +imageId;
-				}
-			}
-		}
-		 alert(imageId);
-			 if(Number(imageId) === Number(273)){
-				 alert("In if");
-				 Dropzone.forElement("._photographerImages #singleUpload").destroy();
-				 var file9 = {
-						    name: "resources/images/camera-icon.png",
-						    size: 90094,
-						    status: Dropzone.ADDED,
-						    accepted: true
-						};
-				 
-				 		var myDropzone = new Dropzone("._photographerImages #singleUpload",{clickable:false})
-						myDropzone.emit("addedfile", file9);  
-						myDropzone.emit("thumbnail", file9, file9.name);
-						myDropzone.emit("processing",file9);
-						myDropzone.emit("success",file9);
-						myDropzone.emit("complete", file9);
-						myDropzone.files.push(file9);
-			 }else{ */
-				 Dropzone.forElement("._photographerImages #singleUpload").destroy();
-				 var myDropzone = new Dropzone("._photographerImages #singleUpload",{clickable:false});
-			/*  } */
-		
-		 
-		 
-		
 		
 	}
+	//Upload and renaming the files being uploaded in dropzone.js
+	 var modalImageId;
+	function createUserDropzone(imageId){
+		 var myDropzone = new Dropzone("#allModals #singleUpload"+imageId, {
+				url : "singleUpload",
+				init : function() {
+					this.on("success", function(file, response) {
+						if(defaultImageId === Number(1)){
+							defaultImageId = "";
+						}
+						var a = this.element.classList+"";
+						a = a.split("_");
+						classPath = $("form." + "_" + a[1]).parent().attr("class");
+						classPath = classPath.split("_");
+						if(defaultImageId === ""){
+							defaultImageId = "Photographer"+"_"+classPath[1]+"_"+dateTime+file.name+"_"+modalImageId;
+						}else{
+							defaultImageId = defaultImageId + ","+"Photographer"+"_"+classPath[1]+"_"+dateTime+file.name+"_"+modalImageId;
+						}
+		 			});
+				},
+				renameFilename : function(fileName) {
+					var classpath = fileName;
+					classpath = classpath.split("_");
+					return "Photographer" + "_" + dateTime+classpath[0];
+					
+					}
+					
+				});
+		}
+	
 	var cde = ""
 	function showVideosEdit(videoName,videoId){
 		modalVideoId = videoId;
@@ -2677,9 +2648,7 @@
 			processData : false,
 			contentType : "application/json",
 			success : function(data) {
-				alert(JSON.stringify(data));
 					if(data.status){
-						/* $("#productName").val(data.sellerPhotographer.productName); */
 						$("#photoDescription").val(data.sellerPhotographer.photoDescription);
 						$("#noOfPhotosProvided").val(data.sellerPhotographer.noOfPhotosProvided);
 						$("#videoDescription").val(data.sellerPhotographer.videoDescription);
@@ -2747,7 +2716,6 @@
 									active = "No";
 								}
 								var discount;
-								alert(data.listSellerDiscount[i].flatDiscount)
 								if(data.listSellerDiscount[i].flatDiscount){
 									discount ="<i class=\"fa fa-inr\" aria-hidden=\"true\">"+data.listSellerDiscount[i].discount+"</i>";
 								}else{
@@ -2767,15 +2735,18 @@
 							$("#discountTable > tbody").html(discountDataTable);
 						}
 						$("#productStatusDiv").attr("style","display:block");
+						
 						if(data.sellerPhotographer.active){
 							productStatus("Active");
+							$("#productStatus").val("Active");
 						}else{
 							productStatus("Inactive");
+							$("#productStatus").val("Inactive")
 						}
-						if(data.sellerPhotographer.availability === "Available"){
-							productAvailability("Available");
+						if(data.sellerPhotographer.availability === "Yes"){
+							productAvailability("Yes");
 						}else{
-							productAvailability("Unavailable");
+							productAvailability("No");
 						}
 						$("#photographyTypeName").val(data.sellerPhotographer.photographyType.id);
 						defaultPhotoType(false,Number(data.sellerPhotographer.photographyType.id),data.sellerPhotographer.photographyType.typeName);
@@ -2858,8 +2829,8 @@
 			+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
 			+"<ul class=\"dropdown-menu inner\" role=\"menu\" id=\"productAvailabilityUl\">"
 			+"<li data-original-index=\"0\" id=\"productAvailabilityLi0\"class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('Product Status','"+0+"')\"><span class=\"text\">Availability</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-			+"<li data-original-index=\"1\" id=\"productAvailabilityLi1\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('Available','"+1+"')\"><span class=\"text\">Available</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-			+"<li data-original-index=\"2\" id=\"productAvailabilityLi2\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('Unavailable','"+2+"')\"><span class=\"text\">Unavailable</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+			+"<li data-original-index=\"1\" id=\"productAvailabilityLi1\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('Yes','"+1+"')\"><span class=\"text\">Yes</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"2\" id=\"productAvailabilityLi2\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('No','"+2+"')\"><span class=\"text\">No</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
 			+"</div>"
 			
 		$("#availabilityDiv").html(mno);	

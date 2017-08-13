@@ -1117,12 +1117,14 @@
 			})(this);
 			return readEntries();
 		};
-
+		
 		Dropzone.prototype.accept = function(file, done) {
 			var abcs = this.element.classList + "";
 			abcs = abcs.split("_");
 			abcs = abcs[1];
-			if (($("form." + "_" + abcs).attr("id")) === "singleUpload") {
+			
+			if (($("form." + "_" + abcs).attr("id")).indexOf("singleUpload") >= 0) {
+				alert("In if reh");
 				done();
 				this.on("addedfile", function() {
 					if (this.files[1] != null) {

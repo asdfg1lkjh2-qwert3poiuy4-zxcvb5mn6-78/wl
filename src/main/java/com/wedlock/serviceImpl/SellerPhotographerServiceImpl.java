@@ -60,7 +60,6 @@ public class SellerPhotographerServiceImpl implements SellerPhotographerService{
 	public AdminResponseClass saveSellerPhotographer(SellerPhotographer sellerPhotographer) {
 		boolean status = false;
 		sellerPhotographer.setEntryTime(new Date());
-		sellerPhotographer.setActive(Boolean.TRUE);
 		sellerPhotographerDao.save(sellerPhotographer);
 		status = true;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();

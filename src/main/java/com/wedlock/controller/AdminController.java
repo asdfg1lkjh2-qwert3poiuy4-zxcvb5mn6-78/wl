@@ -137,11 +137,11 @@ public class AdminController {
 	@Autowired
 	private OtpService otpService;
 	@Autowired
-	HttpSession httpSession;
-	@Autowired
 	private FlowerService flowerService;
 	@Autowired
 	private FreesProductService freesProductService;
+	@Autowired
+	HttpSession httpSession;
 	
 	final String timeZoneApi = "http://api.timezonedb.com/v2/get-time-zone?key=U33W5JLS2CRZ&format=json&by=zone&zone=Asia/Kolkata";
     
@@ -963,9 +963,17 @@ public class AdminController {
 					}
 				}
 
+			 sellerPhotographer.setActive(Boolean.TRUE);
 			} else {
 				sellerPhotographer.setId(objectNode.get("editProductId").asText());
 				photographerId = objectNode.get("editProductId").asText();
+				if(objectNode.get("productStatus").asText().equals("Active")){
+					sellerPhotographer.setActive(Boolean.TRUE);
+				}
+				else{
+					sellerPhotographer.setActive(Boolean.FALSE);
+				}
+
 			}
 			sellerPhotographer.setProductName(objectNode.get("productName").asText());
 			adminResponseClass = photographyTypeService
@@ -1136,16 +1144,17 @@ public class AdminController {
 								File currentFile = new File(context.getRealPath("/" + path));
 								currentFile.delete();
 							}
-						}
-						else
-							adminResponseClass = sellerProductImagesVideosService
+						}else{
+						adminResponseClass = sellerProductImagesVideosService
 								.saveSellerProductImagesVideos(productImagesVideos);
+						}
 
 					}
 				}
 			}
-
-			if ((!(objectNode.get("videoFiles").asText().equals(""))) || (objectNode.get("videoFiles").asInt() != 1)) {
+			
+			System.out.println("///// Video Files is"+objectNode.get("videoFiles").asInt());
+			if (objectNode.get("videoFiles").asInt() != 1) {
 				if (objectNode.get("videoFiles").asText().indexOf(",") >= 0) {
 					String productVideos[] = objectNode.get("videoFiles").asText().split(",");
 					List<String> listString = new ArrayList<String>();
@@ -1343,9 +1352,9 @@ public class AdminController {
 			}
 		}
 
-		System.out.println("///Photography Occasion Name is" + objectNode.get("photographyOccasionName").asText());
+		System.out.println("///Title Length  is" + objectNode.get("titleLength"));
 		if (adminResponseClass.isStatus()) {
-			if (!(objectNode.get("titleLength").asText().equals("same"))) {
+			if (!objectNode.get("titleLength").asText().equals("same")) {
 				if (objectNode.get("photographyOccasionName").asText().indexOf(",") >= 0) {
 					String photographyOccasionNames[] = objectNode.get("photographyOccasionName").asText().split(",");
 					for (int i = 0; i < photographyOccasionNames.length; i++) {
@@ -1459,8 +1468,8 @@ public class AdminController {
 			
 			/* Temporary Seller Fetch*/
 			SellerDetails sellerDetails = new SellerDetails();
-			sellerDetails.setSellerEmailId("swarajcell@gmail.com");
-			sellerDetails.setSellerPassword("1234");
+			sellerDetails.setSellerEmailId("sanjayroy6606@gmail.com");
+			sellerDetails.setSellerPassword("1");
 			AdminResponseClass adminResponseClass1 = new AdminResponseClass();
 			try {
 				adminResponseClass1 = sellerService.checkSelleroginCredentials(sellerDetails);
@@ -1470,9 +1479,7 @@ public class AdminController {
 			if(adminResponseClass1.isStatus())
 				products.setSellerDetails(adminResponseClass1.getSellerDetail());
 			
-			//products.setSellerDetails((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
 			adminResponseClass = allProductsService.saveAllProducts(products);
-			System.out.println("////Admin Response Class after allProduct insert: " + adminResponseClass.isStatus());
 		}
 
 		System.out.println("////All Products id" + products.getId());
@@ -1503,30 +1510,26 @@ public class AdminController {
 			adminResponseClass = productTypeService.fetchProductTypeByIdWithStatus(objectNode.get("typeName").asLong());
 			flower.setProductType(adminResponseClass.getProductType());
 			flower.setDescription(objectNode.get("description").asText());
-			if(objectNode.get("colorSelect").asText().trim().equalsIgnoreCase("MultiColor"))
-				flower.setColor(objectNode.get("color").asText().trim());
-			else
-				flower.setColor("#@"+objectNode.get("color").asText().trim());
-				
+			flower.setColor(objectNode.get("color").asText());
 			flower.setNoOfPieces(objectNode.get("noOfPieces").asInt());
 			flower.setAdvancePaymentPercentage(objectNode.get("advancePaymentPercentage").asDouble());
 			
-			if(objectNode.get("availability").asText().trim().equalsIgnoreCase("Yes"))
-				flower.setAvailability(Boolean.TRUE);
-			else /*if(objectNode.get("availability").asText().trim().equalsIgnoreCase("No"))*/
-				flower.setAvailability(Boolean.FALSE);
-			flower.setFreebie(objectNode.get("freebie").asText());
+				if(objectNode.get("availability").asText().trim().equalsIgnoreCase("Yes"))
+					flower.setAvailability(Boolean.TRUE);
+				else 
+					flower.setAvailability(Boolean.FALSE);
 			
-			
+			if(objectNode.get("freebie") != null){
+				flower.setFreebie(objectNode.get("freebie").asText());
+			}
 			
 			String dpImages[] = objectNode.get("singleFiles").asText().trim().split("-,@_");
-			//System.out.println("\\\\DPImages "+ dpImages[1]);
 			ServletContext context = request.getServletContext();
 			for(int i = 0; i<dpImages.length;i++){
 				String image[] = dpImages[i].split("\\+@-");
-				//System.out.println("\\\\Image1 "+ image[0]);
-				//System.out.println("\\\\Image2 "+ image[1]);
-				//System.out.println("\\\\Image3 "+ image[2]);
+				System.out.println("\\\\Image1 "+ image[0]);
+				System.out.println("\\\\Image2 "+ image[1]);
+				System.out.println("\\\\Image3 "+ image[2]);
 				if (i == (dpImages.length - 1)) {
 					String uploadPath = context.getRealPath("/" + image[0]);
 					File uploadDir = new File(uploadPath);
@@ -1551,10 +1554,8 @@ public class AdminController {
 			}
 			flower.setAllProducts(products);
 			adminResponseClass = flowerService.saveFlower(flower);
-			System.out.println("////Admin Response Class after flower insert: " + adminResponseClass.isStatus());
+
 		}
-		
-		//For Edit Check
 		int isEdit = 0;
 		if (!objectNode.get("editProductId").asText().equals("")) {
 			isEdit = 1;
@@ -1698,11 +1699,10 @@ public class AdminController {
 			}
 			System.out.println("////Admin Response Class after image insert: " + adminResponseClass.isStatus());
 		}
-
 		// SellerProductPricing Entry
-		//System.out.println("//// Price is " + objectNode.get("fromDate"));
+		System.out.println("//// Price is " + objectNode.get("fromDate"));
 		if (adminResponseClass.isStatus() && (objectNode.get("fromDate") != null)) {
-			//System.out.println("////Inside there reh");
+			System.out.println("////Inside there reh");
 			SellerProductPricing sellerProductPricing = new SellerProductPricing();
 			sellerProductPricing.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("fromDate").asText()));
 			sellerProductPricing.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("toDate").asText()));
@@ -1733,11 +1733,10 @@ public class AdminController {
 					adminResponseClass = sellerProductPricingService.saveSellerProductPricing(sellerProductPricings);
 				}
 			}
-			System.out.println("////Admin Response Class after price insert: " + adminResponseClass.isStatus());
 		}
 
 		//Interminiate-Product-Occasion Table Entry
-		//System.out.println("///Occasion Id are" + objectNode.get("occasion").asText());
+		System.out.println("///Occasion Id are" + objectNode.get("occasion").asText());
 		if (adminResponseClass.isStatus()) {
 			if (!(objectNode.get("titleLength").asText().equals("same"))) {
 				if (objectNode.get("occasion").asText().indexOf(",") >= 0) {
@@ -1770,10 +1769,8 @@ public class AdminController {
 					}
 				}
 			}
-			System.out.println("////Admin Response Class after IntProductOccasion insert: " + adminResponseClass.isStatus());
 		}
 
-		//DiscountDetails Entry to SellerDiscount Table
 		if ((objectNode.get("hasValue").asInt() == 1) && (adminResponseClass.isStatus())) {
 			SellerDiscount sellerDiscount = new SellerDiscount();
 			sellerDiscount.setFromDateDiscount(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("fromDateDiscount").asText()));
@@ -1787,7 +1784,7 @@ public class AdminController {
 			sellerDiscount.setAllProducts(products);
 			adminResponseClass = sellerDiscountService.saveSellerDiscount(sellerDiscount);
 			
-			//otherDiscountDetails Entry to SellerDiscount Table
+			/*//otherDiscountDetails Entry to SellerDiscount Table
 			if ((objectNode.get("otherDiscountDetails").asText() != null) && (adminResponseClass.isStatus()))
 			{
 				if (objectNode.get("otherDiscountDetails").asText().indexOf("_") >= 0) {
@@ -1822,11 +1819,10 @@ public class AdminController {
 					//sellerDiscount.setAllProducts(products);
 					adminResponseClass = sellerDiscountService.saveSellerDiscount(sellerDiscount);
 				}
-			}
+			}*/
 		}
-		System.out.println("////Admin Response Class after discount insert: " + adminResponseClass.isStatus());
 		
-		//For freeProduct Insert
+		/*//For freeProduct Insert
 		if(adminResponseClass.isStatus())
 		{
 			if (!objectNode.get("freeProduct").asText().equals("") || !objectNode.get("freeProductQty").asText().equals("") || !objectNode.get("freeProductValidity").asText().equals(""))
@@ -1876,11 +1872,11 @@ public class AdminController {
 		}
 		//Testing Purpose
 		if(!adminResponseClass.getMssgStatus().equals("Free Product Successfully Inserted"))
-			adminResponseClass.setMssgStatus("No Free Product Found For Insert");
+			adminResponseClass.setMssgStatus("No Free Product Found For Insert");*/
 		System.out.println("\\\\"+adminResponseClass.getMssgStatus());
 		
 		
 		return adminResponseClass.isStatus();
 	}
-	
+ 
 }

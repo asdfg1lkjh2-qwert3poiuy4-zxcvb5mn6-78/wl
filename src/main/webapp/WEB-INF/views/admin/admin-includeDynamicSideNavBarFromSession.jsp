@@ -9,6 +9,7 @@
 				contentType : false,
 				processData : false,
 				success : function(data) {
+					alert(JSON.stringify(data));
 					if(data.status){
 						</script>
 						<script type="text/javascript">

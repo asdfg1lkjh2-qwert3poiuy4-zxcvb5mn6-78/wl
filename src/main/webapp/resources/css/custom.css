@@ -43,6 +43,8 @@ body{font-family: Ubuntu;}
 .header .header-add label span{font-size: 14px; margin-top: 7px;}
 #open-bank-account{display: none}
 #discountDiv{display: none}
+#freesDiv{display:none}
+#selectUserColor{display:none}
 .hundred-width .bootstrap-select{width: 100% !important}
 .div-center.hundred-width .bootstrap-select .dropdown-menu li.selected a {
     background-color: #F5B596 !important;
