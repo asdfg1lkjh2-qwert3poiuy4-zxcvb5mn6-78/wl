@@ -43,14 +43,15 @@ public class OtpServiceImpl implements OtpService{
 	@Override
 	public AdminResponseClass checkOtpByEmailIdAndPassword(Otp otp) {
 		boolean status = false;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		TypedQuery<Otp> typedQuery = manager.createQuery("Select o from Otp o where o.sellerDetails.sellerEmailId LIKE:sellerEmailId AND o.sellerDetails.sellerPassword LIKE:sellerPassword AND o.otp LIKE:otp",Otp.class).setParameter("sellerEmailId", otp.getEmailId()).setParameter("sellerPassword", otp.getPassword()).setParameter("otp", otp.getOtp());
 		if(!typedQuery.getResultList().isEmpty()){
 			 SellerDetails sellerDetails = sellerDao.findOne(typedQuery.getSingleResult().getSellerDetails().getId());
 			 sellerDetails.setMobileVerified(Boolean.TRUE);
 			 sellerDao.save(sellerDetails);
+			 adminResponseClass.setSellerDetail(sellerDetails);
 			 status = true;
 		  }
-		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}

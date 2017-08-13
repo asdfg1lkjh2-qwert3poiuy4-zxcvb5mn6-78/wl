@@ -1,5 +1,11 @@
 package com.wedlock.serviceImpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -13,6 +19,8 @@ import com.wedlock.dao.PhotographyOccasionDao;
 import com.wedlock.dao.SellerProductPricingDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.Flower;
+import com.wedlock.model.SellerDetails;
+import com.wedlock.model.SellerProductPricing;
 import com.wedlock.service.FlowerService;
 
 @Transactional
@@ -58,113 +66,46 @@ public class FlowerServiceImpl implements FlowerService{
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
-	
-	/*@Override
-	public AdminResponseClass fetchSellerPhotographerById(String photographerId) {
-		System.out.println("////Photographer Id is"+photographerId);
+
+	@Override
+	public AdminResponseClass fetchAllFlowerProductsById(SellerDetails sellerDetails) throws ParseException {
 		boolean status = false;
-		SellerPhotographer sellerPhotographer = sellerPhotographerDao.findOne(photographerId);
-		status = true;
-		List<SellerProductImagesVideos> listProductImages = new ArrayList<>();
-		List<SellerProductPricing> listProductPricings = new ArrayList<>();
-		List<SellerDiscount> listSellerDiscounts = new ArrayList<>();
-		List<SellerPhotographyOccasion> listPhotographyOccasions = new ArrayList<>();
-		for(SellerProductImagesVideos sellerProductImagesVideos : sellerPhotographer.getAllProducts().getSellerProductImagesVideos()){
-				SellerProductImagesVideos sellerProductImagesVideos2 = new SellerProductImagesVideos();
-				sellerProductImagesVideos2.setId(sellerProductImagesVideos.getId());
-				sellerProductImagesVideos2.setProductImageVideoUrl(sellerProductImagesVideos.getProductImageVideoUrl());
-				sellerProductImagesVideos2.setPhotoVideo(sellerProductImagesVideos.isPhotoVideo());
-				listProductImages.add(sellerProductImagesVideos2);
-			
-		}
-		for(SellerPhotographyOccasion photographyOccasion:sellerPhotographer.getSellerPhotographyOccasions()){
-			SellerPhotographyOccasion photographyOccasion2 = new SellerPhotographyOccasion();
-			photographyOccasion2.setId(photographyOccasion.getId());
-			PhotographyOccasion photographyOccasion3 = photographyOccasionDao.findOne(photographyOccasion.getPhotographyOccasion().getId());
-			photographyOccasion2.setPhotographyOccasion(photographyOccasion3);
-			listPhotographyOccasions.add(photographyOccasion2);
-		}
-		for(SellerProductPricing sellerProductPricing :sellerPhotographer.getAllProducts().getSellerProductPricing()){
-				SellerProductPricing sellerProductPricing2 = new SellerProductPricing();
-				sellerProductPricing2.setId(sellerProductPricing.getId());
-				sellerProductPricing2.setPrice(sellerProductPricing.getPrice());
-				sellerProductPricing2.setPriceFromDate(sellerProductPricing.getPriceFromDate());
-				sellerProductPricing2.setPriceToDate(sellerProductPricing.getPriceToDate());
-				sellerProductPricing2.setStatus(sellerProductPricing.isStatus());
-				listProductPricings.add(sellerProductPricing2);
-		}
-		if(!(sellerPhotographer.getAllProducts().getSellerDiscount().isEmpty())){
-			for(SellerDiscount sellerDiscount:sellerPhotographer.getAllProducts().getSellerDiscount()){
-				SellerDiscount sellerDiscount2 = new SellerDiscount();
-				sellerDiscount2.setId(sellerDiscount.getId());
-				sellerDiscount2.setDiscount(sellerDiscount.getDiscount());
-				sellerDiscount2.setFromDateDiscount(sellerDiscount.getFromDateDiscount());
-				sellerDiscount2.setToDateDiscount(sellerDiscount.getToDateDiscount());
-				sellerDiscount2.setFlatDiscount(sellerDiscount.isFlatDiscount());
-				sellerDiscount2.setStatus(sellerDiscount.isStatus());
-				listSellerDiscounts.add(sellerDiscount2);
-			}
-		}
-		else{
-			SellerDiscount sellerDiscount = null;
-			listSellerDiscounts.add(sellerDiscount);
-		}
-		
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setSellerPhotographer(sellerPhotographer);
-		adminResponseClass.setListProductImagesVideos(listProductImages);
-		adminResponseClass.setListProductPricings(listProductPricings);
-		adminResponseClass.setListSellerDiscount(listSellerDiscounts);
-		adminResponseClass.setListPhotographyOccasions(listPhotographyOccasions);
+		Query query = manager.createQuery("Select fl from Flower fl where fl.allProducts.sellerDetails.id =:sellerId and fl.status =true order by fl.entryTime");
+		query.setParameter("sellerId", sellerDetails.getId());
+				if(!(query.getResultList().isEmpty()))
+				{
+					int hasFound = 0;
+					@SuppressWarnings("unchecked")
+					List<Flower> listFlower = query.getResultList();
+					List<SellerProductPricing> listProductPricings = new ArrayList<>();
+					
+					for(Flower flower : listFlower)
+					{
+						Date date = new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+						for(SellerProductPricing sellerProductPricing :flower.getAllProducts().getSellerProductPricing()){
+							if((date.after(sellerProductPricing.getPriceFromDate()) && date.before(sellerProductPricing.getPriceToDate())) || (date.equals(sellerProductPricing.getPriceFromDate())) || (date.equals(sellerProductPricing.getPriceToDate()))){
+								SellerProductPricing sellerProductPricing2 = new SellerProductPricing();
+								sellerProductPricing2.setPrice(sellerProductPricing.getPrice());
+								System.out.println("///In if"+sellerProductPricing2.getPrice());
+								listProductPricings.add(sellerProductPricing2);
+								hasFound = 1;
+								break;
+							}
+						}
+						if(hasFound == 0){
+							SellerProductPricing sellerProductPricing = new SellerProductPricing();
+							sellerProductPricing.setPrice(0.00);
+							listProductPricings.add(sellerProductPricing);
+						}else{
+							hasFound = 0;
+						}
+					}
+					adminResponseClass.setListAllFlower(listFlower);
+					adminResponseClass.setListProductPricings(listProductPricings);
+					status = true;
+				}
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
-	@Override
-	public AdminResponseClass fetchAllPhotographyProducts() throws ParseException {
-		boolean status = false;
-		List<SellerPhotographer> listSellerPhotographers = sellerPhotographerDao.findAll();
-		status = true;
-		int hasFound = 0;
-		List<SellerProductImagesVideos> listProductImages = new ArrayList<>();
-		List<SellerProductPricing> listProductPricings = new ArrayList<>();
-		for(SellerPhotographer sellerPhotographer : listSellerPhotographers){
-			for(SellerProductImagesVideos sellerProductImagesVideos : sellerPhotographer.getAllProducts().getSellerProductImagesVideos()){
-				if(sellerProductImagesVideos.isPhotoVideo() == Boolean.TRUE){
-					SellerProductImagesVideos sellerProductImagesVideos2 = new SellerProductImagesVideos();
-					sellerProductImagesVideos2.setProductImageVideoUrl(sellerProductImagesVideos.getProductImageVideoUrl());
-					listProductImages.add(sellerProductImagesVideos2);
-					break;
-				}
-			}
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date();
-			String checkDate = simpleDateFormat.format(date);
-			date = simpleDateFormat.parse(checkDate);
-			for(SellerProductPricing sellerProductPricing :sellerPhotographer.getAllProducts().getSellerProductPricing()){
-				if((date.after(sellerProductPricing.getPriceFromDate()) && date.before(sellerProductPricing.getPriceToDate())) || (date.equals(sellerProductPricing.getPriceFromDate())) || (date.equals(sellerProductPricing.getPriceToDate()))){
-					SellerProductPricing sellerProductPricing2 = new SellerProductPricing();
-					sellerProductPricing2.setPrice(sellerProductPricing.getPrice());
-					System.out.println("///In if"+sellerProductPricing2.getPrice());
-					listProductPricings.add(sellerProductPricing2);
-					hasFound = 1;
-					break;
-				}
-			}
-			if(hasFound == 0){
-				SellerProductPricing sellerProductPricing = new SellerProductPricing();
-				sellerProductPricing.setPrice(0.00);
-				listProductPricings.add(sellerProductPricing);
-			}else{
-				hasFound = 0;
-			}
-		}
-		
-		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setListSellerPhotographers(listSellerPhotographers);
-		adminResponseClass.setListProductImagesVideos(listProductImages);
-		adminResponseClass.setListProductPricings(listProductPricings);
-		adminResponseClass.setStatus(status);
-		return adminResponseClass;
-	}*/
-
 }

@@ -101,4 +101,8 @@ public class HomeController {
 	public String adminViewPhotographyProducts(){
 		return "admin/admin-viewPhotographyProducts";
 	}
+	@RequestMapping(value ="/admin-viewFloristProducts")
+	public String adminViewFloristProducts(){
+		return "admin/admin-viewFloristProducts";
+	}
 }

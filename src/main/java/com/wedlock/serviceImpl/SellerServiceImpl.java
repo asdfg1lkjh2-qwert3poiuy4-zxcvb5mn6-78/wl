@@ -296,6 +296,9 @@ public class SellerServiceImpl implements SellerService{
 					
 					Random ranGen = new SecureRandom();
 					int random = OtpGenerator.otpGenerateNumber(ranGen.nextInt(2999));
+					while(String.valueOf(random).length() < 4){
+						random = OtpGenerator.otpGenerateNumber(ranGen.nextInt(2999));
+					}
 					Otp otp = new Otp();
 					otp.setOtp(random);
 					otp.setSellerDetails(sellerDetails2);

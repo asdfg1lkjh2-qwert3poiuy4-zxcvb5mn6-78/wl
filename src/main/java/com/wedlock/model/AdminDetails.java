@@ -5,9 +5,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,8 +36,8 @@ public class AdminDetails implements Serializable{
 	@JsonIgnore
 	private List<SellerInactiveDetails> sellerInactiveDetails;
 	
-	@OneToMany(mappedBy="adminDetails")
-	@JsonIgnore
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="adminDetails",fetch=FetchType.LAZY)
 	private List<SellerDetails> sellerDetails;
 	
 	//Setters And Getters

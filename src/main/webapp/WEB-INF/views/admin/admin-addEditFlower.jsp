@@ -1969,6 +1969,8 @@
 				});
 			
 			 $('.dropzone').removeClass(' dz-started ');
+			 Dropzone.forElement("._thumnailImage #singleUpload").removeAllFiles();
+			 Dropzone.forElement("._productImages #multipleUpload").removeAllFiles();
 		}
 		defaultPhotoOccasion(true,0,"Occasion");
 		defaultPhotoType(true,0,"Photo Type");
@@ -2011,6 +2013,8 @@
 		pricingsDivNumber = Number(0);
 		singleFiles = "";
 		multipleFiles = "";
+		title = "";
+		id = "";
 		freeProduct = "";
 		freeProductQty = "";
 		freeProductValidity = "";

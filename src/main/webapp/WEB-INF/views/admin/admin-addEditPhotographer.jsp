@@ -485,7 +485,7 @@
 								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
-											<input type="text" class="form-control" name="sellerId" id="sellerId"
+											<input type="text" class="form-control" name="sellerId" id="sellerId" value = ${sessionScope.sellerDetailsSession.id}
 												placeholder="Seller ID">
 										</div>
 									</div>
@@ -2780,7 +2780,7 @@
 						+"<div class=\"col-sm-6 col-xs-12\">"
 						+"<div class=\"form-group\">"
 						+"<div class=\"form-line\">"
-						+"<input type=\"text\" class=\"form-control\" name=\"productName\" id =\"productName\" value ="+data.sellerPhotographer.id+" readonly=\"readonly\" placeholder=\"Product Name\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"productId\" id =\"productId\" value ="+data.sellerPhotographer.id+" readonly=\"readonly\" placeholder=\"Product Id\">"
 						+"</div>"
 					    +"</div>"
 						+"</div>"

@@ -90,6 +90,7 @@ public class SellerDetails implements Serializable {
 	private List<SellerInactiveDetails> sellerInactiveDetails;
 	
 	@ManyToOne
+	@JsonIgnore
 	private AdminDetails adminDetails;
 	
 	@OneToMany(mappedBy = "sellerDetails")
