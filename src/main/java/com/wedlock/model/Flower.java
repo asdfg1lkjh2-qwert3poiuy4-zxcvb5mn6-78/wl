@@ -2,16 +2,15 @@ package com.wedlock.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -53,6 +52,9 @@ public class Flower implements Serializable {
 	// @JsonIgnore
 	private ProductType productType;
 
+	@Transient
+	private long allProductId;
+	
 	// Setters And Getters
 
 	public String getId() {
@@ -167,4 +169,11 @@ public class Flower implements Serializable {
 		this.productType = productType;
 	}
 
+	public long getAllProductId() {
+		return allProductId;
+	}
+
+	public void setAllProductId(long allProductId) {
+		this.allProductId = allProductId;
+	}
 }

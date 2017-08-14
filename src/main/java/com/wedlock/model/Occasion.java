@@ -18,6 +18,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Occasion implements Serializable{
 
@@ -41,6 +43,7 @@ public class Occasion implements Serializable{
 	private Date updateTime;
 	
 	@OneToMany(mappedBy="occasion",fetch=FetchType.EAGER)
+	@JsonIgnore
 	private List<IntProductOccasion> intProductOcc;      
 	
 	@Transient

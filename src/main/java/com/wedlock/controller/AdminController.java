@@ -556,6 +556,10 @@ public class AdminController {
 	@RequestMapping(value = "/seller-checkOtp", method = RequestMethod.POST)
 	public @ResponseBody AdminResponseClass checkOtp(@RequestBody Otp otp) {
 		AdminResponseClass adminResponseClass = otpService.checkOtpByEmailIdAndPassword(otp);
+		if(adminResponseClass.isStatus()){
+			httpSession.setAttribute("sellerDetailsSession", adminResponseClass.getSellerDetail());
+			adminFetchAllCategorySubCategory();
+		}
 		return adminResponseClass;
 	}
 	/*For Seller*/
@@ -1536,16 +1540,16 @@ public class AdminController {
 					File uploadDir = new File(uploadPath);
 					if (uploadDir.exists()) 
 					{
-						File upLoadSubFolder = new File(uploadDir + "/" + image[1] + "\\+@-"+flower.getId());
+						File upLoadSubFolder = new File(uploadDir + "/" + image[1] + "+@-"+flower.getId());
 						if (!upLoadSubFolder.exists()) {
 							boolean success = upLoadSubFolder.mkdir();
 						}
 					}
 					File file = new File(context.getRealPath("/" + image[0] + "/temp/" + image[2].trim()));
 					System.out.println("////File is" + file);
-					file.renameTo(new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "\\+@-" + flower.getId() + "/"+ image[2].trim())));
-					System.out.println("////Rename file is" + new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "\\+@-" + flower.getId() + "/"+ image[2].trim())));
-					flower.setDpUrl(image[0] + "/" + image[1]+ "\\+@-" + flower.getId() + "/"+ image[2].trim());
+					file.renameTo(new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "+@-" + flower.getId() + "/"+ image[2].trim())));
+					System.out.println("////Rename file is" + new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "+@-" + flower.getId() + "/"+ image[2].trim())));
+					flower.setDpUrl(image[0] + "/" + image[1]+ "+@-" + flower.getId() + "/"+ image[2].trim());
 				}
 				else
 				{
@@ -1594,7 +1598,7 @@ public class AdminController {
 								String[] subA = a.split("-,@_");
 								for (int k = 0; k < subA.length; k++) {
 									SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
-									String subSellerImages[] = subA[k].split("\\+@-");
+									String subSellerImages[] = subA[k].split("+@-");
 									System.out.println("//// Sub A Length" + subA.length + " " + (subA.length - 1));
 									if (k == (subA.length - 1)) {
 										String uploadPath = context.getRealPath("/" + subSellerImages[0]);
@@ -1602,7 +1606,7 @@ public class AdminController {
 										if (uploadDir.exists()) 
 										{
 
-											File upLoadSubFolder = new File(uploadDir + "/" + subSellerImages[1] + "\\+@-" + flowerId);
+											File upLoadSubFolder = new File(uploadDir + "/" + subSellerImages[1] + "+@-" + flowerId);
 											if (!upLoadSubFolder.exists())
 											{
 												boolean success = upLoadSubFolder.mkdir();
@@ -1611,8 +1615,8 @@ public class AdminController {
 										}
 										System.out.println("/////" + subSellerImages[0] + " " + subSellerImages[1] + " " + subSellerImages[2] + " " + subSellerImages[3]);
 										File file = new File(context.getRealPath("/" + subSellerImages[0] + "/temp/" + subSellerImages[2].trim()));
-										file.renameTo(new File(context.getRealPath("/" + subSellerImages[0] + "/" + subSellerImages[1] + "\\+@-" + flowerId + "/" + subSellerImages[2].trim())));
-										productImagesVideos.setProductImageVideoUrl(subSellerImages[0] + "/" + subSellerImages[1]+ "\\+@-" + flowerId + "/" + subSellerImages[2].trim());
+										file.renameTo(new File(context.getRealPath("/" + subSellerImages[0] + "/" + subSellerImages[1] + "+@-" + flowerId + "/" + subSellerImages[2].trim())));
+										productImagesVideos.setProductImageVideoUrl(subSellerImages[0] + "/" + subSellerImages[1]+ "+@-" + flowerId + "/" + subSellerImages[2].trim());
 										productImagesVideos.setPhotoVideo(Boolean.TRUE);
 										productImagesVideos.setAllProducts(products);
 										productImagesVideos.setId(Long.valueOf(subSellerImages[3]));
@@ -1640,17 +1644,17 @@ public class AdminController {
 							File uploadDir = new File(uploadPath);
 							if (uploadDir.exists()) 
 							{
-								File upLoadSubFolder = new File(uploadDir + "/" + subProductImages[1] + "\\+@-" + flowerId);
+								File upLoadSubFolder = new File(uploadDir + "/" + subProductImages[1] + "+@-" + flowerId);
 								if (!upLoadSubFolder.exists()) 
 								{
 									boolean success = upLoadSubFolder.mkdir();
 								}
 
 							}
-
+							System.out.println("//// File path is"+subProductImages[0]+" "+subProductImages[1]+" "+subProductImages[2]);
 							File file = new File(context.getRealPath("/" + subProductImages[0] + "/temp/" + subProductImages[2].trim()));
-							file.renameTo(new File(context.getRealPath("/" + subProductImages[0] + "/" + subProductImages[1] + "\\+@-" + flowerId + "/" + subProductImages[2].trim())));
-							productImagesVideos.setProductImageVideoUrl(subProductImages[0] + "/" + subProductImages[1] + "\\+@-" + flowerId + "/" + subProductImages[2].trim());
+							file.renameTo(new File(context.getRealPath("/" + subProductImages[0] + "/" + subProductImages[1] + "+@-" + flowerId + "/" + subProductImages[2].trim())));
+							productImagesVideos.setProductImageVideoUrl(subProductImages[0] + "/" + subProductImages[1] + "+@-" + flowerId + "/" + subProductImages[2].trim());
 							productImagesVideos.setPhotoVideo(Boolean.TRUE);
 							productImagesVideos.setAllProducts(products);
 							adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
@@ -1668,14 +1672,14 @@ public class AdminController {
 					if (uploadDir.exists()) 
 					{
 
-						File upLoadSubFolder = new File(uploadDir + "/" + productImages[1] + "\\+@-" + flowerId);
+						File upLoadSubFolder = new File(uploadDir + "/" + productImages[1] + "+@-" + flowerId);
 						if (!upLoadSubFolder.exists()) 
 						{
 							boolean success = upLoadSubFolder.mkdir();
 						}
 						File file = new File(context.getRealPath("/" + productImages[0] + "/temp/" + productImages[2].trim()));
-						file.renameTo(new File(context.getRealPath("/" + productImages[0] + "/" + productImages[1] + "\\+@-" + flowerId + "/" + productImages[2].trim())));
-						productImagesVideos.setProductImageVideoUrl(productImages[0] + "/" + productImages[1] + "\\+@-" + flowerId + "/" + productImages[2].trim());
+						file.renameTo(new File(context.getRealPath("/" + productImages[0] + "/" + productImages[1] + "+@-" + flowerId + "/" + productImages[2].trim())));
+						productImagesVideos.setProductImageVideoUrl(productImages[0] + "/" + productImages[1] + "+@-" + flowerId + "/" + productImages[2].trim());
 						productImagesVideos.setPhotoVideo(Boolean.TRUE);
 						productImagesVideos.setAllProducts(products);
 						if (isEdit == 1) 
@@ -1884,10 +1888,18 @@ public class AdminController {
 		return adminResponseClass.isStatus();
 	}
 	
-	// For Backend Service Test Through Postman
-	@RequestMapping(value = "/backendServiceTest", method = RequestMethod.POST)
-	public @ResponseBody AdminResponseClass backendServiceTest(/*@RequestBody Occasion occasion*/) throws ParseException {
-		AdminResponseClass adminResponseClass = flowerService.fetchAllFlowerBySellerId("SELLER-0003000");
+	
+	@RequestMapping(value = "/admin-fetchAllFlowerProductsById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllFlowerProductsById() throws ParseException {
+	    AdminResponseClass adminResponseClass = flowerService.fetchAllFlowerProductsById((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
+	    return adminResponseClass;
+	}
+ 
+	@RequestMapping(value = "/fetchAllFlowerById", method = RequestMethod.POST)
+	public @ResponseBody AdminResponseClass fetchAllFlowerById(@RequestBody String sellerId, String allProductId, String flowerId) 
+	{
+		AdminResponseClass adminResponseClass = flowerService.fetchAllFlowerById(sellerId, allProductId, flowerId);
 		return adminResponseClass;
-	}	
+	}
 }
+

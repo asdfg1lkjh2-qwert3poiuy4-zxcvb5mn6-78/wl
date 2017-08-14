@@ -15,13 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.FlowerDao;
-import com.wedlock.dao.PhotographyOccasionDao;
-import com.wedlock.dao.SellerProductPricingDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.AllProducts;
 import com.wedlock.model.Flower;
+import com.wedlock.model.IntProductOccasion;
+import com.wedlock.model.SellerDiscount;
+import com.wedlock.model.SellerProductImagesVideos;
 import com.wedlock.model.SellerDetails;
-import com.wedlock.model.SellerPhotographer;
 import com.wedlock.model.SellerProductPricing;
 import com.wedlock.service.FlowerService;
 
@@ -31,11 +31,6 @@ public class FlowerServiceImpl implements FlowerService{
 
 	@Autowired
 	private FlowerDao flowerDao;
-	/*
-	@Autowired
-	private SellerProductPricingDao sellerProductPricingDao;
-	@Autowired
-	private PhotographyOccasionDao photographyOccasionDao;*/
 	
 	@PersistenceContext
 	EntityManager manager;
@@ -70,7 +65,7 @@ public class FlowerServiceImpl implements FlowerService{
 	}
 
 	@Override
-	public AdminResponseClass fetchAllFlowerBySellerId(String sellerId) throws ParseException {
+	public AdminResponseClass fetchAllFlowerProductsById(SellerDetails sellerDetails) throws ParseException {
 		boolean status = false;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		
@@ -82,23 +77,34 @@ public class FlowerServiceImpl implements FlowerService{
 			catId = (long)query.getResultList().get(0);
 		}*/
 		
-		Query query = manager.createQuery("Select fl from Flower fl where fl.allProducts.sellerDetails.id =:sellerId and fl.status =true order by fl.entryTime");
-		query.setParameter("sellerId", sellerId);
+		Query query = manager.createQuery("Select fl from Flower fl where fl.allProducts.sellerDetails.id =:sellerId order by fl.entryTime");
+		query.setParameter("sellerId", sellerDetails.getId());
 		
 		if(!(query.getResultList().isEmpty()))
 		{
 			int hasFound = 0;
 			@SuppressWarnings("unchecked")
 			List<Flower> listFlower = query.getResultList();
+			List<Flower> modListFlower = new ArrayList<>();
 			List<SellerProductPricing> listProductPricings = new ArrayList<>();
 			
 			for(Flower flower : listFlower)
 			{
+				Flower singleFlower = new Flower();
+				singleFlower.setName(flower.getName());
+				singleFlower.setDpUrl(flower.getDpUrl());
+				singleFlower.setId(flower.getId());
+				singleFlower.setAllProductId(flower.getAllProducts().getId());
+				singleFlower.setStatus(flower.isStatus());
+				modListFlower.add(singleFlower);
 				Date date = new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 				for(SellerProductPricing sellerProductPricing :flower.getAllProducts().getSellerProductPricing()){
 					if((date.after(sellerProductPricing.getPriceFromDate()) && date.before(sellerProductPricing.getPriceToDate())) || (date.equals(sellerProductPricing.getPriceFromDate())) || (date.equals(sellerProductPricing.getPriceToDate()))){
 						SellerProductPricing sellerProductPricing2 = new SellerProductPricing();
+						sellerProductPricing2.setPriceFromDate(sellerProductPricing.getPriceFromDate());
+						sellerProductPricing2.setPriceToDate(sellerProductPricing.getPriceToDate());
 						sellerProductPricing2.setPrice(sellerProductPricing.getPrice());
+						sellerProductPricing2.setStatus(sellerProductPricing.isStatus());
 						System.out.println("///In if"+sellerProductPricing2.getPrice());
 						listProductPricings.add(sellerProductPricing2);
 						hasFound = 1;
@@ -113,7 +119,7 @@ public class FlowerServiceImpl implements FlowerService{
 					hasFound = 0;
 				}
 			}
-			adminResponseClass.setListAllFlower(listFlower);
+			adminResponseClass.setListAllFlower(modListFlower);
 			adminResponseClass.setListProductPricings(listProductPricings);
 			status = true;
 		}
@@ -121,112 +127,107 @@ public class FlowerServiceImpl implements FlowerService{
 		return adminResponseClass;
 	}
 	
-	/*@Override
-	public AdminResponseClass fetchSellerPhotographerById(String photographerId) {
-		System.out.println("////Photographer Id is"+photographerId);
+	
+	@Override
+	public AdminResponseClass fetchAllFlowerById(String sellerId, String allProductId, String flowerId)
+	{
 		boolean status = false;
-		SellerPhotographer sellerPhotographer = sellerPhotographerDao.findOne(photographerId);
-		status = true;
-		List<SellerProductImagesVideos> listProductImages = new ArrayList<>();
-		List<SellerProductPricing> listProductPricings = new ArrayList<>();
-		List<SellerDiscount> listSellerDiscounts = new ArrayList<>();
-		List<SellerPhotographyOccasion> listPhotographyOccasions = new ArrayList<>();
-		for(SellerProductImagesVideos sellerProductImagesVideos : sellerPhotographer.getAllProducts().getSellerProductImagesVideos()){
-				SellerProductImagesVideos sellerProductImagesVideos2 = new SellerProductImagesVideos();
-				sellerProductImagesVideos2.setId(sellerProductImagesVideos.getId());
-				sellerProductImagesVideos2.setProductImageVideoUrl(sellerProductImagesVideos.getProductImageVideoUrl());
-				sellerProductImagesVideos2.setPhotoVideo(sellerProductImagesVideos.isPhotoVideo());
-				listProductImages.add(sellerProductImagesVideos2);
-			
-		}
-		for(SellerPhotographyOccasion photographyOccasion:sellerPhotographer.getSellerPhotographyOccasions()){
-			SellerPhotographyOccasion photographyOccasion2 = new SellerPhotographyOccasion();
-			photographyOccasion2.setId(photographyOccasion.getId());
-			PhotographyOccasion photographyOccasion3 = photographyOccasionDao.findOne(photographyOccasion.getPhotographyOccasion().getId());
-			photographyOccasion2.setPhotographyOccasion(photographyOccasion3);
-			listPhotographyOccasions.add(photographyOccasion2);
-		}
-		for(SellerProductPricing sellerProductPricing :sellerPhotographer.getAllProducts().getSellerProductPricing()){
-				SellerProductPricing sellerProductPricing2 = new SellerProductPricing();
-				sellerProductPricing2.setId(sellerProductPricing.getId());
-				sellerProductPricing2.setPrice(sellerProductPricing.getPrice());
-				sellerProductPricing2.setPriceFromDate(sellerProductPricing.getPriceFromDate());
-				sellerProductPricing2.setPriceToDate(sellerProductPricing.getPriceToDate());
-				sellerProductPricing2.setStatus(sellerProductPricing.isStatus());
-				listProductPricings.add(sellerProductPricing2);
-		}
-		if(!(sellerPhotographer.getAllProducts().getSellerDiscount().isEmpty())){
-			for(SellerDiscount sellerDiscount:sellerPhotographer.getAllProducts().getSellerDiscount()){
-				SellerDiscount sellerDiscount2 = new SellerDiscount();
-				sellerDiscount2.setId(sellerDiscount.getId());
-				sellerDiscount2.setDiscount(sellerDiscount.getDiscount());
-				sellerDiscount2.setFromDateDiscount(sellerDiscount.getFromDateDiscount());
-				sellerDiscount2.setToDateDiscount(sellerDiscount.getToDateDiscount());
-				sellerDiscount2.setFlatDiscount(sellerDiscount.isFlatDiscount());
-				sellerDiscount2.setStatus(sellerDiscount.isStatus());
-				listSellerDiscounts.add(sellerDiscount2);
-			}
-		}
-		else{
-			SellerDiscount sellerDiscount = null;
-			listSellerDiscounts.add(sellerDiscount);
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		if(sellerId.equals("") || allProductId.equals("") || flowerId.equals(""))
+		{
+			adminResponseClass.setStatus(status);
+			return adminResponseClass;
 		}
 		
-		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setSellerPhotographer(sellerPhotographer);
-		adminResponseClass.setListProductImagesVideos(listProductImages);
-		adminResponseClass.setListProductPricings(listProductPricings);
-		adminResponseClass.setListSellerDiscount(listSellerDiscounts);
-		adminResponseClass.setListPhotographyOccasions(listPhotographyOccasions);
+		AllProducts allProduct = null;
+		Query query = manager.createQuery("Select ap from AllProducts ap where ap.id =:allProductId and ap.sellerDetails.id =:sellerId and ap.categoryAvailable.categoryName =:catName");
+		query.setParameter("allProductId", Long.parseLong(allProductId));
+		query.setParameter("sellerId", sellerId);
+		query.setParameter("catName", "Florist");
+		if(!(query.getResultList().isEmpty()))
+		{
+			allProduct = (AllProducts)query.getResultList().get(0);
+			allProduct.setCategoryAvailable(null);
+			allProduct.setSellerDetails(null);
+			//status = true;
+			adminResponseClass.setAllProducts(allProduct);
+		}
+		else
+		{
+			adminResponseClass.setStatus(status);
+			return adminResponseClass;
+					
+		}
+		
+		Flower flower = flowerDao.findOne(flowerId);
+		if(flower == null || flower.getAllProducts().getId() != Long.parseLong(allProductId))
+		{
+			adminResponseClass.setAllProducts(null);
+			adminResponseClass.setStatus(status);
+			return adminResponseClass;
+		}
+		//List<SellerProductPricing> listSPP = flower.getAllProducts().getSellerProductPricing();
+		flower.setAllProducts(null);
+		adminResponseClass.setFlower(flower);
+		
+		
+		query = manager.createQuery("Select spiv from SellerProductImagesVideos spiv where spiv.allProducts.id =:allProductId and spiv.status =true order by spiv.entryTime");
+		query.setParameter("allProductId", Long.parseLong(allProductId));
+		
+		if(!(query.getResultList().isEmpty()))
+		{
+			@SuppressWarnings("unchecked")
+			List<SellerProductImagesVideos> listSPIV = query.getResultList();
+			for(int i=0; i<listSPIV.size(); i++)
+			{
+				listSPIV.get(i).setAllProducts(null);
+			}
+			adminResponseClass.setListProductImagesVideos(listSPIV);
+		}
+		
+		query = manager.createQuery("Select spp from SellerProductPricing spp where spp.allProducts.id =:allProductId and spp.status =true order by spp.id desc");
+		query.setMaxResults(3);
+		query.setParameter("allProductId", Long.parseLong(allProductId));
+		if(!(query.getResultList().isEmpty()))
+		{
+			@SuppressWarnings("unchecked")
+			List<SellerProductPricing> listSPP = query.getResultList();
+			for(int i=0; i<listSPP.size(); i++)
+			{
+				listSPP.get(i).setAllProducts(null);
+			}
+			adminResponseClass.setListProductPricings(listSPP);
+		}
+		
+		query = manager.createQuery("Select ipo from IntProductOccasion ipo where ipo.allProducts.id =:allProductId and ipo.status =true and ipo.occasion.status =true");
+		query.setParameter("allProductId", Long.parseLong(allProductId));
+		if(!(query.getResultList().isEmpty()))
+		{
+			@SuppressWarnings("unchecked")
+			List<IntProductOccasion> listIPO = query.getResultList();
+			for(int i=0; i<listIPO.size(); i++)
+			{
+				listIPO.get(i).setAllProducts(null);
+			}
+			adminResponseClass.setListIntProductOccasion(listIPO);
+		}
+		
+		query = manager.createQuery("Select sd from SellerDiscount sd where sd.allProducts.id =:allProductId and sd.status =true order by sd.id desc");
+		query.setMaxResults(3);
+		query.setParameter("allProductId", Long.parseLong(allProductId));
+		if(!(query.getResultList().isEmpty()))
+		{
+			@SuppressWarnings("unchecked")
+			List<SellerDiscount> listSD = query.getResultList();
+			for(int i=0; i<listSD.size(); i++)
+			{
+				listSD.get(i).setAllProducts(null);
+			}
+			adminResponseClass.setListSellerDiscount(listSD);
+		}
+		
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
-	@Override
-	public AdminResponseClass fetchAllPhotographyProducts() throws ParseException {
-		boolean status = false;
-		List<SellerPhotographer> listSellerPhotographers = sellerPhotographerDao.findAll();
-		status = true;
-		int hasFound = 0;
-		List<SellerProductImagesVideos> listProductImages = new ArrayList<>();
-		List<SellerProductPricing> listProductPricings = new ArrayList<>();
-		for(SellerPhotographer sellerPhotographer : listSellerPhotographers){
-			for(SellerProductImagesVideos sellerProductImagesVideos : sellerPhotographer.getAllProducts().getSellerProductImagesVideos()){
-				if(sellerProductImagesVideos.isPhotoVideo() == Boolean.TRUE){
-					SellerProductImagesVideos sellerProductImagesVideos2 = new SellerProductImagesVideos();
-					sellerProductImagesVideos2.setProductImageVideoUrl(sellerProductImagesVideos.getProductImageVideoUrl());
-					listProductImages.add(sellerProductImagesVideos2);
-					break;
-				}
-			}
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date();
-			String checkDate = simpleDateFormat.format(date);
-			date = simpleDateFormat.parse(checkDate);
-			for(SellerProductPricing sellerProductPricing :sellerPhotographer.getAllProducts().getSellerProductPricing()){
-				if((date.after(sellerProductPricing.getPriceFromDate()) && date.before(sellerProductPricing.getPriceToDate())) || (date.equals(sellerProductPricing.getPriceFromDate())) || (date.equals(sellerProductPricing.getPriceToDate()))){
-					SellerProductPricing sellerProductPricing2 = new SellerProductPricing();
-					sellerProductPricing2.setPrice(sellerProductPricing.getPrice());
-					System.out.println("///In if"+sellerProductPricing2.getPrice());
-					listProductPricings.add(sellerProductPricing2);
-					hasFound = 1;
-					break;
-				}
-			}
-			if(hasFound == 0){
-				SellerProductPricing sellerProductPricing = new SellerProductPricing();
-				sellerProductPricing.setPrice(0.00);
-				listProductPricings.add(sellerProductPricing);
-			}else{
-				hasFound = 0;
-			}
-		}
-		
-		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setListSellerPhotographers(listSellerPhotographers);
-		adminResponseClass.setListProductImagesVideos(listProductImages);
-		adminResponseClass.setListProductPricings(listProductPricings);
-		adminResponseClass.setStatus(status);
-		return adminResponseClass;
-	}*/
 
 }
