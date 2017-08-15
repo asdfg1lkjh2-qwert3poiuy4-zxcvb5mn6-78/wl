@@ -31,6 +31,7 @@ public class AllProducts implements Serializable{
 	private CategoryAvailable categoryAvailable;
 	
 	@ManyToOne
+	@JsonIgnore
 	private SellerDetails sellerDetails;
 	
 	@OneToOne(mappedBy="allProducts")

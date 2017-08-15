@@ -88,6 +88,11 @@ public class AdminResponseClass {
 	/*For AllProducts*/
 	private List<AllProducts> listAllProducts;
 	private AllProducts allProducts;
+	
+	/*For AllProducts*/
+	private List<IntProductOccasion> listIntProductOccasion;
+	private IntProductOccasion intProductOccasion;
+	
 	// Setters And Getters
 
 	public boolean isStatus() {
@@ -440,6 +445,22 @@ public class AdminResponseClass {
 
 	public void setAllProducts(AllProducts allProducts) {
 		this.allProducts = allProducts;
+	}
+
+	public List<IntProductOccasion> getListIntProductOccasion() {
+		return listIntProductOccasion;
+	}
+
+	public void setListIntProductOccasion(List<IntProductOccasion> listIntProductOccasion) {
+		this.listIntProductOccasion = listIntProductOccasion;
+	}
+
+	public IntProductOccasion getIntProductOccasion() {
+		return intProductOccasion;
+	}
+
+	public void setIntProductOccasion(IntProductOccasion intProductOccasion) {
+		this.intProductOccasion = intProductOccasion;
 	}
 
 }

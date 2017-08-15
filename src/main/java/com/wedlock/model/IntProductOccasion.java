@@ -29,7 +29,6 @@ public class IntProductOccasion implements Serializable {
 	private AllProducts allProducts;
 	
 	@ManyToOne
-	//@JsonIgnore
 	private Occasion occasion;
 	
 	//Setters And Getters

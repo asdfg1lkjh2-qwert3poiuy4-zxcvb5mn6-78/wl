@@ -89,7 +89,7 @@
 						+"<h3>"+data.listAllFlower[i].name+"</h3>"
 						+"<p>"+price+"</p>" 
 						+"<p align=\"center\">"
-						+"<a href=\"admin-addEditPhotographer?id="+data.listAllFlower[i].id+"\"class=\"btn btn-block gradient-right\">View Product</a>"
+						+"<a href=\"admin-addEditFlower?id="+data.listAllFlower[i].id+"\"class=\"btn btn-block gradient-right\">View Product</a>"
 						+"</p>"
 						+"</div>"
 					    +"</div>"

@@ -10,6 +10,111 @@
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
+<!-- Test Modal -->
+	<div id="dpModals">
+	</div>
+	<div id="allModals">
+	</div>
+	<!-- Test 3 Modal -->
+	<div class="modal fade" id="showPriceModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content row priceShow">
+				<div class="col-md-12 col-xs-12 col-sm-12 card">
+					<div class="header">
+						<h2>All Listed Prices</h2>
+						<ul class="header-dropdown m-r--5">
+							<li class="dropdown"><a href="javascript:void(0);"
+								class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false"> <i
+									class="material-icons">more_vert</i>
+							</a>
+								<ul class="dropdown-menu pull-right">
+									<li><a href="javascript:void(0);">Action</a></li>
+									<li><a href="javascript:void(0);">Another action</a></li>
+									<li><a href="javascript:void(0);">Something else here</a></li>
+								</ul></li>
+						</ul>
+					</div>
+					<div class="body">
+						<table
+							class="table table-bordered table-striped table-hover js-basic-example dataTable"
+							id="priceTable">
+							<thead>
+								<tr>
+									<th class="text-center">Sl.No</th>
+									<th class="text-center">Start Date</th>
+									<th class="text-center">End Date</th>
+									<th class="text-center">Price</th>
+									<th class="text-center">Status</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+		
+				<div class ="row">
+				<div class="modal-footer col-md-12 col-sm-12 col-xs-12 priceFooter">
+					<button type="button" class="btn btn-secondary btn-raised"
+						data-dismiss="modal">Close</button>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
+	<!-- Test11 Modal -->
+	<div class="modal fade" id="showDiscountModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content row priceShow">
+				<div class="col-md-12 col-xs-12 col-sm-12 card">
+					<div class="header">
+						<h2>All Listed Discounts</h2>
+						<ul class="header-dropdown m-r--5">
+							<li class="dropdown"><a href="javascript:void(0);"
+								class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false"> <i
+									class="material-icons">more_vert</i>
+							</a>
+								<ul class="dropdown-menu pull-right">
+									<li><a href="javascript:void(0);">Action</a></li>
+									<li><a href="javascript:void(0);">Another action</a></li>
+									<li><a href="javascript:void(0);">Something else here</a></li>
+								</ul></li>
+						</ul>
+					</div>
+					<div class="body">
+						<table
+							class="table table-bordered table-striped table-hover js-basic-example dataTable"
+							id="discountTable">
+							<thead>
+								<tr>
+									<th class="text-center">Sl.No</th>
+									<th class="text-center">Start Date</th>
+									<th class="text-center">End Date</th>
+									<th class="text-center">Discount</th>
+									<th class="text-center">Status</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+		
+				<div class ="row">
+				<div class="modal-footer col-md-12 col-sm-12 col-xs-12 priceFooter">
+					<button type="button" class="btn btn-secondary btn-raised"
+						data-dismiss="modal">Close</button>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
 	<!-- Page Loader -->
 	<div class="page-loader-wrapper">
 		<div class="loader">
@@ -43,7 +148,7 @@
                                 <h2>Flower Basic Information</h2>
                             </div>
                             <div class="body">
-                                <div class="row clearfix">
+                                <div class="row clearfix" id="productNameDiv">
                                     <div class="col-sm-6 col-xs-12">
                                         <div class="form-group">
                                             <div class="form-line">
@@ -138,8 +243,9 @@
                                     <!-- <div class="header margin-left-right-zero marginb15">
                                     	<h2>Flower Image Files </h2>
                                 	</div> -->
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 _thumnailImage">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 _thumnailImage" id ="flowerDisplayDiv">
 										 <label for="comment">Flower Display Image</label>
+										 
 										<form action="#" id="singleUpload" class="dropzone"
 											method="post" enctype="multipart/form-data">
 											<div class="dz-message">
@@ -155,9 +261,8 @@
 												<input name="file" type="file" multiple />
 											</div>
 										</form>
-									</div>
-									
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 _productImages">
+										</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 _productImages" id="flowerImagesDiv">
 									<label for="comment">Flower Description Images</label>
 										<form action="#" id="multipleUpload" class="dropzone"
 											method="post" enctype="multipart/form-data">
@@ -174,8 +279,8 @@
 												<input name="file" type="file" multiple />
 											</div>
 										</form>
+										</div>
 									</div>
-                                </div>
                                 <div class="row clearfix">
 								<div class="header marginb15 margin-bottom10">
 									<div class="checkbox header-add">
@@ -374,6 +479,8 @@
 											<div class="form-group">
 												<button type="button" class="btn btn-raised gradient-right"
 													id="plusbtn">Add</button>
+													<button type="button" class="btn btn-raised gradient-right hideDiv"
+												id="showPreviousPrices" data-toggle="modal" data-target="#showPriceModal">Show Prices</button>
 											</div>
 										</div>
 									</div>
@@ -517,10 +624,31 @@
 							</div>
 							</div>
 							</div>
+							<div class = "row clearfix"></div>
+							<div class="row clearfix hideDiv" id="productStatusHeader">
+								<div class="header marginb15">
+									<h2>Product Status</h2>
+								</div>
+							</div>
+							<div class="row clearfix">
+							<div class="col-md-6 col-xs-6 hideDiv" id="productStatusDiv">
+									<div class="form-group drop-custum">
+										<select class="form-control show-tick">
+											<option value="">-- Availability --</option>
+											<option value="Yes">Yes</option>
+											<option value="No">No</option>
+										</select>
+									</div>
+								</div>
+								</div>
                                 <div class="row clearfix">
                                     <div class="col-xs-12">
                                     	<input type = "hidden" name = "typeName" id = "typeName" value = "">
                                     	<input type = "hidden" name = "occasionName" id = "occasionName" value="">
+                                    	<input type = "hidden" name = "editProductId" id = "editProductId" value = "">
+                                    	<input type = "hidden" name = "allProductId" id = "allProductId" value = "">
+                                    	<input type = "hidden" name = "productStatus" id= "productStatus" value = "">
+                                    	<input type = "hidden" name = "defaultDpImage" id = "defaultDpImage" value = "">
                                         <button type="submit" class="btn btn-raised gradient-right" id="submit">Submit</button>
                                         <button type="submit" class="btn btn-raised gradient-left">Cancel</button>
                                     </div>
@@ -536,7 +664,6 @@
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
 	<script src="resources/js/jscolor.js"></script>
 	<script src="resources/js/sweetalert.min.js"></script>
-	<script src="resources/js/bootstrap-colorpicker.min.js"></script>
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
     
     <!-- Jquery Js --> 
@@ -549,6 +676,12 @@
     var freeProduct = "";
     var freeProductQty = "";
     var freeProductValidity = "";
+    var modelId = "";
+    var dpImageId = "";
+    var defaultImageId = "";
+    var titleLength = "";
+    var lengthOccasions = "";
+    var doNotRemoveFields = Number(0);
     Dropzone.options.singleUpload = {
 			url : "singleUpload",
 			init : function() {
@@ -683,6 +816,12 @@
 	$(document).ready(function(){
 		fetchAllFlowerType();
 		fetchAllOccasion();
+		if(location.href.match(/id/)){
+			idForFetch = location.search.split("?");
+			idForFetch = idForFetch[1].split("=");
+			idForFetch = idForFetch[1];
+			fetchFlowerById(idForFetch);
+		}
 		
 	});
     
@@ -947,11 +1086,14 @@
 				}
 			}
 		}
-		$("#occasionName").val(id); //Hidden field to store the Occasion Id
-		if(title === 'Occasion')
-		{
-			title = "--"+title+"--";
+		if(lengthOccasions !=""){
+			if(lengthOccasions > title.split(",").length){
+				titleLength = "minus";
+			}else if(lengthOccasions < title.split(",").length){
+				titleLength = "plus";
+			}
 		}
+		$("#occasionName").val(id); //Hidden field to store the Occasion Id
 		var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\""+title+ "\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"
 				+ title
 				+ "</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulOccasion0\">"
@@ -1115,7 +1257,7 @@
 			});
 		} else {
 			 if(idForFetch !== undefined){
-				 /*var job = {};
+				 var job = {};
 				if(pricingsDivNumber === Number(0)){
 					 var fromDate = ($("#toDate").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
 					 var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
@@ -1171,7 +1313,7 @@
 					  animation:true
 					});
 			} 
-		});*/
+		})
 	}else{
 		addOtherDivs();
 	}
@@ -1302,7 +1444,6 @@
 	
 	var previousFreeDiv = Number(0);
 	$("#plusbtnFreeDiv,#plusBtnFreeDiv1,#plusbtnFreeDiv12").click(function(){
-		alert("In there");
 		addFreeDiv();
 	});
 	function addFreeDiv(){
@@ -1592,7 +1733,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if(singleFiles === ""){
+		}else if(singleFiles === "" || singleFiles !== Number(1)){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Upload Thumnail Image Of The Product!!!',
@@ -1602,7 +1743,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if(multipleFiles === ""){
+		}else if(multipleFiles === "" && defaultImageId === ""){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Upload Atleast One Descriptive Images Of The Product!!!',
@@ -1612,7 +1753,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#fromDate").val() === ""){
+		}else if($("#fromDate").val() === "" && idForFetch ===""){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter Starting Date For The Respective Price!!!',
@@ -1622,7 +1763,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#toDate").val() === ""){
+		}else if($("#toDate").val() === "" && idForFetch ===""){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter Ending Date For The Respective Price!!!',
@@ -1632,7 +1773,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#price").val() === ""){
+		}else if($("#price").val() === "" && idForFetch ===""){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter At Least One Price For The Product!!!',
@@ -1642,7 +1783,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#freeProduct").val() === ""){
+		}else if($("#freeProduct").val() === "" &&($("#freeProductPieces").val() || $("#fromDateFreeProduct").val() || $("#toDateFreeProduct").val() !== "")){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Select The Free Product!!!',
@@ -1653,7 +1794,7 @@
 				  animation:true
 				});
 			
-		}else if($("#freeProductPieces").val() ===""){
+		}else if($("#freeProductPieces").val() ==="" &&($("#freeProduct").val() || $("#fromDateFreeProduct").val() || $("#toDateFreeProduct").val() !== "")){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter The No. Of Pieces!!!',
@@ -1663,7 +1804,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#fromDateFreeProduct").val() ===""){
+		}else if($("#fromDateFreeProduct").val() ==="" &&($("#freeProduct").val() || $("#freeProductPieces").val() || $("#toDateFreeProduct").val() !== "")){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter Starting Date For The Respective Free Product!!!',
@@ -1673,7 +1814,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#toDateFreeProduct").val() ===""){
+		}else if($("#toDateFreeProduct").val() ==="" && $("#freeProductPieces").val() || $("#fromDateFreeProduct").val() || $("#freeProduct").val() !== ""){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter Ending Date For The Respective Free Product!!!',
@@ -1686,9 +1827,12 @@
 		}else{
 			alert("In else");
 			var job={};
-			job["editProductId"]="";
-			job["allProductId"] = 0;
+			job["editProductId"]= $("#editProductId").val();
+			job["allProductId"] = $("#allProductId").val();
 			job["availability"] = "Yes";
+			if($("#productStatus").val() !== ""){
+				job["productStatus"] = $("#productStatus").val()
+			}
 			job["name"] = $("#name").val();
 			if($("#description").val() !==""){
 				job["description"] = $("#description").val();
@@ -1703,10 +1847,21 @@
 			}
 			job["noOfPieces"] = $("#noOfPieces").val();
 			job["advancePaymentPercentage"] = $("#advancePaymentPercentage").val();
-			job["singleFiles"] = singleFiles;
-			job["multipleFiles"] = multipleFiles;
+			if(singleFiles !== Number(1)){
+				job["singleFiles"] = singleFiles;
+			}else{
+				job["singleFiles"] = singleFiles+"@*"+$("#defaultDpImage").val();
+			}
+			if(multipleFiles === ""){
+				job["multipleFiles"] = defaultImageId;
+			}else{
+				job["multipleFiles"] = multipleFiles;
+			}
 			if($("#freebie").val() !== ""){
 				job["freebie"] = $("#freebie").val()
+			}
+			if(modelId !== ""){
+				job["modelId"] = modelId;
 			}
 			if($("#freeProduct").val() !==""){
 				var fromDateFreeProduct = ($("#fromDateFreeProduct").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
@@ -1747,7 +1902,11 @@
 					}
 			}
 			
-			job["titleLength"]= "";
+			if(titleLength !=""){
+				job["titleLength"] = titleLength;
+			}else{
+				job["titleLength"] = "";
+			}
 			if($("#fromDate").val() !==""){
 				var fromDate = ($("#fromDate").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
 				var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
@@ -1870,15 +2029,21 @@
 					contentType :"application/json",
 					success : function(data) {
 						if(data){
-							swal({
-								  title: 'Success!',
-								  text: 'Product Details Successfully Inserted!!!',
-								  type: 'success',
-								  showConfirmButton :false,
-								  allowEscapeKey:true,
-								  timer:3000,
-								  animation:true
-								});
+							if($("#editProductId").val() !=""){
+								window.location = "admin-viewFloristProducts";
+							}else{
+								swal({
+									  title: 'Success!',
+									  text: 'Product Details Successfully Inserted!!!',
+									  type: 'success',
+									  showConfirmButton :false,
+									  allowEscapeKey:true,
+									  timer:3000,
+									  animation:true
+									});
+							}
+						}else{
+							doNotRemoveFields = 1;
 						}
 						$("#submit").prop("disabled", false);
 
@@ -1897,7 +2062,11 @@
 						$("#submit").prop("disabled", false);
 
 					},complete : function (){
-						removeAllFields();
+						if(doNotRemoveFields === 0){
+							removeAllFields();
+						}else{
+							doNotRemoveFields = 0;
+						}
 					} 
 					
 					}); 
@@ -1915,15 +2084,21 @@
 				contentType :"application/json",
 				success : function(data) {
 					if(data){
-						swal({
-							  title: 'Success!',
-							  text: 'Product Details Successfully Inserted!!!',
-							  type: 'success',
-							  showConfirmButton :false,
-							  allowEscapeKey:true,
-							  timer:3000,
-							  animation:true
-							});
+						if($("#editProductId").val() !=""){
+							window.location = "admin-viewFloristProducts";
+						}else{
+							swal({
+								  title: 'Success!',
+								  text: 'Product Details Successfully Inserted!!!',
+								  type: 'success',
+								  showConfirmButton :false,
+								  allowEscapeKey:true,
+								  timer:3000,
+								  animation:true
+								});
+						}
+					}else{
+						doNotRemoveFields = 1 ;
 					}
 					$("#submit").prop("disabled", false);
 
@@ -1942,7 +2117,11 @@
 					$("#submit").prop("disabled", false);
 
 				},complete : function (){
-					removeAllFields();
+					if(doNotRemoveFields === 0){
+						removeAllFields();
+					}else{
+						doNotRemoveFields = 0;
+					}
 				}
 				
 				}); 
@@ -1972,7 +2151,7 @@
 			 Dropzone.forElement("._thumnailImage #singleUpload").removeAllFiles();
 			 Dropzone.forElement("._productImages #multipleUpload").removeAllFiles();
 		}
-		defaultPhotoOccasion(true,0,"Occasion");
+		defaultFlowerOccasion(true,0,"Occasion");
 		defaultPhotoType(true,0,"Photo Type");
 		defaultColor(true,"Color");
 		$("#freebie").val("");
@@ -2018,11 +2197,22 @@
 		freeProduct = "";
 		freeProductQty = "";
 		freeProductValidity = "";
-		
+		modelId = "";
+		dpImageId = "";
+		defaultImageId = "";
+		titleLength = "";
+		lengthOccasions = "";
+		abc = "";
+		efg = "";
+		$("#editProductId").val("");
+		$("#allProductId").val("");
+		$("#productStatus").val("");
+		$("#occasionName").val("");
+		$("#typeName").val("");
 		//defaultFreeProduct(true,0,"Free Product",0);
 	}
 	
-	function defaultPhotoOccasion(isInComplete,occasionId,occasionName){
+	function defaultFlowerOccasion(isInComplete,occasionId,occasionName){
 		// Removing the values from the photo type list
 		var abc ="";
 		if(isInComplete){
@@ -2034,14 +2224,14 @@
 		}else{
 			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\--" +occasionName+ "--\ aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- "+occasionName+" --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 				+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulOccasion0\">"
-				+ "<li data-original-index=\"0\" class=\"selected\" id=\"occasionLi0\" onclick=\"clickOccasionLi('"
+				+ "<li data-original-index=\"0\" class=\"\" id=\"occasionLi0\" onclick=\"clickOccasionLi('"
 				+ 0
 				+ "','Occasion')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Occasion --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 		}
 		var cde = "";
 		var subOccasion = occasionId+"";
 		if(subOccasion.length !== 1){
-			subOccasion = occasionId.split(","); 
+			subOccasion = subOccasion.split(","); 
 		}
 		
 		for (var i = 0; i < arry3.length; i++) {
@@ -2088,7 +2278,7 @@
 		}else{
 			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\--" +typeName+"--\ aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+typeName+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 				+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-				+"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"+0+"','Flower Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Flower Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"0\" class=\"\" id=\"li0\" onclick=\"clickLi('"+0+"','Flower Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Flower Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 		}
 		var cde = "";
 		for (var i = 0; i < typeArr.length; i++) {
@@ -2189,6 +2379,403 @@
 		}
 		
 	}
+	$("#discount").on("blur",function(){
+		if(idForFetch !== undefined && $("#toDateDiscount").val() !== ""){
+		var job = {};
+		var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
+		var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
+		if(toMonth < 10){
+			toMonth = "0"+toMonth;
+		} 
+		job["toDateDiscount"] = toDate[3]+"-"+toMonth+"-"+toDate[1];
+		job["allProductsId"] = $("#allProductId").val();
+		$.ajax({
+			type : "POST",
+			url : "admin-checkSellerDiscounts",
+			data : JSON.stringify(job),
+			processData : false,
+			contentType :"application/json",
+			success : function(data) {
+				if(!(data.status)){
+					swal({
+						title : 'Warning!',
+						text : 'Please Select Differnt Ending Date As Discount Is Already Present For This Date. You Can Click On Show Discounts To Know About Previous Discounts!!!',
+						type : 'warning',
+						confirmButtonText : 'OK',
+						allowEscapeKey : true,
+						confirmButtonClass : "btn btn-raised gradient-right",
+						animation : true
+					});
+					
+					$("#toDateDiscount").val("");
+				}
+		},error : function(){
+			swal({
+				  title: 'Error!',
+				  text: 'Discounts can not be checked.!!!',
+				  type: 'error',
+				  showConfirmButton :false,
+				  allowEscapeKey:true,
+				  timer:3000,
+				  animation:true
+				});
+		}
+	});
+  }
+});
+
+	function fetchFlowerById(flowerId){
+		$.ajax({
+			type : "GET",
+			url : "admin-fetchFlowerByFlowerId?id="+flowerId,
+			data : "",
+			processData : false,
+			contentType : "application/json",
+			success : function(data) {
+				alert(JSON.stringify(data));
+					 if(data.status){
+						$("#name").val(data.flower.name);
+						$("#description").val(data.flower.description);
+						var occasionId = "";
+						var occasionName = "";
+						for(var i=0; i<data.listIntProductOccasion.length;i++){
+							if(Number(i) === Number(0)){
+								occasionId = data.listIntProductOccasion[i].occasion.id;
+								occasionName = data.listIntProductOccasion[i].occasion.name;
+							}else{
+								occasionId = occasionId +","+data.listIntProductOccasion[i].occasion.id;
+								occasionName = occasionName +","+data.listIntProductOccasion[i].occasion.name;
+							}
+						}
+						
+						$("#occasionName").val(occasionId);
+						title = occasionName;
+						id = occasionId;
+						lengthOccasions = data.listIntProductOccasion.length;
+						titleLength = "same";
+						defaultFlowerOccasion(false,occasionId,occasionName);
+						$("#typeName").val(data.flower.productType.id);
+						defaultPhotoType(false,Number(data.flower.productType.id),data.flower.productType.typeName);
+						
+						$("#noOfPieces").val(data.flower.noOfPieces);
+						$("#advancePaymentPercentage").val(data.flower.advancePaymentPercentage);
+						$("#flowerDisplayDiv").html("");
+						showDpEdit(data.flower.dpUrl,data.flower.id);
+						singleFiles = Number(1);
+						$("#defaultDpImage").val(data.flower.dpUrl);
+						$("#flowerImagesDiv").html("");
+						for(var i =0; i< data.listProductImagesVideos.length; i++){
+							 if(data.listProductImagesVideos[i].photoVideo){
+								showImagesEdit(data.listProductImagesVideos[i].productImageVideoUrl,data.listProductImagesVideos[i].id);
+								defaultImageId = Number(1);
+								if(i === Number(0)){
+									modelId = data.listProductImagesVideos[i].id;
+								}else{
+									modelId = modelId +"," + data.listProductImagesVideos[i].id;
+									
+								}
+							}
+						}
+						if(data.flower.freebie !== null){
+							$("#freesCheck").prop("checked",true);
+							$("#freesDiv").attr("style","display:block");
+							$("#freebie").val(data.flower.freebie);
+						}
+						
+						$("#showPreviousPrices").attr("style","display:block");
+						var priceDataTable = "";
+						$("#priceTable > tbody").html("");
+						for(var i=0; i<data.listProductPricings.length; i++){
+							var active;
+							if(data.listProductPricings[i].status){
+								active = "Yes";
+							}else{
+								active = "No";
+							}
+							var xyz = new Date(data.listProductPricings[i].priceFromDate);
+							xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+(xyz.getDate() > 9 ? xyz.getDate() : "0"+(xyz.getDate())) ;
+							
+							var mno = new Date(data.listProductPricings[i].priceToDate);
+							mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+(mno.getDate() > 9 ? mno.getDate() : "0"+(mno.getDate()));
+							
+							priceDataTable = priceDataTable + "<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+							+"<td class=\"text-center\">"+xyz+"</td>"
+							+"<td class=\"text-center\">"+mno+"</td>"
+							+"<td class=\"text-center\"><i class=\"fa fa-inr\" aria-hidden=\"true\">"+data.listProductPricings[i].price+"</i></td>"
+							+"<td class=\"text-center\">"+active+"</td>"
+						}
+						$("#priceTable > tbody").html(priceDataTable);
+						if(data.listSellerDiscount[0] !== null){
+							$("#discountCheck").prop("checked",true);
+							$("#discountDiv").attr("style","display:block");
+							var discountDataTable = "";
+							$("#discountTable > tbody").html("");
+							$("#showDiscountDiv").attr("style","display:block");
+							for(var i = 0; i< data.listSellerDiscount.length; i++){
+								var active;
+								if(data.listSellerDiscount[i].status){
+									active = "Yes";
+								}else{
+									active = "No";
+								}
+								var discount;
+								if(data.listSellerDiscount[i].flatDiscount){
+									discount ="<i class=\"fa fa-inr\" aria-hidden=\"true\">"+data.listSellerDiscount[i].discount+"</i>";
+								}else{
+								discount = data.listSellerDiscount[i].discount+" "+"%";
+								}
+								var xyz = new Date(data.listSellerDiscount[i].fromDateDiscount);
+								xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+(xyz.getDate() > 9 ? xyz.getDate() : "0"+(xyz.getDate()));
+								
+								var mno = new Date(data.listSellerDiscount[i].toDateDiscount);
+								mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+(mno.getDate() > 9 ? mno.getDate() : "0"+(mno.getDate()));
+								discountDataTable = discountDataTable +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+								+"<td class=\"text-center\">"+xyz+"</td>"
+								+"<td class=\"text-center\">"+mno+"</td>"
+								+"<td class=\"text-center\">"+discount+"</td>"
+								+"<td class=\"text-center\">"+active+"</td>"
+							}
+							$("#discountTable > tbody").html(discountDataTable);
+						}
+						$("#productStatusDiv").attr("style","display:block");
+						 if(data.flower.status){
+							productStatus("Active");
+							$("#productStatus").val("Active");
+						}else{
+							productStatus("Inactive");
+							$("#productStatus").val("Inactive")
+						}
+						/* if(data.sellerPhotographer.availability === "Yes"){
+							productAvailability("Yes");
+						}else{
+							productAvailability("No");
+						}  */
+						
+						$("#productStatusHeader").removeClass("hideDiv");
+						$("#productNameDiv").html("");
+						var productNameDiv = "<div class=\"col-sm-4 col-xs-12\">"
+						+"<div class=\"form-group\">"
+						+"<div class=\"form-line\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"name\" id =\"name\" value="+data.flower.name+" placeholder=\"Product Name\">"
+						+"</div>"
+						+"</div>"
+						+"</div>"
+						+"<div class=\"col-sm-4 col-xs-12\">"
+						+"<div class=\"form-group\">"
+						+"<div class=\"form-line\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"productId\" id =\"productId\" value ="+data.flower.id+" readonly=\"readonly\" placeholder=\"Product Id\">"
+						+"</div>"
+					    +"</div>"
+						+"</div>"
+						+"<div class=\"col-sm-4 col-xs-12\">"
+						+"<div class=\"form-group\">"
+						+"<div class=\"form-line\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"sellerId\" id =\"sellerId\" value =\"${sessionScope.sellerDetailsSession.id}\" readonly=\"readonly\" placeholder=\"Product Id\">"
+						+"</div>"
+					    +"</div>"
+						+"</div>"
+						$("#productNameDiv").html(productNameDiv);
+						$("#editProductId").val(data.flower.id);
+						$("#allProductId").val(data.flower.allProducts.id); 
+					}
+			},error : function (data){
+				alert("Error");
+			}
+		});
+	} 
+	
+	function productStatus(str,str3){
+		$("#productStatus").val(str);
+		if(str === "0" || str === undefined){
+			str = "Product Status";
+		}
+		var mno ="<div class=\"form-group drop-custum\">"
+			+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+			+"<ul class=\"dropdown-menu inner\" role=\"menu\" id=\"productStatusUl\">"
+			+"<li data-original-index=\"0\" id=\"productStatusLi0\"class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"productStatus('Product Status','"+0+"')\"><span class=\"text\">Product Status</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"1\" id=\"productStatusLi1\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productStatus('Active','"+1+"')\"><span class=\"text\">Active</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"2\" id=\"productStatusLi2\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productStatus('Inactive','"+2+"')\"><span class=\"text\">Inactive</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+			+"</div>"
+			
+		$("#productStatusDiv").html(mno);	
+		var lengthOfUl = $("#productStatusUl li").size();
+		for(var i = 0;i<lengthOfUl; i++){
+			var getdata = $("ul#productStatusUl li#productStatusLi"+Number(i)).find('span').text();
+				if(str === getdata){
+					$("#productStatusLi"+Number(i)).addClass("selected");
+				}else{
+					$("#productStatusLi"+Number(i)).removeClass("selected");
+				}
+		}
+		
+	}
+	var abc = "";
+	function showImagesEdit(imageName,imageId){
+		abc = abc + "<div class=\"col-md-4 col-sm-6 col-xs-12 editImages\">"
+			+"<div class=\"thumbnail\">"
+			+"<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\" data-toggle=\"modal\" onclick=\"showModal('"+imageName+"','"+imageId+"')\"/>"
+			+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
+		    +"</div>"
+	        +"</div>";
+		alert(abc);
+	      $("#flowerImagesDiv").html(abc);
+	}
+	
+	function showModal(imageName, imageId){
+		modalImageId = imageId;
+		if(!($("#allModals").children("#"+imageId).length > 0)){
+			var abc ="<div class=\"modal fade\" id="+imageId+" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">"
+			+"<div class=\"modal-dialog\" role=\"document\">"
+			+"<div class=\"modal-content row singleImageEdit\">"
+			+"<div class=\"col-md-4 col-xs-6 col-sm-12 thumbnail\" id=\"editImageDiv\">"
+			+"<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\"/>"
+			+"</div>"
+			+"<div class=\"col-md-8 col-xs-6 col-sm-12 _productImages\">"
+			+"<form action=\"#\" id=\'singleUpload"+imageId+"\' class=\"dropzone\" method=\"post\" enctype=\"multipart/form-data\">"
+			+"<div class=\"dz-message\">"
+			+"<div class=\"drag-icon-cph\">"
+			+"<i class=\"material-icons\">touch_app</i>"
+			+"</div>"
+			+"<h3>Drop files here or click to upload.</h3>"
+			+"<em>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.</em>"
+			+"</div>"
+			+"<div class=\"fallback\">"
+			+"<input name=\"file\" type=\"file\" multiple />"
+			+"</div>"
+			+"</form>"
+			+"</div>"
+			+"<div class =\"row\">"
+			+"<div class=\"modal-footer col-md-12 col-sm-12 col-xs-12 footerModal\">"
+			+"<button type=\"button\" class=\"btn btn-secondary btn-raised\" data-dismiss=\"modal\">Close</button>"
+			+"<button type=\"button\" class=\"btn btn-raised gradient-right\">Save changes</button>"
+			+"</div>"
+			+"</div>"
+			+"</div>"
+			+"</div>"
+			+"</div>"
+			$("#allModals").append(abc);
+			createUserDropzone(imageId);
+		}
+		$("#"+imageId).modal({
+			backdrop: 'static',
+		    keyboard: false,
+		    show:true
+		});
+		
+	}
+	//Upload and renaming the files being uploaded in dropzone.js
+	 var modalImageId;
+	function createUserDropzone(imageId){
+		 var myDropzone = new Dropzone("#allModals #singleUpload"+imageId, {
+				url : "singleUpload",
+				init : function() {
+					this.on("success", function(file, response) {
+						if(defaultImageId === Number(1)){
+							defaultImageId = "";
+						}
+						var a = this.element.classList+"";
+						a = a.split("_");
+						classPath = $("form." + "_" + a[1]).parent().attr("class");
+						classPath = classPath.split("_");
+						if(defaultImageId === ""){
+							defaultImageId = "Florist"+"+@-"+classPath[1]+"+@-"+dateTime+file.name+"+@-"+modalImageId;
+						}else{
+							defaultImageId = defaultImageId + "-,@_"+"Florist"+"+@-"+classPath[1]+"+@-"+dateTime+file.name+"+@-"+modalImageId;
+						}
+		 			});
+					alert(defaultImageId);
+				},
+				renameFilename : function(fileName) {
+					var classpath = fileName;
+					classpath = classpath.split("_");
+					return "Florist" + "_" + dateTime+classpath[0];
+					
+					}
+					
+				});
+		}
+	var efg = "";
+	function showDpEdit(imageUrl, imageId){
+		efg = efg + "<div class=\"col-md-4 col-sm-6 col-xs-12 editImages\">"
+		+"<div class=\"thumbnail\">"
+		+"<img src=\"getImage?id="+imageUrl+"\" class=\"img-responsive\" data-toggle=\"modal\" onclick=\"showDpModal('"+imageUrl+"','"+imageId+"')\"/>"
+		+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
+	    +"</div>"
+        +"</div>";
+	
+      $("#flowerDisplayDiv").html(efg);
+	}
+	function showDpModal(imageName, imageId){
+		dpImageId = imageId;
+		if(!($("#dpModals").children("#"+imageId).length > 0)){
+			var abc ="<div class=\"modal fade\" id="+imageId+" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">"
+			+"<div class=\"modal-dialog\" role=\"document\">"
+			+"<div class=\"modal-content row singleImageEdit\">"
+			+"<div class=\"col-md-4 col-xs-6 col-sm-12 thumbnail\" id=\"editImageDiv\">"
+			+"<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\"/>"
+			+"</div>"
+			+"<div class=\"col-md-8 col-xs-6 col-sm-12 _thumnailImage\">"
+			+"<form action=\"#\" id=\'singleUpload"+imageId+"\' class=\"dropzone\" method=\"post\" enctype=\"multipart/form-data\">"
+			+"<div class=\"dz-message\">"
+			+"<div class=\"drag-icon-cph\">"
+			+"<i class=\"material-icons\">touch_app</i>"
+			+"</div>"
+			+"<h3>Drop files here or click to upload.</h3>"
+			+"<em>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.</em>"
+			+"</div>"
+			+"<div class=\"fallback\">"
+			+"<input name=\"file\" type=\"file\" multiple />"
+			+"</div>"
+			+"</form>"
+			+"</div>"
+			+"<div class =\"row\">"
+			+"<div class=\"modal-footer col-md-12 col-sm-12 col-xs-12 footerModal\">"
+			+"<button type=\"button\" class=\"btn btn-secondary btn-raised\" data-dismiss=\"modal\">Close</button>"
+			+"<button type=\"button\" class=\"btn btn-raised gradient-right\">Save changes</button>"
+			+"</div>"
+			+"</div>"
+			+"</div>"
+			+"</div>"
+			+"</div>"
+			$("#dpModals").append(abc);
+			createDpDropzone(imageId);
+		}
+		$("#"+imageId).modal({
+			backdrop: 'static',
+		    keyboard: false,
+		    show:true
+		});
+		
+	}
+	function createDpDropzone(imageId){
+		 var myDropzone = new Dropzone("#dpModals #singleUpload"+imageId, {
+				url : "singleUpload",
+				init : function() {
+					this.on("success", function(file, response) {
+						if(singleFiles === Number(1)){
+							$("#defaultDpImage").val("");
+							singleFiles = "";
+						}
+						var a = this.element.classList+"";
+						a = a.split("_");
+						classPath = $("form." + "_" + a[1]).parent().attr("class");
+						classPath = classPath.split("_");
+						if(singleFiles === ""){
+							singleFiles = "Florist"+"+@-"+classPath[1]+"+@-"+dateTime+file.name+"+@-"+dpImageId;
+						}else{
+							singleFiles = singleFiles + "-,@_"+"Florist"+"+@-"+classPath[1]+"+@-"+dateTime+file.name+"+@-"+dpImageId;
+						}
+		 			});
+				},
+				renameFilename : function(fileName) {
+					var classpath = fileName;
+					classpath = classpath.split("_");
+					return "Florist" + "_" + dateTime+classpath[0];
+					
+					}
+					
+				});
+		}
 	</script>
     <div class="color-bg"></div>
     <%@ include file="admin-includeFooter.jsp" %>

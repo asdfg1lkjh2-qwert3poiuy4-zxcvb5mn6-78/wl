@@ -790,6 +790,9 @@ public class AdminController {
 	@ResponseBody
 	public byte[] getImage(@RequestParam("id") String id, HttpServletRequest request) throws IOException {
 		ServletContext context = request.getServletContext();
+		if(id.contains(" @-")){
+			id = id.replaceAll(" @-", "+@-");
+		}
 		String rpath = context.getRealPath("/");  
 		String fullPath[] = id.split("/");// whatever path you used for // storing the file
 			System.out.println("/////Full Path is"+fullPath[0]+" "+fullPath[1]+" "+fullPath[2]); 
@@ -1464,26 +1467,13 @@ public class AdminController {
 			System.out.println("///In else");
 			categoryName = AllCategoryNames.getCategoryName(objectNode.get("categoryName").asText());
 			adminResponseClass = categoryAvailableService.fetchCategoryByCategoryNameWithStatus(categoryName);
+			
 		}
 
 		if (adminResponseClass.isStatus()) {
-
 			products.setCategoryAvailable(adminResponseClass.getCategoryAvailable());
-			
-			/* Temporary Seller Fetch*/
-			SellerDetails sellerDetails = new SellerDetails();
-			sellerDetails.setSellerEmailId("swarajcell@gmail.com");
-			sellerDetails.setSellerPassword("1234");
-			AdminResponseClass adminResponseClass1 = new AdminResponseClass();
-			try {
-				adminResponseClass1 = sellerService.checkSelleroginCredentials(sellerDetails);
-			} catch (NoSuchProviderException e) {
-				e.printStackTrace();
-			}
-			if(adminResponseClass1.isStatus())
-				products.setSellerDetails(adminResponseClass1.getSellerDetail());
-			
-			//products.setSellerDetails((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
+			SellerDetails sellerDetails = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
+			products.setSellerDetails(sellerDetails);
 			adminResponseClass = allProductsService.saveAllProducts(products);
 		}
 
@@ -1505,10 +1495,17 @@ public class AdminController {
 						flowerId = id;
 					}
 				}
-
+				flower.setStatus(Boolean.TRUE);
 			} else {
 				flower.setId(objectNode.get("editProductId").asText());
 				flowerId = objectNode.get("editProductId").asText();
+				if(objectNode.get("productStatus").asText().equals("Active")){
+					flower.setStatus(Boolean.TRUE);
+				}
+				else{
+					flower.setStatus(Boolean.FALSE);
+				}
+
 			}
 
 			flower.setName(objectNode.get("name").asText());
@@ -1527,34 +1524,36 @@ public class AdminController {
 			if(objectNode.get("freebie") != null){
 				flower.setFreebie(objectNode.get("freebie").asText());
 			}
-			
-			String dpImages[] = objectNode.get("singleFiles").asText().trim().split("-,@_");
-			ServletContext context = request.getServletContext();
-			for(int i = 0; i<dpImages.length;i++){
-				String image[] = dpImages[i].split("\\+@-");
-				System.out.println("\\\\Image1 "+ image[0]);
-				System.out.println("\\\\Image2 "+ image[1]);
-				System.out.println("\\\\Image3 "+ image[2]);
-				if (i == (dpImages.length - 1)) {
-					String uploadPath = context.getRealPath("/" + image[0]);
-					File uploadDir = new File(uploadPath);
-					if (uploadDir.exists()) 
-					{
-						File upLoadSubFolder = new File(uploadDir + "/" + image[1] + "+@-"+flower.getId());
-						if (!upLoadSubFolder.exists()) {
-							boolean success = upLoadSubFolder.mkdir();
+			if(objectNode.get("singleFiles").asText().indexOf("@*")>=0){
+				String abc[] = objectNode.get("singleFiles").asText().trim().split("@\\*");
+				System.out.println("///SingleFiles is"+abc[0]+" "+abc[1]);
+				flower.setDpUrl(abc[1]);
+			}else{
+				String dpImages[] = objectNode.get("singleFiles").asText().trim().split("-,@_");
+				ServletContext context = request.getServletContext();
+				for(int i = 0; i<dpImages.length;i++){
+					String image[] = dpImages[i].split("\\+@-");
+					if (i == (dpImages.length - 1)) {
+						String uploadPath = context.getRealPath("/" + image[0]);
+						File uploadDir = new File(uploadPath);
+						if (uploadDir.exists()) 
+						{
+							File upLoadSubFolder = new File(uploadDir + "/" + image[1] + "+@-"+flower.getId());
+							if (!upLoadSubFolder.exists()) {
+								boolean success = upLoadSubFolder.mkdir();
+							}
 						}
+						File file = new File(context.getRealPath("/" + image[0] + "/temp/" + image[2].trim()));
+						System.out.println("////File is" + file);
+						file.renameTo(new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "+@-" + flower.getId() + "/"+ image[2].trim())));
+						System.out.println("////Rename file is" + new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "+@-" + flower.getId() + "/"+ image[2].trim())));
+						flower.setDpUrl(image[0] + "/" + image[1]+ "+@-" + flower.getId() + "/"+ image[2].trim());
 					}
-					File file = new File(context.getRealPath("/" + image[0] + "/temp/" + image[2].trim()));
-					System.out.println("////File is" + file);
-					file.renameTo(new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "+@-" + flower.getId() + "/"+ image[2].trim())));
-					System.out.println("////Rename file is" + new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "+@-" + flower.getId() + "/"+ image[2].trim())));
-					flower.setDpUrl(image[0] + "/" + image[1]+ "+@-" + flower.getId() + "/"+ image[2].trim());
-				}
-				else
-				{
-					File currentFile = new File(context.getRealPath("/" + image[0] + "/temp/" + image[2].trim()));
-					currentFile.delete();
+					else
+					{
+						File currentFile = new File(context.getRealPath("/" + image[0] + "/temp/" + image[2].trim()));
+						currentFile.delete();
+					}
 				}
 			}
 			flower.setAllProducts(products);
@@ -1888,13 +1887,29 @@ public class AdminController {
 		return adminResponseClass.isStatus();
 	}
 	
-
-	
 	@RequestMapping(value = "/admin-fetchAllFlowerProductsById", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchAllFlowerProductsById() throws ParseException {
 	    AdminResponseClass adminResponseClass = flowerService.fetchAllFlowerProductsById((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
+	    return adminResponseClass;
+	}
+	/*@RequestMapping(value = "/fetchAllFlowerById", method = RequestMethod.POST)
+	public @ResponseBody AdminResponseClass fetchAllFlowerById(@RequestBody String sellerId, String allProductId, String flowerId) 
+	{
+		AdminResponseClass adminResponseClass = flowerService.fetchAllFlowerById(sellerId, allProductId, flowerId);
 		return adminResponseClass;
-	}	
- 
+
+	}	*/
+	
+	@RequestMapping(value="/admin-fetchFlowerByFlowerId", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchFlowerByFlowerId(@RequestParam("id") String id) throws ParseException {
+	    AdminResponseClass adminResponseClass = flowerService.fetchFlowerByFlowerId(id);
+	    return adminResponseClass;
+	}
+	
+	@RequestMapping(value="/admin-fetchAllSellerProducts", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllSellerProducts() throws ParseException {
+	    AdminResponseClass adminResponseClass = flowerService.fetchAllSellerProducts((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
+	    return adminResponseClass;
+	}
 }
 

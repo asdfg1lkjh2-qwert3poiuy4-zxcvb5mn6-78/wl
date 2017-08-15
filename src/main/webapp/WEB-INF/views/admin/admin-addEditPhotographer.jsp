@@ -485,8 +485,8 @@
 								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
-											<input type="text" class="form-control" name="sellerId" id="sellerId" value = ${sessionScope.sellerDetailsSession.id}
-												placeholder="Seller ID">
+											<input type="text" class="form-control" name="sellerId" id="sellerId" value = ${sessionScope.sellerDetailsSession.id} 
+											placeholder="Seller ID">
 										</div>
 									</div>
 								</div>
@@ -2456,7 +2456,7 @@
 	
 	
 		$("#discount").on("blur",function(){
-			if(idForFetch !== undefined){
+			if(idForFetch !== undefined && $("#toDateDiscount").val() !== ""){
 			var job = {};
 			var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
 			var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
