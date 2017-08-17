@@ -88,7 +88,6 @@ public class FlowerServiceImpl implements FlowerService{
 			catId = (long)query.getResultList().get(0);
 		}*/
 		
-
 		Query query = manager.createQuery("Select fl from Flower fl where fl.allProducts.sellerDetails.id =:sellerId and fl.status =true order by fl.entryTime");
 		query.setParameter("sellerId", sellerDetails.getId());
 		

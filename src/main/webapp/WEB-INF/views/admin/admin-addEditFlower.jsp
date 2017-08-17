@@ -190,7 +190,7 @@
                                     <h2>Flower Details </h2>
                                 </div>
                                 <div class="row clearfix">
-                                    <div class="col-sm-8 col-xs-12">
+                                    <div class="col-sm-6 col-xs-12">
                                     	<div class="col-sm-6 col-xs-9" id="colorSelectDiv">
 	                                        <div class="form-group drop-custum">
 	                                       		<select class="form-control show-tick" id ="colorSelect" >
@@ -201,14 +201,14 @@
 	                                        </div>
                                         </div>
                                         <div id="selectUserColor">
-                                        <div class="col-sm-3 col-xs-3">
+                                        <div class="col-sm-4 col-xs-3">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control jscolor {styleElement:'colorDiv',onFineChange:'update(this)'}" name="foo" id="foo" placeholder="ACER" value="">
+                                                <input type="text" class="form-control jscolor {styleElement:'colorDiv', hash:true,onFineChange:'update(this)'}" name="foo" id="foo" placeholder="ACER" value="">
                                             </div>
                                         </div>
                                         </div>
-                                        <div class="col-sm-3 col-xs-3">
+                                        <div class="col-sm-2 col-xs-3">
 									          <div class = "form-group thumbnail" id="colorDiv" style='background-color: #71ca01; padding: 22px;'>
 									          </div> 
                                         </div>
@@ -223,6 +223,15 @@
                                         </div>
                                         
                                         </div>
+                                    </div>
+                                    <div class="col-sm-2 col-xs-12" id="availabilityDiv">
+                                    <div class="form-group drop-custum">
+	                                       		<select class="form-control show-tick" id ="availability" >
+	                                               <option value="">-- Availability --</option>
+	                                               <option value="Yes">Yes</option>
+	                                               <option value="No">No</option>
+	                                            </select>
+	                                        </div>
                                     </div>
                                     <div class="col-sm-2 col-xs-12">
                                         <div class="form-group">
@@ -649,6 +658,7 @@
                                     	<input type = "hidden" name = "allProductId" id = "allProductId" value = "">
                                     	<input type = "hidden" name = "productStatus" id= "productStatus" value = "">
                                     	<input type = "hidden" name = "defaultDpImage" id = "defaultDpImage" value = "">
+                                    	<input type = "hidden" name = "productAvailability" id = "productAvailability" value = "">
                                         <button type="submit" class="btn btn-raised gradient-right" id="submit">Submit</button>
                                         <button type="submit" class="btn btn-raised gradient-left">Cancel</button>
                                     </div>
@@ -695,7 +705,6 @@
 					}else{
 						singleFiles = singleFiles + "-,@_"+"Florist"+"+@-"+classPathSingleFile[1]+"+@-"+dateTime+file.name;
 					}
-					alert(singleFiles); 
 	 			});
 			},
 			renameFilename : function(fileName) {
@@ -722,7 +731,6 @@
 					}else{
 						multipleFiles = multipleFiles + "-,@_"+ "Florist"+"+@-"+classPath[1]+"+@-"+dateTime+file.name;
 					}
-					alert(multipleFiles);
 					$("#multipleUpload .dz-remove").click(function(e){
 						e.preventDefault();
 					    e.stopPropagation();
@@ -839,7 +847,7 @@
 				success : function(data) {
 					$("#flowerTypeDiv").html("");
 					if (data.status) {
-						//alert("in success");
+
 						var arValue = "";
 						while(typeArr.length > 0){
 							typeArr.pop();
@@ -860,7 +868,7 @@
 
 				},
 				error : function(e) {
-					//alert("Error");
+
 					swal({
 						title : 'Error!',
 						text : 'Flower Type Not Fetched Successfully!!!',
@@ -980,7 +988,7 @@
 			$("#singleColorDiv").attr("style","dsplay:block");
 		}
 	});
-	
+
 	function fetchAllOccasion() {
 		$.ajax({
 			type : "GET",
@@ -1713,7 +1721,17 @@
 						  confirmButtonClass:"btn btn-raised gradient-right",
 						  animation:true
 						});
-		} else if($("#noOfPieces").val() ===""){
+		}else if($("#availability").val() === ""){
+			swal({
+				  title: 'Warning!',
+				  text: 'Please Select Availability Of The Product!!!',
+				  type: 'warning',
+				  confirmButtonText: 'OK',
+				  allowEscapeKey:true,
+				  confirmButtonClass:"btn btn-raised gradient-right",
+				  animation:true
+			});
+		}else if($("#noOfPieces").val() ===""){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter No. Of Pieces That The Flower Contains!!!',
@@ -1829,7 +1847,12 @@
 			var job={};
 			job["editProductId"]= $("#editProductId").val();
 			job["allProductId"] = $("#allProductId").val();
-			job["availability"] = "Yes";
+			if($("#productAvailability").val() === ""){
+				job["availability"] = $("#availability").val();
+			}else{
+				job["availability"] = $("#productAvailability").val();
+			}
+			
 			if($("#productStatus").val() !== ""){
 				job["productStatus"] = $("#productStatus").val()
 			}
@@ -2019,7 +2042,6 @@
 						job["isFlat"] = Number(0);
 					}
 					
-					alert(JSON.stringify(job));
 					 $("#submit").prop("disabled", true);
 					 $.ajax({
 					type : "POST",
@@ -2074,8 +2096,7 @@
 		 }else{
 				job["hasValue"] = hasValue;
 				
-				alert(JSON.stringify(job));
-				 $("#submit").prop("disabled", true);
+				$("#submit").prop("disabled", true);
 				 $.ajax({
 				type : "POST",
 				url : "admin-addEditFlower",
@@ -2132,6 +2153,7 @@
 	function removeAllFields(){
 		$("#name").val("");
 		$("#description").val("");
+		$("#availability").val("");
 		$("#singleColor").val("");
 		$("#singleColorDiv").attr("style","display:block");
 		$("#selectUserColor").attr("style","display:none");
@@ -2204,11 +2226,13 @@
 		lengthOccasions = "";
 		abc = "";
 		efg = "";
+		$("#productAvailability").val("");
 		$("#editProductId").val("");
 		$("#allProductId").val("");
 		$("#productStatus").val("");
 		$("#occasionName").val("");
 		$("#typeName").val("");
+		
 		//defaultFreeProduct(true,0,"Free Product",0);
 	}
 	
@@ -2309,19 +2333,20 @@
 		
 	}
 	
-	function defaultColor(isInComplete,colorName){
+	function defaultColor(isInComplete,colorType,colorName){
 		//$("#colorType").val(colorName);
 		var str="";
-		if(colorName === "Color" || str === undefined){
+		if(colorType === "Color" || str === undefined){
 			str = "Color";
 		}else{
-			str = colorName;
+			str = colorType;
 		}
+		
 		var mno ="<div class=\"form-group drop-custum\">"
-			+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+			+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\-- "+str+" --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
 			+"<ul class=\"dropdown-menu inner\" role=\"menu\" id=\"flowerColorUl\">"
-			+"<li data-original-index=\"0\" id=\"flowerColorLi1\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"defaultColor('Multicolor','"+0+"')\"><span class=\"text\">Multicolor</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-			+"<li data-original-index=\"1\" id=\"flowerColorLi2\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"defaultColor('ChooseColor','"+1+"')\"><span class=\"text\">ChooseColor</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+			+"<li data-original-index=\"0\" id=\"flowerColorLi0\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"defaultColor(false,'Multicolor')\"><span class=\"text\">Multicolor</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"1\" id=\"flowerColorLi1\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"defaultColor(false,'ChooseColor')\"><span class=\"text\">ChooseColor</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
 			+"</div>"
 			
 		$("#colorSelectDiv").html(mno);	
@@ -2335,7 +2360,14 @@
 							$("#flowerColorLi"+Number(i)).removeClass("selected");
 						}
 			}
-		
+			if(colorType === "ChooseColor"){
+					$("#selectUserColor").attr("style","display:block");
+					$("#singleColorDiv").attr("style","display:none");
+			}
+			else if(colorType === "Multicolor"){
+					$("#selectUserColor").attr("style","display:none");
+					$("#singleColorDiv").attr("style","dsplay:block");
+				}
 		}
 	}
 	
@@ -2432,7 +2464,7 @@
 			processData : false,
 			contentType : "application/json",
 			success : function(data) {
-				alert(JSON.stringify(data));
+				
 					 if(data.status){
 						$("#name").val(data.flower.name);
 						$("#description").val(data.flower.description);
@@ -2456,7 +2488,15 @@
 						defaultFlowerOccasion(false,occasionId,occasionName);
 						$("#typeName").val(data.flower.productType.id);
 						defaultPhotoType(false,Number(data.flower.productType.id),data.flower.productType.typeName);
-						
+						if(data.flower.color.indexOf("#")>=0){
+							$("#selectUserColor").attr("style","display:block");
+							$("#foo")[0].jscolor.fromString(data.flower.color);
+							defaultColor(false,"ChooseColor");
+						}else{
+							$("#singleColorDiv").attr("style","display:block");
+							$("#singleColor").val(data.flower.color);
+							defaultColor(false,"Multicolor");
+						}
 						$("#noOfPieces").val(data.flower.noOfPieces);
 						$("#advancePaymentPercentage").val(data.flower.advancePaymentPercentage);
 						$("#flowerDisplayDiv").html("");
@@ -2545,11 +2585,11 @@
 							productStatus("Inactive");
 							$("#productStatus").val("Inactive")
 						}
-						/* if(data.sellerPhotographer.availability === "Yes"){
+						if(data.flower.availability){
 							productAvailability("Yes");
 						}else{
 							productAvailability("No");
-						}  */
+						}
 						
 						$("#productStatusHeader").removeClass("hideDiv");
 						$("#productNameDiv").html("");
@@ -2583,7 +2623,30 @@
 			}
 		});
 	} 
-	
+	function productAvailability(str,str3){
+		$("#productAvailability").val(str);
+		if(str === "0" || str === undefined){
+			str = "Availability";
+		}
+		var mno ="<div class=\"form-group drop-custum\">"
+			+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
+			+"<ul class=\"dropdown-menu inner\" role=\"menu\" id=\"productAvailabilityUl\">"
+			+"<li data-original-index=\"1\" id=\"productAvailabilityLi0\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('Yes','"+0+"')\"><span class=\"text\">Yes</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"2\" id=\"productAvailabilityLi1\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"productAvailability('No','"+1+"')\"><span class=\"text\">No</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+			+"</div>"
+			
+		$("#availabilityDiv").html(mno);	
+		var lengthOfUl = $("#productAvailabilityUl li").size();
+		for(var i = 0;i<lengthOfUl; i++){
+			var getdata = $("ul#productAvailabilityUl li#productAvailabilityLi"+Number(i)).find('span').text();
+				if(str === getdata){
+					$("#productAvailabilityLi"+Number(i)).addClass("selected");
+				}else{
+					$("#productAvailabilityLi"+Number(i)).removeClass("selected");
+				}
+		}
+		
+	}
 	function productStatus(str,str3){
 		$("#productStatus").val(str);
 		if(str === "0" || str === undefined){
@@ -2617,7 +2680,6 @@
 			+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
 		    +"</div>"
 	        +"</div>";
-		alert(abc);
 	      $("#flowerImagesDiv").html(abc);
 	}
 	
@@ -2683,7 +2745,6 @@
 							defaultImageId = defaultImageId + "-,@_"+"Florist"+"+@-"+classPath[1]+"+@-"+dateTime+file.name+"+@-"+modalImageId;
 						}
 		 			});
-					alert(defaultImageId);
 				},
 				renameFilename : function(fileName) {
 					var classpath = fileName;
