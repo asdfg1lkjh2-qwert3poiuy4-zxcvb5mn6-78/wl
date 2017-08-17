@@ -63,6 +63,7 @@ import com.wedlock.model.ZipCode;
 import com.wedlock.service.AdminDetailsService;
 import com.wedlock.service.AllProductsService;
 import com.wedlock.service.CategoryAvailableService;
+import com.wedlock.service.CategoryTakenService;
 import com.wedlock.service.CityService;
 import com.wedlock.service.FlowerService;
 import com.wedlock.service.FreesProductService;
@@ -137,11 +138,13 @@ public class AdminController {
 	@Autowired
 	private OtpService otpService;
 	@Autowired
-	HttpSession httpSession;
-	@Autowired
 	private FlowerService flowerService;
 	@Autowired
 	private FreesProductService freesProductService;
+	@Autowired
+	private CategoryTakenService categoryTakenService;
+	@Autowired
+	HttpSession httpSession;
 	
 	final String timeZoneApi = "http://api.timezonedb.com/v2/get-time-zone?key=U33W5JLS2CRZ&format=json&by=zone&zone=Asia/Kolkata";
     
@@ -365,6 +368,7 @@ public class AdminController {
 		if(categoryAvailable.getEditCategoryId() !=0){
 			categoryAvailable.setId(categoryAvailable.getEditCategoryId());
 		}
+		System.out.println("//// is HalfYearly"+categoryAvailable.isHalfYearly()+"//// Half Yearly Charge"+categoryAvailable.getHalfYearlyCharge());
 		AdminResponseClass adminResponseClass = categoryAvailableService.saveCategoryAvailable(categoryAvailable);
 		return adminResponseClass.isStatus();
 	}
@@ -424,6 +428,7 @@ public class AdminController {
 		if(subCategory.getEditId() !=0){
 			subCategory.setId(subCategory.getEditId());
 		}
+		
 		AdminResponseClass adminResponseClass;
 		String subCategoryValues[];
 		if(subCategory.getOtherSubCategoryDetails() !=null){
@@ -718,8 +723,29 @@ public class AdminController {
 						 }
 							
 					}
-				   
-					if(objectNode.get("hasValue").asInt() == 1){
+				    if(adminResponseClass.isStatus()){
+				    	String categoryTaken;
+				    	if(objectNode.get("serviceTakenId").asText().indexOf(",") < 0){
+				    		categoryTaken = objectNode.get("serviceTakenId").asText()+"_"+sellerDetails.getSellerRegistrationStart()+"_"+"Yes";
+				    		adminResponseClass = categoryTakenService.saveCategoryTaken(sellerDetails, categoryTaken);
+				    	}else{
+				    		String categoryTakens[] = objectNode.get("serviceTakenId").asText().split(",");
+				    		for(int i =0; i<categoryTakens.length; i++){
+				    			if(i!=0){
+				    				if(adminResponseClass.isStatus()){
+				    					categoryTaken = categoryTakens[i]+"_"+sellerDetails.getSellerRegistrationStart()+"_"+"Yes";
+				    					adminResponseClass = categoryTakenService.saveCategoryTaken(sellerDetails, categoryTaken);
+				    				}else{
+				    					adminResponseClass.setStatus(Boolean.FALSE);
+				    				}
+				    			}else{
+				    				categoryTaken = categoryTakens[i]+"_"+sellerDetails.getSellerRegistrationStart()+"_"+"Yes";
+				    				adminResponseClass = categoryTakenService.saveCategoryTaken(sellerDetails, categoryTaken);
+				    			}
+				    		}
+				    	}
+				    }
+					if(objectNode.get("hasValue").asInt() == 1 && adminResponseClass.isStatus()){
 						SellerBankDetails sellerBankDetails = new SellerBankDetails();
 						
 						sellerBankDetails.setEditSellerBankDetailsId(objectNode.get("editSellerBankDetailsId").asLong());
@@ -1406,7 +1432,6 @@ public class AdminController {
 				}
 			}
 		}
-
 		if ((objectNode.get("hasValue").asInt() == 1) && (adminResponseClass.isStatus())) {
 			SellerDiscount sellerDiscount = new SellerDiscount();
 			sellerDiscount.setFromDateDiscount(

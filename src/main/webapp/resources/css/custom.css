@@ -478,3 +478,6 @@ input[type=number]::-webkit-outer-spin-button {
     text-align: center;
     }
 .service-modal-image span img{margin: 6px auto 0; width: 24px}
+.checkbox .labelPadding{
+	padding-top:10px;
+}

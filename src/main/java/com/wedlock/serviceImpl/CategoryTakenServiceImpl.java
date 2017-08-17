@@ -4,7 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.CategoryTakenDao;
 import com.wedlock.model.AdminResponseClass;
@@ -13,6 +16,8 @@ import com.wedlock.model.SellerDetails;
 import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CategoryTakenService;
 
+@Transactional
+@Service
 public class CategoryTakenServiceImpl implements CategoryTakenService{
 	@Autowired
 	CategoryAvailableService categoryAvailableService;

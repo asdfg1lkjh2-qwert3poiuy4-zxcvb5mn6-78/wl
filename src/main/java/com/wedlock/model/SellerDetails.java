@@ -77,8 +77,10 @@ public class SellerDetails implements Serializable {
 	private String idProofFiles;
 	@Transient
 	private String sellerImageFiles;
-	/*@OneToMany(mappedBy = "sellerDetails")
-	private List<CategoryTaken> serviceTaken;*/
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "sellerDetails",fetch = FetchType.LAZY)
+	private List<CategoryTaken> serviceTaken;
 	
 	@OneToOne(mappedBy="sellerDetails")
 	private SellerBankDetails sellerBankDetails;
@@ -263,13 +265,13 @@ public class SellerDetails implements Serializable {
 		this.zipCode = zipCode;
 	}
 
-	/*public List<CategoryTaken> getServiceTaken() {
+	public List<CategoryTaken> getServiceTaken() {
 		return serviceTaken;
 	}
 
 	public void setServiceTaken(List<CategoryTaken> serviceTaken) {
 		this.serviceTaken = serviceTaken;
-	}*/
+	}
 
 	public SellerBankDetails getSellerBankDetails() {
 		return sellerBankDetails;

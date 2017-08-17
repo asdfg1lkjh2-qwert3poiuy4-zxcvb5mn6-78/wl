@@ -14,6 +14,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class CategoryTaken implements Serializable {
 
@@ -38,6 +40,7 @@ public class CategoryTaken implements Serializable {
 	private boolean status;
 
 	@ManyToOne
+	@JsonIgnore
 	private SellerDetails sellerDetails;
 	
 	@ManyToOne

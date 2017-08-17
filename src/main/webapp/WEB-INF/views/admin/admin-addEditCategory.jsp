@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | Category</title>
 
-<link rel="stylesheet" type="text/css" href="resources/css/sweetalert2.css">
+<link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
@@ -50,7 +50,7 @@
 						</div>
 						<div class="body">
 							<div class="row clearfix">
-								<div class="col-sm-6 col-xs-12">
+								<div class="col-sm-4 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
 											<input type="text" class="form-control" name="categoryName"
@@ -58,7 +58,18 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-3 col-xs-12 padding-left" id="packageDiv">
+								<div class="col-sm-2 col-xs-12">
+										<div class="form-group mrgn-less-15">
+											<div class="checkbox">
+												<label class="labelCheckbox labelPadding"> <input type="checkbox"
+													name="halfYearly" id="halfYearly">
+													<span class="cr"><i
+														class="cr-icon glyphicon glyphicon-ok"></i></span> Half Yearly Plan
+												</label> 
+											</div>
+										</div>
+									</div>
+								<!-- <div class="col-sm-3 col-xs-12 padding-left" id="packageDiv">
 									<div class="form-group drop-custum">
 										<select class="form-control show-tick" name="packageFor"
 											id="packageFor">
@@ -67,12 +78,32 @@
 											<option value="Yearly">Yearly</option>
 										</select>
 									</div>
-								</div>
-								<div class="col-sm-3 col-xs-12">
+								</div> -->
+								<div class="col-sm-2 col-xs-12">
 									<div class="form-group">
 										<div class="form-line">
 											<input type="text" class="form-control"
-												name="registrationCharge" id="registrationCharge"
+												name="halfYearlyCharge" id="halfYearlyCharge"
+												placeholder="Registration Charge">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-2 col-xs-12">
+										<div class="form-group mrgn-less-15">
+											<div class="checkbox">
+												<label class="labelCheckbox labelPadding"> <input type="checkbox"
+													name="annual" id="annual">
+													<span class="cr"><i
+														class="cr-icon glyphicon glyphicon-ok"></i></span> Annual Plan
+												</label> 
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-2 col-xs-12">
+									<div class="form-group">
+										<div class="form-line">
+											<input type="text" class="form-control"
+												name="annualCharge" id="annualCharge"
 												placeholder="Registration Charge">
 										</div>
 									</div>
@@ -283,7 +314,7 @@
 
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
 	<script src="resources/js/dropzone.js"></script>
-	<script src="resources/js/sweetalert2.min.js"></script>
+	<script src="resources/js/sweetalert.min.js"></script>
 	
 	<%@ include file="admin-includeDynamicSideNavBar.jsp" %>
 	<%@ include file="admin-includeDynamicSideNavBarFromSession.jsp" %>
@@ -349,20 +380,40 @@
 						  confirmButtonClass:"btn btn-raised gradient-right",
 						  animation:true
 						});
-				}else if($("#packageFor").val() === ""){
+				}else if(($("#halfYearly").val() === "" && $("#halfYearlyCharge").val() !=="") || ($("#halfYearly").val() === "")){
 					swal({
 						  title: 'Warning!',
-						  text: 'Please Enter Package For The Category!!!',
+						  text: 'Please Select Half Yearly Plan!!!',
 						  type: 'warning',
 						  confirmButtonText: 'OK',
 						  allowEscapeKey:true,
 						  confirmButtonClass:"btn btn-raised gradient-right",
 						  animation:true
 						});
-				}else if($("#registrationCharge").val() === ""){
+				}else if(($("#halfYearlyCharge").val() === "" && $("#halfYearly").val() !== "") || ($("#halfYearlyCharge").val() === "")){
 					swal({
 						  title: 'Warning!',
-						  text: 'Please Enter Registration Charge!!!',
+						  text: 'Please Enter Registration Charge For Half Yearly Plan!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}else if(($("#annual").val() === "") && ($("#annualCharge").val() !== "")){
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Select Annual Plan!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}else if(($("#annualCharge").val() === "") && ($("#annual").val() !=="")){
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Enter Registration Charge For Annaul Plan!!!',
 						  type: 'warning',
 						  confirmButtonText: 'OK',
 						  allowEscapeKey:true,
@@ -386,21 +437,22 @@
 				if($("#categoryDescription").val() !==""){
 					job["categoryDescription"] = $("#categoryDescription").val();
 				}
-				if($("#packageFor").val() !== undefined){
-					job["packageFor"] = $("#packageFor").val();
+				job["isHalfYearly"] = $("#halfYearly").prop("checked") ? true : false;
+				alert($("#halfYearlyCharge").val());
+				job["halfYearlyCharge"] = $("#halfYearlyCharge").val();
+				if($("#annual").is(":checked")){
+					job["isAnnual"] = true;
+					job["annualCharge"] = $("#annualCharge").val();
 				}else{
-					job["packageFor"] = $("#packageClick").val();
-				}
-				job["registrationCharge"] = $("#registrationCharge").val();
-				if($("#categoryUrl").val() !==""){
-					job["categoryUrl"] =$("#categoryUrl").val();
+					job["isAnnual"] = false;
+					job["annualCharge"] = 0.00;
 				}
 				job["allFiles"] = file1; 
 				alert(JSON.stringify(job));
 				  $.ajax({
 					type : "POST",
 					url : "admin-addEditCategoryAvailable",
-					data : JSON.stringify(job),
+					data : JSON.parse(job),
 					contentType : "application/json",
 					processData : false,
 					success : function(data) {
@@ -429,9 +481,14 @@
 						//For removing all data from textboxes after successful insertion
 						fetchSideNavBar();
 						$("#categoryName").val("");
+						$("#halfYearly").prop("checked",false);
+						$("#halfYearlyCharge").val("");
+						if($("#annual").is(":checked")){
+							$("#annual").prop("checked",false);
+						}
+						$("#annualCharge").val("");
 						$("#categoryDescription").val("");
 						$("#categoryUrl").val("");
-						$("#registrationCharge").val("");
 						$("#editCategoryId").val("0");
 						file1 = "";
 						$("#defaultIconFile").val("");
@@ -446,16 +503,6 @@
 							});
 						
 						 $('.dropzone').removeClass(' dz-started ');
-						 $("#packageDiv").html("");
-						 var abc ="<div class=\"form-group drop-custum\">"
-							+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\"-- Package For --\"><span class=\"filter-option pull-left\">-- Package For --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
-							+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
-							+"<li data-original-index=\"0\" class=\"selected\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Package For --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-							+"<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('HalfYearly')\"><span class=\"text\">Half Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-							+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('Yearly')\"><span class=\"text\">Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
-							+"</div>"
-						$("#packageDiv").html(abc);
-						$("#packageClick").val("");
 						checkSubmit = 1;
 							
 					}
@@ -503,12 +550,23 @@
 							}else{
 								categoryUrl = "---";
 							}
+							var str3="";
+							var price;
+							if(data.categoryAvailables[i].halfYearly){
+								str3 = "Half Yearly";
+							}
+							if(data.categoryAvailables[i].annual){
+								str3 = str3 + "/ Annual";
+							}
+							if(data.categoryAvailables[i].annualCharge !== Number(0.00)){
+								price = data.categoryAvailables[i].annualCharge;
+							}
 							abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
 							+"<td class=\"text-center\">"+data.categoryAvailables[i].id+"</td>"
 							+"<td class=\"text-center\">"+data.categoryAvailables[i].categoryName+"</td>"
 							+"<td class=\"text-center\">"+url+"</td>"
-							+"<td class=\"text-center\">"+data.categoryAvailables[i].packageFor+"</td>"
-							+"<td class=\"text-center\">"+data.categoryAvailables[i].registrationCharge+"</td>"
+							+"<td class=\"text-center\">"+str3+"</td>"
+							+"<td class=\"text-center\">"+data.categoryAvailables[i].halfYearlyCharge +"/"+price+"</td>"
 							+"<td class=\"text-center\">"+categoryUrl+"</td>"
 							+"<td class=\"text-center\">"+active+"</td>"
 							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editCategoryById('"+data.categoryAvailables[i].id+"')\">Edit</a><a href=\"\">Y</a></td></tr>"
@@ -543,9 +601,14 @@
 					isEdit = 1;
 					//defaultStateList(false,Number(data.zipCode.stateId),data.zipCode.stateName,Number(data.zipCode.cityId),data.zipCode.cityName);
 					$("#categoryName").val(data.categoryAvailable.categoryName);
-					packageClick(data.categoryAvailable.packageFor);
-					//$("#packageFor").val(data.categoryAvailable.packageFor);
-					$("#registrationCharge").val(data.categoryAvailable.registrationCharge);
+					if(data.categoryAvailable.halfYearly){
+						$("#halfYearly").prop("checked",true);
+					}
+					$("#halfYearlyCharge").val(data.categoryAvailable.halfYearlyCharge);
+					if(data.categoryAvailable.annual){
+						$("#annual").prop("checked",true);
+						$("#annualCharge").val(data.categoryAvailable.annualCharge);
+					}
 					$("#categoryDescription").val(data.categoryAvailable.categoryDescription); 
 					$("#categoryUrl").val(data.categoryAvailable.categoryUrl);
 					$("#editCategoryId").val(data.categoryAvailable.id);
@@ -587,26 +650,7 @@
 				}
 		}); 
 		}
-		function packageClick(str){
-				$("#packageClick").val(str);
-				var clicked;
-				$("#packageDiv").html("");
-				if(str === "HalfYearly"){
-					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('HalfYearly')\"><span class=\"text\">Half Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('Yearly')\"><span class=\"text\">Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
-				}else{
-					clicked = "<li data-original-index=\"1\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('HalfYearly')\"><span class=\"text\">Half Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-					+"<li data-original-index=\"2\"><a tabindex=\"0\" class=\"selected\" style=\"\" data-tokens=\"null\" onclick=\"packageClick('Yearly')\"><span class=\"text\">Yearly</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
-				}
-				var abc ="<div class=\"form-group drop-custum\">"
-					+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+str+"  --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
-					+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
-					+"<li data-original-index=\"0\" class=\"\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Package For --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-					+clicked
-					+"</div>"
-				$("#packageDiv").html(abc);	
-			
-		} 
+		
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
 	

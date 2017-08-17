@@ -29,7 +29,10 @@ private static final long serialVersionUID = 1L;
 	@Column(columnDefinition = "TEXT")
 	private String categoryDescription;
 	private String categoryUrl;
-	private String packageFor;
+	private boolean isHalfYearly;
+	private double halfYearlyCharge;
+	private boolean isAnnual;
+	private double annualCharge;
 	private String iconFile;
 	private double registrationCharge;
 	private boolean isActive;
@@ -56,6 +59,10 @@ private static final long serialVersionUID = 1L;
 	@OneToMany(mappedBy="categoryAvailable",fetch = FetchType.LAZY)
 	private List<ProductType> productType;
 	
+	@OneToMany(mappedBy="categoryAvailable")
+	@JsonIgnore
+	private List<CategoryTaken> categoryTaken;
+	
 	@Transient
 	private String allFiles;
 	@Transient
@@ -78,18 +85,11 @@ private static final long serialVersionUID = 1L;
 		this.id = id;
 	}
 
-	public String getPackageFor() {
-		return packageFor;
-	}
-	
 	public String getIconFile() {
 		return iconFile;
 	}
 	public void setIconFile(String iconFile) {
 		this.iconFile = iconFile;
-	}
-	public void setPackageFor(String packageFor) {
-		this.packageFor = packageFor;
 	}
 	public double getRegistrationCharge() {
 		return registrationCharge;
@@ -156,6 +156,36 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setAllProducts(List<AllProducts> allProducts) {
 		this.allProducts = allProducts;
+	}
+	public List<CategoryTaken> getCategoryTaken() {
+		return categoryTaken;
+	}
+	public void setCategoryTaken(List<CategoryTaken> categoryTaken) {
+		this.categoryTaken = categoryTaken;
+	}
+	public boolean isHalfYearly() {
+		return isHalfYearly;
+	}
+	public void setHalfYearly(boolean isHalfYearly) {
+		this.isHalfYearly = isHalfYearly;
+	}
+	public double getHalfYearlyCharge() {
+		return halfYearlyCharge;
+	}
+	public void setHalfYearlyCharge(double halfYearlyCharge) {
+		this.halfYearlyCharge = halfYearlyCharge;
+	}
+	public boolean isAnnual() {
+		return isAnnual;
+	}
+	public void setAnnual(boolean isAnnual) {
+		this.isAnnual = isAnnual;
+	}
+	public double getAnnualCharge() {
+		return annualCharge;
+	}
+	public void setAnnualCharge(double annualCharge) {
+		this.annualCharge = annualCharge;
 	}
 	
 }

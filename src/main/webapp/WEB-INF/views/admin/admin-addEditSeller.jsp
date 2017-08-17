@@ -1133,6 +1133,16 @@
 					  confirmButtonClass:"btn btn-raised gradient-right",
 					  animation:true
 					});
+			}else if(checkServiceTaken === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter At Least Service You Want To Avail!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
 			}else if(($("#sellerInactive").val() ==="Reasons")){
 				swal({
 					  title: 'Warning!',
@@ -1207,7 +1217,7 @@
 				job["addressProofFiles"] = addressProof;
 				job["idProofFiles"] = idProof;
 				job["sellerImageFiles"] = sellerImage;
-				
+				job["serviceTakenId"] = serviceTakenId;
 				
 				if(($("#accountHolderName").val() || $("#accountNumber").val() || $("#ifscCode").val() || $("#branchCode").val() || $("#branchName").val()) !=""){
 					hasValue = 1;
@@ -1270,6 +1280,7 @@
 						job["branchName"] =$("#branchName").val();
 						
 						 $("#submit").prop("disabled", true);
+						 alert(JSON.stringify(job));
 						$.ajax({
 						type : "POST",
 						url : "admin-addEditSellerDetails",
@@ -1331,6 +1342,7 @@
 					}else{
 						job["hasValue"] = hasValue;
 						 $("#submit").prop("disabled", true);
+						 alert(JSON.stringify(job));
 						$.ajax({
 						type : "POST",
 						url : "admin-addEditSellerDetails",
@@ -1514,6 +1526,23 @@
 
 			 $('.dropzone').removeClass(' dz-started ');
 			
+			 if(checkServiceTaken.indexOf(",")>=0){
+				 checkServiceTaken = checkServiceTaken.split(","); 
+				 for(var i =0; i< checkServiceTaken.length; i++){
+					 alert("CheckServiceTaken"+checkServiceTaken[i]);
+					 $("#servicePriceDetails"+checkServiceTaken[i]).removeClass('mask1');
+					 $("#servicePriceDetails"+checkServiceTaken[i]).removeClass("clicked");
+					 $("#servicePriceDetails"+checkServiceTaken[i]).addClass("mask");
+					 $("#serviceCheckedId"+checkServiceTaken[i]).addClass("hideDiv");
+				 }
+			 }else{
+				 $("#servicePriceDetails"+checkServiceTaken).removeClass('mask1');
+				 $("#servicePriceDetails"+checkServiceTaken).removeClass("clicked");
+				 $("#servicePriceDetails"+checkServiceTaken).addClass("mask");
+				 $("#serviceCheckedId"+checkServiceTaken).addClass("hideDiv");
+			 }
+			 /* checkServiceTaken = "";
+			 serviceTakenId = ""; */
 			 $("#sellerGenderDiv").html("");
 			 var mno ="<div class=\"form-group drop-custum\">"
 				+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\"-- Gender --\"><span class=\"filter-option pull-left\">-- Gender --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
@@ -1935,7 +1964,7 @@
 						$("#serviceTakenDiv").html("");
 						var abc = "";
 						for(var i = 0; i< data.categoryAvailables.length; i++){
-							abc = abc +"<div class=\"view view-eighth\" id='service"+Number(Number(i) + Number(1))+"' onclick=\"serviceTakenClick('"+Number(Number(i) + Number(1))+"')\" \" onmouseover=\"serviceTakenMouseOver('"+Number(Number(i) + Number(1))+"')\" onmouseleave=\"serviceTakenMouseLeave('"+Number(Number(i) + Number(1))+"')\">"
+							abc = abc +"<div class=\"view view-eighth\" id='service"+Number(Number(i) + Number(1))+"' onclick=\"serviceTakenClick('"+Number(Number(i) + Number(1))+"','"+data.categoryAvailables[i].id+"')\" \" onmouseover=\"serviceTakenMouseOver('"+Number(Number(i) + Number(1))+"')\" onmouseleave=\"serviceTakenMouseLeave('"+Number(Number(i) + Number(1))+"')\">"
                              +"<div class=\"service-modal-image\">"
                              +"<img src=\"resources/images/16.jpg\" class=\"img-responsive\" alt=\"\">"
                              +"<div class=\"flower-position\">"
@@ -1978,20 +2007,52 @@
 				}
 		});
 		}  
-		
-		function serviceTakenClick(id){
+		var checkServiceTaken = "";
+		var serviceTakenId = "";
+		function serviceTakenClick(id,categoryId){
 			if($("#servicePriceDetails"+id).hasClass("clicked")){
+				if(serviceTakenId.indexOf(",")< 0){
+					serviceTakenId = "";
+					checkServiceTaken = "";
+				}else{
+					var abc = serviceTakenId.split(",");
+					var cde = checkServiceTaken.split(",");
+					serviceTakenId = "";
+					checkServiceTaken = "";
+					for(var i =0;i<abc.length;i++){
+						if(abc[i] === categoryId){
+							abc[i] = "";
+							cde[i] = "";
+						}else{
+							if(serviceTakenId === ""){
+								serviceTakenId = abc[i];
+								checkServiceTaken = cde[i];
+							}else{
+								serviceTakenId = serviceTakenId + "," + abc[i];
+								checkServiceTaken = checkServiceTaken + "," + cde[i];
+							}
+						}
+					}
+				}
 				$("#servicePriceDetails"+id).removeClass('mask1');
 				$("#servicePriceDetails"+id).removeClass("clicked");
 				$("#servicePriceDetails"+id).addClass("mask");
 				$("#serviceCheckedId"+id).addClass("hideDiv");
 			}else{
+				if(serviceTakenId === ""){
+					serviceTakenId = categoryId;
+					checkServiceTaken = id;
+				}else{
+					serviceTakenId = serviceTakenId + "," + categoryId;
+					checkServiceTaken = checkServiceTaken +","+id;
+				}
 				if($("#servicePriceDetails"+id).hasClass("mask")){
 					$("#servicePriceDetails"+id).removeClass("mask");
 				}
 				$("#servicePriceDetails"+id).addClass('mask1');
 				$("#servicePriceDetails"+id).addClass("clicked");
 				$("#serviceCheckedId"+id).removeClass("hideDiv");
+				
 			}
 		}
 		
