@@ -1751,7 +1751,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if(singleFiles === "" || singleFiles !== Number(1)){
+		}else if(singleFiles === "" && $("#defaultDpImage").val() === ""){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Upload Thumnail Image Of The Product!!!',
@@ -1870,7 +1870,7 @@
 			}
 			job["noOfPieces"] = $("#noOfPieces").val();
 			job["advancePaymentPercentage"] = $("#advancePaymentPercentage").val();
-			if(singleFiles !== Number(1)){
+			if($("#defaultDpImage").val() === ""){
 				job["singleFiles"] = singleFiles;
 			}else{
 				job["singleFiles"] = singleFiles+"@*"+$("#defaultDpImage").val();
