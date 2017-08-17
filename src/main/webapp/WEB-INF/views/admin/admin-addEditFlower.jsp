@@ -159,7 +159,7 @@
                                     <div class="col-sm-6 col-xs-12">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="sellerId" id="sellerId" placeholder="Seller ID" readonly="readonly">
+                                                <input type="text" class="form-control" name="sellerId" id="sellerId" value = ${sessionScope.sellerDetailsSession.id} placeholder="Seller ID" readonly="readonly">
                                             </div>
                                         </div>
                                     </div>

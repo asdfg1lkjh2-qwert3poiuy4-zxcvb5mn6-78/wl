@@ -11,27 +11,86 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 public class CategoryTaken implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Id@GeneratedValue
+	@Id
+	@GeneratedValue
 	@Column(columnDefinition = "bigint(20) unsigned")
 	private String id;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(updatable=false)
+	private Date entryTime;
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;
+	@Temporal(TemporalType.DATE)
+	private Date startDate;
+	@Temporal(TemporalType.DATE)
+	private Date endDate;
+	private boolean isAnnually;
+	private boolean isPaid;
+	private boolean status;
 
 	@ManyToOne
 	private SellerDetails sellerDetails;
-	@Temporal(TemporalType.DATE)
-	private Date entryTime;
-	private boolean isActive;
-
+	
+	@ManyToOne
+	private CategoryAvailable categoryAvailable;
+	
 	// Setters And Getters
+	
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public boolean isAnnually() {
+		return isAnnually;
+	}
+
+	public void setAnnually(boolean isAnnually) {
+		this.isAnnually = isAnnually;
+	}
+
+	public boolean isPaid() {
+		return isPaid;
+	}
+
+	public void setPaid(boolean isPaid) {
+		this.isPaid = isPaid;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	public SellerDetails getSellerDetails() {
@@ -42,21 +101,11 @@ public class CategoryTaken implements Serializable {
 		this.sellerDetails = sellerDetails;
 	}
 
-	public Date getEntryTime() {
-		return entryTime;
+	public CategoryAvailable getCategoryAvailable() {
+		return categoryAvailable;
 	}
 
-	public void setEntryTime(Date entryTime) {
-		this.entryTime = entryTime;
+	public void setCategoryAvailable(CategoryAvailable categoryAvailable) {
+		this.categoryAvailable = categoryAvailable;
 	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-	
-
 }
