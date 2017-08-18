@@ -91,7 +91,7 @@
 								<div class="col-sm-2 col-xs-12">
 										<div class="form-group mrgn-less-15">
 											<div class="checkbox">
-												<label class="labelCheckbox labelPadding"> <input type="checkbox"
+												<label class="labelCheckbox labelPadding"><input type="checkbox"
 													name="annual" id="annual">
 													<span class="cr"><i
 														class="cr-icon glyphicon glyphicon-ok"></i></span> Annual Plan
@@ -380,7 +380,7 @@
 						  confirmButtonClass:"btn btn-raised gradient-right",
 						  animation:true
 						});
-				}else if(($("#halfYearly").val() === "" && $("#halfYearlyCharge").val() !=="") || ($("#halfYearly").val() === "")){
+				}else if((!$("#halfYearly").is(":checked") && $("#halfYearlyCharge").val() !=="") || (!$("#halfYearly").is(":checked"))){
 					swal({
 						  title: 'Warning!',
 						  text: 'Please Select Half Yearly Plan!!!',
@@ -390,7 +390,7 @@
 						  confirmButtonClass:"btn btn-raised gradient-right",
 						  animation:true
 						});
-				}else if(($("#halfYearlyCharge").val() === "" && $("#halfYearly").val() !== "") || ($("#halfYearlyCharge").val() === "")){
+				}else if(($("#halfYearlyCharge").val() === "" && $("#halfYearly").is(":checked")) || ($("#halfYearlyCharge").val() === "")){
 					swal({
 						  title: 'Warning!',
 						  text: 'Please Enter Registration Charge For Half Yearly Plan!!!',
@@ -410,7 +410,7 @@
 						  confirmButtonClass:"btn btn-raised gradient-right",
 						  animation:true
 						});
-				}else if(($("#annualCharge").val() === "") && ($("#annual").val() !=="")){
+				}else if(($("#annualCharge").val() === "") && ($("#annual").is(":checked"))){
 					swal({
 						  title: 'Warning!',
 						  text: 'Please Enter Registration Charge For Annaul Plan!!!',
@@ -437,14 +437,14 @@
 				if($("#categoryDescription").val() !==""){
 					job["categoryDescription"] = $("#categoryDescription").val();
 				}
-				job["isHalfYearly"] = $("#halfYearly").prop("checked") ? true : false;
+				job["halfYearly"] = $("#halfYearly").prop("checked") ? true : false;
 				alert($("#halfYearlyCharge").val());
 				job["halfYearlyCharge"] = $("#halfYearlyCharge").val();
 				if($("#annual").is(":checked")){
-					job["isAnnual"] = true;
+					job["annual"] = true;
 					job["annualCharge"] = $("#annualCharge").val();
 				}else{
-					job["isAnnual"] = false;
+					job["annual"] = false;
 					job["annualCharge"] = 0.00;
 				}
 				job["allFiles"] = file1; 
@@ -452,7 +452,7 @@
 				  $.ajax({
 					type : "POST",
 					url : "admin-addEditCategoryAvailable",
-					data : JSON.parse(job),
+					data : JSON.stringify(job),
 					contentType : "application/json",
 					processData : false,
 					success : function(data) {

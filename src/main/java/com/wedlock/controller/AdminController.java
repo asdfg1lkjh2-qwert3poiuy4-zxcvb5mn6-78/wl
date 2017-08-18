@@ -242,31 +242,6 @@ public class AdminController {
 		return adminResponseClass;
 	}
 	
-	/*//for flower Type
-	
-	@RequestMapping(value = "/admin-addEditFlowerType", method= RequestMethod.POST)
-	public @ResponseBody boolean adminAddEditFlowerType(@RequestBody FlowerType flowerType) {
-		if(flowerType.getEditId() != 0){
-			flowerType.setId((flowerType.getEditId()));
-		}
-		//System.out.println("\\\\\\ggfhfghgf "+flowerType.isStatus());
-		AdminResponseClass adminResponseClass = flowerTypeService.saveFlowerType(flowerType);
-		return adminResponseClass.isStatus();
-		
-	}
-
-	@RequestMapping(value = "/admin-fetchAllFlowerType", method = RequestMethod.GET)
-	public @ResponseBody AdminResponseClass fetchAllFlowerType() {
-		AdminResponseClass adminResponseClass = flowerTypeService.fetchAllFlowerType();
-		return adminResponseClass;
-	}
-
-	@RequestMapping(value = "/admin-fetchFlowerTypeById", method = RequestMethod.GET)
-	public @ResponseBody AdminResponseClass fetchFlowerTypeById(@RequestParam("id") Long id) {
-		AdminResponseClass adminResponseClass = flowerTypeService.fetchFlowerTypeById(id);
-		return adminResponseClass;
-	}*/
-
 	/* For Service Available */
 
 	@RequestMapping(value = "/singleUpload", method = RequestMethod.POST)

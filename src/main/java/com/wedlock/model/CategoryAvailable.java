@@ -34,7 +34,6 @@ private static final long serialVersionUID = 1L;
 	private boolean isAnnual;
 	private double annualCharge;
 	private String iconFile;
-	private double registrationCharge;
 	private boolean isActive;
 	
 	@OneToMany(mappedBy="categoryAvailable")
@@ -90,12 +89,6 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setIconFile(String iconFile) {
 		this.iconFile = iconFile;
-	}
-	public double getRegistrationCharge() {
-		return registrationCharge;
-	}
-	public void setRegistrationCharge(double registrationCharge) {
-		this.registrationCharge = registrationCharge;
 	}
 	public boolean isActive() {
 		return isActive;
