@@ -105,4 +105,12 @@ public class HomeController {
 	public String adminViewFloristProducts(){
 		return "admin/admin-viewFloristProducts";
 	}
+	@RequestMapping(value ="/admin-addEditFoodType")
+	public String adminAddEditFoodType(){
+		return "admin/admin-addEditFoodType";
+	}
+	@RequestMapping(value ="/admin-addEditFoodName")
+	public String adminAddEditFoodName(){
+		return "admin/admin-addEditFoodName";
+	}
 }

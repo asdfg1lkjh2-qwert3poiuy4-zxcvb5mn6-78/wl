@@ -2052,8 +2052,8 @@
 				$("#servicePriceDetails"+id).addClass('mask1');
 				$("#servicePriceDetails"+id).addClass("clicked");
 				$("#serviceCheckedId"+id).removeClass("hideDiv");
-				
 			}
+			alert(serviceTakenId);
 		}
 		
 		function serviceTakenMouseOver(id){
