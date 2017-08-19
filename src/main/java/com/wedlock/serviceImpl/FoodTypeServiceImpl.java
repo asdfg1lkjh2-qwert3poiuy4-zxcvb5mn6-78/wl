@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +58,20 @@ public class FoodTypeServiceImpl implements FoodTypeService{
 	
 	@Override
 	public AdminResponseClass fetchFoodTypeByIdWithStatus(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		boolean status = false;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		
+		Query query = manager.createQuery("Select ft from FoodType ft where f.id=:id AND ft.status=true");
+		query.setParameter("id", id);
+		
+		if(!(query.getResultList().isEmpty()))
+		{
+			FoodType foodType = (FoodType) query.getResultList().get(0);
+			status = true;
+			adminResponseClass.setFoodType(foodType);
+		}
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
 	}
 	
 }

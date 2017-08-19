@@ -101,6 +101,9 @@ public class AdminResponseClass {
 	private List<FoodType> listFoodType;
 	private FoodType foodType;
 	
+	/*For Food*/
+	private List<Food> listFood;
+	private Food food;
 	// Setters And Getters
 
 	public boolean isStatus() {
@@ -501,5 +504,21 @@ public class AdminResponseClass {
 
 	public void setFoodType(FoodType foodType) {
 		this.foodType = foodType;
+	}
+
+	public List<Food> getListFood() {
+		return listFood;
+	}
+
+	public void setListFood(List<Food> listFood) {
+		this.listFood = listFood;
+	}
+
+	public Food getFood() {
+		return food;
+	}
+
+	public void setFood(Food food) {
+		this.food = food;
 	}
 }

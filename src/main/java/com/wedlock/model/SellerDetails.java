@@ -106,6 +106,10 @@ public class SellerDetails implements Serializable {
 	@JsonIgnore
 	private Otp otp;
 	
+	@OneToMany(mappedBy = "sellerDetails")
+	@JsonIgnore
+	private List<Food> food;
+	
 	@Transient
 	private String stateName;
 	@Transient
@@ -488,5 +492,28 @@ public class SellerDetails implements Serializable {
 	public void setMobileVerified(boolean isMobileVerified) {
 		this.isMobileVerified = isMobileVerified;
 	}
-	
+
+	public List<AllProducts> getAllProducts() {
+		return allProducts;
+	}
+
+	public void setAllProducts(List<AllProducts> allProducts) {
+		this.allProducts = allProducts;
+	}
+
+	public Otp getOtp() {
+		return otp;
+	}
+
+	public void setOtp(Otp otp) {
+		this.otp = otp;
+	}
+
+	public List<Food> getFood() {
+		return food;
+	}
+
+	public void setFood(List<Food> food) {
+		this.food = food;
+	}
 }

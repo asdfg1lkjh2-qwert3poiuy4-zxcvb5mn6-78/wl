@@ -1,19 +1,26 @@
 package com.wedlock.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class FoodType {
+public class FoodType implements Serializable
+{
+	private static final long serialVersionUID = 1L;
 	@Id@GeneratedValue
 	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
@@ -29,6 +36,11 @@ public class FoodType {
 	private Date updateTime;
 	private boolean status;
 
+	
+	@OneToMany(mappedBy="foodType")
+	@JsonIgnore
+	private List<Food> food;
+	
 	//Setters And Getters
 	public long getId() {
 		return id;
@@ -68,6 +80,14 @@ public class FoodType {
 
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+
+	public List<Food> getFood() {
+		return food;
+	}
+
+	public void setFood(List<Food> food) {
+		this.food = food;
 	}
 
 }
