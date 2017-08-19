@@ -9,19 +9,27 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 public class FoodType {
- @Id@GeneratedValue
- @Column(columnDefinition = "bigint(20) unsigned")
- private long id;
- private String name;
- @Column(columnDefinition = "TEXT")
- private String description;
- @Temporal(TemporalType.TIMESTAMP)
- private Date entryTime;
- private boolean isActive;
+	@Id@GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
+	private long id;
+	private String name;
+	@Column(columnDefinition = "TEXT")
+	private String description;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(updatable = false)
+	private Date entryTime;
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;
+	private boolean status;
 
-  //Setters And Getters
+	//Setters And Getters
 	public long getId() {
 		return id;
 	}
@@ -46,21 +54,20 @@ public class FoodType {
 		this.description = description;
 	}
 
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
 	public Date getEntryTime() {
 		return entryTime;
 	}
 
-	public void setEntryTime(Date entryTime) {
-		this.entryTime = entryTime;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-	
 
 }

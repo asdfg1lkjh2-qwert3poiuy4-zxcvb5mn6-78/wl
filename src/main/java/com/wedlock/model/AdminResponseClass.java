@@ -97,6 +97,10 @@ public class AdminResponseClass {
 	private List<GeneralProduct> listGeneralProduct;
 	private GeneralProduct generalProduct;
 	
+	/*For Food Type*/
+	private List<FoodType> listFoodType;
+	private FoodType foodType;
+	
 	// Setters And Getters
 
 	public boolean isStatus() {
@@ -481,5 +485,21 @@ public class AdminResponseClass {
 
 	public void setGeneralProduct(GeneralProduct generalProduct) {
 		this.generalProduct = generalProduct;
+	}
+
+	public List<FoodType> getListFoodType() {
+		return listFoodType;
+	}
+
+	public void setListFoodType(List<FoodType> listFoodType) {
+		this.listFoodType = listFoodType;
+	}
+
+	public FoodType getFoodType() {
+		return foodType;
+	}
+
+	public void setFoodType(FoodType foodType) {
+		this.foodType = foodType;
 	}
 }

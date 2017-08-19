@@ -42,6 +42,7 @@ import com.wedlock.model.ApiResponseClass;
 import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.City;
 import com.wedlock.model.Flower;
+import com.wedlock.model.FoodType;
 import com.wedlock.model.FreesProduct;
 import com.wedlock.model.IntProductOccasion;
 import com.wedlock.model.Occasion;
@@ -66,6 +67,7 @@ import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CategoryTakenService;
 import com.wedlock.service.CityService;
 import com.wedlock.service.FlowerService;
+import com.wedlock.service.FoodTypeService;
 import com.wedlock.service.FreesProductService;
 import com.wedlock.service.MailService;
 import com.wedlock.service.OccasionService;
@@ -143,6 +145,8 @@ public class AdminController {
 	private FreesProductService freesProductService;
 	@Autowired
 	private CategoryTakenService categoryTakenService;
+	@Autowired
+	private FoodTypeService foodTypeService;
 	@Autowired
 	HttpSession httpSession;
 	
@@ -1922,6 +1926,82 @@ public class AdminController {
 	{
 	    AdminResponseClass adminResponseClass = freesProductService.fetchAllProductBySellerId((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
 	    return adminResponseClass;
+	}
+	
+	/*For Food Type*/
+	@RequestMapping(value = "/admin-addEditFoodType", method = RequestMethod.POST)
+	public @ResponseBody boolean addEditFoodType(@RequestBody ObjectNode objectNode) {
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		boolean status = false;
+		if(Long.parseLong(objectNode.get("editFoodTypeId").asText())==0)
+		{
+			if(objectNode.get("foodTypeName").asText().trim().contains(","))
+			{
+				String foodTypeNames[] = objectNode.get("foodTypeName").asText().trim().split(",");
+				String foodTypeDescriptions[] = objectNode.get("foodTypeDescription").asText().trim().split(",");
+				for(int i=0; i<foodTypeNames.length; i++)
+				{
+					FoodType foodType = new FoodType();
+					if(!foodTypeNames[i].equals(""))
+					{
+						foodType.setName(foodTypeNames[i].trim());
+						foodType.setDescription(foodTypeDescriptions[i].trim());
+						foodType.setStatus(Boolean.TRUE);
+						foodTypeService.saveFoodType(foodType);
+						status = true;
+					}
+				}
+				adminResponseClass.setStatus(status);
+			}
+			else
+			{
+				String foodTypeName = objectNode.get("foodTypeName").asText().trim();
+				String foodTypeDescription = objectNode.get("foodTypeDescription").asText().trim();
+				if(!foodTypeName.equals(""))
+				{
+					FoodType foodType = new FoodType();
+					foodType.setName(foodTypeName);
+					foodType.setDescription(foodTypeDescription);
+					foodType.setStatus(Boolean.TRUE);
+					foodTypeService.saveFoodType(foodType);
+					status = true;
+				}
+				adminResponseClass.setStatus(status);
+			}
+		}
+		else
+		{	long id = Long.parseLong(objectNode.get("editFoodTypeId").asText());
+			String foodTypeName = objectNode.get("foodTypeName").asText().trim();
+			String foodTypeDescription = objectNode.get("foodTypeDescription").asText().trim();
+			
+			if(!foodTypeName.equals(""))
+			{
+				FoodType foodType = new FoodType();
+				foodType.setId(id);
+				foodType.setName(foodTypeName);
+				foodType.setDescription(foodTypeDescription);
+				if(objectNode.get("typeStatusSelect").asText().trim().equalsIgnoreCase("Yes"))
+					foodType.setStatus(Boolean.TRUE);
+				else
+					foodType.setStatus(Boolean.FALSE);
+				foodTypeService.saveFoodType(foodType);
+				status = true;
+			}
+			adminResponseClass.setStatus(status);
+		}
+		return adminResponseClass.isStatus();
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllFoodTypes", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllFoodTypes() {
+		AdminResponseClass adminResponseClass = foodTypeService.fetchAllFoodTypes();
+		return adminResponseClass;
+	}
+	
+	@RequestMapping(value = "/admin-fetchFoodTypeById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchFoodTypeById(@RequestParam("id") long id) {
+		AdminResponseClass adminResponseClass = foodTypeService.fetchFoodTypeById(id);
+		return adminResponseClass;
 	}
 }
 
