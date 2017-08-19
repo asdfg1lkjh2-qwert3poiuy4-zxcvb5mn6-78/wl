@@ -1963,7 +1963,7 @@
 				var job = {};
 				job["editProductId"] = $("#editProductId").val();
 				job["allProductId"] = $("#allProductId").val();
-				job["productName"] = $("#productName").val();
+				job["name"] = $("#productName").val();
 				job["sellerId"] = $("#sellerId").val();
 				job["photographyTypeName"] = $("#photographyTypeName").val();
 				job["photographyOccasionName"] = $("#photographyOccasionName").val();
@@ -1972,7 +1972,7 @@
 				}else{
 					job["multipleFiles"] = multipleFiles;
 				}
-				job["photoDescription"] = $("#photoDescription").val();
+				job["description"] = $("#photoDescription").val();
 				job["noOfPhotosProvided"] = $("#noOfPhotosProvided").val();
 				if(videoFiles === ""){
 					job["videoFiles"] = Number(0);
@@ -2649,7 +2649,7 @@
 			contentType : "application/json",
 			success : function(data) {
 					if(data.status){
-						$("#photoDescription").val(data.sellerPhotographer.photoDescription);
+						$("#photoDescription").val(data.sellerPhotographer.description);
 						$("#noOfPhotosProvided").val(data.sellerPhotographer.noOfPhotosProvided);
 						$("#videoDescription").val(data.sellerPhotographer.videoDescription);
 						$("#videoLength").val(data.sellerPhotographer.videoLength);
@@ -2773,7 +2773,7 @@
 						var productNameDiv = "<div class=\"col-sm-6 col-xs-12\">"
 						+"<div class=\"form-group\">"
 						+"<div class=\"form-line\">"
-						+"<input type=\"text\" class=\"form-control\" name=\"productName\" id =\"productName\" value="+data.sellerPhotographer.productName+" placeholder=\"Product Name\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"productName\" id =\"productName\" value="+data.sellerPhotographer.name+" placeholder=\"Product Name\">"
 						+"</div>"
 						+"</div>"
 						+"</div>"

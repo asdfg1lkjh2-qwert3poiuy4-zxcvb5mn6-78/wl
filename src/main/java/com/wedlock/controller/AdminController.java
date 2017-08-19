@@ -343,7 +343,7 @@ public class AdminController {
 		if(categoryAvailable.getEditCategoryId() !=0){
 			categoryAvailable.setId(categoryAvailable.getEditCategoryId());
 		}
-		System.out.println("//// is HalfYearly"+categoryAvailable.isHalfYearly()+"//// Half Yearly Charge"+categoryAvailable.getHalfYearlyCharge());
+		//System.out.println("//// is HalfYearly"+categoryAvailable.isHalfYearly()+"//// Half Yearly Charge"+categoryAvailable.getHalfYearlyCharge());
 		AdminResponseClass adminResponseClass = categoryAvailableService.saveCategoryAvailable(categoryAvailable);
 		return adminResponseClass.isStatus();
 	}
@@ -699,14 +699,17 @@ public class AdminController {
 							
 					}
 				    if(adminResponseClass.isStatus()){
-				    	String categoryTaken;
+				    	String categoryTaken = "";
 				    	if(objectNode.get("serviceTakenId").asText().indexOf(",") < 0){
 				    		categoryTaken = objectNode.get("serviceTakenId").asText()+"_"+sellerDetails.getSellerRegistrationStart()+"_"+"Yes";
 				    		adminResponseClass = categoryTakenService.saveCategoryTaken(sellerDetails, categoryTaken);
 				    	}else{
 				    		String categoryTakens[] = objectNode.get("serviceTakenId").asText().split(",");
 				    		for(int i =0; i<categoryTakens.length; i++){
-				    			if(i!=0){
+				    			
+				    			categoryTaken = categoryTaken + categoryTakens[i]+"_"+sellerDetails.getSellerRegistrationStart()+"_"+"Yes" + ",";
+				    			
+				    			/*if(i!=0){
 				    				if(adminResponseClass.isStatus()){
 				    					categoryTaken = categoryTakens[i]+"_"+sellerDetails.getSellerRegistrationStart()+"_"+"Yes";
 				    					adminResponseClass = categoryTakenService.saveCategoryTaken(sellerDetails, categoryTaken);
@@ -716,8 +719,10 @@ public class AdminController {
 				    			}else{
 				    				categoryTaken = categoryTakens[i]+"_"+sellerDetails.getSellerRegistrationStart()+"_"+"Yes";
 				    				adminResponseClass = categoryTakenService.saveCategoryTaken(sellerDetails, categoryTaken);
-				    			}
+				    			}*/
 				    		}
+				    		categoryTaken = categoryTaken.substring(0, categoryTaken.length()-1);
+				    		adminResponseClass = categoryTakenService.saveCategoryTaken(sellerDetails, categoryTaken);
 				    	}
 				    }
 					if(objectNode.get("hasValue").asInt() == 1 && adminResponseClass.isStatus()){
@@ -983,11 +988,11 @@ public class AdminController {
 				}
 
 			}
-			sellerPhotographer.setProductName(objectNode.get("productName").asText());
+			sellerPhotographer.setName(objectNode.get("name").asText());
 			adminResponseClass = photographyTypeService
 					.fetchPhotographyTypeById(objectNode.get("photographyTypeName").asLong());
 			sellerPhotographer.setPhotographyType(adminResponseClass.getPhotographyType());
-			sellerPhotographer.setPhotoDescription(objectNode.get("photoDescription").asText());
+			sellerPhotographer.setDescription(objectNode.get("description").asText());
 			sellerPhotographer.setNoOfPhotosProvided(objectNode.get("noOfPhotosProvided").asInt());
 			sellerPhotographer.setVideoLength(objectNode.get("videoLength").asInt());
 			if (objectNode.get("videoDescription") != null) {
@@ -1830,7 +1835,7 @@ public class AdminController {
 		}
 		//System.out.println("////Admin Response Class after discount insert: " + adminResponseClass.isStatus());
 		
-		/*//For freeProduct Insert
+		//For freeProduct Insert
 		if(adminResponseClass.isStatus())
 		{
 			if (!objectNode.get("freeProduct").asText().equals("") || !objectNode.get("freeProductQty").asText().equals("") || !objectNode.get("freeProductValidity").asText().equals(""))
@@ -1880,7 +1885,7 @@ public class AdminController {
 		}
 		//Testing Purpose
 		if(!adminResponseClass.getMssgStatus().equals("Free Product Successfully Inserted"))
-			adminResponseClass.setMssgStatus("No Free Product Found For Insert");*/
+			adminResponseClass.setMssgStatus("No Free Product Found For Insert");
 		//System.out.println("\\\\"+adminResponseClass.getMssgStatus());
 		
 		
@@ -1909,6 +1914,13 @@ public class AdminController {
 	@RequestMapping(value="/admin-fetchAllSellerProducts", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchAllSellerProducts() throws ParseException {
 	    AdminResponseClass adminResponseClass = flowerService.fetchAllSellerProducts((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
+	    return adminResponseClass;
+	}
+	
+	@RequestMapping(value="/admin-fetchAllProductsBySeller", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllProductsBySeller()
+	{
+	    AdminResponseClass adminResponseClass = freesProductService.fetchAllProductBySellerId((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
 	    return adminResponseClass;
 	}
 }

@@ -23,7 +23,7 @@ public class CategoryTaken implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(columnDefinition = "bigint(20) unsigned")
-	private String id;
+	private long id;
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(updatable=false)
@@ -48,11 +48,11 @@ public class CategoryTaken implements Serializable {
 	
 	// Setters And Getters
 	
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	

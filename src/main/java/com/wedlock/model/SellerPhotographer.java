@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,9 +24,9 @@ public class SellerPhotographer implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	private String id;
-	private String productName;
+	private String name;
 	@Column(columnDefinition = "TEXT")
-	private String photoDescription;
+	private String description;
 	private int noOfPhotosProvided;
 	@Column(columnDefinition = "TEXT")
 	private String videoDescription;
@@ -63,20 +62,20 @@ public class SellerPhotographer implements Serializable {
 		this.id = id;
 	}
 
-	public String getProductName() {
-		return productName;
+	public String getName() {
+		return name;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getPhotoDescription() {
-		return photoDescription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setPhotoDescription(String photoDescription) {
-		this.photoDescription = photoDescription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public int getNoOfPhotosProvided() {

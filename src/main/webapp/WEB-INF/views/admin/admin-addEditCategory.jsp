@@ -91,7 +91,7 @@
 								<div class="col-sm-2 col-xs-12">
 										<div class="form-group mrgn-less-15">
 											<div class="checkbox">
-												<label class="labelCheckbox labelPadding"><input type="checkbox"
+												<label class="labelCheckbox labelPadding"> <input type="checkbox"
 													name="annual" id="annual">
 													<span class="cr"><i
 														class="cr-icon glyphicon glyphicon-ok"></i></span> Annual Plan
@@ -123,6 +123,12 @@
 											<input type="text" class="form-control"
 												name="categoryUrl" id="categoryUrl"
 												placeholder="Category Url">
+										</div>
+										<br>
+										<div class="form-line">
+											<input type="text" class="form-control"
+												name="categoryTableName" id="categoryTableName"
+												placeholder="Original Table Name">
 										</div>
 									</div>
 								</div>

@@ -93,6 +93,10 @@ public class AdminResponseClass {
 	private List<IntProductOccasion> listIntProductOccasion;
 	private IntProductOccasion intProductOccasion;
 	
+	/*For General Product*/
+	private List<GeneralProduct> listGeneralProduct;
+	private GeneralProduct generalProduct;
+	
 	// Setters And Getters
 
 	public boolean isStatus() {
@@ -463,4 +467,19 @@ public class AdminResponseClass {
 		this.intProductOccasion = intProductOccasion;
 	}
 
+	public List<GeneralProduct> getListGeneralProduct() {
+		return listGeneralProduct;
+	}
+
+	public void setListGeneralProduct(List<GeneralProduct> listGeneralProduct) {
+		this.listGeneralProduct = listGeneralProduct;
+	}
+
+	public GeneralProduct getGeneralProduct() {
+		return generalProduct;
+	}
+
+	public void setGeneralProduct(GeneralProduct generalProduct) {
+		this.generalProduct = generalProduct;
+	}
 }

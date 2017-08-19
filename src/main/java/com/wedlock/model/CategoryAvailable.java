@@ -28,12 +28,12 @@ private static final long serialVersionUID = 1L;
 	private String categoryName;
 	@Column(columnDefinition = "TEXT")
 	private String categoryDescription;
+	private String tableName;
 	private String categoryUrl;
-	private boolean isHalfYearly;
 	private double halfYearlyCharge;
-	private boolean isAnnual;
 	private double annualCharge;
 	private String iconFile;
+	private double registrationCharge;
 	private boolean isActive;
 	
 	@OneToMany(mappedBy="categoryAvailable")
@@ -56,6 +56,7 @@ private static final long serialVersionUID = 1L;
 
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="categoryAvailable",fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<ProductType> productType;
 	
 	@OneToMany(mappedBy="categoryAvailable")
@@ -66,6 +67,9 @@ private static final long serialVersionUID = 1L;
 	private String allFiles;
 	@Transient
 	private long editCategoryId;
+	
+	@Transient
+	private long allProductId;
 	
 	
 	public CategoryAvailable() {
@@ -89,6 +93,12 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setIconFile(String iconFile) {
 		this.iconFile = iconFile;
+	}
+	public double getRegistrationCharge() {
+		return registrationCharge;
+	}
+	public void setRegistrationCharge(double registrationCharge) {
+		this.registrationCharge = registrationCharge;
 	}
 	public boolean isActive() {
 		return isActive;
@@ -156,29 +166,35 @@ private static final long serialVersionUID = 1L;
 	public void setCategoryTaken(List<CategoryTaken> categoryTaken) {
 		this.categoryTaken = categoryTaken;
 	}
-	public boolean isHalfYearly() {
-		return isHalfYearly;
-	}
-	public void setHalfYearly(boolean isHalfYearly) {
-		this.isHalfYearly = isHalfYearly;
-	}
 	public double getHalfYearlyCharge() {
 		return halfYearlyCharge;
 	}
 	public void setHalfYearlyCharge(double halfYearlyCharge) {
 		this.halfYearlyCharge = halfYearlyCharge;
 	}
-	public boolean isAnnual() {
-		return isAnnual;
-	}
-	public void setAnnual(boolean isAnnual) {
-		this.isAnnual = isAnnual;
-	}
 	public double getAnnualCharge() {
 		return annualCharge;
 	}
 	public void setAnnualCharge(double annualCharge) {
 		this.annualCharge = annualCharge;
+	}
+	public String getTableName() {
+		return tableName;
+	}
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+	public List<ProductType> getProductType() {
+		return productType;
+	}
+	public void setProductType(List<ProductType> productType) {
+		this.productType = productType;
+	}
+	public long getAllProductId() {
+		return allProductId;
+	}
+	public void setAllProductId(long allProductId) {
+		this.allProductId = allProductId;
 	}
 	
 }

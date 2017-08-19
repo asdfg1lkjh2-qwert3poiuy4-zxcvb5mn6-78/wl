@@ -57,7 +57,7 @@ public class AllProductsImpl implements AllProductsService{
 		return adminResponseClass;
 	}
 
-	@Override
+	/*@Override
 	public AdminResponseClass fetchAllProductBySellerIdWithStatus(String sellerId) 
 	{
 		boolean status = false;
@@ -81,14 +81,6 @@ public class AllProductsImpl implements AllProductsService{
 		boolean status = false;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		
-		/* long catId = 0;
-		Query query = manager.createQuery("Select cat.id from CategoryAvailable cat where cat.isActive =true and cat.categoryName =:catName");
-		query.setParameter("catName", catName);
-		if(!(query.getResultList().isEmpty()))
-		{
-			catId = (long)query.getResultList().get(0);
-		}*/
-		
 		Query query = manager.createQuery("Select ap from AllProducts ap where ap.sellerDetails.id =:sellerId and ap.categoryAvailable.categoryName =:catName and ap.categoryAvailable.isActive =true order by ap.entryTime");
 		query.setParameter("sellerId", sellerId);
 		query.setParameter("catName", catName);
@@ -102,6 +94,6 @@ public class AllProductsImpl implements AllProductsService{
 		}
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
-	}
+	}*/
 	
 }

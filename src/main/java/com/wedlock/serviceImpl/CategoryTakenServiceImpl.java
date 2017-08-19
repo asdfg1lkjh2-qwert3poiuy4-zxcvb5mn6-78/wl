@@ -3,6 +3,7 @@ package com.wedlock.serviceImpl;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.transaction.Transactional;
 
@@ -39,19 +40,19 @@ public class CategoryTakenServiceImpl implements CategoryTakenService{
 		try {
 			if(categoryTakenData.contains(","))
 			{
-				CategoryTaken categoryTaken = new CategoryTaken();
 				String singleData[] = categoryTakenData.split(",");
 				for(String subSingleData : singleData)
 				{
 					if(!subSingleData.trim().equals(""))
-					{	
+					{
+						CategoryTaken categoryTaken = new CategoryTaken();
 						status = false;
 						String particularSubSingleData[] = subSingleData.split("_");
 						AdminResponseClass catData = categoryAvailableService.fetchCategoryAvailableById(Long.parseLong(particularSubSingleData[0].trim()));
 						if(!catData.isStatus())
 							break;
 						categoryTaken.setCategoryAvailable(catData.getCategoryAvailable());
-						Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(particularSubSingleData[1].trim());
+						Date startDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH).parse(particularSubSingleData[1].trim());
 						categoryTaken.setStartDate(startDate);
 						//categoryTaken.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(particularSubSingleData[2].trim()));
 						if(particularSubSingleData[2].trim().equalsIgnoreCase("Yes"))
@@ -90,7 +91,7 @@ public class CategoryTakenServiceImpl implements CategoryTakenService{
 					AdminResponseClass catData = categoryAvailableService.fetchCategoryAvailableById(Long.parseLong(particularSubSingleData[0].trim()));
 					
 					categoryTaken.setCategoryAvailable(catData.getCategoryAvailable());
-					Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(particularSubSingleData[1].trim());
+					Date startDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH).parse(particularSubSingleData[1].trim());
 					categoryTaken.setStartDate(startDate);
 					//categoryTaken.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(particularSubSingleData[2].trim()));
 					if(particularSubSingleData[2].trim().equalsIgnoreCase("Yes"))
