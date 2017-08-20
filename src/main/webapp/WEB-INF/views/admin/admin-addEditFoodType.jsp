@@ -54,8 +54,8 @@
 									<div class="col-sm-5 col-xs-12">
 										<div class="form-group">
 											<div class="form-line">
-												<input type="text" class="form-control" name="foodName"
-													id="foodName" placeholder="Food Name">
+												<input type="text" class="form-control" name="foodTypeName"
+													id="foodTypeName" placeholder="Food Name">
 											</div>
 										</div>
 									</div>
@@ -63,7 +63,7 @@
 										<div class="form-group">
 											<label for="comment">Food Description</label>
 											<textarea class="form-control textarea-add" rows="5"
-												name="foodDescription" id="foodDescription"></textarea>
+												name="foodTypeDescription" id="foodTypeDescription"></textarea>
 										</div>
 									</div>
 									<div class="col-sm-3 col-xs-12">
@@ -253,8 +253,8 @@
 	
 	//For Adding new div
 	function addDiv() {
-		if ($("#foodName" + i).val() === ""
-				|| $("#foodName").val() === "") {
+		if ($("#foodTypeName" + i).val() === ""
+				|| $("#foodTypeName").val() === "") {
 			swal({
 				title : 'Warning!',
 				text : 'Please Enter Food Type Name!!!',
@@ -274,14 +274,14 @@
 										+ "<div class=\"col-sm-5 col-xs-12\">"
 										+ "<div class=\"form-group\">"
 										+ "<div class=\"form-line\">"
-										+ "<input type=\"text\" class=\"form-control\"name=\"foodName\" id='foodName"+i+"' placeholder=\"Food Type Name\">"
+										+ "<input type=\"text\" class=\"form-control\"name=\"foodTypeName\" id='foodTypeName"+i+"' placeholder=\"Food Type Name\">"
 										+ "</div>"
 										+ "</div>"
 										+ "</div>"
 										+ "<div class=\"col-sm-5 col-xs-12\">"
 										+ "<div class=\"form-group\">"
 										+ "<label for=\"comment\">Food Type Description</label>"
-										+ "<textarea class=\"form-control textarea-add\" rows=\"5\" name=\"foodDescription\" id='foodDescription"+i+"'></textarea>"
+										+ "<textarea class=\"form-control textarea-add\" rows=\"5\" name=\"foodTypeDescription\" id='foodTypeDescription"+i+"'></textarea>"
 										+ "</div>"
 										+ "</div>"
 										+ "<div class=\"col-sm-2 col-xs-12\">"
@@ -314,7 +314,7 @@
     $("#submit").click(function (event){
 		
 		event.preventDefault();
-		if($("#foodName").val() === ""){
+		if($("#foodTypeName").val() === ""){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter Food Type Name!!!',
@@ -327,40 +327,39 @@
 		}else{
 			var job = {};
 			job["editFoodTypeId"] = $("#editFoodTypeId").val();
-			job["foodName"] = $("#foodName").val();
+			job["foodName"] = $("#foodTypeName").val();
 			job["typeStatusSelect"] = $("#typeStatusSelect").val();
 			if($("#foodDescription").val() !== ""){
-				job["foodDescription"] = $("#foodDescription").val();
+				job["foodDescription"] = $("#foodTypeDescription").val();
 			}
 			
 			
 			for (var k = 1; k <= Number(i); k++) {
-				if (!(($("#foodName" + k).val() === undefined) && ($(
-						"#foodDescription" + k)
+				if (!(($("#foodTypeName" + k).val() === undefined) && ($(
+						"#foodTypeDescription" + k)
 						.val() === undefined))) {
 					if (k === Number(1)) {
-						if($("#foodDescription"+ k).val() !=""){
-							job["foodDescription"] = $(
-									"#foodName" + k)
+						if($("#foodTypeDescription"+ k).val() !=""){
+							job["foodTypeDescription"] = $(
+									"#foodTypeName" + k)
 									.val()
 									+ ","
-									+ $("#foodDescription"+ k).val();
+									+ $("#foodTypeDescription"+ k).val();
 						}else{
-							job["foodDescription"] = job["foodDescription"]+","+$("#foodName" + k)
-									.val()
+							job["foodDescription"] = job["foodDescription"]+","+$("#foodTypeName" + k).val();
 						}
 						
 					} else {
-						if($("#foodDescription"+k).val() !=""){
-							job["foodDescription"] = job["foodDescription"]
+						if($("#foodTypeDescription"+k).val() !=""){
+							job["foodTypeDescription"] = job["foodTypeDescription"]
 							+ "_"
-							+ $("#foodName" + k).val()
+							+ $("#foodTypeName" + k).val()
 							+ ","
-							+ $("#foodDescription"+ k).val();
+							+ $("#foodTypeDescription"+ k).val();
 						}else{
-							job["foodDescription"] = job["foodDescription"]
+							job["foodTypeDescription"] = job["foodTypeDescription"]
 							+ "_"
-							+ $("#foodName" + k).val()
+							+ $("#foodTypeName" + k).val()
 						}
 						
 					}
@@ -403,8 +402,8 @@
 
 			}, complete : function(){
 				//Removing all the values after successful submission of the form
-				$("#foodName").val("");
-				$("#foodDescription").val("");
+				$("#foodTypeName").val("");
+				$("#foodTypeDescription").val("");
 				$("#editFoodTypeId").val("0");
 				for(var k =1; k<= Number(i); k++){
 					removeTypeDiv(Number(k));
@@ -468,35 +467,35 @@
 		 }); 
 		
 	}
-    /* function editPhotographyOccaasionById(occasionId){
+     function editFoodTypeById(foodTypeId){
 		$.ajax({
 			type : "GET",
-			url : "admin-fetchPhotographyOccasionById?id="+occasionId,
+			url : "admin-fetchFoodTypesById?id="+foodTypeId,
 			data : "",
 			processData : false,
 			contentType :"application/json",
 			success : function(data) {
-				$("#occasionName").val(data.photographyOccasion.occasionName);
-				if(data.photographyOccasion.occasionDescription !== null){
-					$("#occasionDescription").val(data.photographyOccasion.occasionDescription);
+				$("#foodTypeName").val(data.foodType.name);
+				if(data.foodType.description !== null){
+					$("#foodTypeDescription").val(data.foodType.description);
 				}else{
-					$("#occasionDescription").val("");
+					$("#foodTypeDescription").val("");
 				}
 				$("#plusbtn").attr("disabled", true);
-				$("#occasionStatusDiv").attr("style","display:block");
+				$("#typeStatusDiv").attr("style","display:block");
 				var isActive;
-				if(data.photographyOccasion.status){
+				if(data.foodType.status){
 					isActive = "Active";
 				}else{
 					isActive = "Inactive";
 				}
-				photographyOccasionStatus(isActive);
-				$("#editPhotographyOccasionId").val(data.photographyOccasion.id);
+				foodTypeStatus(isActive);
+				$("#editFoodTypeId").val(data.foodType.id);
 			},
 			error : function(e) {
 				swal({
 					  title: 'Error!',
-					  text: 'Photography Occasion Not Fetched Successfully!!!',
+					  text: 'Food Type Not Fetched Successfully!!!',
 					  type: 'error',
 					  confirmButtonText :"OK",
 					  allowEscapeKey:true,
@@ -508,28 +507,27 @@
 	}); 
 	}
     
-    function photographyOccasionStatus(isActive){
-		$("#photographyStatusSelect").val(isActive);
+    function foodTypeStatus(isActive){
+		$("#typeStatusSelect").val(isActive);
 		var clicked;
 		if(isActive === "Active"){
-			clicked ="<li data-original-index=\"1\" class=\"selected\"><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"photographyOccasionStatus('Active')\"><span class=\"text\">Active</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-				+"<li data-original-index=\"2\" ><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"photographyOccasionStatus('Inactive')\"><span class=\"text\">Inactive</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			clicked ="<li data-original-index=\"1\" class=\"selected\"><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"foodTypeStatus('Active')\"><span class=\"text\">Active</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"2\" ><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"foodTypeStatus('Inactive')\"><span class=\"text\">Inactive</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 				+"</ul></div>"
-				$("#sellerInactive").val("");
 		}else{
-			clicked ="<li data-original-index=\"1\"><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"photographyOccasionStatus('Active')\"><span class=\"text\">Active</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-				+"<li data-original-index=\"2\" class=\"selected\"><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"photographyOccasionStatus('Inactive')\"><span class=\"text\">Inactive</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			clicked ="<li data-original-index=\"1\"><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"foodTypeStatus('Active')\"><span class=\"text\">Active</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"2\" class=\"selected\"><a tabindex=\"0\"  style=\"\" data-tokens=\"null\" onclick=\"foodTypeStatus('Inactive')\"><span class=\"text\">Inactive</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 				+"</ul></div>"
 		}
 		
 		var mno ="<div class=\"form-group drop-custum\">"
 			+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\--"+isActive+"  --\"><span class=\"filter-option pull-left\">--"+isActive+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
 			+"<ul class=\"dropdown-menu inner\" role=\"menu\">"
-			+"<li data-original-index=\"0\" class=\"\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Photography Occasion Status --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+			+"<li data-original-index=\"0\" class=\"\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Type Status --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 			+clicked
 			+"</div>"
-		$("#occasionStatusDiv").html(mno);	
-	} */
+		$("#typeStatusDiv").html(mno);	
+	} 
 	</script>
 	
 	<div class="color-bg"></div>

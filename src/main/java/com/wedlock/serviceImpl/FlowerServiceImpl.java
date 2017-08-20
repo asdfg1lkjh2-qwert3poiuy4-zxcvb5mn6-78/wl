@@ -21,6 +21,8 @@ import com.wedlock.dao.SellerDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.AllProducts;
 import com.wedlock.model.Flower;
+import com.wedlock.model.FreesProduct;
+import com.wedlock.model.GeneralProduct;
 import com.wedlock.model.SellerDetails;
 import com.wedlock.model.IntProductOccasion;
 import com.wedlock.model.Occasion;
@@ -250,6 +252,7 @@ public class FlowerServiceImpl implements FlowerService{
 		List<SellerProductPricing> listProductPricings = new ArrayList<>();
 		List<SellerDiscount> listSellerDiscounts = new ArrayList<>();
 		List<IntProductOccasion> listFlowerOccasions = new ArrayList<>();
+		List<FreesProduct> listFreesProducts = new ArrayList<>();
 		for(SellerProductImagesVideos sellerProductImagesVideos : flower.getAllProducts().getSellerProductImagesVideos()){
 				SellerProductImagesVideos sellerProductImagesVideos2 = new SellerProductImagesVideos();
 				sellerProductImagesVideos2.setId(sellerProductImagesVideos.getId());
@@ -291,6 +294,31 @@ public class FlowerServiceImpl implements FlowerService{
 			SellerDiscount sellerDiscount = null;
 			listSellerDiscounts.add(sellerDiscount);
 		}
+		if(!(flower.getAllProducts().getFreeWith().isEmpty())){
+			for(FreesProduct freesProduct : flower.getAllProducts().getFreeWith()){
+				FreesProduct freesProduct2 = new FreesProduct();
+				freesProduct2.setQty(freesProduct.getQty());
+				Query query = manager.createQuery("Select tb.id, tb.name from "+freesProduct.getToId().getCategoryAvailable().getTableName()+" tb WHERE tb.allProducts.id= :allProductsId").setParameter("allProductsId", freesProduct.getToId().getId());
+				@SuppressWarnings("unchecked")
+				List<Object[]> list = query.getResultList();
+				for(Object[] obj : list){
+					freesProduct2.setProductName(obj[1].toString());
+				}
+				try {
+					freesProduct2.setValidFrom(new SimpleDateFormat("yyyy-MM-dd").parse(freesProduct.getUpdateTime().toString()));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				freesProduct2.setValidTo(freesProduct.getValidTo());
+				freesProduct2.setToId(freesProduct.getToId());
+				freesProduct2.setStatus(freesProduct.isStatus());
+				listFreesProducts.add(freesProduct2);
+			}
+		}else{
+			FreesProduct freesProduct = null;
+			listFreesProducts.add(freesProduct);
+		}
 		
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setFlower(flower);
@@ -298,6 +326,7 @@ public class FlowerServiceImpl implements FlowerService{
 		adminResponseClass.setListProductPricings(listProductPricings);
 		adminResponseClass.setListSellerDiscount(listSellerDiscounts);
 		adminResponseClass.setListIntProductOccasion(listFlowerOccasions);
+		adminResponseClass.setListFreesProducts(listFreesProducts);
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}

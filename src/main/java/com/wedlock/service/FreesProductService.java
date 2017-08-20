@@ -6,5 +6,5 @@ import com.wedlock.model.SellerDetails;
 
 public interface FreesProductService {
 	AdminResponseClass saveFreesProduct(FreesProduct freesProduct);
-	AdminResponseClass fetchAllProductBySellerId(SellerDetails sellerDetails);
+	AdminResponseClass fetchAllProductBySellerId(SellerDetails details);
 }

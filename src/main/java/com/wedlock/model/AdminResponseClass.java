@@ -96,6 +96,18 @@ public class AdminResponseClass {
 	/*For General Product*/
 	private List<GeneralProduct> listGeneralProduct;
 	private GeneralProduct generalProduct;
+    
+	/*For Food Type*/
+	private List<FoodType> listFoodType;
+	private FoodType foodType;
+	
+	/*For Food*/
+	private List<Food> listFood;
+	private Food food;
+	
+	/*For Frees Product*/
+	private List<FreesProduct> listFreesProducts;
+	private FreesProduct freesProduct;
 	
 	// Setters And Getters
 
@@ -481,5 +493,81 @@ public class AdminResponseClass {
 
 	public void setGeneralProduct(GeneralProduct generalProduct) {
 		this.generalProduct = generalProduct;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public List<FreesProduct> getListFreesProducts() {
+		return listFreesProducts;
+	}
+
+	public void setListFreesProducts(List<FreesProduct> listFreesProducts) {
+		this.listFreesProducts = listFreesProducts;
+	}
+
+	public FreesProduct getFreesProduct() {
+		return freesProduct;
+	}
+
+	public void setFreesProduct(FreesProduct freesProduct) {
+		this.freesProduct = freesProduct;
+	}
+
+	
+
+	public List<FoodType> getListFoodType() {
+		return listFoodType;
+	}
+
+	public void setListFoodType(List<FoodType> listFoodType) {
+		this.listFoodType = listFoodType;
+	}
+
+	public FoodType getFoodType() {
+		return foodType;
+	}
+
+	public void setFoodType(FoodType foodType) {
+		this.foodType = foodType;
+	}
+
+	public List<Food> getListFood() {
+		return listFood;
+	}
+
+	public void setListFood(List<Food> listFood) {
+		this.listFood = listFood;
+	}
+
+	public Food getFood() {
+		return food;
+	}
+
+	public void setFood(Food food) {
+		this.food = food;
 	}
 }

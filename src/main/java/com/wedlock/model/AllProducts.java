@@ -167,6 +167,22 @@ public class AllProducts implements Serializable{
 	public void setSellerPhotographyOccasions(List<SellerPhotographyOccasion> sellerPhotographyOccasions) {
 		this.sellerPhotographyOccasions = sellerPhotographyOccasions;
 	}
+
+	public List<FreesProduct> getFreeTo() {
+		return freeTo;
+	}
+
+	public void setFreeTo(List<FreesProduct> freeTo) {
+		this.freeTo = freeTo;
+	}
+
+	public List<FreesProduct> getFreeWith() {
+		return freeWith;
+	}
+
+	public void setFreeWith(List<FreesProduct> freeWith) {
+		this.freeWith = freeWith;
+	}
 	
 	
 

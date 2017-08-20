@@ -1857,7 +1857,7 @@ public class AdminController {
 						freesProduct.setQty(Integer.parseInt(freeProductQtys[i].trim()));
 						freesProduct.setValidTo(new SimpleDateFormat("yyyy-MM-dd").parse(freeProductvalidities[i].trim()));
 						freesProduct.setStatus(Boolean.TRUE);
-						if(!singleProduct.isStatus())
+						if(singleProduct.isStatus())
 						{
 							adminResponseClass = freesProductService.saveFreesProduct(freesProduct);
 							adminResponseClass.setMssgStatus("Free Product Successfully Inserted");
@@ -1875,7 +1875,7 @@ public class AdminController {
 					freesProduct.setQty(Integer.parseInt(objectNode.get("freeProductQty").asText().trim().trim()));
 					freesProduct.setValidTo(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("freeProductValidity").asText().trim()));
 					freesProduct.setStatus(Boolean.TRUE);
-					if(!singleProduct.isStatus())
+					if(singleProduct.isStatus())
 					{
 						adminResponseClass = freesProductService.saveFreesProduct(freesProduct);
 						adminResponseClass.setMssgStatus("Free Product Successfully Inserted");
@@ -1883,12 +1883,6 @@ public class AdminController {
 				}
 			}
 		}
-		//Testing Purpose
-		if(!adminResponseClass.getMssgStatus().equals("Free Product Successfully Inserted"))
-			adminResponseClass.setMssgStatus("No Free Product Found For Insert");
-		//System.out.println("\\\\"+adminResponseClass.getMssgStatus());
-		
-		
 		return adminResponseClass.isStatus();
 	}
 	
@@ -1920,8 +1914,8 @@ public class AdminController {
 	@RequestMapping(value="/admin-fetchAllProductsBySeller", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchAllProductsBySeller()
 	{
-	    AdminResponseClass adminResponseClass = freesProductService.fetchAllProductBySellerId((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
-	    return adminResponseClass;
+	   AdminResponseClass adminResponseClass = freesProductService.fetchAllProductBySellerId((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
+		return adminResponseClass;
 	}
 }
 

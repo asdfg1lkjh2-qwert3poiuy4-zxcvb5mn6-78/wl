@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -50,6 +51,10 @@ public class FreesProduct implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateTime;
 
+	@Transient
+	private String productName;
+	@Transient
+	private Date validFrom;
 	public long getId() {
 		return id;
 	}
@@ -104,5 +109,25 @@ public class FreesProduct implements Serializable {
 	
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Date getValidFrom() {
+		return validFrom;
+	}
+
+	public void setValidFrom(Date validFrom) {
+		this.validFrom = validFrom;
 	}
 }

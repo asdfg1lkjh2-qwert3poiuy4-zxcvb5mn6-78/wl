@@ -115,6 +115,57 @@
 			</div>
 		</div>
 	</div> 
+	<!-- Test12 Modal -->
+	<div class="modal fade" id="showFreeProductModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content row priceShow">
+				<div class="col-md-12 col-xs-12 col-sm-12 card">
+					<div class="header">
+						<h2>All Listed Free Products</h2>
+						<ul class="header-dropdown m-r--5">
+							<li class="dropdown"><a href="javascript:void(0);"
+								class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false"> <i
+									class="material-icons">more_vert</i>
+							</a>
+								<ul class="dropdown-menu pull-right">
+									<li><a href="javascript:void(0);">Action</a></li>
+									<li><a href="javascript:void(0);">Another action</a></li>
+									<li><a href="javascript:void(0);">Something else here</a></li>
+								</ul></li>
+						</ul>
+					</div>
+					<div class="body">
+						<table
+							class="table table-bordered table-striped table-hover js-basic-example dataTable"
+							id="freeProductTable">
+							<thead>
+								<tr>
+									<th class="text-center">Sl.No</th>
+									<th class="text-center">Start Date</th>
+									<th class="text-center">End Date</th>
+									<th class="text-center">Product Name</th>
+									<th class="text-center">Qty</th>
+									<th class="text-center">Status</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+		
+				<div class ="row">
+				<div class="modal-footer col-md-12 col-sm-12 col-xs-12 priceFooter">
+					<button type="button" class="btn btn-secondary btn-raised"
+						data-dismiss="modal">Close</button>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
 	<!-- Page Loader -->
 	<div class="page-loader-wrapper">
 		<div class="loader">
@@ -313,8 +364,8 @@
 								</div>
 								<div class="row clearfix">
 									<div id="freeProductsDiv">
-										<div class="col-sm-3 col-xs-12" id="freeProductSelect">
-											<div class="form-group drop-custum">
+										<div class="col-sm-3 col-xs-12" >
+											<div class="form-group drop-custum freeProductClass" id="freeProductSelect">
 												<select class="form-control show-tick" name="freeProduct"
 													id="freeProduct">
 													<option value="">-- Free Product --</option>
@@ -354,13 +405,15 @@
 											<div class="form-group">
 												<button type="button" class="btn btn-raised gradient-right"
 													id="plusbtnFreeDiv">Add</button>
+													<button type="button" class="btn btn-raised gradient-right hideDiv"
+												id="showFreeProducts" data-toggle="modal" data-target="#showFreeProductModal">Show Frees</button>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="row clearfix hideDiv" id="freeProductsDiv1">
-									<div class="col-sm-3 col-xs-12" id="freeProductSelect1">
-										<div class="form-group drop-custum">
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group drop-custum freeProductClass" id="freeProductSelect1">
 											<select class="form-control show-tick" name="freeProduct1"
 												id="freeProduct1">
 												<option value="">-- Free Product --</option>
@@ -406,8 +459,8 @@
 									</div>
 								</div>
 								<div class="row clearfix hideDiv" id="freeProductsDiv2">
-									<div class="col-sm-3 col-xs-12" id="freeProductSelect2">
-										<div class="form-group drop-custum">
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group drop-custum freeProductClass" id="freeProductSelect2">
 											<select class="form-control show-tick" name="freeProduct2"
 												id="freeProduct2">
 												<option value="">-- Free Product --</option>
@@ -659,6 +712,9 @@
                                     	<input type = "hidden" name = "productStatus" id= "productStatus" value = "">
                                     	<input type = "hidden" name = "defaultDpImage" id = "defaultDpImage" value = "">
                                     	<input type = "hidden" name = "productAvailability" id = "productAvailability" value = "">
+                                    	<input type = "hidden" name = "freeProductName" id = "freeProductName" value = "">
+                                    	<input type = "hidden" name = "freeProductName1" id = "freeProductName1" value = "">
+                                    	<input type = "hidden" name = "freeProductName2" id = "freeProductName2" value = "">
                                         <button type="submit" class="btn btn-raised gradient-right" id="submit">Submit</button>
                                         <button type="submit" class="btn btn-raised gradient-left">Cancel</button>
                                     </div>
@@ -824,6 +880,7 @@
 	$(document).ready(function(){
 		fetchAllFlowerType();
 		fetchAllOccasion();
+		fetchAllProductsOfSeller();
 		if(location.href.match(/id/)){
 			idForFetch = location.search.split("?");
 			idForFetch = idForFetch[1].split("=");
@@ -1566,7 +1623,7 @@
 	});
 	// For removing present div
 	function removeFreeProductDiv(removeId) {
-		//defaultFreeProduct(true,0,"Free Product",removeId);
+		defaultFreeProduct(true,0,"Free Product",removeId);
 		$("#freeProduct"+removeId).val("");
 		$("#freeProductPieces"+removeId).val("");
 		$("#fromDateFreeProduct"+removeId).val("");
@@ -1832,7 +1889,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#toDateFreeProduct").val() ==="" && $("#freeProductPieces").val() || $("#fromDateFreeProduct").val() || $("#freeProduct").val() !== ""){
+		}else if($("#toDateFreeProduct").val() ==="" && ($("#freeProductPieces").val() || $("#fromDateFreeProduct").val() || $("#freeProduct").val() !== "")){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter Ending Date For The Respective Free Product!!!',
@@ -1899,7 +1956,7 @@
 					toMonth = "0"+toMonth;
 				} 
 				
-				job["freeProduct"] = $("#freeProduct").val();
+				job["freeProduct"] = $("#freeProductName").val();
 				job["freeProductQty"] = $("#freeProductPieces").val();
 				job["freeProductValidity"] =  fromDateFreeProduct[3]+"-"+fromMonth+"-"+fromDateFreeProduct[1]+"_"+toDateFreeProduct[3]+"-"+toMonth+"-"+toDateFreeProduct[1];
 			}
@@ -1919,7 +1976,7 @@
 						toMonth = "0"+toMonth;
 					} 
 					
-					job["freeProduct"] = job["freeProduct"] + "," + $("#freeProduct"+k).val();
+					job["freeProduct"] = job["freeProduct"] + "," + $("#freeProductName"+k).val();
 					job["freeProductQty"] = job["freeProductQty"] + "," + $("#freeProductPieces"+k).val();
 					job["freeProductValidity"] = job["freeProductValidity"] + "," + fromDateFreeProduct[3]+"-"+fromMonth+"-"+fromDateFreeProduct[1]+"_"+toDateFreeProduct[3]+"-"+toMonth+"-"+toDateFreeProduct[1];
 					}
@@ -2043,6 +2100,7 @@
 					}
 					
 					 $("#submit").prop("disabled", true);
+					 alert(JSON.stringify(job));
 					 $.ajax({
 					type : "POST",
 					url : "admin-addEditFlower",
@@ -2095,8 +2153,8 @@
 				}
 		 }else{
 				job["hasValue"] = hasValue;
-				
 				$("#submit").prop("disabled", true);
+				alert(JSON.stringify(job));
 				 $.ajax({
 				type : "POST",
 				url : "admin-addEditFlower",
@@ -2201,7 +2259,8 @@
 		}
 		
 		var j = previousFreeDiv;
-		for(var k =1; k<= j ;k++){
+		for(var k =0; k< Number(Number(j)+Number(1)) ;k++){
+			defaultFreeProduct(true,0,"Free Product",k);
 			removeFreeProductDiv(k);
 		}
 		
@@ -2233,7 +2292,6 @@
 		$("#occasionName").val("");
 		$("#typeName").val("");
 		
-		//defaultFreeProduct(true,0,"Free Product",0);
 	}
 	
 	function defaultFlowerOccasion(isInComplete,occasionId,occasionName){
@@ -2371,18 +2429,18 @@
 		}
 	}
 	
-	function defaultFreeProduct(isInComplete,freeProductId,freeProductName,divId){
+	 function defaultFreeProduct(isInComplete,freeProductId,freeProductName,divId){
 		var abc ="";
 		if(isInComplete){
 			 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Free Product--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Free Product"
-				+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFreeProduct0\">"
+				+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id='ulFreeProduct"+divId+"'>"
 		}else{
 			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=--"+freeProductName+"-- aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+freeProductName
-			+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFreeProduct0\">"
+			+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id='ulFreeProduct"+divId+"'>"
 		}
 		var cde = "";
-		for (var i = 0; i < ary5.length; i++) {
-			var splittedArray = ary5[i].split("_");
+		for (var i = 0; i < freeProductArray.length; i++) {
+			var splittedArray = freeProductArray[i].split("_");
 			var classSelected = ""
 			if(!isInComplete){
 				if(Number(splittedArray[0]) === Number(freeProductId)){
@@ -2391,7 +2449,7 @@
 			}
 				cde = cde
 				+ "<li data-original-index='"
-				+ Number(Number(i) + Number(1))+ "'id='freeProductLi"+ Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
+				+ Number(Number(i) + Number(1))+ "'id='freeProductLi"+ divId + Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
 				+ Number(Number(i) + Number(1))
 				+ "','"
 				+ splittedArray[1]
@@ -2516,9 +2574,34 @@
 								}
 							}
 						}
-						if(data.flower.freebie !== null){
+						if(data.flower.freebie !== null || data.listFreesProducts[0] !== null){
 							$("#freesCheck").prop("checked",true);
 							$("#freesDiv").attr("style","display:block");
+							if(data.listFreesProducts[0] !== null){
+							$("#showFreeProducts").attr("style","display:block");
+							var freeProducts = "";
+							$("#freeProductTable > tbody").html("");
+							for(var i = 0; i< data.listFreesProducts.length; i++){
+								var active;
+								if(data.listFreesProducts[i].status){
+									active = "Yes";
+								}else{
+									active = "No";
+								}
+								var xyz = new Date(data.listFreesProducts[i].validFrom);
+								xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+(xyz.getDate() > 9 ? xyz.getDate() : "0"+(xyz.getDate()));
+								
+								var mno = new Date(data.listFreesProducts[i].validTo);
+								mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+(mno.getDate() > 9 ? mno.getDate() : "0"+(mno.getDate()));
+								freeProducts = freeProducts +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
+								+"<td class=\"text-center\">"+xyz+"</td>"
+								+"<td class=\"text-center\">"+mno+"</td>"
+								+"<td class=\"text-center\">"+data.listFreesProducts[i].productName+"</td>"
+								+"<td class=\"text-center\">"+data.listFreesProducts[i].qty+"</td>"
+								+"<td class=\"text-center\">"+active+"</td>"
+							}
+							$("#freeProductTable > tbody").html(freeProducts);
+							}
 							$("#freebie").val(data.flower.freebie);
 						}
 						
@@ -2837,6 +2920,190 @@
 					
 				});
 		}
+	var freeProductArray = new Array();
+	function fetchAllProductsOfSeller(){
+		$.ajax({
+			type : "GET",
+			url : "admin-fetchAllProductsBySeller",
+			data : "",
+			contentType : "application/json",
+			processData : false,
+			success : function(data) {
+				alert(JSON.stringify(data))
+				$("#freeProductSelect").html("");
+				if (data.status) {
+					var arValue = "";
+					while (freeProductArray.length > 0) {
+						freeProductArray.pop();
+					}
+					for(var j = 0; j < 3 ;j++){
+					var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Free Products --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Free Products --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+							+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id='ulFreeProduct"+ Number(j)+"'>"
+							+ "<li data-original-index=\"0\" class=\"selected\" id='freeProductLi"+Number(j)+"' onclick=\"clickFreeProductLi('"
+							+ 0
+							+ "','Free Products')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Free Products --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					var cde = "";
+					for (var i = 0; i < data.listGeneralProduct.length; i++) {
+						cde = cde
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' id='freeProductLi"
+								+ j + Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
+								+ j + Number(Number(i) + Number(1))
+								+ "','"
+								+ data.listGeneralProduct[i].name
+								+ "','"
+								+ data.listGeneralProduct[i].allProductId
+								+ "')\"><span class=\"text\">"
+								+ data.listGeneralProduct[i].name
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						if(j === Number(0)){
+							arValue = data.listGeneralProduct[i].specificId
+							+ "_"
+							+ data.listGeneralProduct[i].name
+				   			freeProductArray.push(arValue);	
+						}		
+						
+					}
+					cde = cde + "</ul></div>";
+					if(j === Number(0)){
+						$("#freeProductSelect").html(abc + cde);
+					}else{
+						$("#freeProductSelect"+Number(j)).html(abc + cde);
+					}
+					
+					}
+				}
+
+			},
+			error : function(e) {
+				alert("Error");
+				swal({
+					title : 'Error!',
+					text : 'Free Products Not Fetched Successfully!!!',
+					type : 'error',
+					confirmButtonText : "OK",
+					allowEscapeKey : true,
+					confirmButtonClass : "btn btn-raised gradient-right",
+					animation : true
+				});
+			}
+		});
+	}
+	 var previousFreeProductLi;    
+
+		function clickFreeProductLi(liId, title1, freeProductId) {
+			if(title1 === 'Free Products')
+			{
+				title1 = "--"+title1+"--";
+			}
+			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\""+title1+ "\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"
+					+ title1
+					+ "</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul id='ulFreeProduct"+liId[0]+"' class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+
+			if (Number(liId[1]) > Number(0)) {
+				var selectedId = $(".selected").attr("id");
+				previousFreeProductLi = liId[0];
+				alert("Previous Li Id Is"+previousFreeProductLi);
+
+				abc = abc
+						+ "<li data-original-index=\"0\" class=\"\" id='freeProductLi"+liId[0]+"' onclick=\"clickFreeProductLi('"
+						+ liId[0]
+						+ "','Free Products')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Free Products--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				var cde = "";
+				for (var i = 0; i < freeProductArray.length; i++) {
+					var splittedArray = freeProductArray[i].split("_");
+					if (Number(i) === Number(Number(liId[1]) - Number(1))) {
+						cde = cde
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' class =\"selected\" id='freeProductLi"
+								+ liId[0] + Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
+								+ liId[0] + Number(Number(i) + Number(1))
+								+ "','"
+								+ splittedArray[1]
+								+ "','"
+								+ splittedArray[0]
+								+ "')\"><span class=\"text\">"
+								+ splittedArray[1]
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					} else {
+						cde = cde
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' id='freeProductLi"
+								+ liId[0] + Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
+								+ liId[0] + Number(Number(i) + Number(1))
+								+ "','"
+								+ splittedArray[1]
+								+ "','"
+								+ splittedArray[0]
+								+ "')\"><span class=\"text\">"
+								+ splittedArray[1]
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					}
+
+				}
+				cde = cde + "</ul></div>";
+				if($("ul#ulFreeProduct"+liId[0]+" li#freeProductLi"+liId).parent().parent().parent().parent().attr("id") === "freeProductSelect"){
+				   $("#freeProductSelect").html(abc + cde);
+				   $("#freeProductName").val(freeProductId);
+				}else if($("ul#ulFreeProduct"+liId[0]+" li#freeProductLi"+liId).parent().parent().parent().parent().attr("id") === "freeProductSelect1"){
+					alert("In else if");
+				   $("#freeProductSelect1").html(abc + cde);
+				   $("#freeProductName1").val(freeProductId);
+				}else{
+				   $("#freeProductSelect2").html(abc + cde);
+				   $("#freeProductName2").val(freeProductId);
+				}
+
+			} 
+			else {
+				alert("In else");
+				$("#freeProductLi" + previousFreeProductLi).removeClass("selected");
+				$("#freeProductLi"+liId[0]).addClass("selected");
+
+				abc = abc
+						+ "<li data-original-index=\"0\" class=\"selected\" id='freeProductLi"+liId[0]+"' onclick=\"clickFreeProductLi('"
+						+ liId[0]
+						+ "','Free Products')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Free Products--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				var cde = "";
+				for (var i = 0; i < freeProductArray.length; i++) {
+					var splittedArray = freeProductArray[i].split("_");
+					cde = cde
+							+ "<li data-original-index='"
+							+ Number(Number(i) + Number(1))
+							+ "' id='freeProductLi"
+							+ liId[0] + Number(Number(i) + Number(1))
+							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
+							+ liId[0] + Number(Number(i) + Number(1))
+							+ "','"
+							+ splittedArray[1]
+							+ "','"
+							+ splittedArray[0]
+							+ "')\"><span class=\"text\">"
+							+ splittedArray[1]
+							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+
+								}
+								cde = cde + "</ul></div>"
+								if($("ul#ulFreeProduct"+liId[0]+" li#freeProductLi"+liId).parent().parent().parent().parent().attr("id") === "freeProductSelect"){
+									   $("#freeProductSelect").html(abc + cde);
+									   $("#freeProductName").val(freeProductId);
+									}else if($("ul#ulFreeProduct"+liId[0]+" li#freeProductLi"+liId).parent().parent().parent().parent().attr("id") === "freeProductSelect1"){
+										alert("In else if");
+									   $("#freeProductSelect1").html(abc + cde);
+									   $("#freeProductName1").val(freeProductId);
+									}else{
+									   $("#freeProductSelect2").html(abc + cde);
+									   $("#freeProductName2").val(freeProductId);
+									}
+				}
+		}
+		
 	</script>
     <div class="color-bg"></div>
     <%@ include file="admin-includeFooter.jsp" %>
