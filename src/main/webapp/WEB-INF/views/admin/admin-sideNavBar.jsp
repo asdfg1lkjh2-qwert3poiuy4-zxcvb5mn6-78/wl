@@ -53,6 +53,7 @@
                     <li><a href="admin-addEditPhotographyOccassion" id="showSubMiscLi7" >Add & View Photographer Occasion</a></li>
                     <li><a href="admin-addEditProductType" id="showSubMiscLi8">Add & View Product Type</a></li>
                     <li><a href="admin-addEditPhotographyType" id="showSubMiscLi9">Add & View Photography Type</a></li>
+                    <li><a href="admin-addEditFoodType" id="showSubMiscLi10">Add & View Food Type</a></li>
                 </ul>
             </li>
             

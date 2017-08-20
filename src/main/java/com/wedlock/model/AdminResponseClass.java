@@ -495,32 +495,6 @@ public class AdminResponseClass {
 		this.generalProduct = generalProduct;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public List<FreesProduct> getListFreesProducts() {
 		return listFreesProducts;
 	}
@@ -536,8 +510,6 @@ public class AdminResponseClass {
 	public void setFreesProduct(FreesProduct freesProduct) {
 		this.freesProduct = freesProduct;
 	}
-
-	
 
 	public List<FoodType> getListFoodType() {
 		return listFoodType;

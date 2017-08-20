@@ -327,42 +327,22 @@
 		}else{
 			var job = {};
 			job["editFoodTypeId"] = $("#editFoodTypeId").val();
-			job["foodName"] = $("#foodTypeName").val();
+			job["foodTypeDetails"] = $("#foodTypeName").val();
+			if($("#typeStatusSelect").val() !== ""){
 			job["typeStatusSelect"] = $("#typeStatusSelect").val();
+			}
 			if($("#foodDescription").val() !== ""){
-				job["foodDescription"] = $("#foodTypeDescription").val();
+				job["foodTypeDetails"] = job["foodTypeDetails"] +"^@_"+$("#foodTypeDescription").val();
 			}
 			
 			
 			for (var k = 1; k <= Number(i); k++) {
-				if (!(($("#foodTypeName" + k).val() === undefined) && ($(
-						"#foodTypeDescription" + k)
-						.val() === undefined))) {
-					if (k === Number(1)) {
+				if (!(($("#foodTypeName" + k).val() === undefined) && ($("#foodTypeDescription" + k).val() === undefined))) {
 						if($("#foodTypeDescription"+ k).val() !=""){
-							job["foodTypeDescription"] = $(
-									"#foodTypeName" + k)
-									.val()
-									+ ","
-									+ $("#foodTypeDescription"+ k).val();
+							job["foodTypeDetails"] = job["foodTypeDetails"] + "-,@_"+$("#foodTypeName" + k).val()+"^@_"+$("#foodTypeDescription" + k).val();
 						}else{
-							job["foodDescription"] = job["foodDescription"]+","+$("#foodTypeName" + k).val();
+							job["foodTypeDetails"] = job["foodTypeDetails"]+"-,@_"+$("#foodTypeName" + k).val();
 						}
-						
-					} else {
-						if($("#foodTypeDescription"+k).val() !=""){
-							job["foodTypeDescription"] = job["foodTypeDescription"]
-							+ "_"
-							+ $("#foodTypeName" + k).val()
-							+ ","
-							+ $("#foodTypeDescription"+ k).val();
-						}else{
-							job["foodTypeDescription"] = job["foodTypeDescription"]
-							+ "_"
-							+ $("#foodTypeName" + k).val()
-						}
-						
-					}
 				}
 
 			}

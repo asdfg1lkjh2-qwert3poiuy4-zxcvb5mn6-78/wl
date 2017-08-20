@@ -1,27 +1,47 @@
 package com.wedlock.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-public class FoodType {
- @Id@GeneratedValue
- @Column(columnDefinition = "bigint(20) unsigned")
- private long id;
- private String name;
- @Column(columnDefinition = "TEXT")
- private String description;
- @Temporal(TemporalType.TIMESTAMP)
- private Date entryTime;
- private boolean isActive;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-  //Setters And Getters
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+public class FoodType implements Serializable
+{
+	private static final long serialVersionUID = 1L;
+	@Id@GeneratedValue
+	@Column(columnDefinition = "bigint(20) unsigned")
+	private long id;
+	private String name;
+	@Column(columnDefinition = "TEXT")
+	private String description;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(updatable = false)
+	private Date entryTime;
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;
+	private boolean status;
+
+	
+	@OneToMany(mappedBy="foodType")
+	@JsonIgnore
+	private List<Food> food;
+	
+	//Setters And Getters
 	public long getId() {
 		return id;
 	}
@@ -46,21 +66,28 @@ public class FoodType {
 		this.description = description;
 	}
 
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
 	public Date getEntryTime() {
 		return entryTime;
 	}
 
-	public void setEntryTime(Date entryTime) {
-		this.entryTime = entryTime;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public boolean isActive() {
-		return isActive;
+	public List<Food> getFood() {
+		return food;
 	}
 
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public void setFood(List<Food> food) {
+		this.food = food;
 	}
-	
 
 }

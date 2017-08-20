@@ -42,6 +42,8 @@ import com.wedlock.model.ApiResponseClass;
 import com.wedlock.model.CategoryAvailable;
 import com.wedlock.model.City;
 import com.wedlock.model.Flower;
+import com.wedlock.model.Food;
+import com.wedlock.model.FoodType;
 import com.wedlock.model.FreesProduct;
 import com.wedlock.model.IntProductOccasion;
 import com.wedlock.model.Occasion;
@@ -66,6 +68,8 @@ import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CategoryTakenService;
 import com.wedlock.service.CityService;
 import com.wedlock.service.FlowerService;
+import com.wedlock.service.FoodService;
+import com.wedlock.service.FoodTypeService;
 import com.wedlock.service.FreesProductService;
 import com.wedlock.service.MailService;
 import com.wedlock.service.OccasionService;
@@ -143,6 +147,10 @@ public class AdminController {
 	private FreesProductService freesProductService;
 	@Autowired
 	private CategoryTakenService categoryTakenService;
+	@Autowired
+	private FoodTypeService foodTypeService;
+	@Autowired
+	FoodService foodService;
 	@Autowired
 	HttpSession httpSession;
 	
@@ -1917,5 +1925,224 @@ public class AdminController {
 	   AdminResponseClass adminResponseClass = freesProductService.fetchAllProductBySellerId((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
 		return adminResponseClass;
 	}
+	
+	/*For Food Type*/
+	@RequestMapping(value = "/admin-addEditFoodType", method = RequestMethod.POST)
+	public @ResponseBody boolean addEditFoodType(@RequestBody ObjectNode objectNode) {
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		boolean status = false;
+		if(Long.parseLong(objectNode.get("editFoodTypeId").asText())==0)
+		{
+			if(objectNode.get("foodTypeName").asText().trim().contains("-,@_"))
+			{
+				String foodTypeNames[] = objectNode.get("foodTypeName").asText().trim().split("-,@_");
+				String foodTypeDescriptions[] = objectNode.get("foodTypeDescription").asText().trim().split("-,@_");
+				for(int i=0; i<foodTypeNames.length; i++)
+				{
+					FoodType foodType = new FoodType();
+					if(!foodTypeNames[i].equals(""))
+					{
+						foodType.setName(foodTypeNames[i].trim());
+						foodType.setDescription(foodTypeDescriptions[i].trim());
+						foodType.setStatus(Boolean.TRUE);
+						foodTypeService.saveFoodType(foodType);
+						status = true;
+					}
+				}
+				adminResponseClass.setStatus(status);
+			}
+			else
+			{
+				String foodTypeName = objectNode.get("foodTypeName").asText().trim();
+				String foodTypeDescription = objectNode.get("foodTypeDescription").asText().trim();
+				if(!foodTypeName.equals(""))
+				{
+					FoodType foodType = new FoodType();
+					foodType.setName(foodTypeName);
+					foodType.setDescription(foodTypeDescription);
+					foodType.setStatus(Boolean.TRUE);
+					foodTypeService.saveFoodType(foodType);
+					status = true;
+				}
+				adminResponseClass.setStatus(status);
+			}
+		}
+		else
+		{	long id = Long.parseLong(objectNode.get("editFoodTypeId").asText());
+			String foodTypeName = objectNode.get("foodTypeName").asText().trim();
+			String foodTypeDescription = objectNode.get("foodTypeDescription").asText().trim();
+			
+			if(!foodTypeName.equals(""))
+			{
+				FoodType foodType = new FoodType();
+				foodType.setId(id);
+				foodType.setName(foodTypeName);
+				foodType.setDescription(foodTypeDescription);
+				if(objectNode.get("typeStatusSelect").asText().trim().equalsIgnoreCase("Yes"))
+					foodType.setStatus(Boolean.TRUE);
+				else
+					foodType.setStatus(Boolean.FALSE);
+				foodTypeService.saveFoodType(foodType);
+				status = true;
+			}
+			adminResponseClass.setStatus(status);
+		}
+		return adminResponseClass.isStatus();
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllFoodTypes", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllFoodTypes() {
+		AdminResponseClass adminResponseClass = foodTypeService.fetchAllFoodTypes();
+		return adminResponseClass;
+	}
+	
+	@RequestMapping(value = "/admin-fetchFoodTypeById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchFoodTypeById(@RequestParam("id") long id) {
+		AdminResponseClass adminResponseClass = foodTypeService.fetchFoodTypeById(id);
+		return adminResponseClass;
+	}
+	
+	@RequestMapping(value = "/admin-fetchFoodTypeByIdWithStatus", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchFoodTypeByIdWithStatus(@RequestParam("id") long id) {
+		AdminResponseClass adminResponseClass = foodTypeService.fetchFoodTypeByIdWithStatus(id);
+		return adminResponseClass;
+	}
+	
+	/*For Food*/
+	@RequestMapping(value = "/admin-addEditFood", method = RequestMethod.POST)
+	public @ResponseBody boolean addEditFood(@RequestBody ObjectNode objectNode) {
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		boolean status = false;
+		if(Long.parseLong(objectNode.get("editFoodId").asText())==0)
+		{
+			if(objectNode.get("foodName").asText().trim().contains("-,@_"))
+			{
+				String foodNames[] = objectNode.get("foodName").asText().trim().split("-,@_");
+				String foodDescriptions[] = objectNode.get("foodDescription").asText().trim().split("-,@_");
+				String isVeg[] = objectNode.get("isVeg").asText().trim().split("-,@_");
+				String price[] = objectNode.get("price").asText().trim().split("-,@_");
+				//String statusSelect[] = objectNode.get("statusSelect").asText().trim().split("-,@_");
+				String typeId[] = objectNode.get("foodTypeId").asText().split("-,@_");
+				
+				for(int i=0; i<foodNames.length; i++)
+				{
+					if(!foodNames[i].equals(""))
+					{
+						Food food = new Food();
+						
+						food.setName(foodNames[i].trim());
+						
+						if(isVeg[i].trim().equalsIgnoreCase("Yes"))
+							food.setVeg(Boolean.TRUE);
+						else
+							food.setVeg(Boolean.FALSE);
+						
+						food.setPrice(Double.parseDouble(price[i].trim()));
+						food.setDescription(foodDescriptions[i].trim());
+						
+						//if(statusSelect[i].trim().equalsIgnoreCase("Yes"))
+							food.setStatus(Boolean.TRUE);
+						//else
+							//food.setStatus(Boolean.FALSE);
+						
+						food.setFoodType(foodTypeService.fetchFoodTypeById(Long.parseLong(typeId[i].trim())).getFoodType());
+						food.setSellerDetails((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
+						foodService.saveFood(food);
+						status = true;
+					}
+				}
+				adminResponseClass.setStatus(status);
+			}
+			else
+			{
+				String foodName = objectNode.get("foodName").asText().trim();
+				String foodDescription = objectNode.get("foodDescription").asText().trim();
+				String isVeg = objectNode.get("isVeg").asText().trim();
+				Double price = Double.parseDouble(objectNode.get("price").asText().trim());
+				//String statusSelect = objectNode.get("statusSelect").asText().trim();
+				long typeId = Long.parseLong(objectNode.get("foodTypeId").asText());
+				
+				if(!foodName.equals(""))
+				{
+					Food food = new Food();
+					food.setName(foodName);
+					
+					if(isVeg.equalsIgnoreCase("Yes"))
+						food.setVeg(Boolean.TRUE);
+					else
+						food.setVeg(Boolean.FALSE);
+					
+					food.setPrice(price);
+					food.setDescription(foodDescription);
+					
+					//if(statusSelect.equalsIgnoreCase("Yes"))
+						food.setStatus(Boolean.TRUE);
+					//else
+						//food.setStatus(Boolean.FALSE);
+					
+					food.setFoodType(foodTypeService.fetchFoodTypeById(typeId).getFoodType());
+					food.setSellerDetails((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
+					foodService.saveFood(food);
+					status = true;
+				}
+				adminResponseClass.setStatus(status);
+			}
+		}
+		else
+		{	long id = Long.parseLong(objectNode.get("editFoodId").asText());
+			String foodName = objectNode.get("foodName").asText().trim();
+			String foodDescription = objectNode.get("foodDescription").asText().trim();
+			String isVeg = objectNode.get("isVeg").asText().trim();
+			Double price = Double.parseDouble(objectNode.get("price").asText().trim());
+			String statusSelect = objectNode.get("statusSelect").asText().trim();
+			long typeId = Long.parseLong(objectNode.get("foodTypeId").asText());
+			
+			if(!foodName.equals(""))
+			{
+				Food food = new Food();
+				food.setId(id);
+				food.setName(foodName);
+				
+				if(isVeg.equalsIgnoreCase("Yes"))
+					food.setVeg(Boolean.TRUE);
+				else
+					food.setVeg(Boolean.FALSE);
+				
+				food.setPrice(price);
+				food.setDescription(foodDescription);
+				
+				if(statusSelect.equalsIgnoreCase("Yes"))
+					food.setStatus(Boolean.TRUE);
+				else
+					food.setStatus(Boolean.FALSE);
+				
+				food.setFoodType(foodTypeService.fetchFoodTypeById(typeId).getFoodType());
+				food.setSellerDetails((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
+				foodService.saveFood(food);
+				status = true;
+			}
+			adminResponseClass.setStatus(status);
+		}
+		return adminResponseClass.isStatus();
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllFoodsBySeller", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllFoodsBySeller() {
+		AdminResponseClass adminResponseClass = foodService.fetchAllFoodBySeller((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
+		return adminResponseClass;
+	}
+	
+	@RequestMapping(value = "/admin-fetchFoodById", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchFoodById(@RequestParam("id") long id) {
+		AdminResponseClass adminResponseClass = foodService.fetchFoodById(id);
+		return adminResponseClass;
+	}
+	
+	@RequestMapping(value = "/admin-fetchFoodByIdWithStatus", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchFoodByIdWithStatus(@RequestParam("id") long id) {
+		AdminResponseClass adminResponseClass = foodService.fetchFoodByIdWithStatus(id);
+		return adminResponseClass;
+	}
+	
 }
 
