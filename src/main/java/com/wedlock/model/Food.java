@@ -40,7 +40,7 @@ public class Food implements Serializable
 	
 	@ManyToOne
 	private SellerDetails sellerDetails;
-
+	
 	// Setters And Getters
 	
 	public long getId() {

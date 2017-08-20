@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | City</title>
 
-<link rel="stylesheet" type="text/css" href="resources/css/sweetalert2.css">
+<link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
@@ -231,7 +231,7 @@
 	</section>
 
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
-	<script src="resources/js/sweetalert2.min.js"></script>
+	<script src="resources/js/sweetalert.min.js"></script>
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
 	
 	<script type="text/javascript">
@@ -454,81 +454,87 @@
 				});
 			}else{
 				var job = {};
+				var check = Number(0);
 				job["editCityId"] =$("#editCityId").val();
 				job["stateId"] = $("#stateName").val();
 				job["cityName"] = $("#cityName").val();
 				job["cityDescription"] = $("#cityDescription").val();
 				for (var k = 1; k <= Number(i); k++) {
-					if (!(($("#cityName" + k).val() === undefined) && ($(
-							"#cityDescription" + k)
-							.val() === undefined))) {
-						if (k === Number(1)) {
-							job["otherCityDetails"] = $(
-									"#cityName" + k)
-									.val()
-									+ ","
-									+ $("#cityDescription"+ k).val();
-						} else {
-							job["otherCityDetails"] = job["otherCityDetails"]
-									+ "_"
-									+ $("#cityName" + k).val()
-									+ ","
-									+ $("#cityDescription"+ k).val();
-						}
+					if(($("#cityName" + k).val() === "") && ($("#cityDescription"+ k).val() !== "")){
+						check = Number(1);
+						swal({
+							title : 'Warning!',
+							text : 'Please Enter City Name!!!',
+							type : 'warning',
+							confirmButtonText : 'OK',
+							allowEscapeKey : true,
+							confirmButtonClass : "btn btn-raised gradient-right",
+							animation : true
+						});
 					}
-
+					
+					if(($("#cityName" + k).val() !== "" && $("#cityName" + k).val() !== undefined)){
+							if (k === Number(1) ) {
+								job["otherCityDetails"] = $("#cityName" + k).val()+ ","+ $("#cityDescription"+ k).val();
+							}else {
+								job["otherCityDetails"] = job["otherCityDetails"]+ "_"+ $("#cityName" + k).val()+ ","+ $("#cityDescription"+ k).val();
+							}
+					}
 				}
 				alert(JSON.stringify(job));
-				$("#submit").prop("disabled", true);
-				$.ajax({
-				type : "POST",
-				url : "admin-addEditCity",
-				data : JSON.stringify(job),
-				processData : false,
-				contentType :"application/json",
-				success : function(data) {
+				if(i === Number(0) || check === Number(0)){
+					$("#submit").prop("disabled", true);
+					$.ajax({
+					type : "POST",
+					url : "admin-addEditCity",
+					data : JSON.stringify(job),
+					processData : false,
+					contentType :"application/json",
+					success : function(data) {
+							swal({
+								  title: 'Success!',
+								  text: 'City Successfully Inserted!!!',
+								  type: 'success',
+								  showConfirmButton :false,
+								  allowEscapeKey:true,
+								  timer:3000,
+								  animation:true
+								});
+						
+						
+						$("#submit").prop("disabled", false);
+
+					},
+					error : function(e) {
+						alert("Error");
 						swal({
-							  title: 'Success!',
-							  text: 'City Successfully Inserted!!!',
-							  type: 'success',
-							  showConfirmButton :false,
+							  title: 'Error!',
+							  text: 'City Not Inserted Successfully!!!',
+							  type: 'error',
+							  confirmButtonText :"OK",
 							  allowEscapeKey:true,
-							  timer:3000,
+							  confirmButtonClass:"btn btn-raised gradient-right",
 							  animation:true
 							});
-					
-					
-					$("#submit").prop("disabled", false);
+						$("#submit").prop("disabled", false);
 
-				},
-				error : function(e) {
-					alert("Error");
-					swal({
-						  title: 'Error!',
-						  text: 'City Not Inserted Successfully!!!',
-						  type: 'error',
-						  confirmButtonText :"OK",
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-					$("#submit").prop("disabled", false);
-
-				}, complete : function(){
-					
-					//Removing all the values after successful submission of the form
-					$("#stateName").val("");
-					$("#cityName").val("");
-					$("#cityDescription").val("");
-					for(var k =1; k<= Number(i); k++){
-						removeCityDiv(Number(k));
+					}, complete : function(){
+						
+						//Removing all the values after successful submission of the form
+						$("#stateName").val("");
+						$("#cityName").val("");
+						$("#cityDescription").val("");
+						for(var k =1; k<= Number(i); k++){
+							removeCityDiv(Number(k));
+						}
+						i = Number(0);
+						$("#editCityId").val("0");
+						defaultStateList(true,0,"stateName");
+						$("#plusbtn").attr("disabled", false);
+						fetchAllCities();
 					}
-					$("#editCityId").val("0");
-					defaultStateList(true,0,"stateName");
-					$("#plusbtn").attr("disabled", false);
-					fetchAllCities();
+			}); 
 				}
-		}); 
 				
 			}
 		});  

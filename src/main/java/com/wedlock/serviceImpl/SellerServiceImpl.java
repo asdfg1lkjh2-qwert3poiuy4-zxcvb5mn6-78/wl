@@ -334,7 +334,9 @@ public class SellerServiceImpl implements SellerService{
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setMssgStatus(mssg);
 		if(status){
+			System.out.println("////In if");
 			adminResponseClass.setSellerDetail(typedQuery.getSingleResult());
+			System.out.println("Seller Details is"+adminResponseClass.getSellerDetail().getSellerFirstName());
 		}
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;

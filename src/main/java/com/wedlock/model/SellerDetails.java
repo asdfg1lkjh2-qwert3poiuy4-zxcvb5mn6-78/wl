@@ -95,7 +95,8 @@ public class SellerDetails implements Serializable {
 	@JsonIgnore
 	private AdminDetails adminDetails;
 	
-	@OneToMany(mappedBy = "sellerDetails")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "sellerDetails",fetch = FetchType.LAZY)
 	private List<AllProducts> allProducts;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)

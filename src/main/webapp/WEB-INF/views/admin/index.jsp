@@ -222,7 +222,6 @@
 				success : function(data) {
 					alert(JSON.stringify(data));
 					if(data.status){
-						
 						sessionStorage.clear();
 						window.location="admin-dashboard";
 					}else{
