@@ -44,10 +44,13 @@ public class CityServiceImpl implements CityService {
 				City city2 = new City();
 				city2.setState(state);
 				
-				String values[] = cityValues[i].split(",");
-				city2.setCityName(values[0]);
-				city2.setCityDescription(values[1]);
-				
+				if(cityValues[i].indexOf(",")>=0){
+					String values[] = cityValues[i].split(",");
+					city2.setCityName(values[0]);
+					city2.setCityDescription(values[1]);
+				}else{
+					city2.setCityName(cityValues[i]);
+				}
 				cityDao.save(city2);
 				if(cityDao.save(city2)==null){
 					status = false;

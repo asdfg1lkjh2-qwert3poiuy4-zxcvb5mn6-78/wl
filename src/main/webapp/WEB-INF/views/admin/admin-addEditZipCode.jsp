@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | ZipCode</title>
 
-<link rel="stylesheet" type="text/css" href="resources/css/sweetalert2.css">
+<link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
@@ -92,6 +92,7 @@
 								<div class="col-xs-12">
 								<input type ="hidden" name ="cityName" id="cityName" value="">
 								<input type ="hidden" name ="editZipCodeId" id="editZipCodeId" value="0">
+								<input type ="hidden" name = "stateName" id="stateName" value="">
 									<button type="submit" class="btn btn-raised gradient-right"
 										id="submit">Submit</button>
 									<button type="submit" class="btn btn-raised gradient-left">Cancel</button>
@@ -241,7 +242,7 @@
 	</section>
 
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
-	<script src="resources/js/sweetalert2.min.js"></script>
+	<script src="resources/js/sweetalert.min.js"></script>
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
 	
 	<script type="text/javascript">
@@ -458,7 +459,6 @@
 	
 	//On submit of the form
 	     $("#submit").click(function (event){
-			
 			event.preventDefault();
 			if($("#stateName").val() === ""){
 				swal({
@@ -480,119 +480,162 @@
 					confirmButtonClass : "btn btn-raised gradient-right",
 					animation : true
 				});
+			}else if($("#zipCode").val() === ""){
+				swal({
+					title : 'Warning!',
+					text : 'Please Enter Zip Code!!!',
+					type : 'warning',
+					confirmButtonText : 'OK',
+					allowEscapeKey : true,
+					confirmButtonClass : "btn btn-raised gradient-right",
+					animation : true
+				});
+			}else if($("#localityName").val() === ""){
+				swal({
+					title : 'Warning!',
+					text : 'Please Enter Locality Name!!!',
+					type : 'warning',
+					confirmButtonText : 'OK',
+					allowEscapeKey : true,
+					confirmButtonClass : "btn btn-raised gradient-right",
+					animation : true
+				});
 			}else{
 				var job = {};
+				var check = Number(0);
 				job["editZipCodeId"] = $("#editZipCodeId").val();
 				job["cityId"] = $("#cityName").val();
 				job["zipCode"] = $("#zipCode").val();
 				job["localityName"] = $("#localityName").val();
 				for (var k = 1; k <= Number(i); k++) {
-					if (!(($("#zipCode" + k).val() === undefined) && ($(
-							"#localityName" + k)
-							.val() === undefined))) {
+					if ((($("#zipCode" + k).val() !== undefined) && ($("#localityName" + k).val() !== undefined)) && (($("#zipCode" + k).val() !== "") && ($("#localityName" + k).val() !== ""))) {
 						if (k === Number(1)) {
-							job["otherZipCodeDetails"] = $(
-									"#zipCode" + k)
-									.val()
-									+ ","
-									+ $("#localityName"+ k).val();
+							job["otherZipCodeDetails"] = $("#zipCode" + k).val()+ ","+ $("#localityName"+ k).val();
 						} else {
-							job["otherZipCodeDetails"] = job["otherZipCodeDetails"]
-									+ "_"
-									+ $("#zipCode" + k).val()
-									+ ","
-									+ $("#localityName"+ k).val();
+							if(job["otherZipCodeDetails"] === undefined){
+								job["otherZipCodeDetails"] = $("#zipCode" + k).val()+ ","+ $("#localityName"+ k).val();
+							}else{
+								job["otherZipCodeDetails"] = job["otherZipCodeDetails"]+ "_"+ $("#zipCode" + k).val()+ ","+ $("#localityName"+ k).val();
+							}
 						}
+					}
+					
+					if($("#zipCode" + k).val() === ""){
+						check = Number(1);
+						swal({
+							title : 'Warning!',
+							text : 'Please Enter Zip Code!!!',
+							type : 'warning',
+							confirmButtonText : 'OK',
+							allowEscapeKey : true,
+							confirmButtonClass : "btn btn-raised gradient-right",
+							animation : true
+						});
+					}else if($("#localityName" + k).val() === ""){
+						check = Number(1);
+						swal({
+							title : 'Warning!',
+							text : 'Please Enter Locality Name!!!',
+							type : 'warning',
+							confirmButtonText : 'OK',
+							allowEscapeKey : true,
+							confirmButtonClass : "btn btn-raised gradient-right",
+							animation : true
+						});
 					}
 
 				}
 				alert(JSON.stringify(job));
-				$("#submit").prop("disabled", true);
-				$.ajax({
-				type : "POST",
-				url : "admin-addEditZipCode",
-				data : JSON.stringify(job),
-				processData : false,
-				contentType :"application/json",
-				success : function(data) {
+				if(i === Number(0) || check === Number(0)){
+					$("#submit").prop("disabled", true);
+					$.ajax({
+					type : "POST",
+					url : "admin-addEditZipCode",
+					data : JSON.stringify(job),
+					processData : false,
+					contentType :"application/json",
+					success : function(data) {
+							swal({
+								  title: 'Success!',
+								  text: 'Zip Code Successfully Inserted!!!',
+								  type: 'success',
+								  showConfirmButton :false,
+								  allowEscapeKey:true,
+								  timer:3000,
+								  animation:true
+								});
+						
+						
+						$("#submit").prop("disabled", false);
+
+					},
+					error : function(e) {
+						alert("Error");
 						swal({
-							  title: 'Success!',
-							  text: 'Zip Code Successfully Inserted!!!',
-							  type: 'success',
-							  showConfirmButton :false,
+							  title: 'Error!',
+							  text: 'Zip Code Not Inserted Successfully!!!',
+							  type: 'error',
+							  confirmButtonText :"OK",
 							  allowEscapeKey:true,
-							  timer:3000,
+							  confirmButtonClass:"btn btn-raised gradient-right",
 							  animation:true
 							});
-					
-					
-					$("#submit").prop("disabled", false);
+						$("#submit").prop("disabled", false);
 
-				},
-				error : function(e) {
-					alert("Error");
-					swal({
-						  title: 'Error!',
-						  text: 'Zip Code Not Inserted Successfully!!!',
-						  type: 'error',
-						  confirmButtonText :"OK",
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-					$("#submit").prop("disabled", false);
-
-				}, complete : function(){
-					//Removing all the fields after successful insertion of the data
-					$("#cityName").val("");
-					$("#zipCode").val("");
-					$("#localityName").val("");
-					$("#editZipCodeId").val("0");
-					fetchAllZipCodes();
-					for(var k =1; k<= Number(i); k++){
-						removeZipCodeDiv(Number(k));
+					}, complete : function(){
+						//Removing all the fields after successful insertion of the data
+						$("#cityName").val("");
+						$("#zipCode").val("");
+						$("#localityName").val("");
+						$("#editZipCodeId").val("0");
+						$("#stateName").val("");
+						for(var k =1; k<= Number(i); k++){
+							removeZipCodeDiv(Number(k));
+						}
+						i = Number(0);
+						fetchAllZipCodes();
+						//Removing the values from state list
+						var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--State Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--State Name"
+							+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\">"
+							 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
+								+ 0
+								+ "','State Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- State Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						var cde = "";
+						for (var i = 0; i < ary.length; i++) {
+							var splittedArray = ary[i].split("_");
+							alert("SplittedArray[1]"+splittedArray[1]);
+								cde = cde
+										+ "<li data-original-index='"
+										+ Number(Number(i) + Number(1))
+										+ "' id='li"
+										+ Number(Number(i) + Number(1))
+										+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"
+										+ Number(Number(i) + Number(1))
+										+ "','"
+										+ splittedArray[1]
+										+ "','"
+										+ splittedArray[0]
+										+ "')\"><span class=\"text\">"
+										+ splittedArray[1]
+										+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+							
 					}
+						cde = cde + "</ul></div>"
 					
-					//Removing the values from state list
-					var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--State Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--State Name"
-						+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\">"
-						 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
-							+ 0
-							+ "','State Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- State Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-					var cde = "";
-					for (var i = 0; i < ary.length; i++) {
-						var splittedArray = ary[i].split("_");
-						alert("SplittedArray[1]"+splittedArray[1]);
-							cde = cde
-									+ "<li data-original-index='"
-									+ Number(Number(i) + Number(1))
-									+ "' id='li"
-									+ Number(Number(i) + Number(1))
-									+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"
-									+ Number(Number(i) + Number(1))
-									+ "','"
-									+ splittedArray[1]
-									+ "','"
-									+ splittedArray[0]
-									+ "')\"><span class=\"text\">"
-									+ splittedArray[1]
-									+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						$("#stateDiv").html(abc + cde);
 						
+						//Removing values from city list
+						var efg = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--City Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--City Name--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+							+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+							+"<li data-original-index=\"0\" class=\"selected\" id=\"cityLi0\" onclick=\"clickCityLi('"+0+"','City Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- City Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>";
+						
+						$("#cityDiv").html(efg);
+						
+						
+					}
+			}); 
 				}
-					cde = cde + "</ul></div>"
 				
-					$("#stateDiv").html(abc + cde);
-					
-					//Removing values from city list
-					var efg = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--City Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--City Name--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-						+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-						+"<li data-original-index=\"0\" class=\"selected\" id=\"cityLi0\" onclick=\"clickCityLi('"+0+"','City Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- City Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>";
-					
-					$("#cityDiv").html(efg);
-					
-					
-				}
-		}); 
 				
 			}
 		});  

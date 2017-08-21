@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | Food Type</title>
 
-<link rel="stylesheet" type="text/css" href="resources/css/sweetalert2.css">
+<link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
@@ -127,102 +127,6 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>6</td>
-										<td>M.COM</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>7</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>8</td>
-										<td>B.COM</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>9</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>10</td>
-										<td>BBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>11</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>MCA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -242,7 +146,7 @@
 	<script type="text/javascript">
 	
 	$(document).ready(function(){
-		//fetchAllFoodTypes();
+		fetchAllFoodTypes();
 	});
 	var i = Number(0); 			//Variable to  know number of times the new div has been added
 	//On click of Add button
@@ -337,7 +241,7 @@
 			
 			
 			for (var k = 1; k <= Number(i); k++) {
-				if (!(($("#foodTypeName" + k).val() === undefined) && ($("#foodTypeDescription" + k).val() === undefined))) {
+				if (($("#foodTypeName" + k).val() !== undefined) && ($("#foodTypeDescription" + k).val() !== undefined) && ($("#foodTypeDescription" + k).val() !== "")) {
 						if($("#foodTypeDescription"+ k).val() !=""){
 							job["foodTypeDetails"] = job["foodTypeDetails"] + "-,@_"+$("#foodTypeName" + k).val()+"^@_"+$("#foodTypeDescription" + k).val();
 						}else{
@@ -390,6 +294,7 @@
 				}
 				$("#plusbtn").attr("disabled", false);
 				$("#typeStatus").val("");
+				i = Number(0);
 				$("#typeStatusDiv").attr("style","");
 				fetchAllFoodTypes();
 			}
@@ -450,7 +355,7 @@
      function editFoodTypeById(foodTypeId){
 		$.ajax({
 			type : "GET",
-			url : "admin-fetchFoodTypesById?id="+foodTypeId,
+			url : "admin-fetchFoodTypeById?id="+foodTypeId,
 			data : "",
 			processData : false,
 			contentType :"application/json",
@@ -473,6 +378,7 @@
 				$("#editFoodTypeId").val(data.foodType.id);
 			},
 			error : function(e) {
+				//alert("Error");
 				swal({
 					  title: 'Error!',
 					  text: 'Food Type Not Fetched Successfully!!!',

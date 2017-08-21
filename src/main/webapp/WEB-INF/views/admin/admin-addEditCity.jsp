@@ -270,7 +270,7 @@
 						alert("Error");
 						swal({
 							title : 'Error!',
-							text : 'Sub Category Not Inserted Successfully!!!',
+							text : 'State Not Fetched Successfully!!!',
 							type : 'error',
 							confirmButtonText : "OK",
 							allowEscapeKey : true,
@@ -425,6 +425,8 @@
 
 	// For removing present div
 	function removeCityDiv(removeId) {
+		$("#cityName"+removeId).val("");
+		$("#cityDescription"+removeId).val("");
 		$("#cityDiv" + removeId).remove();
 	}
 	
@@ -458,7 +460,9 @@
 				job["editCityId"] =$("#editCityId").val();
 				job["stateId"] = $("#stateName").val();
 				job["cityName"] = $("#cityName").val();
-				job["cityDescription"] = $("#cityDescription").val();
+				if($("#cityDescription").val() !== ""){
+					job["cityDescription"] = $("#cityDescription").val();
+				}
 				for (var k = 1; k <= Number(i); k++) {
 					if(($("#cityName" + k).val() === "") && ($("#cityDescription"+ k).val() !== "")){
 						check = Number(1);
@@ -472,12 +476,31 @@
 							animation : true
 						});
 					}
-					
-					if(($("#cityName" + k).val() !== "" && $("#cityName" + k).val() !== undefined)){
-							if (k === Number(1) ) {
-								job["otherCityDetails"] = $("#cityName" + k).val()+ ","+ $("#cityDescription"+ k).val();
+					if(($("#cityName" + k).val() !== undefined) && ($("#cityName" + k).val() !== "")){
+							if (k === Number(1)){
+								if($("#cityDescription" + k).val() !== ""){
+									job["otherCityDetails"] = $("#cityName" + k).val()+ ","+ $("#cityDescription" + k).val();
+								}else{
+									job["otherCityDetails"] = $("#cityName" + k).val();
+								}
+								
 							}else {
-								job["otherCityDetails"] = job["otherCityDetails"]+ "_"+ $("#cityName" + k).val()+ ","+ $("#cityDescription"+ k).val();
+								if($("#cityDescription" + k).val() !== ""){
+									if(job["otherCityDetails"] === undefined){
+										job["otherCityDetails"] = $("#cityName" + k).val()+ ","+ $("#cityDescription" + k).val();
+									}else{
+										job["otherCityDetails"] = job["otherCityDetails"]+ "_"+ $("#cityName" + k).val()+ ","+ $("#cityDescription" + k).val();
+									}
+									
+								}else{
+									if(job["otherCityDetails"] === undefined){
+										job["otherCityDetails"] = $("#cityName" + k).val();
+									}else{
+										job["otherCityDetails"] = job["otherCityDetails"]+ "_"+ $("#cityName" + k).val();
+									}
+									
+								}
+								
 							}
 					}
 				}

@@ -452,7 +452,7 @@
 		}
 		// For removing present div
 		function removeSubCategoryDiv(removeId) {
-			$("#subCategoryName" + removeId).remove();
+			$("#subCategory" + removeId).remove();
 		}
 		//For Submit 
 		$("#submit")
@@ -479,7 +479,7 @@
 									confirmButtonClass : "btn btn-raised gradient-right",
 									animation : true
 								});
-							} else if ($("#subCategoryDescription").val() === "") {
+							}else if ($("#subCategoryDescription").val() === "") {
 								swal({
 									title : 'Warning!',
 									text : 'Please Enter Sub Category Description!!!',
@@ -495,14 +495,21 @@
 								job["categoryId"] = $("#categoryName").val();
 								job["subCategoryName"] = $("#subCategoryName").val();
 								job["subCategoryUrl"] = $("#subCategoryUrl").val();
-								job["subCategoryDescription"] = $("#subCategoryDescription").val();
+								if($("#subCategoryDescription").val() !== ""){
+								job["subCategoryDescription"] = $("#subCategoryDescription").val();	
+								}
 								job["editId"] =$("#editId").val();
 								for (var k = 1; k <= Number(i); k++) {
-									if (!(($("#subCategoryName" + k).val() === undefined) && ($("#subCategoryDescription" + k).val() === undefined) && ($("#subCategoryUrl")+ k).val() === undefined)) {
+									if (($("#subCategoryName" + k).val() !== undefined) && ($("#subCategoryDescription" + k).val() !== undefined) && ($("#subCategoryUrl" + k).val() !== undefined) && ($("#subCategoryName" + k).val() !== "") && ($("#subCategoryUrl" + k).val() !== "")) {
 										if (k === Number(1)) {
-											job["otherSubCategoryDetails"] = $("#subCategoryName" + k).val()+ ","+ $("#subCategoryDescription"+ k).val()+ ","+ $("#subCategoryUrl"+ k).val();
+												job["otherSubCategoryDetails"] = $("#subCategoryName" + k).val()+ ","+ $("#subCategoryDescription"+ k).val()+ ","+ $("#subCategoryUrl"+ k).val();
 										} else {
-											job["otherSubCategoryDetails"] = job["otherSubCategoryDetails"]+ "_"+ $("#subCategoryName" + k).val()+ ","+ $("#subCategoryDescription"+ k).val()+ ","+ $("#subCategoryUrl"+ k).val();
+											if(job["otherSubCategoryDetails"] === undefined){
+												job["otherSubCategoryDetails"] = $("#subCategoryName" + k).val()+ ","+ $("#subCategoryDescription"+ k).val()+ ","+ $("#subCategoryUrl"+ k).val();
+											}else{
+												job["otherSubCategoryDetails"] = job["otherSubCategoryDetails"]+ "_"+ $("#subCategoryName" + k).val()+ ","+ $("#subCategoryDescription"+ k).val()+ ","+ $("#subCategoryUrl"+ k).val();
+											}
+											
 										}
 									}
 								}
@@ -637,7 +644,7 @@
 			var abc ="";
 			if(isInComplete){
 				 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Category Name--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Category Name"
-					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+					+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
 					 abc = abc +"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
 						+ 0
 						+ "','Category Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Category Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"

@@ -521,7 +521,7 @@
 					  confirmButtonClass:"btn btn-raised gradient-right",
 					  animation:true
 					});
-			} */ if($("#foodName").val() === "" ){
+			} */if($("#foodName").val() === "" ){
 				swal({
 					title : 'Warning!',
 					text : 'Please Enter Food Name!!!',
@@ -553,76 +553,118 @@
 				});
 			}else{
 				var job = {};
+				var check = Number(0);
 				job["editFoodId"] =$("#editFoodId").val();
 				job["typeId"] = $("#typeName").val();
-				
+				if($("#foodStatusSelect").val() !== ""){
+					job["foodStatusSelect"] = $("#foodStatusSelect").val();
+				}
 				job["foodDetails"] = $("#foodName").val()+"^@_"+$("#price").val()+"^@_"+($("#vegDish").prop("checked") ? true : false);
 				if($("#foodDescription").val() !== ""){
 					job["foodDetails"] = job["foodDetails"]+"^@_"+$("#foodDescription").val(); 
 				}
 				for (var k = 1; k <= Number(i); k++) {
-					if (($("#foodName" + k).val() !== "") && ($("#price" + k).val() !== "") && ($("#vegDish" + k+",#nonVegDish"+k).is(":checked"))) {
+					if (($("#foodName" + k).val() !== "") && ($("#price" + k).val() !== "") && ($("#vegDish" + k+",#nonVegDish"+k).is(":checked")) && ($("#foodName" + k).val() !== undefined) && ($("#price" + k).val() !== undefined)) {
 						if($("#foodDescription"+ k).val() !=""){
 							job["foodDetails"] = job["foodDetails"] + "-,@_"+$("#foodName" + k).val()+"^@_"+$("#price" + k).val()+"^@_"+($("#vegDish" + k).prop("checked") ? true : false)+"^@_"+$("#foodDescription" + k).val();
 						}else{
 							job["foodDetails"] = job["foodDetails"]+ "-,@_"+$("#foodName" + k).val()+"^@_"+$("#price" + k).val()+"^@_"+($("#vegDish" + k).prop("checked") ? true : false);
 						}
 					  }
-					}
-				alert(JSON.stringify(job));
-				$("#submit").prop("disabled", true);
-				 $.ajax({
-				type : "POST",
-				url : "admin-addEditFood",
-				data : JSON.stringify(job),
-				processData : false,
-				contentType :"application/json",
-				success : function(data) {
+					
+					if($("#foodName" + k).val() === ""){
+						check = Number(1);
 						swal({
-							  title: 'Success!',
-							  text: 'Food Details Successfully Inserted!!!',
-							  type: 'success',
-							  showConfirmButton :false,
+							title : 'Warning!',
+							text : 'Please Enter Food Name!!!',
+							type : 'warning',
+							confirmButtonText : 'OK',
+							allowEscapeKey : true,
+							confirmButtonClass : "btn btn-raised gradient-right",
+							animation : true
+						});
+					}else if($("#price" + k).val() === ""){
+						check = Number(1);
+						swal({
+							title : 'Warning!',
+							text : 'Please Enter Price Of The Food!!!',
+							type : 'warning',
+							confirmButtonText : 'OK',
+							allowEscapeKey : true,
+							confirmButtonClass : "btn btn-raised gradient-right",
+							animation : true
+						});
+					}else if(!($("#vegDish" + k).is(":checked") || $("#nonVegDish" + k).is(":checked"))){
+						check = Number(1);
+						swal({
+							title : 'Warning!',
+							text : 'Please Enter Type Of Dish!!!',
+							type : 'warning',
+							confirmButtonText : 'OK',
+							allowEscapeKey : true,
+							confirmButtonClass : "btn btn-raised gradient-right",
+							animation : true
+						});
+					}		
+				}
+				alert(JSON.stringify(job));
+				if(i === Number(0) || check === Number(0)){
+					$("#submit").prop("disabled", true);
+					 $.ajax({
+					type : "POST",
+					url : "admin-addEditFood",
+					data : JSON.stringify(job),
+					processData : false,
+					contentType :"application/json",
+					success : function(data) {
+							swal({
+								  title: 'Success!',
+								  text: 'Food Details Successfully Inserted!!!',
+								  type: 'success',
+								  showConfirmButton :false,
+								  allowEscapeKey:true,
+								  timer:3000,
+								  animation:true
+								});
+						
+						
+						$("#submit").prop("disabled", false);
+
+					},
+					error : function(e) {
+						alert("Error");
+						swal({
+							  title: 'Error!',
+							  text: 'Food Details Not Inserted Successfully!!!',
+							  type: 'error',
+							  confirmButtonText :"OK",
 							  allowEscapeKey:true,
-							  timer:3000,
+							  confirmButtonClass:"btn btn-raised gradient-right",
 							  animation:true
 							});
-					
-					
-					$("#submit").prop("disabled", false);
+						$("#submit").prop("disabled", false);
 
-				},
-				error : function(e) {
-					alert("Error");
-					swal({
-						  title: 'Error!',
-						  text: 'Food Details Not Inserted Successfully!!!',
-						  type: 'error',
-						  confirmButtonText :"OK",
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-					$("#submit").prop("disabled", false);
-
-				}, complete : function(){
-					
-					//Removing all the values after successful submission of the form
-					$("#typeName").val("");
-					$("#foodName").val("");
-					$("#price").val("");
-					$("#foodDescription").val("");
-					for(var k =1; k<= Number(i); k++){
-						removeCityDiv(Number(k));
+					}, complete : function(){
+						
+						//Removing all the values after successful submission of the form
+						$("#typeName").val("");
+						$("#foodName").val("");
+						$("#price").val("");
+						$("#foodDescription").val("");
+						for(var k =1; k<= Number(i); k++){
+							removeFoodDiv(Number(k));
+						}
+						$("#editCityId").val("0");
+						defaultTypeList(true,0,"Food Type");
+						$("#foodStatusDiv").attr("style","");
+						$("#foodStatusSelect").val("");
+						i = Number(0);
+						$("#plusbtn").attr("disabled", false);
+						fetchAllFoodNamesBySellerId();
 					}
-					$("#editCityId").val("0");
-					defaultTypeList(true,0,"Food Type");
-					$("#foodStatusDiv").attr("style","");
-					$("#foodStatusSelect").val("");
-					$("#plusbtn").attr("disabled", false);
-					fetchAllFoodNamesBySellerId();
+			});  
 				}
-		});  
+				
 				
 			}
 		});  

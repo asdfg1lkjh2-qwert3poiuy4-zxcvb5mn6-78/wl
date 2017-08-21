@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | Photography Occasion</title>
 
-<link rel="stylesheet" type="text/css" href="resources/css/sweetalert2.css">
+<link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
@@ -236,7 +236,7 @@
 	</section>
 
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
-	<script src="resources/js/sweetalert2.min.js"></script>
+	<script src="resources/js/sweetalert.min.js"></script>
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
 	
 	<script type="text/javascript">
@@ -326,6 +326,7 @@
 				});
 		}else{
 			var job = {};
+			var check = Number(0);
 			job["editPhotographyOccasionId"] = $("#editPhotographyOccasionId").val();
 			job["occasionName"] = $("#occasionName").val();
 			job["photographyStatusSelect"] = $("#photographyStatusSelect").val();
@@ -333,86 +334,96 @@
 				job["occasionDescription"] = $("#occasionDescription").val();
 			}
 			for (var k = 1; k <= Number(i); k++) {
-				if (!(($("#occasionName" + k).val() === undefined) && ($(
-						"#occasionDescription" + k)
-						.val() === undefined))) {
+				if (($("#occasionName" + k).val() !== undefined) && ($("#occasionDescription" + k).val() !== undefined) && ($("#occasionName" + k).val() !== "")) {
 					if (k === Number(1)) {
 						if($("#occasionDescription"+ k).val() !=""){
-							job["otherOccasionDetails"] = $(
-									"#occasionName" + k)
-									.val()
-									+ ","
-									+ $("#occasionDescription"+ k).val();
+							job["otherOccasionDetails"] = $("#occasionName" + k).val()+ ","+ $("#occasionDescription"+ k).val();
 						}else{
-							job["otherOccasionDetails"] = $("#occasionName" + k)
-									.val()
+							job["otherOccasionDetails"] = $("#occasionName" + k).val();
 						}
 						
 					} else {
-						if($("#occasionDescription"+k).val() !=""){
-							job["otherOccasionDetails"] = job["otherOccasionDetails"]
-							+ "_"
-							+ $("#occasionName" + k).val()
-							+ ","
-							+ $("#occasionDescription"+ k).val();
+						if(job["otherOccasionDetails"] !== undefined){
+							if($("#occasionDescription"+k).val() !=""){
+								job["otherOccasionDetails"] = job["otherOccasionDetails"]+ "_"+ $("#occasionName" + k).val()+ ","+ $("#occasionDescription"+ k).val();
+							}else{
+								job["otherOccasionDetails"] = job["otherOccasionDetails"]+ "_"+ $("#occasionName" + k).val();
+							}
 						}else{
-							job["otherOccasionDetails"] = job["otherOccasionDetails"]
-							+ "_"
-							+ $("#occasionName" + k).val()
+							if($("#occasionDescription"+k).val() !=""){
+								job["otherOccasionDetails"] = $("#occasionName" + k).val()+ ","+ $("#occasionDescription"+ k).val();
+							}else{
+								job["otherOccasionDetails"] = $("#occasionName" + k).val();
+							}
 						}
 						
 					}
 				}
+				
+				if($("#occasionName" + k).val() === ""){
+					check = Number(1);
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Enter Photography Occasion Name!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}
 
 			}
 			alert(JSON.stringify(job));
-			$("#submit").prop("disabled", true);
-			$.ajax({
-			type : "POST",
-			url : "admin-addEditPhotographyOccasion",
-			data : JSON.stringify(job),
-			processData : false,
-			contentType :"application/json",
-			success : function(data) {
+			if(i === Number(0) || check === Number(0)){
+				$("#submit").prop("disabled", true);
+				$.ajax({
+				type : "POST",
+				url : "admin-addEditPhotographyOccasion",
+				data : JSON.stringify(job),
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+						swal({
+							  title: 'Success!',
+							  text: 'Photography Occasion Successfully Inserted!!!',
+							  type: 'success',
+							  showConfirmButton :false,
+							  allowEscapeKey:true,
+							  timer:3000,
+							  animation:true
+							});
+					
+					$("#submit").prop("disabled", false);
+				},
+				error : function(e) {
+					alert("Error");
 					swal({
-						  title: 'Success!',
-						  text: 'Photography Occasion Successfully Inserted!!!',
-						  type: 'success',
-						  showConfirmButton :false,
+						  title: 'Error!',
+						  text: 'Photography Occasion Not Inserted Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
 						  allowEscapeKey:true,
-						  timer:3000,
+						  confirmButtonClass:"btn btn-raised gradient-right",
 						  animation:true
 						});
-				
-				$("#submit").prop("disabled", false);
-			},
-			error : function(e) {
-				alert("Error");
-				swal({
-					  title: 'Error!',
-					  text: 'Photography Occasion Not Inserted Successfully!!!',
-					  type: 'error',
-					  confirmButtonText :"OK",
-					  allowEscapeKey:true,
-					  confirmButtonClass:"btn btn-raised gradient-right",
-					  animation:true
-					});
-				$("#submit").prop("disabled", false);
+					$("#submit").prop("disabled", false);
 
-			}, complete : function(){
-				//Removing all the values after successful submission of the form
-				$("#occasionName").val("");
-				$("#occasionDescription").val("");
-				$("#editPhotographyOccasionId").val("0");
-				for(var k =1; k<= Number(i); k++){
-					removeOccasionDiv(Number(k));
+				}, complete : function(){
+					//Removing all the values after successful submission of the form
+					$("#occasionName").val("");
+					$("#occasionDescription").val("");
+					$("#editPhotographyOccasionId").val("0");
+					for(var k =1; k<= Number(i); k++){
+						removeOccasionDiv(Number(k));
+					}
+					$("#plusbtn").attr("disabled", false);
+					$("#occasionStatus").val("");
+					$("#occasionStatusDiv").attr("style","");
+					fetchAllPhotographyOccasions();
 				}
-				$("#plusbtn").attr("disabled", false);
-				$("#occasionStatus").val("");
-				$("#occasionStatusDiv").attr("style","");
-				fetchAllPhotographyOccasions();
+		}); 
 			}
-	}); 
 			
 		}
 	});  
