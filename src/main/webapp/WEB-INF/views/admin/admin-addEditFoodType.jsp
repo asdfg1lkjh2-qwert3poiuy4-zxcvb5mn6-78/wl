@@ -230,78 +230,88 @@
 				});
 		}else{
 			var job = {};
+			var check = Number(0);
 			job["editFoodTypeId"] = $("#editFoodTypeId").val();
 			job["foodTypeDetails"] = $("#foodTypeName").val();
 			if($("#typeStatusSelect").val() !== ""){
 			job["typeStatusSelect"] = $("#typeStatusSelect").val();
 			}
-			//if($("#foodDescription").val() !== ""){
-				job["foodTypeDetails"] = job["foodTypeDetails"] +"_@."+$("#foodTypeDescription").val();
-			//}
-			
-			
+			job["foodTypeDetails"] = job["foodTypeDetails"] +"_@."+$("#foodTypeDescription").val();
 			for (var k = 1; k <= Number(i); k++) {
-				if (!(($("#foodTypeName" + k).val() === undefined) && ($("#foodTypeDescription" + k).val() === undefined))) {
-						/* if($("#foodTypeDescription"+ k).val() !=""){
-							job["foodTypeDetails"] = job["foodTypeDetails"] + "-,@_"+$("#foodTypeName" + k).val()+"_@."+$("#foodTypeDescription" + k).val();
-						}else{
-							job["foodTypeDetails"] = job["foodTypeDetails"]+"-,@_"+$("#foodTypeName" + k).val();
-						} */
-						if($("#foodTypeName"+ k).val() !="")
+				if (($("#foodTypeName" + k).val() !== undefined) && ($("#foodTypeDescription" + k).val() !== undefined) && ($("#foodTypeName" + k).val() !== "")) {
+						if(job["foodTypeDetails"] !== undefined)
 						{
-							job["foodTypeDetails"] = job["foodTypeDetails"] + "-,@_"+$("#foodTypeName" + k).val()+"_@."+$("#foodTypeDescription" + k).val();
+						  job["foodTypeDetails"] = job["foodTypeDetails"] + "-,@_"+$("#foodTypeName" + k).val()+"_@."+$("#foodTypeDescription" + k).val();
+						}else{
+							job["foodTypeDetails"] = $("#foodTypeName" + k).val()+"_@."+$("#foodTypeDescription" + k).val();
 						}
+				}
+				
+				if($("#foodTypeName" + k).val() === ""){
+					check = Number(1);
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Enter Food Type Name!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+					});
 				}
 
 			}
 			alert(JSON.stringify(job));
-			$("#submit").prop("disabled", true);
-			$.ajax({
-			type : "POST",
-			url : "admin-addEditFoodType",
-			data : JSON.stringify(job),
-			processData : false,
-			contentType :"application/json",
-			success : function(data) {
+			if(i === Number(0) || check === Number(0)){
+				$("#submit").prop("disabled", true);
+				$.ajax({
+				type : "POST",
+				url : "admin-addEditFoodType",
+				data : JSON.stringify(job),
+				processData : false,
+				contentType :"application/json",
+				success : function(data) {
+						swal({
+							  title: 'Success!',
+							  text: 'Food Type Successfully Inserted!!!',
+							  type: 'success',
+							  showConfirmButton :false,
+							  allowEscapeKey:true,
+							  timer:2000,
+							  animation:true
+							});
+					
+					$("#submit").prop("disabled", false);
+				},
+				error : function(e) {
+					//alert("Error");
 					swal({
-						  title: 'Success!',
-						  text: 'Food Type Successfully Inserted!!!',
-						  type: 'success',
-						  showConfirmButton :false,
+						  title: 'Error!',
+						  text: 'Food Type Not Inserted Successfully!!!',
+						  type: 'error',
+						  confirmButtonText :"OK",
 						  allowEscapeKey:true,
-						  timer:2000,
+						  confirmButtonClass:"btn btn-raised gradient-right",
 						  animation:true
 						});
-				
-				$("#submit").prop("disabled", false);
-			},
-			error : function(e) {
-				//alert("Error");
-				swal({
-					  title: 'Error!',
-					  text: 'Food Type Not Inserted Successfully!!!',
-					  type: 'error',
-					  confirmButtonText :"OK",
-					  allowEscapeKey:true,
-					  confirmButtonClass:"btn btn-raised gradient-right",
-					  animation:true
-					});
-				$("#submit").prop("disabled", false);
+					$("#submit").prop("disabled", false);
 
-			}, complete : function(){
-				//Removing all the values after successful submission of the form
-				$("#foodTypeName").val("");
-				$("#foodTypeDescription").val("");
-				$("#editFoodTypeId").val("0");
-				for(var k =1; k<= Number(i); k++){
-					removeTypeDiv(Number(k));
+				}, complete : function(){
+					//Removing all the values after successful submission of the form
+					$("#foodTypeName").val("");
+					$("#foodTypeDescription").val("");
+					$("#editFoodTypeId").val("0");
+					for(var k =1; k<= Number(i); k++){
+						removeTypeDiv(Number(k));
+					}
+					$("#plusbtn").attr("disabled", false);
+					$("#typeStatus").val("");
+					$("#typeStatusDiv").attr("style","");
+					fetchAllFoodTypes();
 				}
-				$("#plusbtn").attr("disabled", false);
-				$("#typeStatus").val("");
-				$("#typeStatusDiv").attr("style","");
-				fetchAllFoodTypes();
+			}); 
 			}
-	}); 
+			
 			
 		}
 	});  
