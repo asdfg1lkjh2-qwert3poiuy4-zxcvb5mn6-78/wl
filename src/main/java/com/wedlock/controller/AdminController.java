@@ -1931,9 +1931,55 @@ public class AdminController {
 	public @ResponseBody boolean addEditFoodType(@RequestBody ObjectNode objectNode) {
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		boolean status = false;
+		String foodTypeDetails = objectNode.get("foodTypeDetails").asText().trim();
 		if(Long.parseLong(objectNode.get("editFoodTypeId").asText())==0)
 		{
-			if(objectNode.get("foodTypeName").asText().trim().contains("-,@_"))
+			if(foodTypeDetails.contains("-,@_"))
+			{
+				String foodTypeDetail[] = foodTypeDetails.split("-,@_");
+				for(String eachFoodTypeDetail : foodTypeDetail)
+				{
+					if(!eachFoodTypeDetail.equals(""))
+					{
+						FoodType foodType = new FoodType();
+						String foodTypeEntity[] = eachFoodTypeDetail.split("_@.");
+						if(!foodTypeEntity[0].trim().equals(""))
+						{
+							foodType.setName(foodTypeEntity[0].trim());
+							if(foodTypeEntity.length == 1 || foodTypeEntity[1].trim().equals(""))
+								foodType.setDescription(null);
+							else
+								foodType.setDescription(foodTypeEntity[1].trim());
+							foodType.setStatus(Boolean.TRUE);
+							foodTypeService.saveFoodType(foodType);
+							status = true;
+						}
+					}
+				}
+			}
+			else
+			{
+				if(!foodTypeDetails.equals(""))
+				{
+					FoodType foodType = new FoodType();
+					String foodTypeEntity[] = foodTypeDetails.split("_@.");
+					if(foodTypeEntity.length == 1 || !foodTypeEntity[0].trim().equals(""))
+					{
+						foodType.setName(foodTypeEntity[0].trim());
+						if(foodTypeEntity[1].trim().equals(""))
+							foodType.setDescription(null);
+						else
+							foodType.setDescription(foodTypeEntity[1].trim());
+						foodType.setStatus(Boolean.TRUE);
+						foodTypeService.saveFoodType(foodType);
+						status = true;
+					}
+				}
+			}
+			
+			
+			
+			/*if(objectNode.get("foodTypeName").asText().trim().contains("-,@_"))
 			{
 				String foodTypeNames[] = objectNode.get("foodTypeName").asText().trim().split("-,@_");
 				String foodTypeDescriptions[] = objectNode.get("foodTypeDescription").asText().trim().split("-,@_");
@@ -1984,8 +2030,32 @@ public class AdminController {
 					foodType.setStatus(Boolean.FALSE);
 				foodTypeService.saveFoodType(foodType);
 				status = true;
-			}
+			}*/
 			adminResponseClass.setStatus(status);
+		}
+		else
+		{
+			if(!foodTypeDetails.equals(""))
+			{
+				FoodType foodType = new FoodType();
+				String foodTypeEntity[] = foodTypeDetails.split("_@.");
+				if(foodTypeEntity.length == 1 || !foodTypeEntity[0].trim().equals(""))
+				{
+					foodType.setId(Long.parseLong(objectNode.get("editFoodTypeId").asText()));
+					foodType.setName(foodTypeEntity[0].trim());
+					if(foodTypeEntity[1].trim().equals(""))
+						foodType.setDescription(null);
+					else
+						foodType.setDescription(foodTypeEntity[1].trim());
+					
+					if(objectNode.get("typeStatusSelect").asText().trim().equalsIgnoreCase("Active"))
+						foodType.setStatus(Boolean.TRUE);
+					else
+						foodType.setStatus(Boolean.FALSE);
+					foodTypeService.saveFoodType(foodType);
+					status = true;
+				}
+			}
 		}
 		return adminResponseClass.isStatus();
 	}
