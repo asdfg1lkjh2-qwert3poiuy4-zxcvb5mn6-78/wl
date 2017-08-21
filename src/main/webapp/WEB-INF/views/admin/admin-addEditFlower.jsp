@@ -654,7 +654,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-2 col-xs-12">
+									<!-- <div class="col-sm-2 col-xs-12">
 										<div class="form-group mrgn-less-15">
 											<div class="checkbox">
 												<label class="labelCheckbox"> <input type="checkbox"
@@ -664,17 +664,20 @@
 												</label> 
 											</div>
 										</div>
-									</div>
+									</div> -->
 									<div class="col-sm-2 col-xs-12">
 										<div class="form-group mrgn-less-15">
 											<div class="checkbox">
 												<label class="labelCheckbox"> <input type="checkbox"
 													name="checkBoxDiscountPercent" id="checkBoxDiscountPercent">
 													<span class="cr"><i
-														class="cr-icon glyphicon glyphicon-ok"></i></span> Discount Percent
+														class="cr-icon glyphicon glyphicon-ok"></i></span> In Percentage
 												</label> 
 											</div>
 										</div>
+									</div>
+									<div class="col-sm-2 col-xs-12">
+										<button type="button" class="btn btn-raised gradient-right" id="plusbtn">Add</button><button type="button" class="btn btn-raised gradient-right hideDiv" id="showPreviousPrices" data-toggle="modal" data-target="#showPriceModal">Show Prices</button>
 									</div>
 								</div>
 								<div class="row clearfix">

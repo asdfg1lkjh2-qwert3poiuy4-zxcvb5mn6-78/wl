@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | Food Type</title>
 
-<link rel="stylesheet" type="text/css" href="resources/css/sweetalert2.css">
+<link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
@@ -122,107 +122,11 @@
 										<th class="text-center">Food Type Id</th>
 										<th class="text-center">Food Type Name</th>
 										<th class="text-center">Food Type Description</th>
-										<th class="text-center">isActive</th>
+										<th class="text-center">Status</th>
 										<th class="text-center">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>6</td>
-										<td>M.COM</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>7</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>8</td>
-										<td>B.COM</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>9</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>10</td>
-										<td>BBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>11</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>MCA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -236,13 +140,13 @@
 	</section>
 
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
-	<script src="resources/js/sweetalert2.min.js"></script>
+	<script src="resources/js/sweetalert.min.js"></script>
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
 	
 	<script type="text/javascript">
 	
 	$(document).ready(function(){
-		//fetchAllFoodTypes();
+		fetchAllFoodTypes();
 	});
 	var i = Number(0); 			//Variable to  know number of times the new div has been added
 	//On click of Add button
@@ -331,17 +235,21 @@
 			if($("#typeStatusSelect").val() !== ""){
 			job["typeStatusSelect"] = $("#typeStatusSelect").val();
 			}
-			if($("#foodDescription").val() !== ""){
-				job["foodTypeDetails"] = job["foodTypeDetails"] +"^@_"+$("#foodTypeDescription").val();
-			}
+			//if($("#foodDescription").val() !== ""){
+				job["foodTypeDetails"] = job["foodTypeDetails"] +"_@."+$("#foodTypeDescription").val();
+			//}
 			
 			
 			for (var k = 1; k <= Number(i); k++) {
 				if (!(($("#foodTypeName" + k).val() === undefined) && ($("#foodTypeDescription" + k).val() === undefined))) {
-						if($("#foodTypeDescription"+ k).val() !=""){
-							job["foodTypeDetails"] = job["foodTypeDetails"] + "-,@_"+$("#foodTypeName" + k).val()+"^@_"+$("#foodTypeDescription" + k).val();
+						/* if($("#foodTypeDescription"+ k).val() !=""){
+							job["foodTypeDetails"] = job["foodTypeDetails"] + "-,@_"+$("#foodTypeName" + k).val()+"_@."+$("#foodTypeDescription" + k).val();
 						}else{
 							job["foodTypeDetails"] = job["foodTypeDetails"]+"-,@_"+$("#foodTypeName" + k).val();
+						} */
+						if($("#foodTypeName"+ k).val() !="")
+						{
+							job["foodTypeDetails"] = job["foodTypeDetails"] + "-,@_"+$("#foodTypeName" + k).val()+"_@."+$("#foodTypeDescription" + k).val();
 						}
 				}
 
@@ -361,14 +269,14 @@
 						  type: 'success',
 						  showConfirmButton :false,
 						  allowEscapeKey:true,
-						  timer:3000,
+						  timer:2000,
 						  animation:true
 						});
 				
 				$("#submit").prop("disabled", false);
 			},
 			error : function(e) {
-				alert("Error");
+				//alert("Error");
 				swal({
 					  title: 'Error!',
 					  text: 'Food Type Not Inserted Successfully!!!',
@@ -409,31 +317,31 @@
 					if(data.status){
 						$("#foodTypeTable > tbody").html("");
 						var abc ="";
-						for(var i = 0; i< data.listAllFoodTypes.length; i++){
+						for(var i = 0; i< data.listFoodType.length; i++){
 							var foodDescription;
-							if(data.listAllFoodTypes[i].description !== null){
-								foodDescription = data.listAllFoodTypes[i].description;
+							if(data.listFoodType[i].description !== null){
+								foodDescription = data.listFoodType[i].description;
 							}else{
 								foodDescription = "---";
 							}
 							var isActive;
-							if(data.listAllFoodTypes[i].active){
-								isActive = "Yes";
+							if(data.listFoodType[i].status){
+								isActive = "Active";
 							}else{
-								isActive = "No";
+								isActive = "Inactive";
 							}
 							abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
-							+"<td class=\"text-center\">"+data.listAllFoodTypes[i].id+"</td>"
-							+"<td class=\"text-center\">"+data.listAllFoodTypes[i].name+"</td>"
+							+"<td class=\"text-center\">"+data.listFoodType[i].id+"</td>"
+							+"<td class=\"text-center\">"+data.listFoodType[i].name+"</td>"
 							+"<td class=\"text-center\">"+foodDescription+"</td>"
 							+"<td class=\"text-center\">"+isActive+"</td>"
-							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editFoodTypeById('"+data.listAllFoodTypes[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
+							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editFoodTypeById('"+data.listFoodType[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
 						}
-						$("#photographyOccasionTable > tbody").html(abc);
+						$("#foodTypeTable > tbody").html(abc);
 					}
 			},
 			error : function(e) {
-				alert("Error");
+				//alert("Error");
 				swal({
 					  title: 'Error!',
 					  text: 'Food Type Not Fetched Successfully!!!',
@@ -450,7 +358,7 @@
      function editFoodTypeById(foodTypeId){
 		$.ajax({
 			type : "GET",
-			url : "admin-fetchFoodTypesById?id="+foodTypeId,
+			url : "admin-fetchFoodTypeById?id="+foodTypeId,
 			data : "",
 			processData : false,
 			contentType :"application/json",
@@ -473,6 +381,7 @@
 				$("#editFoodTypeId").val(data.foodType.id);
 			},
 			error : function(e) {
+				//alert("Error");
 				swal({
 					  title: 'Error!',
 					  text: 'Food Type Not Fetched Successfully!!!',
