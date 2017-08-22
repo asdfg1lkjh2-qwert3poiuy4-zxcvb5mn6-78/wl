@@ -9,4 +9,5 @@ public interface FoodService {
 	AdminResponseClass fetchAllFoodBySeller(SellerDetails sellerDetails);
 	AdminResponseClass fetchFoodById(long id);
 	AdminResponseClass fetchFoodByIdWithStatus(long id);
+	AdminResponseClass fetchFoodByTypeIdWithStatus(SellerDetails sellerDetails, long typeId);
 }

@@ -166,102 +166,6 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>6</td>
-										<td>M.COM</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>7</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>8</td>
-										<td>B.COM</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>9</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>10</td>
-										<td>BBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>11</td>
-										<td>MBA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>MCA</td>
-										<td>Lorem Ipsum is simply dummy text of the printing</td>
-										<td>info@gamil.com</td>
-										<td>+123 456 7890</td>
-										<td>Airi Satou</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -289,7 +193,7 @@
 		$
 				.ajax({
 					type : "GET",
-					url : "admin-fetchAllFoodTypes",
+					url : "admin-fetchAllFoodTypesWithStatus",
 					data : "",
 					contentType : "application/json",
 					processData : false,
@@ -511,7 +415,7 @@
 		// On submit of the form
 	     $("#submit").click(function (event){
 			event.preventDefault();
-			/* if($("#typeName").val() === ""){
+			 if($("#typeName").val() === ""){
 				swal({
 					  title: 'Warning!',
 					  text: 'Please Enter Food Type!!!',
@@ -521,7 +425,7 @@
 					  confirmButtonClass:"btn btn-raised gradient-right",
 					  animation:true
 					});
-			} */if($("#foodName").val() === "" ){
+			} else if($("#foodName").val() === "" ){
 				swal({
 					title : 'Warning!',
 					text : 'Please Enter Food Name!!!',
@@ -559,17 +463,17 @@
 				if($("#foodStatusSelect").val() !== ""){
 					job["foodStatusSelect"] = $("#foodStatusSelect").val();
 				}
-				job["foodDetails"] = $("#foodName").val()+"^@_"+$("#price").val()+"^@_"+($("#vegDish").prop("checked") ? true : false);
-				if($("#foodDescription").val() !== ""){
-					job["foodDetails"] = job["foodDetails"]+"^@_"+$("#foodDescription").val(); 
-				}
+				job["foodDetails"] = $("#foodName").val()+"_@."+$("#price").val()+"_@."+($("#vegDish").prop("checked") ? true : false) +"_@."+$("#foodDescription").val();;
+				/* if($("#foodDescription").val() !== ""){
+					job["foodDetails"] = job["foodDetails"]+"_@."+$("#foodDescription").val(); 
+				} */
 				for (var k = 1; k <= Number(i); k++) {
 					if (($("#foodName" + k).val() !== "") && ($("#price" + k).val() !== "") && ($("#vegDish" + k+",#nonVegDish"+k).is(":checked")) && ($("#foodName" + k).val() !== undefined) && ($("#price" + k).val() !== undefined)) {
-						if($("#foodDescription"+ k).val() !=""){
-							job["foodDetails"] = job["foodDetails"] + "-,@_"+$("#foodName" + k).val()+"^@_"+$("#price" + k).val()+"^@_"+($("#vegDish" + k).prop("checked") ? true : false)+"^@_"+$("#foodDescription" + k).val();
-						}else{
+						//if($("#foodDescription"+ k).val() !=""){
+							job["foodDetails"] = job["foodDetails"] + "-,@_"+$("#foodName" + k).val()+"_@."+$("#price" + k).val()+"_@."+($("#vegDish" + k).prop("checked") ? true : false)+"_@."+$("#foodDescription" + k).val();
+						/* }else{
 							job["foodDetails"] = job["foodDetails"]+ "-,@_"+$("#foodName" + k).val()+"^@_"+$("#price" + k).val()+"^@_"+($("#vegDish" + k).prop("checked") ? true : false);
-						}
+						} */
 					  }
 					
 					if($("#foodName" + k).val() === ""){
@@ -623,7 +527,7 @@
 								  type: 'success',
 								  showConfirmButton :false,
 								  allowEscapeKey:true,
-								  timer:3000,
+								  timer:2000,
 								  animation:true
 								});
 						
@@ -690,9 +594,9 @@
 								}
 								
 								if(data.listFood[i].status){
-									status = "Yes";
+									status = "Active";
 								}else{
-									status = "No";
+									status = "Inactive";
 								}
 								abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
 								+"<td class=\"text-center\">"+data.listFood[i].id+"</td>"
@@ -855,3 +759,5 @@
 	
 	<div class="color-bg"></div>
 	<%@ include file="admin-includeFooter.jsp"%>
+	</body>
+	</html>

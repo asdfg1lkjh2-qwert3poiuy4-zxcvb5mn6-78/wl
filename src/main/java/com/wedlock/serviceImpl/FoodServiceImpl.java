@@ -42,7 +42,7 @@ public class FoodServiceImpl implements FoodService
 		boolean status = false;
 		List<Food> modFoodList = new ArrayList<>();
 		
-		Query query = manager.createQuery("Select f from Food f where f.sellerDetails=:sellerDetails order by name");
+		Query query = manager.createQuery("Select f from Food f where f.sellerDetails=:sellerDetails AND f.foodType.status=true order by f.name");
 		query.setParameter("sellerDetails", sellerDetails);
 		if(!query.getResultList().isEmpty())
 		{
@@ -88,6 +88,33 @@ public class FoodServiceImpl implements FoodService
 			status = true;
 			adminResponseClass.setFood(food);
 		}
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public AdminResponseClass fetchFoodByTypeIdWithStatus(SellerDetails sellerDetails, long typeId) {
+		boolean status = false;
+		List<Food> modFoodList = new ArrayList<>();
+		
+		Query query = manager.createQuery("Select f from Food f where f.sellerDetails=:sellerDetails AND f.foodType.id=:typeId AND f.foodType.status=true AND f.status=true order by f.name");
+		query.setParameter("sellerDetails", sellerDetails);
+		query.setParameter("typeId", typeId);
+		if(!query.getResultList().isEmpty())
+		{
+			List<Food> foodList = query.getResultList();
+			for(Food food : foodList)
+			{
+				food.setSellerDetails(null);
+				modFoodList.add(food);
+			}
+			status = true;
+		}
+		
+		
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setListFood(modFoodList);
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}

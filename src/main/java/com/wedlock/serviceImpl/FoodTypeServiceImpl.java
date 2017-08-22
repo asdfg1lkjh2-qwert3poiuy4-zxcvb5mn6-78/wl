@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.FoodTypeDao;
 import com.wedlock.model.AdminResponseClass;
+import com.wedlock.model.Food;
 import com.wedlock.model.FoodType;
 import com.wedlock.service.FoodTypeService;
 
@@ -61,7 +62,7 @@ public class FoodTypeServiceImpl implements FoodTypeService{
 		boolean status = false;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		
-		Query query = manager.createQuery("Select ft from FoodType ft where f.id=:id AND ft.status=true");
+		Query query = manager.createQuery("Select ft from FoodType ft where ft.id=:id AND ft.status=true");
 		query.setParameter("id", id);
 		
 		if(!(query.getResultList().isEmpty()))
@@ -69,6 +70,24 @@ public class FoodTypeServiceImpl implements FoodTypeService{
 			FoodType foodType = (FoodType) query.getResultList().get(0);
 			status = true;
 			adminResponseClass.setFoodType(foodType);
+		}
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public AdminResponseClass fetchAllFoodTypesWithStatus() {
+		boolean status = false;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		
+		Query query = manager.createQuery("Select ft from FoodType ft where ft.status=true order by ft.name");
+		
+		if(!(query.getResultList().isEmpty()))
+		{
+			List<FoodType> foodTypeList = query.getResultList();
+			status = true;
+			adminResponseClass.setListFoodType(foodTypeList);
 		}
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
