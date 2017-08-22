@@ -481,3 +481,11 @@ input[type=number]::-webkit-outer-spin-button {
 .checkbox .labelPadding{
 	padding-top:10px;
 }
+._thumnailImage #singleUpload{
+	height:290px !important;
+	min-height:290px !important;
+}
+._productImages #multipleUpload{
+	height:290px !important;
+	min-height:290px !important;
+}
