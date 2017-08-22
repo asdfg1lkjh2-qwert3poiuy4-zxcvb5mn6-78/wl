@@ -302,7 +302,7 @@
 							var cde = "";		
 									for(var i = 0; i<data.listFoodType.length; i++){	
 										cde = cde + "<li data-original-index='"+Number(Number(i)+Number(1))+"' id='li"+Number(Number(i)+Number(1))+"'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickLi('"+Number(Number(i)+Number(1))+"','"+data.listFoodType[i].name+"','"+data.listFoodType[i].id+"')\"><span class=\"text\">"+data.listFoodType[i].name+"</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-										var arValue = data.listFoodType[i].id+"_"+data.listFoodType[i].stateName;
+										var arValue = data.listFoodType[i].id+"_"+data.listFoodType[i].name;
 										ary.push(arValue);
 									}
 								cde = cde +"</ul></div>"
