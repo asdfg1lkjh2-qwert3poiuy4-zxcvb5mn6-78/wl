@@ -1790,7 +1790,7 @@
 								if(data.sellerDetail.active){
 									sellerAccount("Active");
 								}else{
-									sellerAccount("Inactive",data.sellerInactiveDetail.inactiveReason);
+									sellerAccount("Inactive",data.sellerDetail.sellerInactiveDetails[0].inactiveReason);
 									$("#sellerInactiveDiv").attr("style","display:block");
 								}
 								$("#editSellerId").val(data.sellerDetail.id);

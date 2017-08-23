@@ -71,6 +71,18 @@
 
 <p><input id="foo" class="jscolor" value="cc4499"></p>
 
+ <select data-placeholder="Type &apos;C&apos; to view" multiple class="chosen-select-no-results" tabindex="11">
+            <option value=""></option>
+            <option>American Black Bear</option>
+            <option>Asiatic Black Bear</option>
+            <option>Brown Bear</option>
+            <option>Giant Panda</option>
+            <option>Sloth Bear</option>
+            <option>Sun Bear</option>
+            <option>Polar Bear</option>
+            <option>Spectacled Bear</option>
+          </select>
+
 <!-- <video controls preload=metadata width=1280 height=720>
 <source src='resources/images/VID-20170226-WA0000.mp4' type='video/mp4'>
 </video> -->
@@ -229,6 +241,6 @@ $("#1,#2").click(function(){
 
     	    
 </script>
- <%@ include file="admin-includeFooter.jsp" %>
+<%@ include file="admin-includeFooter.jsp" %>
  </body>
 </html>

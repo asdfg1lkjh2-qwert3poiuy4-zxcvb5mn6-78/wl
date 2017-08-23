@@ -1510,93 +1510,154 @@
 		}
 	 
 		var foodNameArr = new Array();
+		var foodNameid ="";
+		var foodNametitle = "";
 		function showAllFoodNamesByFoodType(foodTypeId){
-			$.ajax({
-				type : "GET",
-				url : "admin-fetchFoodByTypeIdWithStatus?typeId="+foodTypeId,
-				data : "",
-				contentType : "application/json",
-				processData : false,
-				success : function(data) {
-					$("#foodNameDiv").html("");
-					if (data.status) {
-						var arValue = "";
-						while (foodNameArr.length > 0) {
-							foodNameArr.pop();
-						}
-						var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Food Name --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Food Name --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+			if(foodTypeId !== undefined){
+				$.ajax({
+					type : "GET",
+					url : "admin-fetchFoodByTypeIdWithStatus?typeId="+foodTypeId,
+					data : "",
+					contentType : "application/json",
+					processData : false,
+					success : function(data) {
+						$("#foodNameDiv").html("");
+						if (data.status) {
+							var arValue = "";
+							while (foodNameArr.length > 0) {
+								foodNameArr.pop();
+							}
+							var classSelected = "";
+							var title = "";
+							var check = Number(0);
+							if(foodNameid === "" ){
+								classSelected = "class = selected";
+								title = "-- Food Name --";
+							}
+							
+							var cde = "";
+							var abc = "";
+							if(data.listFood !== null){
+								for (var i = 0; i < data.listFood.length; i++) {
+									var liClassSelected = "";
+									if(foodNameid.indexOf(",") >=0){
+										var lpq = foodNameid.split(",");
+										var title1 = foodNametitle.split(",");
+										for(var k = 0; k<lpq.length; k++){
+											if(foodTypeId+"_"+data.listFood[i].id === lpq[k]){
+												liClassSelected = "class = selected";
+												if(title === ""){
+													title = title1[k];
+												} else{
+													title = title + "," + title1[k];
+												}
+												check = Number(1);
+											}
+										}
+									}
+									
+									cde = cde
+											+ "<li data-original-index='"
+											+ Number(Number(i) + Number(1))
+											+ "' "
+											+ liClassSelected
+											+ " id='foodNameLi"
+											+ Number(Number(i) + Number(1))
+											+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFoodNameLi('"
+											+ Number(Number(i) + Number(1))
+											+ "','"
+											+ data.listFood[i].name
+											+ "','"
+											+ data.listFood[i].id
+											+ "','"
+											+ liClassSelected
+											+ "','"
+											+ Number(foodTypeId)
+											+ "')\"><span class=\"text\" title=\""+data.listFood[i].description+"\">"
+											+ data.listFood[i].name
+											+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+											
+									arValue = data.listFood[i].id
+											+ "_"
+											+ data.listFood[i].name
+											+ "_"
+											+ data.listFood[i].description
+											+ "_"
+											+ Number(foodTypeId);
+											foodNameArr.push(arValue);
+								}
+								if(check === Number(0)){
+									 title = "-- Food Name --";
+								 }
+								
+								abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title="+title+" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"+title+"</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+								+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
+								+ "<li data-original-index=\"0\" '"+classSelected+"' id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
+								+ 0
+								+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+								
+							}else{
+								abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- No Food To Display --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- No Food To Display --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 								+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
 								+ "<li data-original-index=\"0\" class=\"selected\" id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
 								+ 0
-								+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-						var cde = "";
-						for (var i = 0; i < data.listFood.length; i++) {
-							cde = cde
-									+ "<li data-original-index='"
-									+ Number(Number(i) + Number(1))
-									+ "' id='foodNameLi"
-									+ Number(Number(i) + Number(1))
-									+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFoodNameLi('"
-									+ Number(Number(i) + Number(1))
-									+ "','"
-									+ data.listFood[i].name
-									+ "','"
-									+ data.listFood[i].id
-									+ "')\"><span class=\"text\" title=\""+data.listFood[i].description+"\">"
-									+ data.listFood[i].name
-									+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-							arValue = data.listFood[i].id
-									+ "_"
-									+ data.listFood[i].name
-									+ "_"
-									+ data.listFood[i].description;
-									foodNameArr.push(arValue);
+								+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- No Food To Display --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+							}
+							cde = cde + "</ul></div>"
+							$("#foodNameDiv").html(abc + cde);
+							
 						}
-						cde = cde + "</ul></div>"
-						$("#foodNameDiv").html(abc + cde);
-					}
 
-				},
-				error : function(e) {
-					alert("Error");
-					swal({
-						title : 'Error!',
-						text : 'Food Name Not Fetched Successfully!!!',
-						type : 'error',
-						confirmButtonText : "OK",
-						allowEscapeKey : true,
-						confirmButtonClass : "btn btn-raised gradient-right",
-						animation : true
-					});
-				}
-			});
+					},
+					error : function(e) {
+						swal({
+							title : 'Error!',
+							text : 'Food Name Not Fetched Successfully!!!',
+							type : 'error',
+							confirmButtonText : "OK",
+							allowEscapeKey : true,
+							confirmButtonClass : "btn btn-raised gradient-right",
+							animation : true
+						});
+					}
+				});
+			}else{
+				var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Food Name --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Food Name --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+				+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
+				+ "<li data-original-index=\"0\" class=\"selected\" id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
+				+ 0
+				+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+				$("#foodNameDiv").html(abc);
+
+			}
 		}
 		
-		var foodNametitle = "";
-		var foodNameid ="";
 		var previousFoodNameLi = "";
+		var foodTypeIds = "";
 		//On click of each li in Occasion list 
-		function clickFoodNameLi(liId, title1, foodNameId, classSelected) {
+		function clickFoodNameLi(liId, title1, foodNameId, classSelected, foodTypeId) {
+			foodTypeIds = foodTypeId;
 			if (classSelected === undefined || classSelected === "") {
 				if (foodNametitle === "") {
 					foodNametitle = title1;
-					foodNameid = foodNameId;
+					foodNameid = foodTypeIds+"_"+foodNameId;
 				}else {
 					if(title1 === "Food Name" || foodNametitle.indexOf("Food Name") >=0){
 					foodNametitle = "";
+					foodNameid = "";
 					}
 					if(foodNametitle === ""){
 						foodNametitle = title1;
-						foodNameid = foodNameId;
+						foodNameid = foodTypeIds+"_"+foodNameId;
 					}else{
 						foodNametitle = foodNametitle + "," + title1;
-						foodNameid = foodNameid + "," + foodNameId;
+						foodNameid = foodNameid + "," + foodTypeIds+"_"+foodNameId;
 					}
 				}
 					
 			} else {
-				var a = title.split(",");
-				var b = id.split(",");
+				var a = foodNametitle.split(",");
+				var b = foodNameid.split(",");
 				foodNametitle = "";
 				foodNameid = "";
 				for (var i = 0; i < a.length; i++) {
@@ -1615,7 +1676,28 @@
 					}
 				}
 			}
-			alert(foodNametitle);
+			var titles = "";
+			if(foodNameid.indexOf(",") >=0){
+				var lpq = foodNameid.split(",");
+				var titleShow = foodNametitle.split(",");
+				for(var i=0; i<lpq.length; i++){
+					if(lpq[i].indexOf(foodTypeId+"_") >=0){
+						if(titles === ""){
+							titles = titleShow[i];
+						}else{
+							titles = titles +"," + titleShow[i];
+						}						
+					}
+				}
+				
+			}else{
+				if(foodNametitle === ""){
+					titles = "-- Food Name --";
+				}else{
+					titles = foodNametitle;
+				}
+				
+			}
 			/* if(lengthOccasions !=""){
 				if(lengthOccasions > title.split(",").length){
 					titleLength = "minus";
@@ -1623,9 +1705,9 @@
 					titleLength = "plus";
 				}
 			} */
-			$("#foodName").val(foodNameid); //Hidden field to store the Occasion Id
-			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\""+title+ "\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"
-					+ foodNametitle
+			//$("#foodName").val(foodNameid); //Hidden field to store the Occasion Id
+			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\""+titles+ "\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"
+					+ titles
 					+ "</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
 
 			if (Number(liId) > Number(0)) {
@@ -1639,11 +1721,9 @@
 				var cde = "";
 				for (var i = 0; i < foodNameArr.length; i++) {
 					var splittedArray = foodNameArr[i].split("_");
-
 					if (Number(i) === Number(Number(liId) - Number(1))) {
 						var classSelected = "";
-						if (!($("#foodNameLi" + Number(liId))
-								.hasClass("selected"))) {
+						if (!($("#foodNameLi" + Number(liId)).hasClass("selected"))) {
 							classSelected = "class = selected";
 						}
 						cde = cde
@@ -1661,13 +1741,14 @@
 								+ splittedArray[0]
 								+ "','"
 								+ classSelected
+								+ "','"
+								+ splittedArray[3]
 								+ "')\"><span class=\"text\" title=\""+splittedArray[2]+"\">"
 								+ splittedArray[1]
 								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 					} else {
 						var classSelected = "";
-						if ($("#foodNameLi"+ Number(Number(i) + Number(1)))
-								.hasClass("selected")) {
+						if($("#foodNameLi"+ Number(Number(i) + Number(1))).hasClass("selected")) {
 							classSelected = "class = selected";
 						}
 						cde = cde
@@ -1685,6 +1766,8 @@
 								+ splittedArray[0]
 								+ "','"
 								+ classSelected
+								+ "','"
+								+ splittedArray[3]
 								+ "')\"><span class=\"text\" title=\""+splittedArray[2]+"\">"
 								+ splittedArray[1]
 								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"

@@ -111,4 +111,12 @@ public class CategoryTaken implements Serializable {
 	public void setCategoryAvailable(CategoryAvailable categoryAvailable) {
 		this.categoryAvailable = categoryAvailable;
 	}
+
+	public SellerDetails getSellerDetails() {
+		return sellerDetails;
+	}
+
+	public void setSellerDetails(SellerDetails sellerDetails) {
+		this.sellerDetails = sellerDetails;
+	}
 }

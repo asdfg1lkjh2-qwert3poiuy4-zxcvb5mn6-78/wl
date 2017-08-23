@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.FoodDao;
@@ -40,24 +41,14 @@ public class FoodServiceImpl implements FoodService
 	@Override
 	public AdminResponseClass fetchAllFoodBySeller(SellerDetails sellerDetails) {
 		boolean status = false;
-		List<Food> modFoodList = new ArrayList<>();
-		
-		Query query = manager.createQuery("Select f from Food f where f.sellerDetails=:sellerDetails AND f.foodType.status=true order by f.name");
-		query.setParameter("sellerDetails", sellerDetails);
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		Query query = manager.createQuery("Select f from Food f where f.sellerDetails.id=:sellerDetails AND f.foodType.status=true order by f.foodType.name asc");
+		query.setParameter("sellerDetails", sellerDetails.getId());
 		if(!query.getResultList().isEmpty())
 		{
-			List<Food> foodList = query.getResultList();
-			for(Food food : foodList)
-			{
-				food.setSellerDetails(null);
-				modFoodList.add(food);
-			}
+			adminResponseClass.setListFood(query.getResultList());
 			status = true;
 		}
-		
-		
-		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setListFood(modFoodList);
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
@@ -96,25 +87,16 @@ public class FoodServiceImpl implements FoodService
 	@Override
 	public AdminResponseClass fetchFoodByTypeIdWithStatus(SellerDetails sellerDetails, long typeId) {
 		boolean status = false;
-		List<Food> modFoodList = new ArrayList<>();
 		
-		Query query = manager.createQuery("Select f from Food f where f.sellerDetails=:sellerDetails AND f.foodType.id=:typeId AND f.foodType.status=true AND f.status=true order by f.name");
-		query.setParameter("sellerDetails", sellerDetails);
+		Query query = manager.createQuery("Select f from Food f where f.sellerDetails.id=:sellerDetails AND f.foodType.id=:typeId AND f.foodType.status=true AND f.status=true order by f.foodType.name asc");
+		query.setParameter("sellerDetails", sellerDetails.getId());
 		query.setParameter("typeId", typeId);
-		if(!query.getResultList().isEmpty())
-		{
-			List<Food> foodList = query.getResultList();
-			for(Food food : foodList)
-			{
-				food.setSellerDetails(null);
-				modFoodList.add(food);
-			}
-			status = true;
-		}
-		
+		status = true;
 		
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		adminResponseClass.setListFood(modFoodList);
+		if(!(query.getResultList()).isEmpty()){
+			adminResponseClass.setListFood(query.getResultList());
+		}
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
