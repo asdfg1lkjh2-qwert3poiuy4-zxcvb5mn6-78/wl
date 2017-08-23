@@ -32,8 +32,8 @@ public class AdminDetails implements Serializable{
 	private String imageName;
 	private boolean isActive;
 	
-	@OneToMany(mappedBy ="adminDetails")
-	@JsonIgnore
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy ="adminDetails",fetch=FetchType.LAZY)
 	private List<SellerInactiveDetails> sellerInactiveDetails;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)

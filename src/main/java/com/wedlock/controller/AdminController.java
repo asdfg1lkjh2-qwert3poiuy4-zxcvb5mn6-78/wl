@@ -694,7 +694,7 @@ public class AdminController {
 					if(isEdit.equals("No")){
 						 mailService.sendEmailToSeller(sellerDetails,"notVerified");
 						 
-						 String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
+						 /*String mssg = "Hello "+sellerDetails.getSellerFirstName()+",Thanks for registering with Wedlock. Your Login Credentials are:- EmailId#"+sellerDetails.getSellerEmailId()+" and Password is#:"+sellerDetails.getSellerPassword()+" .Do not share this login credentials with anyone.";
 						 String phoneNumber = sellerDetails.getSellerContactNumber();
 						 URL url = new URL(smsApi.sendSms(mssg, phoneNumber));
 						 ObjectMapper objectMapper = new ObjectMapper();
@@ -703,7 +703,7 @@ public class AdminController {
 						 System.out.println("////APIResponseClass"+apiResponseClass.getTotal_sms());
 						 if(apiResponseClass.getTotal_sms() == 0){
 							adminResponseClass.setStatus(Boolean.FALSE);
-						 }
+						 }*/
 							
 					}
 				    if(adminResponseClass.isStatus()){

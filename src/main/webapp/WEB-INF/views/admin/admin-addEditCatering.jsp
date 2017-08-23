@@ -270,17 +270,21 @@
                                 <div class="row clearfix">
 								<div class="header marginb15 margin-bottom10">
 									<div class="checkbox header-add">
-										<label> <input type="checkbox" value="" id="freesCheck" > <span
-											class="cr" id="bank-check"> <i
-												class="cr-icon glyphicon glyphicon-ok"></i>
+										<label> <input type="checkbox" id="packageCheck" ><span class="cr" id="bank-check"> <i class="cr-icon glyphicon glyphicon-ok"></i>
 										</span> Package Details(if any)
 										</label>
 									</div>
 								</div>
 							</div>
-							<div id="packageDiv">
+							<div id="packageDiv" class="hideDiv">
+							<div class="row clearfix">
+								<div class="col-sm-3 col-xs-12"><div class="form-group drop-custum" id="foodTypeDiv"></div></div>
+								<div class="col-sm-4 col-xs-12"><div class="form-group drop-custum" id="foodNameDiv"></div></div>
+							    <div class="col-sm-5 col-xs-12" id="foodAdded">
+							    </div>
+							    </div>
 							</div>
-								<div class="row clearfix">
+							<div class="row clearfix">
                                     <div class="header marginb15">
                                         <h2>Caterer Pricing </h2>
                                     </div>
@@ -1325,6 +1329,407 @@
 	function getMonth(monthStr){
 	    return new Date(monthStr+'-1-01').getMonth()+1
 	}
+	
+	$("#packageCheck").click(function(){
+		if($(this).is(':checked')) {
+		   if($("#basePrice").val() === ""){
+			   $("#basePrice").parent().parent().parent().attr("style","display:none");
+		       $("#packageDiv").removeClass("hideDiv");
+		       showAllFoodTypes();  
+		   }else{
+			   swal({
+					  title: 'Warning!',
+					  text: 'You Have Entered Base Price. You Can Either Enter Base Price Or Package For The Product!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+		   }	
+	    }else{
+	    	$("#basePrice").parent().parent().parent().attr("style","display:block");
+	    	$("#packageDiv").addClass("hideDiv");
+	    }
+	});
+	var foodTypeArr = new Array();
+	function showAllFoodTypes(){
+		$.ajax({
+			type : "GET",
+			url : "admin-fetchAllFoodTypesWithStatus",
+			data : "",
+			contentType : "application/json",
+			processData : false,
+			success : function(data) {
+				$("#foodTypeDiv").html("");
+				if (data.status) {
+					var arValue = "";
+					while (foodTypeArr.length > 0) {
+						foodTypeArr.pop();
+					}
+					var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Food Type --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Food Type --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+							+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulfoodType0\">"
+							+ "<li data-original-index=\"0\" class=\"selected\" id=\"foodTypeLi0\" onclick=\"clickFoodTypeLi('"
+							+ 0
+							+ "','Food Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Type --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					var cde = "";
+					for (var i = 0; i < data.listFoodType.length; i++) {
+						cde = cde
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' id='foodTypeLi"
+								+ Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFoodTypeLi('"
+								+ Number(Number(i) + Number(1))
+								+ "','"
+								+ data.listFoodType[i].name
+								+ "','"
+								+ data.listFoodType[i].id
+								+ "')\"><span class=\"text\" title=\""+data.listFoodType[i].description+"\">"
+								+ data.listFoodType[i].name
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						arValue = data.listFoodType[i].id
+								+ "_"
+								+ data.listFoodType[i].name
+								+ "_"
+								+ data.listFoodType[i].description;
+								foodTypeArr.push(arValue);
+					}
+					cde = cde + "</ul></div>"
+					$("#foodTypeDiv").html(abc + cde);
+				}
+
+			},
+			error : function(e) {
+				alert("Error");
+				swal({
+					title : 'Error!',
+					text : 'Food Type Not Fetched Successfully!!!',
+					type : 'error',
+					confirmButtonText : "OK",
+					allowEscapeKey : true,
+					confirmButtonClass : "btn btn-raised gradient-right",
+					animation : true
+				});
+			}
+		});
+	}
+	 var foodTypePreviousLi;    
+
+		function clickFoodTypeLi(liId, title1, foodTypeId) {
+			
+			$("#foodTypeName").val(foodTypeId); //Hidden field to store the Flower type Id
+			if(title1 === 'Food Type')
+			{
+				title1 = "--"+title1+"--";
+			}
+			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\""+title1+ "\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"
+					+ title1
+					+ "</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" id=\"ulfoodType0\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+
+			if (Number(liId) > Number(0)) {
+				var selectedId = $(".selected").attr("id");
+				foodTypePreviousLi = liId;
+
+				abc = abc
+						+ "<li data-original-index=\"0\" class=\"\" id=\"foodTypeLi0\" onclick=\"clickFoodTypeLi('"
+						+ 0
+						+ "','Food Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Food Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				var cde = "";
+				for (var i = 0; i < foodTypeArr.length; i++) {
+					var splittedArray = foodTypeArr[i].split("_");
+					if (Number(i) === Number(Number(liId) - Number(1))) {
+						cde = cde
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' class =\"selected\" id='foodTypeLi"
+								+ Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"  title=\""+splittedArray[2]+"\" onclick =\"clickFoodTypeLi('"
+								+ Number(Number(i) + Number(1))
+								+ "','"
+								+ splittedArray[1]
+								+ "','"
+								+ splittedArray[0]
+								+ "')\"><span class=\"text\">"
+								+ splittedArray[1]
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					} else {
+						cde = cde
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' id='foodTypeLi"
+								+ Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" title=\""+splittedArray[2]+"\" onclick =\"clickFoodTypeLi('"
+								+ Number(Number(i) + Number(1))
+								+ "','"
+								+ splittedArray[1]
+								+ "','"
+								+ splittedArray[0]
+								+ "')\"><span class=\"text\">"
+								+ splittedArray[1]
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					}
+
+				}
+				cde = cde + "</ul></div>"
+
+				$("#foodTypeDiv").html(abc + cde);
+
+			} 
+			else {
+				$("#foodTypeLi" + foodTypePreviousLi).removeClass("selected");
+				$("#foodTypeLi0").addClass("selected");
+
+				abc = abc
+						+ "<li data-original-index=\"0\" class=\"selected\" id=\"foodTypeLi0\" onclick=\"clickFoodTypeLi('"
+						+ 0
+						+ "','Food Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Food Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				var cde = "";
+				for (var i = 0; i < foodTypeArr.length; i++) {
+					var splittedArray = foodTypeArr[i].split("_");
+					cde = cde
+							+ "<li data-original-index='"
+							+ Number(Number(i) + Number(1))
+							+ "' id='li"
+							+ Number(Number(i) + Number(1))
+							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" title=\""+splittedArray[2]+"\" onclick =\"clickFoodTypeLi('"
+							+ Number(Number(i) + Number(1))
+							+ "','"
+							+ splittedArray[1]
+							+ "','"
+							+ splittedArray[0]
+							+ "')\"><span class=\"text\">"
+							+ splittedArray[1]
+							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+
+							}
+						   cde = cde + "</ul></div>"
+						   $("#foodTypeDiv").html(abc + cde);
+				}
+			showAllFoodNamesByFoodType(foodTypeId);
+		}
+	 
+		var foodNameArr = new Array();
+		function showAllFoodNamesByFoodType(foodTypeId){
+			$.ajax({
+				type : "GET",
+				url : "admin-fetchFoodByTypeIdWithStatus?typeId="+foodTypeId,
+				data : "",
+				contentType : "application/json",
+				processData : false,
+				success : function(data) {
+					$("#foodNameDiv").html("");
+					if (data.status) {
+						var arValue = "";
+						while (foodNameArr.length > 0) {
+							foodNameArr.pop();
+						}
+						var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Food Name --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Food Name --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+								+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
+								+ "<li data-original-index=\"0\" class=\"selected\" id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
+								+ 0
+								+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						var cde = "";
+						for (var i = 0; i < data.listFood.length; i++) {
+							cde = cde
+									+ "<li data-original-index='"
+									+ Number(Number(i) + Number(1))
+									+ "' id='foodNameLi"
+									+ Number(Number(i) + Number(1))
+									+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFoodNameLi('"
+									+ Number(Number(i) + Number(1))
+									+ "','"
+									+ data.listFood[i].name
+									+ "','"
+									+ data.listFood[i].id
+									+ "')\"><span class=\"text\" title=\""+data.listFood[i].description+"\">"
+									+ data.listFood[i].name
+									+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+							arValue = data.listFood[i].id
+									+ "_"
+									+ data.listFood[i].name
+									+ "_"
+									+ data.listFood[i].description;
+									foodNameArr.push(arValue);
+						}
+						cde = cde + "</ul></div>"
+						$("#foodNameDiv").html(abc + cde);
+					}
+
+				},
+				error : function(e) {
+					alert("Error");
+					swal({
+						title : 'Error!',
+						text : 'Food Name Not Fetched Successfully!!!',
+						type : 'error',
+						confirmButtonText : "OK",
+						allowEscapeKey : true,
+						confirmButtonClass : "btn btn-raised gradient-right",
+						animation : true
+					});
+				}
+			});
+		}
+		
+		var foodNametitle = "";
+		var foodNameid ="";
+		var previousFoodNameLi = "";
+		//On click of each li in Occasion list 
+		function clickFoodNameLi(liId, title1, foodNameId, classSelected) {
+			if (classSelected === undefined || classSelected === "") {
+				if (foodNametitle === "") {
+					foodNametitle = title1;
+					foodNameid = foodNameId;
+				}else {
+					if(title1 === "Food Name" || foodNametitle.indexOf("Food Name") >=0){
+					foodNametitle = "";
+					}
+					if(foodNametitle === ""){
+						foodNametitle = title1;
+						foodNameid = foodNameId;
+					}else{
+						foodNametitle = foodNametitle + "," + title1;
+						foodNameid = foodNameid + "," + foodNameId;
+					}
+				}
+					
+			} else {
+				var a = title.split(",");
+				var b = id.split(",");
+				foodNametitle = "";
+				foodNameid = "";
+				for (var i = 0; i < a.length; i++) {
+					if (a[i] === title1) {
+						a[i] = "";
+						b[i] = "";
+					} else {
+						if (foodNametitle === "") {
+							foodNametitle = a[i];
+							foodNameid = b[i];
+						} else {
+							foodNametitle = foodNametitle + "," + a[i];
+							foodNameid = foodNameid +"," + b[i];
+							
+						}
+					}
+				}
+			}
+			alert(foodNametitle);
+			/* if(lengthOccasions !=""){
+				if(lengthOccasions > title.split(",").length){
+					titleLength = "minus";
+				}else if(lengthOccasions < title.split(",").length){
+					titleLength = "plus";
+				}
+			} */
+			$("#foodName").val(foodNameid); //Hidden field to store the Occasion Id
+			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\""+title+ "\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"
+					+ foodNametitle
+					+ "</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
+
+			if (Number(liId) > Number(0)) {
+				var selectedId = $(".selected").attr("id");
+				previousFoodNameLi = liId;
+
+				abc = abc
+						+ "<li data-original-index=\"0\" class=\"\" id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
+						+ 0
+						+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				var cde = "";
+				for (var i = 0; i < foodNameArr.length; i++) {
+					var splittedArray = foodNameArr[i].split("_");
+
+					if (Number(i) === Number(Number(liId) - Number(1))) {
+						var classSelected = "";
+						if (!($("#foodNameLi" + Number(liId))
+								.hasClass("selected"))) {
+							classSelected = "class = selected";
+						}
+						cde = cde
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' "
+								+ classSelected
+								+ " id='foodNameLi"
+								+ Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFoodNameLi('"
+								+ Number(Number(i) + Number(1))
+								+ "','"
+								+ splittedArray[1]
+								+ "','"
+								+ splittedArray[0]
+								+ "','"
+								+ classSelected
+								+ "')\"><span class=\"text\" title=\""+splittedArray[2]+"\">"
+								+ splittedArray[1]
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					} else {
+						var classSelected = "";
+						if ($("#foodNameLi"+ Number(Number(i) + Number(1)))
+								.hasClass("selected")) {
+							classSelected = "class = selected";
+						}
+						cde = cde
+								+ "<li data-original-index='"
+								+ Number(Number(i) + Number(1))
+								+ "' "
+								+ classSelected
+								+ " id='foodNameLi"
+								+ Number(Number(i) + Number(1))
+								+ "'><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick =\"clickFoodNameLi('"
+								+ Number(Number(i) + Number(1))
+								+ "','"
+								+ splittedArray[1]
+								+ "','"
+								+ splittedArray[0]
+								+ "','"
+								+ classSelected
+								+ "')\"><span class=\"text\" title=\""+splittedArray[2]+"\">"
+								+ splittedArray[1]
+								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					}
+
+				}
+				cde = cde + "</ul></div>"
+
+				$("#foodNameDiv").html(abc + cde);
+
+			} else {
+				$("#foodNameLi" + previousFoodNameLi).removeClass("selected");
+				$("#foodNameLi0").addClass("selected");
+				var classSelected = "";
+				abc = abc
+						+ "<li data-original-index=\"0\" class=\"selected\" id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
+						+ 0
+						+ "','Food Name','"
+						+ classSelected
+						+ "')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				var cde = "";
+				for (var i = 0; i < foodNameArr.length; i++) {
+					var splittedArray = foodNameArr[i].split("_");
+					cde = cde
+							+ "<li data-original-index='"
+							+ Number(Number(i) + Number(1))
+							+ "' id='foodNameLi"
+							+ Number(Number(i) + Number(1))
+							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFoodNameLi('"
+							+ Number(Number(i) + Number(1))
+							+ "','"
+							+ splittedArray[1]
+							+ "','"
+							+ splittedArray[0]
+							+ "')\"><span class=\"text\" title=\""+splittedArray[2]+"\">"
+							+ splittedArray[1]
+							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+
+				}
+				cde = cde + "</ul></div>"
+
+				$("#foodNameDiv").html(abc + cde);
+			}
+		}
+		
 	/* $("#submit").click(function(e){
 		e.preventDefault();
 		alert("Am there");

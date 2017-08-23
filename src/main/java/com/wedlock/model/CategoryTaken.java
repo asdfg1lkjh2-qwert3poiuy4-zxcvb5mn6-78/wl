@@ -95,14 +95,14 @@ public class CategoryTaken implements Serializable {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-
+/*
 	public SellerDetails getSellerDetails() {
 		return sellerDetails;
 	}
 
 	public void setSellerDetails(SellerDetails sellerDetails) {
 		this.sellerDetails = sellerDetails;
-	}
+	}*/
 
 	public CategoryAvailable getCategoryAvailable() {
 		return categoryAvailable;

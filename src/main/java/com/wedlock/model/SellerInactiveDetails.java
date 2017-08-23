@@ -29,7 +29,9 @@ public class SellerInactiveDetails implements Serializable{
 	@ManyToOne
 	@JsonIgnore
 	private SellerDetails sellerDetails;
+	
 	@ManyToOne
+	@JsonIgnore
 	private AdminDetails adminDetails;
 
 	@Transient

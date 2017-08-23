@@ -160,72 +160,7 @@ public class SellerServiceImpl implements SellerService{
 		SellerDetails sellerDetails = sellerDao.findOne(id);
 		status = true;
 		
-		SellerDetails sellerDetails2 = new SellerDetails();
-		State state = stateDao.findOne(sellerDetails.getState().getId());
-		City city = cityDao.findOne(sellerDetails.getCity().getId());
-		ZipCode zipCode = zipCodeDao.findOne(sellerDetails.getZipCode().getId());
-		TypedQuery<SellerBankDetails> sellerBankDetailss = manager.createQuery("Select s from SellerBankDetails s where s.sellerDetails.id LIKE:id", SellerBankDetails.class).setParameter("id", sellerDetails.getId().trim());
-		SellerBankDetails sellerBankDetails;
-		if(!(sellerBankDetailss.getResultList().isEmpty())){
-			sellerBankDetails = (SellerBankDetails)sellerBankDetailss.getSingleResult();
-		}else{
-			sellerBankDetails = null;
-		}
-		SellerInactiveDetails sellerInactiveDetails;
-		if(!(sellerDetails.isActive())){
-			TypedQuery<SellerInactiveDetails> sellerInactiveDetailss = manager.createQuery("Select s from SellerInactiveDetails s where s.sellerDetails.id LIKE:id AND s.isActive=:isActive", SellerInactiveDetails.class).setParameter("id", sellerDetails.getId().trim()).setParameter("isActive", Boolean.TRUE);
-			sellerInactiveDetails = (SellerInactiveDetails)sellerInactiveDetailss.getSingleResult();
-			
-		}else{
-			sellerInactiveDetails = null;
-		}
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		
-		/*sellerDetails2.setId(sellerDetails.getId());
-		sellerDetails2.setSellerFirstName(sellerDetails.getSellerFirstName());
-		sellerDetails2.setSellerLastName(sellerDetails.getSellerLastName());
-		sellerDetails2.setSellerContactNumber(sellerDetails.getSellerContactNumber());
-		sellerDetails2.setSellerAlternateNumber(sellerDetails.getSellerAlternateNumber());
-		sellerDetails2.setSellerEmailId(sellerDetails.getSellerEmailId());
-		sellerDetails2.setSellerPassword(sellerDetails.getSellerPassword());
-		sellerDetails2.setSellerPresentAddress(sellerDetails.getSellerPresentAddress());
-		sellerDetails2.setSellerPermanentAddress(sellerDetails.getSellerPermanentAddress());
-		sellerDetails2.setStateId(state.getId());
-		sellerDetails2.setStateName(state.getStateName());
-		sellerDetails2.setCityId(city.getId());
-		sellerDetails2.setCityName(city.getCityName());
-		sellerDetails2.setZipCodeId(zipCode.getId());
-		sellerDetails2.setZipCodeName(zipCode.getZipCode());
-		sellerDetails2.setZipCodeLocality(zipCode.getLocalityName());
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		sellerDetails2.setSellerDOB(simpleDateFormat.format(sellerDetails.getSellerDateOfBirth()));
-		sellerDetails2.setSellerGender(sellerDetails.getSellerGender());
-		sellerDetails2.setSellerCompanyName(sellerDetails.getSellerCompanyName());
-		sellerDetails2.setSellerAddressProof(sellerDetails.getSellerAddressProof());
-		sellerDetails2.setSellerIdProof(sellerDetails.getSellerIdProof());
-		sellerDetails2.setSellerAddressProofImg(sellerDetails.getSellerAddressProofImg());
-		sellerDetails2.setSellerIdProofImg(sellerDetails.getSellerIdProofImg());
-		sellerDetails2.setSellerImg(sellerDetails.getSellerImg());
-		sellerDetails2.setActive(sellerDetails.isActive());*/
-		if(sellerBankDetails !=null){
-			/*SellerBankDetails sellerBankDetails2 = new SellerBankDetails();
-			sellerBankDetails2.setId(sellerBankDetails.getId());
-			sellerBankDetails2.setAccountHolderName(sellerBankDetails.getAccountHolderName());
-			sellerBankDetails2.setAccountNumber(sellerBankDetails.getAccountNumber());
-			sellerBankDetails2.setIfscCode(sellerBankDetails.getIfscCode());
-			sellerBankDetails2.setBranchName(sellerBankDetails.getBranchName());
-			sellerBankDetails2.setBranchCode(sellerBankDetails.getBranchCode());*/
-			adminResponseClass.setSellerBankDetail(sellerBankDetails);
-		}
-		if(sellerInactiveDetails != null){
-			/*SellerInactiveDetails sellerInactiveDetails2 = new SellerInactiveDetails();
-			sellerInactiveDetails2.setId(sellerInactiveDetails.getId());
-			sellerInactiveDetails2.setInactiveReason(sellerInactiveDetails.getInactiveReason());
-			sellerInactiveDetails2.setDateOfInactivity(sellerInactiveDetails.getDateOfInactivity());*/
-			adminResponseClass.setSellerInactiveDetail(sellerInactiveDetails);
-		}
-		
-		
 		adminResponseClass.setSellerDetail(sellerDetails);
 		adminResponseClass.setStatus(status);
 		

@@ -438,14 +438,6 @@ public class SellerDetails implements Serializable {
 		this.typeOfSeller = typeOfSeller;
 	}
 
-	/*public List<SellerInactiveDetails> getSellerInactiveDetails() {
-		return sellerInactiveDetails;
-	}
-
-	public void setSellerInactiveDetails(List<SellerInactiveDetails> sellerInactiveDetails) {
-		this.sellerInactiveDetails = sellerInactiveDetails;
-	}*/
-
 	public Date getSellerRegistrationStart() {
 		return sellerRegistrationStart;
 	}
