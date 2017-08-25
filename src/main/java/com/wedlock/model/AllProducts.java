@@ -70,6 +70,10 @@ public class AllProducts implements Serializable{
 	@JsonIgnore
 	private List<FreesProduct> freeTo;
 	
+	@OneToOne(mappedBy="allProducts")
+	@JsonIgnore
+	private Caterer caterer;
+	
 	//Setters And Getters
 	
 	public long getId() {

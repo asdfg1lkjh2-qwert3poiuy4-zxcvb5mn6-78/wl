@@ -1,11 +1,12 @@
 package com.wedlock.util;
 
-public class createId {
+public class CreateId {
 	
-	public static String IdGeneration(String lastId){
+	public String IdGeneration(String lastId){
 		String sellerId = "SELLER-0003000";
 		String photographerId = "PHOTO-0090000";
 		String flowerId = "FLR-0080000";
+		String catererId = "CTR-0070000";
 		
 		String result ="";
 		String caseValue = "";
@@ -58,6 +59,20 @@ public class createId {
 				result = Id[0] + "-0" + flrA;
 			} else {
 				result = Id[0] + "-" + flrA;
+			}
+			break;
+		case "CTR0":
+			result = catererId;
+			break;
+		case "CTR":
+			int ctrA = Integer.parseInt(Id[1]) + 1;
+			int ctrC = String.valueOf(Id[1]).length();
+			if (ctrC == 5 || ctrC == 7) {
+				result = Id[0] + "-00" + ctrA;
+			} else if (ctrC == 6) {
+				result = Id[0] + "-0" + ctrA;
+			} else {
+				result = Id[0] + "-" + ctrA;
 			}
 			break;
 		default:

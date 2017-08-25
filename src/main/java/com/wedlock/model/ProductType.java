@@ -61,6 +61,11 @@ public class ProductType implements Serializable {
 	//@JsonIgnore
 	private List<Flower> flower;
 
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="productType",fetch = FetchType.LAZY)
+	//@JsonIgnore
+	private List<Caterer> caterer;
+	
 	@Transient
 	private long editTypeId;
 	@Transient
