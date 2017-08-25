@@ -204,7 +204,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2 col-xs-12" id="availabilityDiv">
+                                    <div class="col-sm-3 col-xs-12" id="availabilityDiv">
                                     <div class="form-group drop-custum">
 	                                       		<select class="form-control show-tick" id ="availability" >
 	                                               <option value="">-- Availability --</option>
@@ -217,13 +217,6 @@
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" name="advancePaymentPercentage" id="advancePaymentPercentage" placeholder="Advance percentage">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 col-xs-12">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" name="basePrice" id="basePrice" placeholder="Base Price (if any)">
                                             </div>
                                         </div>
                                     </div>
@@ -277,12 +270,25 @@
 								</div>
 							</div>
 							<div id="packageDiv" class="hideDiv">
-							<div class="row clearfix">
-								<div class="col-sm-3 col-xs-12"><div class="form-group drop-custum" id="foodTypeDiv"></div></div>
-								<div class="col-sm-4 col-xs-12"><div class="form-group drop-custum" id="foodNameDiv"></div></div>
-							    <div class="col-sm-5 col-xs-12" id="foodAdded">
-							    </div>
-							    </div>
+								<div class="row clearfix">
+									<div class="col-sm-3 col-xs-12">
+										<div class="form-group drop-custum" id="foodTypeDiv"></div>
+									</div>
+									<div class="col-sm-4 col-xs-12">
+										<div class="form-group drop-custum" id="foodNameDiv">
+											<select class="form-control show-tick">
+												<option value="0">-- Food Name --</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-5 col-xs-12" id="foodAdded">
+										<div class="form-group">
+											<label for="comment">Food Items Added</label>
+											<textarea class="form-control textarea-add" rows="6" name="listOfAddedFoodItems" id="listOfAddedFoodItems">
+											</textarea>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="row clearfix">
                                     <div class="header marginb15">
@@ -309,9 +315,9 @@
 										</div>
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
-												<div class="form-line">
+												<div class="form-line" id="basePrice1">
 													<input type="text" class="form-control" name="price"
-														id="price" placeholder="Price">
+														id="price" placeholder="Base Price">
 												</div>
 											</div>
 										</div>
@@ -343,9 +349,9 @@
 										</div>
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
-												<div class="form-line">
+												<div class="form-line" id="basePrice2">
 													<input type="text" class="form-control" name="price"
-														id="price1" placeholder="Price">
+														id="price1" placeholder="Base Price">
 												</div>
 											</div>
 										</div>
@@ -377,9 +383,9 @@
 										</div>
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
-												<div class="form-line">
+												<div class="form-line" id="basePrice3">
 													<input type="text" class="form-control" name="price"
-														id="price2" placeholder="Price">
+														id="price2" placeholder="Base Price">
 												</div>
 											</div>
 										</div>
@@ -492,9 +498,8 @@
                                     	<input type = "hidden" name = "productStatus" id= "productStatus" value = "">
                                     	<input type = "hidden" name = "defaultDpImage" id = "defaultDpImage" value = "">
                                     	<input type = "hidden" name = "productAvailability" id = "productAvailability" value = "">
-                                    	<input type = "hidden" name = "freeProductName" id = "freeProductName" value = "">
-                                    	<input type = "hidden" name = "freeProductName1" id = "freeProductName1" value = "">
-                                    	<input type = "hidden" name = "freeProductName2" id = "freeProductName2" value = "">
+                                    	<input type = "hidden" name = "foodTypeName" id = "foodTypeName" value = "">
+                                    	<input type = "hidden" name = "foodName" id = "foodName" value = "">
                                         <button type="submit" class="btn btn-raised gradient-right" id="submit">Submit</button>
                                         <button type="submit" class="btn btn-raised gradient-left">Cancel</button>
                                     </div>
@@ -685,7 +690,7 @@
 						while(typeArr.length > 0){
 							typeArr.pop();
 						}
-						var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Caterer Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Flower Type--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+						var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Caterer Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Caterer Type--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 								+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
 								+"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"+0+"','Flower Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Caterer Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 						var cde = "";		
@@ -1329,26 +1334,12 @@
 	function getMonth(monthStr){
 	    return new Date(monthStr+'-1-01').getMonth()+1
 	}
-	
+
 	$("#packageCheck").click(function(){
 		if($(this).is(':checked')) {
-		   if($("#basePrice").val() === ""){
-			   $("#basePrice").parent().parent().parent().attr("style","display:none");
-		       $("#packageDiv").removeClass("hideDiv");
-		       showAllFoodTypes();  
-		   }else{
-			   swal({
-					  title: 'Warning!',
-					  text: 'You Have Entered Base Price. You Can Either Enter Base Price Or Package For The Product!!!',
-					  type: 'warning',
-					  confirmButtonText: 'OK',
-					  allowEscapeKey:true,
-					  confirmButtonClass:"btn btn-raised gradient-right",
-					  animation:true
-					});
-		   }	
+		   $("#packageDiv").removeClass("hideDiv");
+		   showAllFoodTypes();  
 	    }else{
-	    	$("#basePrice").parent().parent().parent().attr("style","display:block");
 	    	$("#packageDiv").addClass("hideDiv");
 	    }
 	});
@@ -1506,13 +1497,13 @@
 						   cde = cde + "</ul></div>"
 						   $("#foodTypeDiv").html(abc + cde);
 				}
-			showAllFoodNamesByFoodType(foodTypeId);
+			showAllFoodNamesByFoodType(title1,foodTypeId);
 		}
 	 
 		var foodNameArr = new Array();
 		var foodNameid ="";
 		var foodNametitle = "";
-		function showAllFoodNamesByFoodType(foodTypeId){
+		function showAllFoodNamesByFoodType(foodTypeName,foodTypeId){
 			if(foodTypeId !== undefined){
 				$.ajax({
 					type : "GET",
@@ -1554,6 +1545,14 @@
 												check = Number(1);
 											}
 										}
+									}else{
+										if(foodTypeId+"_"+data.listFood[i].id === foodNameid){
+											liClassSelected = "class = selected";
+											if(title === ""){
+												title = foodNametitle;
+											} 
+											check = Number(1);
+										}
 									}
 									
 									cde = cde
@@ -1573,6 +1572,8 @@
 											+ liClassSelected
 											+ "','"
 											+ Number(foodTypeId)
+											+ "','"
+											+ foodTypeName
 											+ "')\"><span class=\"text\" title=\""+data.listFood[i].description+"\">"
 											+ data.listFood[i].name
 											+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
@@ -1583,7 +1584,9 @@
 											+ "_"
 											+ data.listFood[i].description
 											+ "_"
-											+ Number(foodTypeId);
+											+ Number(foodTypeId)
+											+ "_"
+											+ foodTypeName
 											foodNameArr.push(arValue);
 								}
 								if(check === Number(0)){
@@ -1623,10 +1626,10 @@
 				});
 			}else{
 				var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Food Name --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Food Name --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-				+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
-				+ "<li data-original-index=\"0\" class=\"selected\" id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
-				+ 0
-				+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
+					+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
+					+ "<li data-original-index=\"0\" class=\"selected\" id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
+					+ 0
+					+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
 				$("#foodNameDiv").html(abc);
 
 			}
@@ -1634,43 +1637,55 @@
 		
 		var previousFoodNameLi = "";
 		var foodTypeIds = "";
+		var foodTypeNames = "";
 		//On click of each li in Occasion list 
-		function clickFoodNameLi(liId, title1, foodNameId, classSelected, foodTypeId) {
+		function clickFoodNameLi(liId, title1, foodNameId, classSelected, foodTypeId, foodTypeName) {
 			foodTypeIds = foodTypeId;
 			if (classSelected === undefined || classSelected === "") {
 				if (foodNametitle === "") {
 					foodNametitle = title1;
 					foodNameid = foodTypeIds+"_"+foodNameId;
+					foodTypeNames = foodTypeName;
 				}else {
 					if(title1 === "Food Name" || foodNametitle.indexOf("Food Name") >=0){
 					foodNametitle = "";
 					foodNameid = "";
 					}
-					if(foodNametitle === ""){
-						foodNametitle = title1;
-						foodNameid = foodTypeIds+"_"+foodNameId;
-					}else{
-						foodNametitle = foodNametitle + "," + title1;
-						foodNameid = foodNameid + "," + foodTypeIds+"_"+foodNameId;
+					else{
+						if(foodNametitle === ""){
+							foodNametitle = title1;
+							foodNameid = foodTypeIds+"_"+foodNameId;
+							foodTypeNames = foodTypeName;
+						}else{
+							foodNametitle = foodNametitle + "," + title1;
+							foodNameid = foodNameid + "," + foodTypeIds+"_"+foodNameId;
+							foodTypeNames = foodTypeNames + "," + foodTypeName;
+						}
 					}
+					
 				}
 					
 			} else {
 				var a = foodNametitle.split(",");
 				var b = foodNameid.split(",");
+				var c = foodTypeNames.split(",");
 				foodNametitle = "";
 				foodNameid = "";
+				foodTypeNames = "";
 				for (var i = 0; i < a.length; i++) {
 					if (a[i] === title1) {
 						a[i] = "";
 						b[i] = "";
+						c[i] = "";
 					} else {
 						if (foodNametitle === "") {
 							foodNametitle = a[i];
 							foodNameid = b[i];
+							foodTypeNames = c[i];
 						} else {
 							foodNametitle = foodNametitle + "," + a[i];
 							foodNameid = foodNameid +"," + b[i];
+							foodTypeNames = foodTypeNames +"," + c[i];
 							
 						}
 					}
@@ -1698,14 +1713,39 @@
 				}
 				
 			}
-			/* if(lengthOccasions !=""){
+			
+				var textAreaFill = "";
+				$("#listOfAddedFoodItems").html("");
+				var subFoodNameTitle = foodNametitle.split(",");
+				var subFoodTypeNames;
+				if(foodTypeNames !== undefined){
+					 subFoodTypeNames = foodTypeNames.split(",");	
+					 for(var i =0; i< subFoodNameTitle.length; i++){
+					 if(subFoodNameTitle[i] !== ""){
+								textAreaFill = textAreaFill + subFoodTypeNames[i] +" --> " + subFoodNameTitle[i] +"\n";
+							}
+						}
+					$("#listOfAddedFoodItems").html(textAreaFill);
+				}
+				
+			
+			 if(lengthOccasions !=""){
 				if(lengthOccasions > title.split(",").length){
 					titleLength = "minus";
 				}else if(lengthOccasions < title.split(",").length){
 					titleLength = "plus";
 				}
-			} */
-			//$("#foodName").val(foodNameid); //Hidden field to store the Occasion Id
+			} 
+			$("#foodName").val(foodNameid); //Hidden field to store the Occasion Id
+			if($("#foodTypeName").val() !== "" && ($("#foodName").val() !== "")){
+				$("#basePrice1").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price\" placeholder=\"Package Price\">");
+				$("#basePrice2").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price1\" placeholder=\"Package Price\">");
+				$("#basePrice3").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price2\" placeholder=\"Package Price\">");
+			}else{
+				$("#basePrice1").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price\" placeholder=\"Base Price\">");
+				$("#basePrice2").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price1\" placeholder=\"Base Price\">");
+				$("#basePrice3").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price2\" placeholder=\"Base Price\">");
+			}
 			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\""+titles+ "\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"
 					+ titles
 					+ "</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
@@ -1717,7 +1757,7 @@
 				abc = abc
 						+ "<li data-original-index=\"0\" class=\"\" id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
 						+ 0
-						+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+						+ "','Food Name','"+""+"')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 				var cde = "";
 				for (var i = 0; i < foodNameArr.length; i++) {
 					var splittedArray = foodNameArr[i].split("_");
@@ -1743,6 +1783,8 @@
 								+ classSelected
 								+ "','"
 								+ splittedArray[3]
+								+ "','"
+								+ splittedArray[4]
 								+ "')\"><span class=\"text\" title=\""+splittedArray[2]+"\">"
 								+ splittedArray[1]
 								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
@@ -1768,6 +1810,8 @@
 								+ classSelected
 								+ "','"
 								+ splittedArray[3]
+								+ "','"
+								+ splittedArray[4]
 								+ "')\"><span class=\"text\" title=\""+splittedArray[2]+"\">"
 								+ splittedArray[1]
 								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
@@ -1802,6 +1846,12 @@
 							+ splittedArray[1]
 							+ "','"
 							+ splittedArray[0]
+							+ "','"
+							+ classSelected
+							+ "','"
+							+ splittedArray[3]
+							+ "','"
+							+ splittedArray[4]
 							+ "')\"><span class=\"text\" title=\""+splittedArray[2]+"\">"
 							+ splittedArray[1]
 							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
@@ -1813,7 +1863,7 @@
 			}
 		}
 		
-	/* $("#submit").click(function(e){
+	 $("#submit").click(function(e){
 		e.preventDefault();
 		alert("Am there");
 		if($("#name").val() === ""){
@@ -1839,34 +1889,24 @@
 		}else if($("#typeName").val() === ""){
 			swal({
 				  title: 'Warning!',
-				  text: 'Please Enter Flower Type!!!',
+				  text: 'Please Enter Caterer Type!!!',
 				  type: 'warning',
 				  confirmButtonText: 'OK',
 				  allowEscapeKey:true,
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#colorSelect").val() === ""){
+		}else if($("#noOfMembers").val() === ""){
 			swal({
 				  title: 'Warning!',
-				  text: 'Please Select A Color!!!',
+				  text: 'Please Enter Approximate No. Of Memembers In The Team!!!',
 				  type: 'warning',
 				  confirmButtonText: 'OK',
 				  allowEscapeKey:true,
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		} else if($("#colorSelect").val() === "Multicolor" && $("#singleColor").val() === ""){
-					swal({
-						  title: 'Warning!',
-						  text: 'Please Enter A Color Name!!!',
-						  type: 'warning',
-						  confirmButtonText: 'OK',
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-		}else if($("#availability").val() === ""){
+		} else if($("#availability").val() === ""){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Select Availability Of The Product!!!',
@@ -1876,16 +1916,6 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 			});
-		}else if($("#noOfPieces").val() ===""){
-			swal({
-				  title: 'Warning!',
-				  text: 'Please Enter No. Of Pieces That The Flower Contains!!!',
-				  type: 'warning',
-				  confirmButtonText: 'OK',
-				  allowEscapeKey:true,
-				  confirmButtonClass:"btn btn-raised gradient-right",
-				  animation:true
-				});
 		}else if($("#advancePaymentPercentage").val() === ""){
 			swal({
 				  title: 'Warning!',
@@ -1896,7 +1926,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if(singleFiles === "" && $("#defaultDpImage").val() === ""){
+		}else if(singleFiles === "" && $("#defaultDpImage").val() === "" ){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Upload Thumnail Image Of The Product!!!',
@@ -1906,7 +1936,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if(multipleFiles === "" && defaultImageId === ""){
+		}else if(multipleFiles === ""  && defaultImageId === "" ){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Upload Atleast One Descriptive Images Of The Product!!!',
@@ -1946,52 +1976,45 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#freeProduct").val() === "" &&($("#freeProductPieces").val() || $("#fromDateFreeProduct").val() || $("#toDateFreeProduct").val() !== "")){
+		}else if($("#basePrice").val() === "" && (!($("#packageCheck").is(":checked")))){
 			swal({
 				  title: 'Warning!',
-				  text: 'Please Select The Free Product!!!',
+				  text: 'Please Enter Base Price Of The Product!!!',
 				  type: 'warning',
 				  confirmButtonText: 'OK',
 				  allowEscapeKey:true,
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-			
-		}else if($("#freeProductPieces").val() ==="" &&($("#freeProduct").val() || $("#fromDateFreeProduct").val() || $("#toDateFreeProduct").val() !== "")){
-			swal({
-				  title: 'Warning!',
-				  text: 'Please Enter The No. Of Pieces!!!',
-				  type: 'warning',
-				  confirmButtonText: 'OK',
-				  allowEscapeKey:true,
-				  confirmButtonClass:"btn btn-raised gradient-right",
-				  animation:true
-				});
-		}else if($("#fromDateFreeProduct").val() ==="" &&($("#freeProduct").val() || $("#freeProductPieces").val() || $("#toDateFreeProduct").val() !== "")){
-			swal({
-				  title: 'Warning!',
-				  text: 'Please Enter Starting Date For The Respective Free Product!!!',
-				  type: 'warning',
-				  confirmButtonText: 'OK',
-				  allowEscapeKey:true,
-				  confirmButtonClass:"btn btn-raised gradient-right",
-				  animation:true
-				});
-		}else if($("#toDateFreeProduct").val() ==="" && ($("#freeProductPieces").val() || $("#fromDateFreeProduct").val() || $("#freeProduct").val() !== "")){
-			swal({
-				  title: 'Warning!',
-				  text: 'Please Enter Ending Date For The Respective Free Product!!!',
-				  type: 'warning',
-				  confirmButtonText: 'OK',
-				  allowEscapeKey:true,
-				  confirmButtonClass:"btn btn-raised gradient-right",
-				  animation:true
-				});
+		}else if($("#packageCheck").is(":checked") && ($("#foodTypeName").val() === "") || (($("#foodTypeName").val() !== "") && ($("#foodName").val() === ""))){
+			if($("#foodTypeName").val() === ""){
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter Food Type!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}else{
+				swal({
+					  title: 'Warning!',
+					  text: 'Please Enter At Least One Food Name!!!',
+					  type: 'warning',
+					  confirmButtonText: 'OK',
+					  allowEscapeKey:true,
+					  confirmButtonClass:"btn btn-raised gradient-right",
+					  animation:true
+					});
+			}
 		}else{
 			alert("In else");
 			var job={};
 			job["editProductId"]= $("#editProductId").val();
+			var check = Number(0);
 			job["allProductId"] = $("#allProductId").val();
+			var check = Number(0);
 			if($("#productAvailability").val() === ""){
 				job["availability"] = $("#availability").val();
 			}else{
@@ -2007,13 +2030,7 @@
 			}
 			job["occasion"] = $("#occasionName").val();
 			job["typeName"] = $("#typeName").val();
-			job["colorSelect"] = $("#colorSelect").val();
-			if($("#colorSelect").val() === "Multicolor"){
-				job["color"] = $("#singleColor").val();
-			}else{
-				job["color"] = $("#foo").val();
-			}
-			job["noOfPieces"] = $("#noOfPieces").val();
+			job["noOfMembers"] = $("#noOfMembers").val();
 			job["advancePaymentPercentage"] = $("#advancePaymentPercentage").val();
 			if($("#defaultDpImage").val() === ""){
 				job["singleFiles"] = singleFiles;
@@ -2031,45 +2048,7 @@
 			if(modelId !== ""){
 				job["modelId"] = modelId;
 			}
-			if($("#freeProduct").val() !==""){
-				var fromDateFreeProduct = ($("#fromDateFreeProduct").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
-				var fromMonth = getMonth(fromDateFreeProduct[2]);   //Method to convert month name to month number
-				if(fromMonth < 10){
-					fromMonth = "0"+fromMonth;
-				} 
-				
-				var toDateFreeProduct = ($("#toDateFreeProduct").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
-				var toMonth = getMonth(toDateFreeProduct[2]);   //Method to convert month name to month number
-				if(toMonth < 10){
-					toMonth = "0"+toMonth;
-				} 
-				
-				job["freeProduct"] = $("#freeProductName").val();
-				job["freeProductQty"] = $("#freeProductPieces").val();
-				job["freeProductValidity"] =  fromDateFreeProduct[3]+"-"+fromMonth+"-"+fromDateFreeProduct[1]+"_"+toDateFreeProduct[3]+"-"+toMonth+"-"+toDateFreeProduct[1];
-			}
-			
-			if(previousFreeDiv > Number(0)){
-				for(var k = 1; k<= Number(previousFreeDiv) ; k++){
-					
-					var fromDateFreeProduct = ($("#fromDateFreeProduct"+k).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
-					var fromMonth = getMonth(fromDateFreeProduct[2]);   //Method to convert month name to month number
-					if(fromMonth < 10){
-						fromMonth = "0"+fromMonth;
-					} 
-					
-					var toDateFreeProduct = ($("#toDateFreeProduct"+k).val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
-					var toMonth = getMonth(toDateFreeProduct[2]);   //Method to convert month name to month number
-					if(toMonth < 10){
-						toMonth = "0"+toMonth;
-					} 
-					
-					job["freeProduct"] = job["freeProduct"] + "," + $("#freeProductName"+k).val();
-					job["freeProductQty"] = job["freeProductQty"] + "," + $("#freeProductPieces"+k).val();
-					job["freeProductValidity"] = job["freeProductValidity"] + "," + fromDateFreeProduct[3]+"-"+fromMonth+"-"+fromDateFreeProduct[1]+"_"+toDateFreeProduct[3]+"-"+toMonth+"-"+toDateFreeProduct[1];
-					}
-			}
-			
+			job["foodName"] = $("#foodName").val();
 			if(titleLength !=""){
 				job["titleLength"] = titleLength;
 			}else{
@@ -2081,7 +2060,7 @@
 				if(fromMonth < 10){
 					fromMonth = "0"+fromMonth;
 				} 
-				job["fromDate"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]; 
+				job["pricingDetails"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]; 
 			}
 			
 			if($("#toDate").val() !=""){
@@ -2090,13 +2069,13 @@
 				if(toMonth < 10){
 					toMonth = "0"+toMonth;
 				} 
-				job["toDate"] = toDate[3]+"-"+toMonth+"-"+toDate[1]; 
+				job["pricingDetails"] = job["pricingDetails"] + "_@." + toDate[3]+"-"+toMonth+"-"+toDate[1]; 
 			}
-			job["price"] = $("#price").val();
+			job["pricingDetails"] = job["pricingDetails"] + "_@." + $("#price").val();
 			if(pricingsDivNumber > Number(0)){
 				for(var k = 1; k<= Number(pricingsDivNumber) ; k++){
-					if(!(($("#fromDate"+k).val() === undefined) && ($("#toDate"+k).val() === undefined) && ($("#price"+k).val() === undefined))){
-						 var fromDate = ($("#fromDate"+k).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+					if(($("#fromDate"+k).val() !== undefined) && ($("#toDate"+k).val() !== undefined) && ($("#price"+k).val() !== undefined) && ($("#fromDate"+k).val() !== "") && ($("#toDate"+k).val() !=="") && ($("#price"+k).val() !== "")){
+						var fromDate = ($("#fromDate"+k).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
 						var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
 						if(fromMonth < 10){
 							fromMonth = "0"+fromMonth;
@@ -2107,91 +2086,175 @@
 						if(toMonth < 10){
 							toMonth = "0"+toMonth;
 						} 
-						if(k === Number(1)){
-							job["otherPriceDetails"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]+","+toDate[3]+"-"+toMonth+"-"+toDate[1]+","+$("#price"+k).val();
-						}else{
-							job["otherPriceDetails"] = job["otherPriceDetails"]+"_"+fromDate[3]+"-"+fromMonth+"-"+fromDate[1]+","+toDate[3]+"-"+toMonth+"-"+toDate[1]+","+$("#price"+k).val();
-						}
+						
+						job["pricingDetails"] = job["pricingDetails"] + "-,@_" + fromDate[3]+"-"+fromMonth+"-"+fromDate[1] + "_@." + toDate[3]+"-"+toMonth+"-"+toDate[1] + "_@." + $("#price"+k).val();
+					}
+					if($("#fromDate"+k).val() === ""){
+						check = Number(1);
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Starting Date For The Respective Price!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if($("#toDate"+k).val() === ""){
+						check = Number(1);
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Ending Date For The Respective Price!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if($("#price"+k).val() === ""){
+						check = Number(1);
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Price For The Product!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
 					}
 				}
 			}
-			var categoryName = window.location+"";
-			categoryName = categoryName.split("/");
-			job["categoryName"] = categoryName[4];
-			
-			if((($("#fromDateDiscount").val() || $("#toDateDiscount").val() || $("#discount").val())!="") || $("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))
-			{
-				hasValue = Number(1);
-				if($("#fromDateDiscount").val() === ""){
-					swal({
-						  title: 'Warning!',
-						  text: 'Please Enter Starting Date For The Respective Discount!!!',
-						  type: 'warning',
-						  confirmButtonText: 'OK',
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-				}else if($("#toDateDiscount").val() === ""){
-					swal({
-						  title: 'Warning!',
-						  text: 'Please Enter Ending Date For The Respective Discount!!!',
-						  type: 'warning',
-						  confirmButtonText: 'OK',
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-				}else if($("#discount").val() === ""){
-					swal({
-						  title: 'Warning!',
-						  text: 'Please Enter Discount Amount / Percentage!!!',
-						  type: 'warning',
-						  confirmButtonText: 'OK',
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-				}else if(!($("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))){
-					swal({
-						  title: 'Warning!',
-						  text: 'Please Check Either The Discount Entered Is Flat Discount Or Percentage Discount!!!',
-						  type: 'warning',
-						  confirmButtonText: 'OK',
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-				}else{
-					job["hasValue"] = hasValue;
-					if($("#fromDateDiscount").val() !== ""){
-						
-					}
-					var fromDate = ($("#fromDateDiscount").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
-					var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
-					if(fromMonth < 10){
-						fromMonth = "0"+fromMonth;
-					} 
-					job["fromDateDiscount"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1];
-					
-					var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
-					var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
-					if(toMonth < 10){
-						toMonth = "0"+toMonth;
-					} 
-					job["toDateDiscount"] =toDate[3]+"-"+toMonth+"-"+toDate[1];
-					job["discount"] = $("#discount").val();
-					if($("#checkBoxDiscountAmount").is(':checked')){
-						job["isFlat"] = Number(1);
+			if(pricingsDivNumber === Number(0) || check === Number(0)){
+				var categoryName = window.location+"";
+				categoryName = categoryName.split("/");
+				job["categoryName"] = categoryName[4];
+				if((($("#fromDateDiscount").val() || $("#toDateDiscount").val() || $("#discount").val())!="") || $("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))
+				{
+					hasValue = Number(1);
+					if($("#fromDateDiscount").val() === ""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Starting Date For The Respective Discount!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if($("#toDateDiscount").val() === ""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Ending Date For The Respective Discount!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if($("#discount").val() === ""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Discount Amount / Percentage!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if(!($("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Check Either The Discount Entered Is Flat Discount Or Percentage Discount!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
 					}else{
-						job["isFlat"] = Number(0);
+						job["hasValue"] = hasValue;
+						if($("#fromDateDiscount").val() !== ""){
+							
+						}
+						var fromDate = ($("#fromDateDiscount").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+						var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
+						if(fromMonth < 10){
+							fromMonth = "0"+fromMonth;
+						} 
+						job["fromDateDiscount"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1];
+						
+						var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
+						var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
+						if(toMonth < 10){
+							toMonth = "0"+toMonth;
+						} 
+						job["toDateDiscount"] =toDate[3]+"-"+toMonth+"-"+toDate[1];
+						job["discount"] = $("#discount").val();
+						if($("#checkBoxDiscountAmount").is(':checked')){
+							job["isFlat"] = Number(1);
+						}else{
+							job["isFlat"] = Number(0);
+						}
+						alert(JSON.stringify(job));
+						$("#submit").prop("disabled", true);
+						 $.ajax({
+						type : "POST",
+						url : "admin-addEditCaterer",
+						data : JSON.stringify(job),
+						processData : false,
+						contentType :"application/json",
+						success : function(data) {
+							if(data){
+								if($("#editProductId").val() !=""){
+									window.location = "admin-viewFloristProducts";
+								}else{
+									swal({
+										  title: 'Success!',
+										  text: 'Product Details Successfully Inserted!!!',
+										  type: 'success',
+										  showConfirmButton :false,
+										  allowEscapeKey:true,
+										  timer:3000,
+										  animation:true
+										});
+								}
+							}else{
+								doNotRemoveFields = 1;
+							}
+							$("#submit").prop("disabled", false);
+
+						},
+						error : function(e) {
+							alert("Error");
+							swal({
+								  title: 'Error!',
+								  text: 'Product Details Not Inserted Successfully!!!',
+								  type: 'error',
+								  confirmButtonText :"OK",
+								  allowEscapeKey:true,
+								  confirmButtonClass:"btn btn-raised gradient-right",
+								  animation:true
+								});
+							$("#submit").prop("disabled", false);
+
+						},complete : function (){
+							if(doNotRemoveFields === 0){
+								removeAllFields();
+							}else{
+								doNotRemoveFields = 0;
+							}
+						} 
+						
+						}); 
 					}
-					
-					 $("#submit").prop("disabled", true);
-					 alert(JSON.stringify(job));
+			 }else{
+					job["hasValue"] = hasValue;
+					$("#submit").prop("disabled", true);
+					alert(JSON.stringify(job));
 					 $.ajax({
 					type : "POST",
-					url : "admin-addEditFlower",
+					url : "admin-addEditCaterer",
 					data : JSON.stringify(job),
 					processData : false,
 					contentType :"application/json",
@@ -2211,7 +2274,7 @@
 									});
 							}
 						}else{
-							doNotRemoveFields = 1;
+							doNotRemoveFields = 1 ;
 						}
 						$("#submit").prop("disabled", false);
 
@@ -2235,64 +2298,12 @@
 						}else{
 							doNotRemoveFields = 0;
 						}
-					} 
+					}
 					
 					}); 
 				}
-		 }else{
-				job["hasValue"] = hasValue;
-				$("#submit").prop("disabled", true);
-				alert(JSON.stringify(job));
-				 $.ajax({
-				type : "POST",
-				url : "admin-addEditFlower",
-				data : JSON.stringify(job),
-				processData : false,
-				contentType :"application/json",
-				success : function(data) {
-					if(data){
-						if($("#editProductId").val() !=""){
-							window.location = "admin-viewFloristProducts";
-						}else{
-							swal({
-								  title: 'Success!',
-								  text: 'Product Details Successfully Inserted!!!',
-								  type: 'success',
-								  showConfirmButton :false,
-								  allowEscapeKey:true,
-								  timer:3000,
-								  animation:true
-								});
-						}
-					}else{
-						doNotRemoveFields = 1 ;
-					}
-					$("#submit").prop("disabled", false);
-
-				},
-				error : function(e) {
-					alert("Error");
-					swal({
-						  title: 'Error!',
-						  text: 'Product Details Not Inserted Successfully!!!',
-						  type: 'error',
-						  confirmButtonText :"OK",
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-					$("#submit").prop("disabled", false);
-
-				},complete : function (){
-					if(doNotRemoveFields === 0){
-						removeAllFields();
-					}else{
-						doNotRemoveFields = 0;
-					}
-				}
-				
-				}); 
 			}
+			
 			
 		}
 	});
@@ -2300,10 +2311,7 @@
 		$("#name").val("");
 		$("#description").val("");
 		$("#availability").val("");
-		$("#singleColor").val("");
-		$("#singleColorDiv").attr("style","display:block");
-		$("#selectUserColor").attr("style","display:none");
-		$("#noOfPieces").val("");
+		$("#noOfMembers").val("");
 		$("#advancePaymentPercentage").val("");
 		 if(idForFetch === undefined){
 			//Remove the thumbnails after each insertion being completed from dropzone.js
@@ -2319,13 +2327,9 @@
 			 Dropzone.forElement("._thumnailImage #singleUpload").removeAllFiles();
 			 Dropzone.forElement("._productImages #multipleUpload").removeAllFiles();
 		}
-		defaultFlowerOccasion(true,0,"Occasion");
-		defaultPhotoType(true,0,"Photo Type");
-		defaultColor(true,"Color");
+		defaultCatererOccasion(true,0,"Occasion");
+		defaultProductType(true,0,"Caterer Type");
 		$("#freebie").val("");
-		$("#freeProductPieces").val("");
-		$("#fromDateFreeProduct").val("");
-		$("#toDateFreeProduct").val("");
 		$("#fromDate").val("");
 		$("#toDate").val("");
 		$("#price").val("");
@@ -2336,36 +2340,36 @@
 			$("#checkBoxDiscountAmount,#checkBoxDiscountPercent").prop("checked",false);
 		}
 		hasValue = Number(0);
-		if($("#freesCheck").is(":checked")){
-			$("#freesCheck").prop("checked",false);
-			$("#freesDiv").attr("style","display:none");
-		}
-		
 		if($("#discountCheck").is(':checked')){
 			$("#discountCheck").prop("checked",false);
 			$("#discountDiv").attr("style","display:none");
 		}
 		
-		var j = previousFreeDiv;
-		for(var k =0; k< Number(Number(j)+Number(1)) ;k++){
-			defaultFreeProduct(true,0,"Free Product",k);
-			removeFreeProductDiv(k);
-		}
-		
-		previousFreeDiv = Number(0);
-		
 		var l = pricingsDivNumber;
 		for(var k =1; k<= l ;k++){
 			removeFlowerPricingDiv(k);
+		}
+		
+		if($("#packageCheck").is(":checked")){
+			$("#packageCheck").prop("checked",false);
+			$("#packageDiv").addClass("hideDiv");
+			defaultFoodType(true,"0","Food Type");
+			$("#foodNameDiv").html("<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Food Name --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Food Name --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+					+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id=\"ulFoodName0\">"
+					+ "<li data-original-index=\"0\" class=\"selected\" id=\"foodNameLi0\" onclick=\"clickFoodNameLi('"
+					+ 0
+					+ "','Food Name')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Food Name --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>");
+			$("#listOfAddedFoodItems").val("");
+			$("#basePrice1").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price\" placeholder=\"Base Price\">");
+			$("#basePrice2").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price1\" placeholder=\"Base Price\">");
+			$("#basePrice3").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price2\" placeholder=\"Base Price\">");
+			
 		}
 		pricingsDivNumber = Number(0);
 		singleFiles = "";
 		multipleFiles = "";
 		title = "";
 		id = "";
-		freeProduct = "";
-		freeProductQty = "";
-		freeProductValidity = "";
 		modelId = "";
 		dpImageId = "";
 		defaultImageId = "";
@@ -2379,10 +2383,11 @@
 		$("#productStatus").val("");
 		$("#occasionName").val("");
 		$("#typeName").val("");
-		
+		$("#foodTypeName").val("");
+		$("#foodName").val("");
 	}
 	
-	function defaultFlowerOccasion(isInComplete,occasionId,occasionName){
+	function defaultCatererOccasion(isInComplete,occasionId,occasionName){
 		// Removing the values from the photo type list
 		var abc ="";
 		if(isInComplete){
@@ -2438,13 +2443,13 @@
 		
 	}
 	
-	function defaultPhotoType(isInComplete,typeId,typeName){
+	function defaultProductType(isInComplete,typeId,typeName){
 		// Removing the values from the photo type list
 		var abc ="";
 		if(isInComplete){
-			 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Flower Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Flower Type--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+			 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Caterer Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Caterer Type--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 					+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-					+"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"+0+"','Flower Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Flower Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"+0+"','Caterer Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Caterer Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 		}else{
 			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\--" +typeName+"--\ aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+typeName+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 				+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
@@ -2475,145 +2480,63 @@
 		}
 		cde = cde + "</ul></div>"
 		
-		$("#flowerTypeDiv").html(abc + cde);
+		$("#catererTypeDiv").html(abc + cde);
 		
 	}
 	
-	function defaultColor(isInComplete,colorType,colorName){
-		//$("#colorType").val(colorName);
-		var str="";
-		if(colorType === "Color" || str === undefined){
-			str = "Color";
-		}else{
-			str = colorType;
-		}
-		
-		var mno ="<div class=\"form-group drop-custum\">"
-			+"<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" data-id=\"packageFor\" title=\-- "+str+" --\"><span class=\"filter-option pull-left\">--"+str+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\">"
-			+"<ul class=\"dropdown-menu inner\" role=\"menu\" id=\"flowerColorUl\">"
-			+"<li data-original-index=\"0\" id=\"flowerColorLi0\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"defaultColor(false,'Multicolor')\"><span class=\"text\">Multicolor</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-			+"<li data-original-index=\"1\" id=\"flowerColorLi1\"><a tabindex=\"0\" style=\"\" data-tokens=\"null\" onclick=\"defaultColor(false,'ChooseColor')\"><span class=\"text\">ChooseColor</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li></ul></div>"
-			+"</div>"
-			
-		$("#colorSelectDiv").html(mno);	
-			if(!isInComplete){
-				var lengthOfUl = $("#flowerColorUl li").size();
-				for(var i = 0;i<lengthOfUl; i++){
-					var getdata = $("ul#flowerColorUl li#flowerColorLi"+Number(i)).find('span').text();
-						if(str === getdata){
-							$("#flowerColorLi"+Number(i)).addClass("selected");
-						}else{
-							$("#flowerColorLi"+Number(i)).removeClass("selected");
-						}
-			}
-			if(colorType === "ChooseColor"){
-					$("#selectUserColor").attr("style","display:block");
-					$("#singleColorDiv").attr("style","display:none");
-			}
-			else if(colorType === "Multicolor"){
-					$("#selectUserColor").attr("style","display:none");
-					$("#singleColorDiv").attr("style","dsplay:block");
-				}
-		}
-	}
-	
-	 function defaultFreeProduct(isInComplete,freeProductId,freeProductName,divId){
+	function defaultFoodType(isInComplete,foodTypeId,foodTypeName){
+		// Removing the values from the photo type list
 		var abc ="";
 		if(isInComplete){
-			 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Free Product--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Free Product"
-				+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id='ulFreeProduct"+divId+"'>"
+			 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Food Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Food Type--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+					+"<ul class=\"dropdown-menu inner\" id=\"ulfoodType0\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+					+"<li data-original-index=\"0\" class=\"selected\" id=\"foodTypeLi0\" onclick=\"clickLi('"+0+"','Flower Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Flower Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 		}else{
-			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=--"+freeProductName+"-- aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+freeProductName
-			+ "--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id='ulFreeProduct"+divId+"'>"
+			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\--" +typeName+"--\ aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+typeName+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
+				+"<ul class=\"dropdown-menu inner\" id=\"ulfoodType0\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
+				+"<li data-original-index=\"0\" class=\"\" id=\"foodTypeLi0\" onclick=\"clickLi('"+0+"','Flower Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Flower Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 		}
 		var cde = "";
-		for (var i = 0; i < freeProductArray.length; i++) {
-			var splittedArray = freeProductArray[i].split("_");
+		for (var i = 0; i < foodTypeArr.length; i++) {
+			var splittedArray = foodTypeArr[i].split("_");
 			var classSelected = ""
 			if(!isInComplete){
-				if(Number(splittedArray[0]) === Number(freeProductId)){
+				if(Number(splittedArray[0]) === Number(typeId)){
 					classSelected = "class = selected";
 				}
 			}
 				cde = cde
 				+ "<li data-original-index='"
-				+ Number(Number(i) + Number(1))+ "'id='freeProductLi"+ divId + Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
+				+ Number(Number(i) + Number(1))+ "'id='foodTypeLi"+ Number(Number(i) + Number(1))+ "' "+classSelected+"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFoodTypeLi('"
 				+ Number(Number(i) + Number(1))
 				+ "','"
 				+ splittedArray[1]
 				+ "','"
 				+ splittedArray[0]
-				+ "')\"><span class=\"text\">"
+				+ "')\"><span class=\"text\" title=\""+splittedArray[2]+"\">"
 				+ splittedArray[1]
 				+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 				
 				
 		}
 		cde = cde + "</ul></div>"
-		if(divId === Number(0)){
-			$("#freeProductSelect").html(abc + cde);
-		}else{
-			$("#freeProductSelect"+divId).html(abc + cde);
-		}
+		
+		$("#foodTypeDiv").html(abc + cde);
+		
 		
 	}
-	$("#discount").on("blur",function(){
-		if(idForFetch !== undefined && $("#toDateDiscount").val() !== ""){
-		var job = {};
-		var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
-		var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
-		if(toMonth < 10){
-			toMonth = "0"+toMonth;
-		} 
-		job["toDateDiscount"] = toDate[3]+"-"+toMonth+"-"+toDate[1];
-		job["allProductsId"] = $("#allProductId").val();
-		$.ajax({
-			type : "POST",
-			url : "admin-checkSellerDiscounts",
-			data : JSON.stringify(job),
-			processData : false,
-			contentType :"application/json",
-			success : function(data) {
-				if(!(data.status)){
-					swal({
-						title : 'Warning!',
-						text : 'Please Select Differnt Ending Date As Discount Is Already Present For This Date. You Can Click On Show Discounts To Know About Previous Discounts!!!',
-						type : 'warning',
-						confirmButtonText : 'OK',
-						allowEscapeKey : true,
-						confirmButtonClass : "btn btn-raised gradient-right",
-						animation : true
-					});
-					
-					$("#toDateDiscount").val("");
-				}
-		},error : function(){
-			swal({
-				  title: 'Error!',
-				  text: 'Discounts can not be checked.!!!',
-				  type: 'error',
-				  showConfirmButton :false,
-				  allowEscapeKey:true,
-				  timer:3000,
-				  animation:true
-				});
-		}
-	});
-  }
-});
-
-	function fetchFlowerById(flowerId){
+	 function fetchFlowerById(catererId){
 		$.ajax({
 			type : "GET",
-			url : "admin-fetchFlowerByFlowerId?id="+flowerId,
+			url : "admin-fetchCatererByCatererId?id="+catererId,
 			data : "",
 			processData : false,
 			contentType : "application/json",
 			success : function(data) {
 				
 					 if(data.status){
-						$("#name").val(data.flower.name);
-						$("#description").val(data.flower.description);
+						$("#name").val(data.caterer.name);
+						$("#description").val(data.caterer.description);
 						var occasionId = "";
 						var occasionName = "";
 						for(var i=0; i<data.listIntProductOccasion.length;i++){
@@ -2631,25 +2554,17 @@
 						id = occasionId;
 						lengthOccasions = data.listIntProductOccasion.length;
 						titleLength = "same";
-						defaultFlowerOccasion(false,occasionId,occasionName);
-						$("#typeName").val(data.flower.productType.id);
-						defaultPhotoType(false,Number(data.flower.productType.id),data.flower.productType.typeName);
-						if(data.flower.color.indexOf("#")>=0){
-							$("#selectUserColor").attr("style","display:block");
-							$("#foo")[0].jscolor.fromString(data.flower.color);
-							defaultColor(false,"ChooseColor");
-						}else{
-							$("#singleColorDiv").attr("style","display:block");
-							$("#singleColor").val(data.flower.color);
-							defaultColor(false,"Multicolor");
-						}
-						$("#noOfPieces").val(data.flower.noOfPieces);
-						$("#advancePaymentPercentage").val(data.flower.advancePaymentPercentage);
+						defaultCatererOccasion(false,occasionId,occasionName);
+						$("#typeName").val(data.caterer.productType.id);
+						defaultProductType(false,Number(data.caterer.productType.id),data.caterer.productType.typeName);
+						$("#freebie").val(data.caterer.freebie);
+						$("#noOfMembers").val(data.caterer.noOfMembers);
+						$("#advancePaymentPercentage").val(data.caterer.advancePaymentPercentage);
 						$("#flowerDisplayDiv").html("");
-						showDpEdit(data.flower.dpUrl,data.flower.id);
+						showDpEdit(data.caterer.dpUrl,data.caterer.id);
 						singleFiles = Number(1);
-						$("#defaultDpImage").val(data.flower.dpUrl);
-						$("#flowerImagesDiv").html("");
+						$("#defaultDpImage").val(data.caterer.dpUrl);
+						$("#catererImagesDiv").html("");
 						for(var i =0; i< data.listProductImagesVideos.length; i++){
 							 if(data.listProductImagesVideos[i].photoVideo){
 								showImagesEdit(data.listProductImagesVideos[i].productImageVideoUrl,data.listProductImagesVideos[i].id);
@@ -2661,36 +2576,6 @@
 									
 								}
 							}
-						}
-						if(data.flower.freebie !== null || data.listFreesProducts[0] !== null){
-							$("#freesCheck").prop("checked",true);
-							$("#freesDiv").attr("style","display:block");
-							if(data.listFreesProducts[0] !== null){
-							$("#showFreeProducts").attr("style","display:block");
-							var freeProducts = "";
-							$("#freeProductTable > tbody").html("");
-							for(var i = 0; i< data.listFreesProducts.length; i++){
-								var active;
-								if(data.listFreesProducts[i].status){
-									active = "Yes";
-								}else{
-									active = "No";
-								}
-								var xyz = new Date(data.listFreesProducts[i].validFrom);
-								xyz = xyz.getFullYear()+"-"+ (xyz.getMonth() + 1 > 9 ? xyz.getMonth() + 1 : "0"+(xyz.getMonth()+1)) +"-"+(xyz.getDate() > 9 ? xyz.getDate() : "0"+(xyz.getDate()));
-								
-								var mno = new Date(data.listFreesProducts[i].validTo);
-								mno = mno.getFullYear()+"-"+(mno.getMonth() +1>9 ? mno.getMonth() +1 : "0"+(mno.getMonth()+1)) + "-"+(mno.getDate() > 9 ? mno.getDate() : "0"+(mno.getDate()));
-								freeProducts = freeProducts +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
-								+"<td class=\"text-center\">"+xyz+"</td>"
-								+"<td class=\"text-center\">"+mno+"</td>"
-								+"<td class=\"text-center\">"+data.listFreesProducts[i].productName+"</td>"
-								+"<td class=\"text-center\">"+data.listFreesProducts[i].qty+"</td>"
-								+"<td class=\"text-center\">"+active+"</td>"
-							}
-							$("#freeProductTable > tbody").html(freeProducts);
-							}
-							$("#freebie").val(data.flower.freebie);
 						}
 						
 						$("#showPreviousPrices").attr("style","display:block");
@@ -2749,14 +2634,14 @@
 							$("#discountTable > tbody").html(discountDataTable);
 						}
 						$("#productStatusDiv").attr("style","display:block");
-						 if(data.flower.status){
+						 if(data.caterer.status){
 							productStatus("Active");
 							$("#productStatus").val("Active");
 						}else{
 							productStatus("Inactive");
 							$("#productStatus").val("Inactive")
 						}
-						if(data.flower.availability){
+						if(data.caterer.availability){
 							productAvailability("Yes");
 						}else{
 							productAvailability("No");
@@ -2767,14 +2652,14 @@
 						var productNameDiv = "<div class=\"col-sm-4 col-xs-12\">"
 						+"<div class=\"form-group\">"
 						+"<div class=\"form-line\">"
-						+"<input type=\"text\" class=\"form-control\" name=\"name\" id =\"name\" value="+data.flower.name+" placeholder=\"Product Name\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"name\" id =\"name\" value="+data.caterer.name+" placeholder=\"Product Name\">"
 						+"</div>"
 						+"</div>"
 						+"</div>"
 						+"<div class=\"col-sm-4 col-xs-12\">"
 						+"<div class=\"form-group\">"
 						+"<div class=\"form-line\">"
-						+"<input type=\"text\" class=\"form-control\" name=\"productId\" id =\"productId\" value ="+data.flower.id+" readonly=\"readonly\" placeholder=\"Product Id\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"productId\" id =\"productId\" value ="+data.caterer.id+" readonly=\"readonly\" placeholder=\"Product Id\">"
 						+"</div>"
 					    +"</div>"
 						+"</div>"
@@ -2786,8 +2671,8 @@
 					    +"</div>"
 						+"</div>"
 						$("#productNameDiv").html(productNameDiv);
-						$("#editProductId").val(data.flower.id);
-						$("#allProductId").val(data.flower.allProducts.id); 
+						$("#editProductId").val(data.caterer.id);
+						$("#allProductId").val(data.flower.caterer.id); 
 					}
 			},error : function (data){
 				alert("Error");
@@ -2851,7 +2736,7 @@
 			+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
 		    +"</div>"
 	        +"</div>";
-	      $("#flowerImagesDiv").html(abc);
+	      $("#catererImagesDiv").html(abc);
 	}
 	
 	function showModal(imageName, imageId){
@@ -2935,7 +2820,7 @@
 	    +"</div>"
         +"</div>";
 	
-      $("#flowerDisplayDiv").html(efg);
+      $("#catererDisplayDiv").html(efg);
 	}
 	function showDpModal(imageName, imageId){
 		dpImageId = imageId;
@@ -3008,190 +2893,7 @@
 					
 				});
 		}
-	var freeProductArray = new Array();
-	function fetchAllProductsOfSeller(){
-		$.ajax({
-			type : "GET",
-			url : "admin-fetchAllProductsBySeller",
-			data : "",
-			contentType : "application/json",
-			processData : false,
-			success : function(data) {
-				alert(JSON.stringify(data))
-				$("#freeProductSelect").html("");
-				if (data.status) {
-					var arValue = "";
-					while (freeProductArray.length > 0) {
-						freeProductArray.pop();
-					}
-					for(var j = 0; j < 3 ;j++){
-					var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"-- Free Products --\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">-- Free Products --</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
-							+ "<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\" id='ulFreeProduct"+ Number(j)+"'>"
-							+ "<li data-original-index=\"0\" class=\"selected\" id='freeProductLi"+Number(j)+"' onclick=\"clickFreeProductLi('"
-							+ 0
-							+ "','Free Products')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">-- Free Products --</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-					var cde = "";
-					for (var i = 0; i < data.listGeneralProduct.length; i++) {
-						cde = cde
-								+ "<li data-original-index='"
-								+ Number(Number(i) + Number(1))
-								+ "' id='freeProductLi"
-								+ j + Number(Number(i) + Number(1))
-								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
-								+ j + Number(Number(i) + Number(1))
-								+ "','"
-								+ data.listGeneralProduct[i].name
-								+ "','"
-								+ data.listGeneralProduct[i].allProductId
-								+ "')\"><span class=\"text\">"
-								+ data.listGeneralProduct[i].name
-								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-						if(j === Number(0)){
-							arValue = data.listGeneralProduct[i].specificId
-							+ "_"
-							+ data.listGeneralProduct[i].name
-				   			freeProductArray.push(arValue);	
-						}		
-						
-					}
-					cde = cde + "</ul></div>";
-					if(j === Number(0)){
-						$("#freeProductSelect").html(abc + cde);
-					}else{
-						$("#freeProductSelect"+Number(j)).html(abc + cde);
-					}
-					
-					}
-				}
-
-			},
-			error : function(e) {
-				alert("Error");
-				swal({
-					title : 'Error!',
-					text : 'Free Products Not Fetched Successfully!!!',
-					type : 'error',
-					confirmButtonText : "OK",
-					allowEscapeKey : true,
-					confirmButtonClass : "btn btn-raised gradient-right",
-					animation : true
-				});
-			}
-		});
-	}
-	 var previousFreeProductLi;    
-
-		function clickFreeProductLi(liId, title1, freeProductId) {
-			if(title1 === 'Free Products')
-			{
-				title1 = "--"+title1+"--";
-			}
-			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\""+title1+ "\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"
-					+ title1
-					+ "</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\"><ul id='ulFreeProduct"+liId[0]+"' class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-
-			if (Number(liId[1]) > Number(0)) {
-				var selectedId = $(".selected").attr("id");
-				previousFreeProductLi = liId[0];
-				alert("Previous Li Id Is"+previousFreeProductLi);
-
-				abc = abc
-						+ "<li data-original-index=\"0\" class=\"\" id='freeProductLi"+liId[0]+"' onclick=\"clickFreeProductLi('"
-						+ liId[0]
-						+ "','Free Products')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Free Products--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-				var cde = "";
-				for (var i = 0; i < freeProductArray.length; i++) {
-					var splittedArray = freeProductArray[i].split("_");
-					if (Number(i) === Number(Number(liId[1]) - Number(1))) {
-						cde = cde
-								+ "<li data-original-index='"
-								+ Number(Number(i) + Number(1))
-								+ "' class =\"selected\" id='freeProductLi"
-								+ liId[0] + Number(Number(i) + Number(1))
-								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
-								+ liId[0] + Number(Number(i) + Number(1))
-								+ "','"
-								+ splittedArray[1]
-								+ "','"
-								+ splittedArray[0]
-								+ "')\"><span class=\"text\">"
-								+ splittedArray[1]
-								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-					} else {
-						cde = cde
-								+ "<li data-original-index='"
-								+ Number(Number(i) + Number(1))
-								+ "' id='freeProductLi"
-								+ liId[0] + Number(Number(i) + Number(1))
-								+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
-								+ liId[0] + Number(Number(i) + Number(1))
-								+ "','"
-								+ splittedArray[1]
-								+ "','"
-								+ splittedArray[0]
-								+ "')\"><span class=\"text\">"
-								+ splittedArray[1]
-								+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-					}
-
-				}
-				cde = cde + "</ul></div>";
-				if($("ul#ulFreeProduct"+liId[0]+" li#freeProductLi"+liId).parent().parent().parent().parent().attr("id") === "freeProductSelect"){
-				   $("#freeProductSelect").html(abc + cde);
-				   $("#freeProductName").val(freeProductId);
-				}else if($("ul#ulFreeProduct"+liId[0]+" li#freeProductLi"+liId).parent().parent().parent().parent().attr("id") === "freeProductSelect1"){
-					alert("In else if");
-				   $("#freeProductSelect1").html(abc + cde);
-				   $("#freeProductName1").val(freeProductId);
-				}else{
-				   $("#freeProductSelect2").html(abc + cde);
-				   $("#freeProductName2").val(freeProductId);
-				}
-
-			} 
-			else {
-				alert("In else");
-				$("#freeProductLi" + previousFreeProductLi).removeClass("selected");
-				$("#freeProductLi"+liId[0]).addClass("selected");
-
-				abc = abc
-						+ "<li data-original-index=\"0\" class=\"selected\" id='freeProductLi"+liId[0]+"' onclick=\"clickFreeProductLi('"
-						+ liId[0]
-						+ "','Free Products')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Free Products--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-				var cde = "";
-				for (var i = 0; i < freeProductArray.length; i++) {
-					var splittedArray = freeProductArray[i].split("_");
-					cde = cde
-							+ "<li data-original-index='"
-							+ Number(Number(i) + Number(1))
-							+ "' id='freeProductLi"
-							+ liId[0] + Number(Number(i) + Number(1))
-							+ "'><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\" onclick =\"clickFreeProductLi('"
-							+ liId[0] + Number(Number(i) + Number(1))
-							+ "','"
-							+ splittedArray[1]
-							+ "','"
-							+ splittedArray[0]
-							+ "')\"><span class=\"text\">"
-							+ splittedArray[1]
-							+ "</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
-
-								}
-								cde = cde + "</ul></div>"
-								if($("ul#ulFreeProduct"+liId[0]+" li#freeProductLi"+liId).parent().parent().parent().parent().attr("id") === "freeProductSelect"){
-									   $("#freeProductSelect").html(abc + cde);
-									   $("#freeProductName").val(freeProductId);
-									}else if($("ul#ulFreeProduct"+liId[0]+" li#freeProductLi"+liId).parent().parent().parent().parent().attr("id") === "freeProductSelect1"){
-										alert("In else if");
-									   $("#freeProductSelect1").html(abc + cde);
-									   $("#freeProductName1").val(freeProductId);
-									}else{
-									   $("#freeProductSelect2").html(abc + cde);
-									   $("#freeProductName2").val(freeProductId);
-									}
-				}
-		} */
-		
+	
 	</script> 
     <div class="color-bg"></div>
     <%@ include file="admin-includeFooter.jsp" %>

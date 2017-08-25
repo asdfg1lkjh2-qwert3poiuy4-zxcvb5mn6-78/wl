@@ -218,14 +218,14 @@ public class SellerServiceImpl implements SellerService{
 				System.out.println("///In if");
 				if(date.after(sellerDetails2.getSellerRegistrationEnd())){
 					System.out.println("////In first if");
-					mssg = "Trial Period has ended on"+sellerDetails2.getSellerRegistrationEnd()+" .Please";
-					status = false;
+					mssg = "Trial Period has Ended on"+ sellerDetails2.getSellerRegistrationEnd()+" .Please uprade your account to resume your interrupted services";
+					status = true;
 					SellerDetails sellerDetails3 = new SellerDetails();
 					sellerDetails3 = typedQuery.getSingleResult();
-					sellerDetails3.setActive(Boolean.FALSE);
+					sellerDetails3.setTypeOfSeller("Not Free");
 					sellerDao.save(sellerDetails3);
 				}
-				if(!(sellerDetails2.isEmailVerified() || sellerDetails2.isMobileVerified())){
+				else if(!(sellerDetails2.isEmailVerified() || sellerDetails2.isMobileVerified())){
 					System.out.println("In second if");
 					mssg = "Please Verfiy Your Mobile For Login";
 					
@@ -251,16 +251,11 @@ public class SellerServiceImpl implements SellerService{
 				}
 			}
 			if(!(sellerDetails2.isActive())){
-				if(date.after(sellerDetails2.getSellerRegistrationEnd())){
-					mssg = "Trial Period has ended on"+sellerDetails2.getSellerRegistrationEnd()+" .Please";
-					status = false;
-				}else{
 					for(SellerInactiveDetails inactiveDetails :sellerDetails2.getSellerInactiveDetails()){
 						if((inactiveDetails.isActive()) && (inactiveDetails.getSellerDetails().getId().equals(sellerDetails2.getId()))){
 							mssg = "Your account has been locked by the administrator on "+inactiveDetails.getDateOfInactivity()+" due to "+inactiveDetails.getInactiveReason();
 							status = false;
 						}
-					}
 				}
 			}
 			

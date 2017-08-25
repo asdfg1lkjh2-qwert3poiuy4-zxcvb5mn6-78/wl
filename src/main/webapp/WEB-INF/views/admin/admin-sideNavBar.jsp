@@ -34,7 +34,9 @@
         <ul class="list" style="overflow: auto;" id="sideNavUl">
             <li class="header">MAIN NAVIGATION</li>
             <li class="active open" id="dashBoardLi"><a href="admin-dashboard"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
-            <li id="sellerLi"><a href="javascript:void(0);" id="sellerLinkLi" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Seller Details</span> </a>
+			<c:choose>
+    		<c:when test="${sessionScope.adminDetailsSession != null}">
+			<li id="sellerLi"><a href="javascript:void(0);" id="sellerLinkLi" class="menu-toggle"><img src="resources/images/seller-ico.png" alt=""/><span>Seller Details</span> </a>
              <ul class="ml-menu font-list" id= "sellerUl">                        
                     <li><a href="admin-addEditSeller" id="showSubSellerLi1">Add Seller</a></li>
                     <li><a href="admin-viewSeller" id="showSubSellerLi2">View Seller</a></li>
@@ -56,7 +58,8 @@
                     <li><a href="admin-addEditFoodType" id="showSubMiscLi10">Add & View Food Type</a></li>
                 </ul>
             </li>
-            
+           </c:when>
+           </c:choose>
             <!-- <li><a href="javascript:void(0);" class="menu-toggle"><img src="resources/images/tulip.png" alt=""/><span>Flourist</span> </a>
                 <ul class="ml-menu font-list">                        
                     <li><a href="admin-addEditFlower">Add Flower</a></li> 

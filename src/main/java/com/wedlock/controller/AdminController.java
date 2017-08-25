@@ -503,7 +503,11 @@ public class AdminController {
 	@RequestMapping(value = "/admin-fetchAllCategorySubCategory", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass adminFetchAllCategorySubCategory() {
 		AdminResponseClass adminResponseClass = new AdminResponseClass() ;
-		adminResponseClass.setCategoryAvailables(categoryAvailableService.listFetchAllCategoryAvailble());
+		boolean isSeller = false;
+		if((SellerDetails)httpSession.getAttribute("sellerDetailsSession") != null){
+			isSeller = true;
+		}
+		adminResponseClass.setCategoryAvailables(categoryAvailableService.listFetchAllCategoryAvailble(isSeller));
 		adminResponseClass.setSubCategoryAvailables(subCategoryAvailableService.listFetchAllSubCategoryAvailable());
 		if(!adminResponseClass.getCategoryAvailables().isEmpty()){
 			if(httpSession.getAttribute("categorySession")!=null && httpSession.getAttribute("subCategorySession")!=null){

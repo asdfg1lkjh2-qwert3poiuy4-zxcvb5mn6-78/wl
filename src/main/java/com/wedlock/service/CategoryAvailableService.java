@@ -10,7 +10,7 @@ public interface CategoryAvailableService {
 	AdminResponseClass fetchAllCategoryAvailble();
 	AdminResponseClass fetchCategoryByCategoryName(String categoryName);
 	AdminResponseClass fetchCategoryAvailableById(long id);
-	List<CategoryAvailable> listFetchAllCategoryAvailble();
+	List<CategoryAvailable> listFetchAllCategoryAvailble(boolean isSeller);
 	AdminResponseClass fetchAllCategoryAvailbleForDataTable();
 	AdminResponseClass fetchCategoryByCategoryNameWithStatus(String categoryName);
 }

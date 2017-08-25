@@ -1,6 +1,9 @@
 package com.wedlock.serviceImpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,6 +13,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +21,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.CategoryAvailableDao;
+import com.wedlock.dao.SellerBankDetailsDao;
+import com.wedlock.dao.SellerDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.CategoryAvailable;
+import com.wedlock.model.CategoryTaken;
 import com.wedlock.model.SellerBankDetails;
+import com.wedlock.model.SellerDetails;
 import com.wedlock.service.CategoryAvailableService;
 
 @Transactional
@@ -28,8 +36,12 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 
 	@Autowired
 	private CategoryAvailableDao categoryAvailableDao;
+	@Autowired
+	private SellerDao sellerDao; 
 	@PersistenceContext
 	EntityManager manager;
+	@Autowired
+	HttpSession httpSession;
 	@Override
 	public AdminResponseClass saveCategoryAvailable(CategoryAvailable categoryAvailable) {
 		boolean status = false;
@@ -94,9 +106,39 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 		return adminResponseClass;
 	}
 	@Override
-	public List<CategoryAvailable> listFetchAllCategoryAvailble() {
+	public List<CategoryAvailable> listFetchAllCategoryAvailble(boolean isSeller) {
 	
-		List<CategoryAvailable> listCategoryAvailable = categoryAvailableDao.findAll();
+		List<CategoryAvailable> listCategoryAvailable = new ArrayList<>();
+		if(!isSeller){
+			listCategoryAvailable = categoryAvailableDao.findAll();
+		}else{
+			SellerDetails sellerDetails = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			String checkDate = simpleDateFormat.format(date);
+			try {
+				date = simpleDateFormat.parse(checkDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(date.after(sellerDetails.getSellerRegistrationEnd())){
+				for(CategoryTaken categoryTaken: sellerDetails.getServiceTaken()){
+					if(categoryTaken.isPaid()){
+						CategoryAvailable categoryAvailable = new CategoryAvailable();
+						categoryAvailable = categoryAvailableDao.findOne(categoryTaken.getCategoryAvailable().getId());
+						listCategoryAvailable.add(categoryAvailable);
+					}
+				}
+			}else{
+				for(CategoryTaken categoryTaken: sellerDetails.getServiceTaken()){
+					CategoryAvailable categoryAvailable = new CategoryAvailable();
+					categoryAvailable = categoryAvailableDao.findOne(categoryTaken.getCategoryAvailable().getId());
+					listCategoryAvailable.add(categoryAvailable);
+				}
+			}
+		}
+		
 		
 //		CriteriaBuilder cb = manager.getCriteriaBuilder();
 //		CriteriaQuery<CategoryAvailable> cq = cb.createQuery(CategoryAvailable.class);

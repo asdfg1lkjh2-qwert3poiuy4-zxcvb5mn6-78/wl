@@ -223,6 +223,7 @@
 					alert(JSON.stringify(data));
 					if(data.status){
 						sessionStorage.clear();
+						sessionStorage.setItem("mssgStatus",data.mssgStatus);
 						window.location="admin-dashboard";
 					}else{
 						if(data.mssgStatus.includes("Verfiy Your Mobile")){

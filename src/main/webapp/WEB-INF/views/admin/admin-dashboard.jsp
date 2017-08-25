@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wedlock | Home</title>
 <%@ include file="admin-includeHeader.jsp" %>
+<link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
 </head>
 <body class="theme-blush">
         <!-- Page Loader -->
@@ -826,6 +827,24 @@
         </section>
         <!-- main content -->
 		<script src="resources/js/jquery-2.1.3.min.js"></script>
+		<script src="resources/js/sweetalert.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			if(sessionStorage.getItem("mssgStatus") !== null){
+				swal({
+					title : 'Warning!',
+					text : sessionStorage.getItem("mssgStatus")+"!!!",
+					type : 'warning',
+					confirmButtonText : 'OK',
+					allowEscapeKey : true,
+					confirmButtonClass : "btn btn-raised gradient-right",
+					animation : true
+				});
+			}
+			
+			sessionStorage.removeItem("mssgStatus");
+		});
+		</script>
 		<%@include file="admin-includeDynamicSideNavBarFromSession.jsp" %>
         <div class="color-bg"></div>
        
