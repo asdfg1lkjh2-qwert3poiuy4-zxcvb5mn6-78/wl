@@ -40,6 +40,7 @@ import com.wedlock.model.Caterer;
 import com.wedlock.model.City;
 import com.wedlock.model.Flower;
 import com.wedlock.model.Food;
+import com.wedlock.model.FoodOfPackage;
 import com.wedlock.model.FoodType;
 import com.wedlock.model.FreesProduct;
 import com.wedlock.model.IntProductOccasion;
@@ -66,6 +67,7 @@ import com.wedlock.service.CategoryTakenService;
 import com.wedlock.service.CatererService;
 import com.wedlock.service.CityService;
 import com.wedlock.service.FlowerService;
+import com.wedlock.service.FoodOfPackageService;
 import com.wedlock.service.FoodService;
 import com.wedlock.service.FoodTypeService;
 import com.wedlock.service.FreesProductService;
@@ -147,9 +149,11 @@ public class AdminController {
 	@Autowired
 	private FoodTypeService foodTypeService;
 	@Autowired
-	FoodService foodService;
+	private FoodService foodService;
 	@Autowired
-	CatererService catererService;
+	private CatererService catererService;
+	@Autowired
+	private FoodOfPackageService foodOfPackageService;
 	@Autowired
 	HttpSession httpSession;
 	
@@ -2092,8 +2096,6 @@ public class AdminController {
 			// Caterer Product Entry
 			if (adminResponseClass.isStatus()) {
 				Caterer caterer = new Caterer();
-				//Temporary Purpose
-				caterer.setPackage(Boolean.FALSE);
 				if (objectNode.get("editProductId").asText().trim().equals("")) {
 					adminResponseClass = catererService.findLastCatererId();
 					if (adminResponseClass.getLastId().equals("0")) {
@@ -2146,7 +2148,8 @@ public class AdminController {
 					System.out.println("///SingleFiles is"+abc[0]+" "+abc[1]+" "+abc[2]);
 					caterer.setDpUrl(abc[2]);
 				}
-				else{
+				else
+				{
 					String dpImages[] = objectNode.get("singleFiles").asText().trim().split("-,@_");
 					ServletContext context = request.getServletContext();
 					for(int i = 0; i<dpImages.length;i++){
@@ -2174,6 +2177,11 @@ public class AdminController {
 						}
 					}
 				}
+				if(objectNode.get("foodName") != null && !objectNode.get("foodName").asText().trim().equals(""))
+					caterer.setPackage(Boolean.TRUE);
+				else
+					caterer.setPackage(Boolean.FALSE);
+				
 				caterer.setAllProducts(allProduct);
 				adminResponseClass = catererService.saveCaterer(caterer);
 	
@@ -2322,41 +2330,58 @@ public class AdminController {
 				System.out.println("////Admin Response Class after image insert: " + adminResponseClass.isStatus());
 			}
 
-			/*// SellerProductPricing Entry
-			System.out.println("//// Price is " + objectNode.get("fromDate"));
-			if (adminResponseClass.isStatus() && (objectNode.get("fromDate") != null)) {
-				System.out.println("////Inside there reh");
-				SellerProductPricing sellerProductPricing = new SellerProductPricing();
-				sellerProductPricing.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("fromDate").asText()));
-				sellerProductPricing.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("toDate").asText()));
-				sellerProductPricing.setPrice(objectNode.get("price").asDouble());
-				sellerProductPricing.setAllProducts(products);
-				//adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
-				adminResponseClass = sellerProductPricingService.saveSellerProductPricing(sellerProductPricing);
-	
-				if (objectNode.get("otherPriceDetails") != null) {
-					if (objectNode.get("otherPriceDetails").asText().indexOf("_") >= 0) {
-						String productPricings[] = objectNode.get("otherPriceDetails").asText().split("_");
-						for (int i = 0; i < productPricings.length; i++) {
-							String subProductPricings[] = productPricings[i].split(",");
-							SellerProductPricing sellerProductPricings = new SellerProductPricing();
-							sellerProductPricings.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(subProductPricings[0]));
-							sellerProductPricings.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(subProductPricings[1]));
-							sellerProductPricings.setPrice(Double.valueOf(subProductPricings[2]));
-							sellerProductPricings.setAllProducts(products);
-							adminResponseClass = sellerProductPricingService.saveSellerProductPricing(sellerProductPricings);
-						}
-					} else {
-						String productPricings[] = objectNode.get("otherPriceDetails").asText().split(",");
+			// SellerProductPricing Entry
+			if (adminResponseClass.isStatus() && objectNode.get("pricingDetails") != null) 
+			{
+				if (objectNode.get("pricingDetails").asText().trim().contains("-,@_"))
+				{
+					String productPricings[] = objectNode.get("pricingDetails").asText().trim().split("-,@_");
+					for (int i = 0; i < productPricings.length; i++)
+					{
+						String subProductPricings[] = productPricings[i].split("_@.");
 						SellerProductPricing sellerProductPricings = new SellerProductPricing();
-						sellerProductPricings.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(productPricings[0]));
-						sellerProductPricings.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(productPricings[1]));
-						sellerProductPricings.setPrice(Double.valueOf(productPricings[2]));
-						sellerProductPricings.setAllProducts(products);
+						sellerProductPricings.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(subProductPricings[0].trim()));
+						sellerProductPricings.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(subProductPricings[1].trim()));
+						sellerProductPricings.setPrice(Double.valueOf(subProductPricings[2].trim()));
+						sellerProductPricings.setAllProducts(allProduct);
 						adminResponseClass = sellerProductPricingService.saveSellerProductPricing(sellerProductPricings);
 					}
+				} 
+				else
+				{
+					String productPricings[] = objectNode.get("pricingDetails").asText().trim().split("_@.");
+					SellerProductPricing sellerProductPricings = new SellerProductPricing();
+					sellerProductPricings.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(productPricings[0].trim()));
+					sellerProductPricings.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(productPricings[1].trim()));
+					sellerProductPricings.setPrice(Double.valueOf(productPricings[2].trim()));
+					sellerProductPricings.setAllProducts(allProduct);
+					adminResponseClass = sellerProductPricingService.saveSellerProductPricing(sellerProductPricings);
 				}
-			}*/
+			}
+			
+			if (adminResponseClass.isStatus() && objectNode.get("foodName") != null && !objectNode.get("foodName").asText().trim().equals("")) 
+			{
+				if(objectNode.get("foodName").asText().trim().contains(","))
+				{
+					String foods[] = objectNode.get("foodName").asText().trim().split(",");
+					for(String foodId : foods)
+					{
+						FoodOfPackage foodOfPackage = new FoodOfPackage();
+						foodOfPackage.setAllProduct(allProduct);
+						foodOfPackage.setStatus(Boolean.TRUE);
+						foodOfPackage.setFood(foodService.fetchFoodByIdWithStatus(Long.parseLong(foodId.trim())).getFood());
+						adminResponseClass = foodOfPackageService.saveFoodOfPackage(foodOfPackage);
+					}
+				}
+				else
+				{
+					FoodOfPackage foodOfPackage = new FoodOfPackage();
+					foodOfPackage.setAllProduct(allProduct);
+					foodOfPackage.setStatus(Boolean.TRUE);
+					foodOfPackage.setFood(foodService.fetchFoodByIdWithStatus(Long.parseLong(objectNode.get("foodName").asText().trim())).getFood());
+					adminResponseClass = foodOfPackageService.saveFoodOfPackage(foodOfPackage);
+				}
+			}
 	
 			//Interminiate-Product-Occasion Table Entry
 			System.out.println("///Occasion Id are" + objectNode.get("occasion").asText().trim());
