@@ -1,12 +1,12 @@
 $(window).load(function(){
-"use strict";
+	"use strict";
     $('#calendar').fullCalendar({
         header: {
             left: 'prev',
             center: 'title',
             right: 'next'
         },
-        defaultDate: '2015-02-12',
+        defaultDate: new Date(),
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar
         drop: function() {
@@ -17,37 +17,7 @@ $(window).load(function(){
             }
         },
         eventLimit: true, // allow "more" link when too many events
-       /* events: [
-        $.ajax({
-			type : "GET",
-			url : "admin-fetchAllZipCodes",
-			data : "",
-			processData : false,
-			contentType :"application/json",
-			success : function(data) {
-				
-				if(data.status){
-					"title": 'All Day Event',
-	                start: '2015-02-01',
-	                className: 'b-l b-2x b-greensea';
-				}
-					
-			},
-			error : function(e) {
-				alert("Error");
-				swal({
-					  title: 'Error!',
-					  text: 'Zip Code Not Fetched Successfully!!!',
-					  type: 'error',
-					  confirmButtonText :"OK",
-					  allowEscapeKey:true,
-					  confirmButtonClass:"btn btn-raised gradient-right",
-					  animation:true
-					});
-
-			}
-	})
-	 ]*/
+        
         events: [
             {
                 title: 'All Day Event',
@@ -122,8 +92,63 @@ $(window).load(function(){
     // Hide default header
     //$('.fc-header').hide();
 
+    $.ajax({
+		type : "GET",
+		url : "fetchAllTestModel",
+		data : "",
+		processData : false,
+		contentType : "application/json",
+		success : function(data) {
+				if(data.status){
+					//alert(JSON.stringify(data.event));
+					//var final = "\[";
+					for(var i = 0; i<data.event.length; i++)
+					{
+						/*var dt = new Date(data.event[i].start);
+						var d = dt.getDate();
 
+						var m =  ("0" + (dt.getMonth() + 1)).slice(-2);
+						var y = dt.getFullYear();
+						var startDate=(y+ "-" + m + "-" + d);
+						
+						dt = new Date(data.event[i].end);
+						d = dt.getDate();
+						m =  ("0" + (dt.getMonth() + 1)).slice(-2);
+						
+						y = dt.getFullYear();
+						var endDate=(y+ "-" + m + "-" + d);*/
+						
+						//alert(startDate+"\n"+endDate)
+						
+						var event={id:1 , title: data.event[i].title, start:  new Date(data.event[i].start).format("isoDate"), end: new Date(data.event[i].end).format("isoDate"), className: 'bg-cyan'};
 
+						$('#calendar').fullCalendar( 'renderEvent', event, true);
+						
+			            /*final = final + "\{" + "title: '" + data.event[i].title + "', start: '" + startDate + "', end: '" + endDate + "', className: 'bg-cyan'\}" ;
+			            if(i != data.event.length-1)
+			            	final = final +",";*/
+					}
+					/*final = final + "\]";
+					alert(final);*/
+				}
+		},
+		error : function(e) {
+			alert("Error");
+			swal({
+				  title: 'Error!',
+				  text: 'State Not Fetched Successfully!!!',
+				  type: 'error',
+				  confirmButtonText :"OK",
+				  allowEscapeKey:true,
+				  confirmButtonClass:"btn btn-raised gradient-right",
+				  animation:true
+				});
+			
+		}
+	});
+    
+    
+    
     // Previous month action
     $('#cal-prev').click(function(){
         $('#calendar').fullCalendar( 'prev' );
@@ -134,7 +159,7 @@ $(window).load(function(){
         $('#calendar').fullCalendar( 'next' );
     });
 
-    // Change to month view
+    /*// Change to month view
     $('#change-view-month').click(function(){
         $('#calendar').fullCalendar('changeView', 'month');
 
@@ -176,7 +201,7 @@ $(window).load(function(){
     // Change to today view
     $('#change-view-today').click(function(){
         $('#calendar').fullCalendar('today');
-    });
+    });*/
 
     /* initialize the external events
      -----------------------------------------------------------------*/
@@ -201,7 +226,7 @@ $(window).load(function(){
         $(this).parent().remove();
     });
 
-    // Submitting new event form
+    /*// Submitting new event form
     $('#add-event').submit(function(e){
         e.preventDefault();
         var form = $(this);
@@ -235,7 +260,7 @@ $(window).load(function(){
 
         $('#cal-new-event').modal('hide');
 
-    });
+    });*/
 
 
 });

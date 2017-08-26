@@ -109,6 +109,9 @@ public class AdminResponseClass {
 	private List<FreesProduct> listFreesProducts;
 	private FreesProduct freesProduct;
 
+	/*For TestModel*/
+	private List<TestModel> event;
+	private TestModel singleEvent;
 	
 	// Setters And Getters
 
@@ -542,6 +545,22 @@ public class AdminResponseClass {
 
 	public void setFood(Food food) {
 		this.food = food;
+	}
+
+	public List<TestModel> getEvent() {
+		return event;
+	}
+
+	public void setEvent(List<TestModel> event) {
+		this.event = event;
+	}
+
+	public TestModel getSingleEvent() {
+		return singleEvent;
+	}
+
+	public void setSingleEvent(TestModel singleEvent) {
+		this.singleEvent = singleEvent;
 	}
 
 }

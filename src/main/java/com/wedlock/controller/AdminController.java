@@ -4,7 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,6 +89,7 @@ import com.wedlock.service.SellerProductPricingService;
 import com.wedlock.service.SellerService;
 import com.wedlock.service.StateService;
 import com.wedlock.service.SubCategoryAvailableService;
+import com.wedlock.service.TestModelService;
 import com.wedlock.service.ZipCodeService;
 import com.wedlock.util.AllCategoryNames;
 import com.wedlock.util.CreateId;
@@ -2750,6 +2750,25 @@ public class AdminController {
 			ex.printStackTrace();
 		}
 		return adminResponseClass.isStatus();	
+	}
+	
+	//For TestModel
+	@Autowired
+	TestModelService testModelService;
+	@RequestMapping(value = "/fetchAllTestModel", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllTestModel() {
+		AdminResponseClass adminResponseClass = testModelService.fetchAllTestModel();
+		/*String data = "[";
+		for(TestModel tM: adminResponseClass.getEvent())
+		{
+			data = data + "{" + "title: '" + tM.getTitle() + "', start: '" + new SimpleDateFormat("yyyy-MM-dd").format(tM.getStart()) 
+					+  "', end: '" + new SimpleDateFormat("yyyy-MM-dd").format(tM.getEnd()) + "', className: 'bg-cyan'}," ;
+		}
+		
+		data = data.substring(0, data.length()-1);
+		data = data +"]";
+		return data;*/
+		return adminResponseClass;
 	}
 }
 
