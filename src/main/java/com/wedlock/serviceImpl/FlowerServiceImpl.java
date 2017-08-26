@@ -14,22 +14,16 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wedlock.dao.AllProductsDao;
 import com.wedlock.dao.FlowerDao;
 import com.wedlock.dao.OccasionDao;
-import com.wedlock.dao.SellerDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.AllProducts;
 import com.wedlock.model.Flower;
 import com.wedlock.model.FreesProduct;
-import com.wedlock.model.GeneralProduct;
-import com.wedlock.model.SellerDetails;
 import com.wedlock.model.IntProductOccasion;
 import com.wedlock.model.Occasion;
-import com.wedlock.model.PhotographyOccasion;
+import com.wedlock.model.SellerDetails;
 import com.wedlock.model.SellerDiscount;
-import com.wedlock.model.SellerPhotographer;
-import com.wedlock.model.SellerPhotographyOccasion;
 import com.wedlock.model.SellerProductImagesVideos;
 import com.wedlock.model.SellerProductPricing;
 import com.wedlock.service.FlowerService;
@@ -45,8 +39,6 @@ public class FlowerServiceImpl implements FlowerService{
 	EntityManager manager;
 	@Autowired
 	private OccasionDao occasionDao;
-	@Autowired
-	private AllProductsDao allProductsDao;
 	@Override
 	public AdminResponseClass findLastFlowerId() {
 		boolean status = false;
@@ -159,8 +151,8 @@ public class FlowerServiceImpl implements FlowerService{
 		if(!(query.getResultList().isEmpty()))
 		{
 			allProduct = (AllProducts)query.getResultList().get(0);
-			allProduct.setCategoryAvailable(null);
-			allProduct.setSellerDetails(null);
+			//allProduct.setCategoryAvailable(null);
+			//allProduct.setSellerDetails(null);
 			//status = true;
 			adminResponseClass.setAllProducts(allProduct);
 		}
