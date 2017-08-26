@@ -6,17 +6,19 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.AllProductsDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.AllProducts;
 import com.wedlock.service.AllProductsService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class AllProductsImpl implements AllProductsService{
 

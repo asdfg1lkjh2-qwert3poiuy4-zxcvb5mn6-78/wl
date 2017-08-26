@@ -6,11 +6,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.CityDao;
 import com.wedlock.dao.StateDao;
@@ -20,6 +20,7 @@ import com.wedlock.model.City;
 import com.wedlock.model.State;
 import com.wedlock.model.ZipCode;
 import com.wedlock.service.ZipCodeService;
+
 
 @Transactional
 @Service
@@ -39,6 +40,7 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 	public AdminResponseClass saveZipCode(ZipCode zipCode, String zipCodeValues[]) {
 		boolean status = false;
 
+		
 		City city = cityDao.findOne(zipCode.getCityId());
 		zipCode.setCity(city);
 		zipCodeDao.save(zipCode);
@@ -136,6 +138,7 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 			zipCode2.setLocalityName(zipCode.getLocalityName());
 
 			zipCodes.add(zipCode2);
+			
 		}
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setListAllZipCodes(zipCodes);

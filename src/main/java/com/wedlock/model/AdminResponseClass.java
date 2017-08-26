@@ -108,6 +108,7 @@ public class AdminResponseClass {
 	/*For Frees Product*/
 	private List<FreesProduct> listFreesProducts;
 	private FreesProduct freesProduct;
+
 	
 	// Setters And Getters
 
@@ -542,4 +543,5 @@ public class AdminResponseClass {
 	public void setFood(Food food) {
 		this.food = food;
 	}
+
 }

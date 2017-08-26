@@ -9,10 +9,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.FlowerDao;
 import com.wedlock.dao.OccasionDao;
@@ -28,7 +30,7 @@ import com.wedlock.model.SellerProductImagesVideos;
 import com.wedlock.model.SellerProductPricing;
 import com.wedlock.service.FlowerService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class FlowerServiceImpl implements FlowerService{
 

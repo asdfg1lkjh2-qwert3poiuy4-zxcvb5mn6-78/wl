@@ -7,10 +7,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.CategoryAvailableDao;
 import com.wedlock.dao.FreesProductDao;
@@ -23,7 +24,7 @@ import com.wedlock.model.GeneralProduct;
 import com.wedlock.model.SellerDetails;
 import com.wedlock.service.FreesProductService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class FreesProductImpl implements FreesProductService {
 

@@ -1,9 +1,10 @@
 package com.wedlock.serviceImpl;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.SellerBankDetailsDao;
 import com.wedlock.dao.SellerDao;
@@ -12,7 +13,7 @@ import com.wedlock.model.SellerBankDetails;
 import com.wedlock.model.SellerDetails;
 import com.wedlock.service.SellerBankDetailsService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class SellerBankServiceImpl implements SellerBankDetailsService{
 

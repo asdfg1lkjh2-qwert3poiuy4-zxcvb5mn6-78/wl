@@ -5,10 +5,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.CategoryTakenDao;
 import com.wedlock.model.AdminResponseClass;
@@ -17,7 +18,7 @@ import com.wedlock.model.SellerDetails;
 import com.wedlock.service.CategoryAvailableService;
 import com.wedlock.service.CategoryTakenService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class CategoryTakenServiceImpl implements CategoryTakenService{
 	@Autowired

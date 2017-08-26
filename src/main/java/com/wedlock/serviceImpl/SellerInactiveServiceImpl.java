@@ -6,10 +6,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.AdminDetailsDao;
 import com.wedlock.dao.SellerDao;
@@ -20,7 +22,7 @@ import com.wedlock.model.SellerDetails;
 import com.wedlock.model.SellerInactiveDetails;
 import com.wedlock.service.SellerInactiveService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class SellerInactiveServiceImpl implements SellerInactiveService{
 

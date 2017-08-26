@@ -8,10 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.OccasionDao;
 import com.wedlock.dao.ProductOccasionDao;
@@ -20,7 +22,7 @@ import com.wedlock.model.IntProductOccasion;
 import com.wedlock.model.Occasion;
 import com.wedlock.service.OccasionService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class OccasionServiceImpl implements OccasionService {
 

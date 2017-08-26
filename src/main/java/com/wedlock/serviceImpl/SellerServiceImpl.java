@@ -17,11 +17,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -47,7 +48,7 @@ import com.wedlock.util.OtpGenerator;
 import com.wedlock.util.smsApi;
 
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class SellerServiceImpl implements SellerService{
 

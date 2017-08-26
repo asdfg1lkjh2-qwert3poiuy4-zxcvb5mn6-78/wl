@@ -5,17 +5,18 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.SellerDiscountDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.SellerDiscount;
 import com.wedlock.service.SellerDiscountService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class SellerDiscountServiceImpl implements SellerDiscountService{
 

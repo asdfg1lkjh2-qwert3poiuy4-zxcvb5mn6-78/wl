@@ -2,17 +2,18 @@ package com.wedlock.serviceImpl;
 
 import java.util.Date;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.SellerProductImagesVideosDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.SellerProductImagesVideos;
 import com.wedlock.service.SellerProductImagesVideosService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class SellerProductImagesVideosServiceImpl implements SellerProductImagesVideosService{
 

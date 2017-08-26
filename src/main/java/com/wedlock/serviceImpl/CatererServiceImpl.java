@@ -3,10 +3,12 @@ package com.wedlock.serviceImpl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wedlock.dao.AllProductsDao;
 import com.wedlock.dao.CatererDao;
@@ -15,7 +17,7 @@ import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.Caterer;
 import com.wedlock.service.CatererService;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class CatererServiceImpl implements CatererService{
 
