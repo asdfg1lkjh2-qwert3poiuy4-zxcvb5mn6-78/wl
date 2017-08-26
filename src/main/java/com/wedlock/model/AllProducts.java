@@ -74,6 +74,10 @@ public class AllProducts implements Serializable{
 	@JsonIgnore
 	private Caterer caterer;
 	
+	@OneToMany(mappedBy="allProducts")
+	@JsonIgnore
+	private List<FoodOfPackage> foodOfPackage;
+	
 	//Setters And Getters
 	
 	public long getId() {
@@ -187,7 +191,20 @@ public class AllProducts implements Serializable{
 	public void setFreeWith(List<FreesProduct> freeWith) {
 		this.freeWith = freeWith;
 	}
-	
-	
 
+	public Caterer getCaterer() {
+		return caterer;
+	}
+
+	public void setCaterer(Caterer caterer) {
+		this.caterer = caterer;
+	}
+
+	public List<FoodOfPackage> getFoodOfPackage() {
+		return foodOfPackage;
+	}
+
+	public void setFoodOfPackage(List<FoodOfPackage> foodOfPackage) {
+		this.foodOfPackage = foodOfPackage;
+	}
 }

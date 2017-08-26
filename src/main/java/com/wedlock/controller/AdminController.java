@@ -1678,11 +1678,14 @@ public class AdminController {
 				if(objectNode.get("freebie") != null){
 					flower.setFreebie(objectNode.get("freebie").asText());
 				}
-				if(objectNode.get("singleFiles").asText().indexOf("@*")>=0){
-					String abc[] = objectNode.get("singleFiles").asText().trim().split("@\\*");
-					System.out.println("///SingleFiles is"+abc[0]+" "+abc[1]);
-					flower.setDpUrl(abc[1]);
-				}else{
+				if(objectNode.get("singleFiles").asText().trim().contains("-,@_"))
+				{
+					String abc[] = objectNode.get("singleFiles").asText().trim().split("\\+@-");
+					System.out.println("///SingleFiles is"+abc[0]+" "+abc[1]+" "+abc[2]);
+					flower.setDpUrl(abc[2]);
+				}
+				else
+				{
 					String dpImages[] = objectNode.get("singleFiles").asText().trim().split("-,@_");
 					ServletContext context = request.getServletContext();
 					for(int i = 0; i<dpImages.length;i++){
@@ -2050,13 +2053,15 @@ public class AdminController {
 		}
 	    return adminResponseClass;
 	}
-	/*@RequestMapping(value = "/fetchAllFlowerById", method = RequestMethod.POST)
+	
+	//Not Using Anywhere
+	@RequestMapping(value = "/fetchAllFlowerById", method = RequestMethod.POST)
 	public @ResponseBody AdminResponseClass fetchAllFlowerById(@RequestBody String sellerId, String allProductId, String flowerId) 
 	{
 		AdminResponseClass adminResponseClass = flowerService.fetchAllFlowerById(sellerId, allProductId, flowerId);
 		return adminResponseClass;
 
-	}	*/
+	}
 	
 	@RequestMapping(value="/admin-fetchFlowerByFlowerId", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchFlowerByFlowerId(@RequestParam("id") String id) throws ParseException {
@@ -2656,100 +2661,38 @@ public class AdminController {
 				}
 				sellerDiscount.setAllProducts(allProduct);
 				adminResponseClass = sellerDiscountService.saveSellerDiscount(sellerDiscount);
-				
-				/*//otherDiscountDetails Entry to SellerDiscount Table
-				if ((objectNode.get("otherDiscountDetails").asText() != null) && (adminResponseClass.isStatus()))
-				{
-					if (objectNode.get("otherDiscountDetails").asText().indexOf("_") >= 0) {
-						String productDiscounts[] = objectNode.get("otherDiscountDetails").asText().split("_");
-						for (int i = 0; i < productDiscounts.length; i++) 
-						{
-							//System.out.print("\\\\Other Single Dis"+productDiscounts[i]);
-							String attribute[] = productDiscounts[i].split(",");
-							sellerDiscount.setFromDateDiscount(new SimpleDateFormat("yyyy-MM-dd").parse(attribute[0].trim()));
-							sellerDiscount.setToDateDiscount(new SimpleDateFormat("yyyy-MM-dd").parse(attribute[1].trim()));
-							sellerDiscount.setDiscount(Double.parseDouble(attribute[2].trim()));
-							if (Integer.parseInt(attribute[3].trim()) == 1) {
-								sellerDiscount.setFlatDiscount(Boolean.TRUE);
-							} else {
-								sellerDiscount.setFlatDiscount(Boolean.FALSE);
-							}
-							//sellerDiscount.setAllProducts(products);
-							adminResponseClass = sellerDiscountService.saveSellerDiscount(sellerDiscount);
-						}
-					}
-					else
-					{
-						String attribute[] = objectNode.get("otherDiscountDetails").asText().trim().split(",");
-						sellerDiscount.setFromDateDiscount(new SimpleDateFormat("yyyy-MM-dd").parse(attribute[0].trim()));
-						sellerDiscount.setToDateDiscount(new SimpleDateFormat("yyyy-MM-dd").parse(attribute[1].trim()));
-						sellerDiscount.setDiscount(Double.parseDouble(attribute[2].trim()));
-						if (Integer.parseInt(attribute[3].trim()) == 1) {
-							sellerDiscount.setFlatDiscount(Boolean.TRUE);
-						} else {
-							sellerDiscount.setFlatDiscount(Boolean.FALSE);
-						}
-						//sellerDiscount.setAllProducts(products);
-						adminResponseClass = sellerDiscountService.saveSellerDiscount(sellerDiscount);
-					}
-				}*/
 			}
-			//System.out.println("////Admin Response Class after discount insert: " + adminResponseClass.isStatus());
-			
-			/*//For freeProduct Insert
-			if(adminResponseClass.isStatus())
-			{
-				if (!objectNode.get("freeProduct").asText().equals("") || !objectNode.get("freeProductQty").asText().equals("") || !objectNode.get("freeProductValidity").asText().equals(""))
-				{
-					if (objectNode.get("freeProduct").asText().indexOf(",") >= 0)
-					{
-						String freeProductIds[] = objectNode.get("freeProduct").asText().trim().split(",");
-						String freeProductQtys[] = objectNode.get("freeProductQty").asText().trim().split(",");
-						String freeProductvalidities[] = objectNode.get("freeProductValidity").asText().trim().split(",");
-						
-						for(int i=0;i<freeProductIds.length;i++)
-						{
-							FreesProduct freesProduct = new FreesProduct();
-							AdminResponseClass singleProduct = new AdminResponseClass();
-							singleProduct = allProductsService.fetchAllProductByIdAndSeller(Integer.parseInt(freeProductIds[i].trim()), products.getSellerDetails().getId());	
-							
-							freesProduct.setToId(singleProduct.getAllProducts());
-							freesProduct.setWithId(products);
-							freesProduct.setQty(Integer.parseInt(freeProductQtys[i].trim()));
-							freesProduct.setValidTo(new SimpleDateFormat("yyyy-MM-dd").parse(freeProductvalidities[i].trim()));
-							freesProduct.setStatus(Boolean.TRUE);
-							if(singleProduct.isStatus())
-							{
-								adminResponseClass = freesProductService.saveFreesProduct(freesProduct);
-								adminResponseClass.setMssgStatus("Free Product Successfully Inserted");
-							}
-						}
-					}
-					else
-					{
-						FreesProduct freesProduct = new FreesProduct();
-						AdminResponseClass singleProduct = new AdminResponseClass();
-						singleProduct = allProductsService.fetchAllProductByIdAndSeller(Integer.parseInt(objectNode.get("freeProduct").asText().trim()), products.getSellerDetails().getId());
-						
-						freesProduct.setToId(singleProduct.getAllProducts());
-						freesProduct.setWithId(products);
-						freesProduct.setQty(Integer.parseInt(objectNode.get("freeProductQty").asText().trim().trim()));
-						freesProduct.setValidTo(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("freeProductValidity").asText().trim()));
-						freesProduct.setStatus(Boolean.TRUE);
-						if(singleProduct.isStatus())
-						{
-							adminResponseClass = freesProductService.saveFreesProduct(freesProduct);
-							adminResponseClass.setMssgStatus("Free Product Successfully Inserted");
-						}
-					}
-				}
-			}*/
 		}
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
 		}
 		return adminResponseClass.isStatus();	
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllCatererProductsBySellerId", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllCatererProductsBySellerId()
+	{
+	    AdminResponseClass adminResponseClass = new AdminResponseClass();
+		try {
+			adminResponseClass = catererService.fetchAllCatererProductsBySellerId((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return adminResponseClass;
+	}
+	
+	@RequestMapping(value="/admin-fetchCatererByCatererId", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchCatererByCatererId(@RequestParam("id") String id)
+	{
+	    AdminResponseClass adminResponseClass = new AdminResponseClass();
+		try {
+			adminResponseClass = catererService.fetchCatererByCatererId(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    return adminResponseClass;
 	}
 	
 	//For TestModel

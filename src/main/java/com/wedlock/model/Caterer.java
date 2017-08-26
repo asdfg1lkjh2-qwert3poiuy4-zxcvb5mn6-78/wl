@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -47,6 +48,9 @@ public class Caterer implements Serializable {
 	@ManyToOne
 	// @JsonIgnore
 	private ProductType productType;
+	
+	@Transient
+	private long allProductId;
 
 	// Setters And Getters
 	
@@ -153,4 +157,13 @@ public class Caterer implements Serializable {
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
 	}
+
+	public long getAllProductId() {
+		return allProductId;
+	}
+
+	public void setAllProductId(long allProductId) {
+		this.allProductId = allProductId;
+	}
+	
 }

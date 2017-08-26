@@ -108,6 +108,14 @@ public class AdminResponseClass {
 	/*For Frees Product*/
 	private List<FreesProduct> listFreesProducts;
 	private FreesProduct freesProduct;
+	
+	/*For Caterer Product*/
+	private List<Caterer> listAllCaterer;
+	private Caterer caterer;
+	
+	/*For FoodOfPackage Product*/
+	private List<FoodOfPackage> listFoodOfPackage;
+	private FoodOfPackage foodOfPackage;
 
 	/*For TestModel*/
 	private List<TestModel> event;
@@ -545,6 +553,38 @@ public class AdminResponseClass {
 
 	public void setFood(Food food) {
 		this.food = food;
+	}
+
+	public List<Caterer> getListAllCaterer() {
+		return listAllCaterer;
+	}
+
+	public void setListAllCaterer(List<Caterer> listAllCaterer) {
+		this.listAllCaterer = listAllCaterer;
+	}
+
+	public Caterer getCaterer() {
+		return caterer;
+	}
+
+	public void setCaterer(Caterer caterer) {
+		this.caterer = caterer;
+	}
+
+	public List<FoodOfPackage> getListFoodOfPackage() {
+		return listFoodOfPackage;
+	}
+
+	public void setListFoodOfPackage(List<FoodOfPackage> listFoodOfPackage) {
+		this.listFoodOfPackage = listFoodOfPackage;
+	}
+
+	public FoodOfPackage getFoodOfPackage() {
+		return foodOfPackage;
+	}
+
+	public void setFoodOfPackage(FoodOfPackage foodOfPackage) {
+		this.foodOfPackage = foodOfPackage;
 	}
 
 	public List<TestModel> getEvent() {

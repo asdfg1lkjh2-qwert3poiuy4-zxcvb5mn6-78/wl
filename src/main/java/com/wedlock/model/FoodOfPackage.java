@@ -32,7 +32,7 @@ public class FoodOfPackage implements Serializable
 	private boolean status;
 
 	@ManyToOne
-	private AllProducts allProduct;
+	private AllProducts allProducts;
 	
 	@ManyToOne
 	private Food food;
@@ -56,11 +56,11 @@ public class FoodOfPackage implements Serializable
 	}
 
 	public AllProducts getAllProduct() {
-		return allProduct;
+		return allProducts;
 	}
 
 	public void setAllProduct(AllProducts allProduct) {
-		this.allProduct = allProduct;
+		this.allProducts = allProduct;
 	}
 
 	public Food getFood() {
