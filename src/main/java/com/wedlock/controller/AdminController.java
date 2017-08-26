@@ -2359,26 +2359,29 @@ public class AdminController {
 				}
 			}
 			
+			//FoodOfPackage Insertion
 			if (adminResponseClass.isStatus() && objectNode.get("foodName") != null && !objectNode.get("foodName").asText().trim().equals("")) 
 			{
 				if(objectNode.get("foodName").asText().trim().contains(","))
 				{
 					String foods[] = objectNode.get("foodName").asText().trim().split(",");
-					for(String foodId : foods)
+					for(String food : foods)
 					{
 						FoodOfPackage foodOfPackage = new FoodOfPackage();
+						String foodId[] = food.split("_");
 						foodOfPackage.setAllProduct(allProduct);
 						foodOfPackage.setStatus(Boolean.TRUE);
-						foodOfPackage.setFood(foodService.fetchFoodByIdWithStatus(Long.parseLong(foodId.trim())).getFood());
+						foodOfPackage.setFood(foodService.fetchFoodByIdWithStatus(Long.parseLong(foodId[1].trim())).getFood());
 						adminResponseClass = foodOfPackageService.saveFoodOfPackage(foodOfPackage);
 					}
 				}
 				else
 				{
 					FoodOfPackage foodOfPackage = new FoodOfPackage();
+					String foodId[] = objectNode.get("foodName").asText().trim().split("_");
 					foodOfPackage.setAllProduct(allProduct);
 					foodOfPackage.setStatus(Boolean.TRUE);
-					foodOfPackage.setFood(foodService.fetchFoodByIdWithStatus(Long.parseLong(objectNode.get("foodName").asText().trim())).getFood());
+					foodOfPackage.setFood(foodService.fetchFoodByIdWithStatus(Long.parseLong(foodId[1])).getFood());
 					adminResponseClass = foodOfPackageService.saveFoodOfPackage(foodOfPackage);
 				}
 			}
