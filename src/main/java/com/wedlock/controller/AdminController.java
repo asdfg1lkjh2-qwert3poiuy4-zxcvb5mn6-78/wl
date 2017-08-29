@@ -773,7 +773,8 @@ public class AdminController {
 					    			}*/
 					    		}
 					    		categoryTaken = categoryTaken.substring(0, categoryTaken.length()-1);
-					    		adminResponseClass = categoryTakenService.saveCategoryTaken(sellerDetails, categoryTaken);
+					    		adminResponseClass = sellerService.fetchAllSellersById(sellerDetails.getId());
+					    		adminResponseClass = categoryTakenService.saveCategoryTaken(adminResponseClass.getSellerDetail(), categoryTaken);
 					    	}
 					    }
 						if(objectNode.get("hasValue").asInt() == 1 && adminResponseClass.isStatus()){
@@ -1081,6 +1082,7 @@ public class AdminController {
 			}
 
 			System.out.println("////All Products id" + products.getId());
+			
 			// SellerPhotographer Entry
 			if (adminResponseClass.isStatus()) {
 				SellerPhotographer sellerPhotographer = new SellerPhotographer();
@@ -1456,7 +1458,6 @@ public class AdminController {
 						.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("toDate").asText()));
 				sellerProductPricing.setPrice(objectNode.get("price").asDouble());
 				sellerProductPricing.setAllProducts(products);
-				adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
 				adminResponseClass = sellerProductPricingService.saveSellerProductPricing(sellerProductPricing);
 
 				if (objectNode.get("otherPriceDetails") != null) {
@@ -1496,16 +1497,11 @@ public class AdminController {
 							SellerPhotographyOccasion sellerPhotographyOccasion = new SellerPhotographyOccasion();
 							sellerPhotographyOccasion.setAllProducts(products);
 							if (objectNode.get("titleLength").asText().equals("minus")) {
-								adminResponseClass = sellerPhotographyOccasionService
-										.deleteSellerPhotographyOccasionByAllProductsAndOccasionId(
-												sellerPhotographyOccasion.getAllProducts().getId(),
-												Long.valueOf(Long.valueOf(photographyOccasionNames[i])));
+								adminResponseClass = sellerPhotographyOccasionService.deleteSellerPhotographyOccasionByAllProductsAndOccasionId(sellerPhotographyOccasion.getAllProducts().getId(),Long.valueOf(Long.valueOf(photographyOccasionNames[i])));
 							} else {
-								adminResponseClass = photographyOccasionService
-										.fetchPhotographyOccasionById(Long.valueOf(photographyOccasionNames[i]));
-								sellerPhotographyOccasion
-										.setPhotographyOccasion(adminResponseClass.getPhotographyOccasion());
-								adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
+								adminResponseClass = photographyOccasionService.fetchPhotographyOccasionById(Long.valueOf(photographyOccasionNames[i]));
+								sellerPhotographyOccasion.setPhotographyOccasion(adminResponseClass.getPhotographyOccasion());
+								adminResponseClass = sellerPhotographerService.fetchPhotographyProductsByIdForAddEdit(photographerId);
 								sellerPhotographyOccasion.setSellerPhotographer(adminResponseClass.getSellerPhotographer());
 								adminResponseClass = sellerPhotographyOccasionService.saveSellerPhotographyOccasion(sellerPhotographyOccasion, isEdit);
 							}
@@ -1516,18 +1512,14 @@ public class AdminController {
 						String photographyOccasionName = objectNode.get("photographyOccasionName").asText();
 						sellerPhotographyOccasion.setAllProducts(products);
 						if (objectNode.get("titleLength").asText().equals("minus")) {
-							adminResponseClass = sellerPhotographyOccasionService
-									.deleteSellerPhotographyOccasionByAllProductsAndOccasionId(
-											sellerPhotographyOccasion.getAllProducts().getId(),
-											Long.valueOf(photographyOccasionName));
+							adminResponseClass = sellerPhotographyOccasionService.deleteSellerPhotographyOccasionByAllProductsAndOccasionId(sellerPhotographyOccasion.getAllProducts().getId(),Long.valueOf(photographyOccasionName));
 						} else {
 							adminResponseClass = photographyOccasionService
 									.fetchPhotographyOccasionById(Long.valueOf(photographyOccasionName));
 							sellerPhotographyOccasion.setPhotographyOccasion(adminResponseClass.getPhotographyOccasion());
-							adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
+							adminResponseClass = sellerPhotographerService.fetchPhotographyProductsByIdForAddEdit(photographerId);
 							sellerPhotographyOccasion.setSellerPhotographer(adminResponseClass.getSellerPhotographer());
-							adminResponseClass = sellerPhotographyOccasionService
-									.saveSellerPhotographyOccasion(sellerPhotographyOccasion, isEdit);
+							adminResponseClass = sellerPhotographyOccasionService.saveSellerPhotographyOccasion(sellerPhotographyOccasion, isEdit);
 						}
 
 					}
@@ -1615,15 +1607,12 @@ public class AdminController {
 			System.out.println("////Edit Product Id" + objectNode.get("editProductId").asText());
 			if (!(objectNode.get("editProductId").asText().equals(""))) {
 				products.setId(objectNode.get("allProductId").asLong());
-				adminResponseClass = new AdminResponseClass();
 				adminResponseClass.setStatus(Boolean.TRUE);
-			} else {
+			} 
 				System.out.println("///In else");
 				categoryName = AllCategoryNames.getCategoryName(objectNode.get("categoryName").asText());
 				adminResponseClass = categoryAvailableService.fetchCategoryByCategoryNameWithStatus(categoryName);
-				
-			}
-
+		
 			if (adminResponseClass.isStatus()) {
 				products.setCategoryAvailable(adminResponseClass.getCategoryAvailable());
 				SellerDetails sellerDetails = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
@@ -1678,11 +1667,10 @@ public class AdminController {
 				if(objectNode.get("freebie") != null){
 					flower.setFreebie(objectNode.get("freebie").asText());
 				}
-				if(objectNode.get("singleFiles").asText().trim().contains("-,@_"))
-				{
-					String abc[] = objectNode.get("singleFiles").asText().trim().split("\\+@-");
-					System.out.println("///SingleFiles is"+abc[0]+" "+abc[1]+" "+abc[2]);
-					flower.setDpUrl(abc[2]);
+				if (objectNode.get("singleFiles").asText().indexOf("@*") >= 0) {
+					String abc[] = objectNode.get("singleFiles").asText().trim().split("@\\*");
+					System.out.println("///SingleFiles is" + abc[0] + " " + abc[1]);
+					flower.setDpUrl(abc[1]);
 				}
 				else
 				{
@@ -1990,7 +1978,7 @@ public class AdminController {
 			//For freeProduct Insert
 			if(adminResponseClass.isStatus())
 			{
-				if (!objectNode.get("freeProduct").asText().equals("") || !objectNode.get("freeProductQty").asText().equals("") || !objectNode.get("freeProductValidity").asText().equals(""))
+				if (objectNode.get("freeProduct") != null)
 				{
 					if (objectNode.get("freeProduct").asText().indexOf(",") >= 0)
 					{
@@ -2614,14 +2602,14 @@ public class AdminController {
 			//Interminiate-Product-Occasion Table Entry
 			System.out.println("///Occasion Id are" + objectNode.get("occasion").asText().trim());
 			if (adminResponseClass.isStatus()) {
-				if (!(objectNode.get("titleLength").asText().trim().equals("same"))) {
+				if (!(objectNode.get("foodTitleLength").asText().trim().equals("same"))) {
 					if (objectNode.get("occasion").asText().trim().indexOf(",") >= 0) {
 						String occasionNames[] = objectNode.get("occasion").asText().trim().split(",");
 						for (int i = 0; i < occasionNames.length; i++) {
 							//SellerPhotographyOccasion sellerPhotographyOccasion = new SellerPhotographyOccasion();
 							IntProductOccasion intProductOcc = new IntProductOccasion();
 							intProductOcc.setAllProducts(allProduct);
-							if (objectNode.get("titleLength").asText().trim().equalsIgnoreCase("minus")) {
+							if (objectNode.get("foodTitleLength").asText().trim().equalsIgnoreCase("minus")) {
 								adminResponseClass = occasionService.deleteOccasionByAllProductsAndOccasionId(intProductOcc.getAllProducts().getId(), Long.valueOf(Long.valueOf(occasionNames[i])));
 							} else {
 								adminResponseClass = occasionService.fetchOccasionsById(Long.valueOf(occasionNames[i]));
@@ -2636,7 +2624,7 @@ public class AdminController {
 						IntProductOccasion intProductOcc = new IntProductOccasion();
 						String occasionId = objectNode.get("occasion").asText().trim();
 						intProductOcc.setAllProducts(allProduct);
-						if (objectNode.get("titleLength").asText().trim().equalsIgnoreCase("minus")) {
+						if (objectNode.get("foodTitleLength").asText().trim().equalsIgnoreCase("minus")) {
 							adminResponseClass = occasionService.deleteOccasionByAllProductsAndOccasionId(intProductOcc.getAllProducts().getId(), Long.valueOf(occasionId));
 						} else {
 							adminResponseClass = occasionService.fetchOccasionsById(Long.valueOf(occasionId));

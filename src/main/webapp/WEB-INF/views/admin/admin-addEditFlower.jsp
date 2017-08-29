@@ -303,9 +303,9 @@
                                     <!-- <div class="header margin-left-right-zero marginb15">
                                     	<h2>Flower Image Files </h2>
                                 	</div> -->
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 _thumnailImage" id ="flowerDisplayDiv">
-										 <label for="comment">Flower Display Image</label>
-										 
+									<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 _thumnailImage" id="displayDiv">
+										 <label for="comment" id="labelDisplayDiv">Flower Display Image</label>
+										 <div id ="flowerDisplayDiv">
 										<form action="#" id="singleUpload" class="dropzone"
 											method="post" enctype="multipart/form-data">
 											<div class="dz-message">
@@ -322,8 +322,10 @@
 											</div>
 										</form>
 										</div>
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 _productImages" id="flowerImagesDiv">
-									<label for="comment">Flower Description Images</label>
+										</div>
+									<div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 _productImages" id="imagesDiv">
+									<label for="comment" id="labelImagesDiv">Flower Description Images</label>
+									<div id="flowerImagesDiv">
 										<form action="#" id="multipleUpload" class="dropzone"
 											method="post" enctype="multipart/form-data">
 											<div class="dz-message">
@@ -339,6 +341,7 @@
 												<input name="file" type="file" multiple />
 											</div>
 										</form>
+										</div>
 										</div>
 									</div>
                                 <div class="row clearfix">
@@ -757,7 +760,7 @@
 				this.on("success", function(file, response) {
 					var a = this.element.classList+"";
 					a = a.split("_");
-					classPathSingleFile = $("form." + "_" + a[1]).parent().attr("class");
+					classPathSingleFile = $("form." + "_" + a[1]).parent().parent().attr("class");
 					classPathSingleFile = classPathSingleFile.split("_");
 					if(singleFiles === ""){
 						singleFiles = "Florist"+"+@-"+classPathSingleFile[1]+"+@-"+dateTime+file.name;
@@ -783,7 +786,7 @@
 				this.on("success", function(file, response) {
 					var a = this.element.classList+"";
 					a = a.split("_");
-					classPath = $("form." + "_" + a[1]).parent().attr("class");
+					classPath = $("form." + "_" + a[1]).parent().parent().attr("class");
 					classPath = classPath.split("_");
 					if(multipleFiles === ""){
 						multipleFiles = "Florist"+"+@-"+classPath[1]+"+@-"+dateTime+file.name;
@@ -1159,6 +1162,47 @@
 				titleLength = "minus";
 			}else if(lengthOccasions < title.split(",").length){
 				titleLength = "plus";
+			}else if(lengthOccasions === title.split(",").length){
+				var editTitleName;
+				var occsionTitleName;
+				var check = Number(0);
+				if(editOccasionName.indexOf(",")>=0){
+					editTitleName = editOccasionName.split(",");
+				}else{
+					editTitleName = editOccasionName;
+				}
+				
+				if(title.indexOf(",")>=0){
+					occsionTitleName = title.split(",");
+				}else{
+					occsionTitleName = title;
+				}
+				
+				var editId;
+				if(editOccasionId.indexOf(",")>=0){
+					editId = editOccasionId.split(",");
+				}else{
+					editId = editOccasionId;
+				}
+				
+				for(var i =0; i<editTitleName.length; i++){
+					for(var j =0; j<occsionTitleName.length;j++){
+						if(editTitleName[i] === occsionTitleName[j]){
+							check = Number(1);
+							break;
+						}
+					}
+					if(check === Number(0)){
+						break;
+					}
+				}
+				
+				if(check === Number(1)){
+					titleLength = "same";
+				}else{
+					titleLength = "samePlus"+"@*"+editId[i];
+				}
+				alert(titleLength);
 			}
 		}
 		$("#occasionName").val(id); //Hidden field to store the Occasion Id
@@ -1324,69 +1368,9 @@
 				animation : true
 			});
 		} else {
-			 if(idForFetch !== undefined){
-				 var job = {};
-				if(pricingsDivNumber === Number(0)){
-					 var fromDate = ($("#toDate").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
-					 var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
-					 if(fromMonth < 10){
-							fromMonth = "0"+fromMonth;
-					  } 
-					 job["priceToDate"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]; 
-				}else{
-					 var fromDate = ($("#toDate"+pricingsDivNumber).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
-					 var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
-					 if(fromMonth < 10){
-							fromMonth = "0"+fromMonth;
-					  } 
-					 job["priceToDate"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]; 
-			
-					
-				}
-				job["allProductsId"] = $("#allProductId").val();
-				$.ajax({
-				type : "POST",
-				url : "admin-checkSellerPricings",
-				data : JSON.stringify(job),
-				processData : false,
-				contentType :"application/json",
-				success : function(data) {
-					if(data.status){
-						addOtherDivs();
-					}else{
-						swal({
-							title : 'Warning!',
-							text : 'Please Select Differnt Ending Date As Price Is Already Present For This Date. You Can Click On Show Prices To Know About Previous Prices!!!',
-							type : 'warning',
-							confirmButtonText : 'OK',
-							allowEscapeKey : true,
-							confirmButtonClass : "btn btn-raised gradient-right",
-							animation : true
-						});
-						
-						if(pricingsDivNumber === Number(0)){
-							$("#toDate").val("");
-						}else{
-							$("#toDate"+pricingsDivNumber).val("");
-						}
-					}
-			},error : function(){
-				swal({
-					  title: 'Error!',
-					  text: 'Pricings can not be checked.!!!',
-					  type: 'error',
-					  showConfirmButton :false,
-					  allowEscapeKey:true,
-					  timer:3000,
-					  animation:true
-					});
-			} 
-		})
-	}else{
+			 
 		addOtherDivs();
 	}
-			
-}
 }
 
 	function addOtherDivs(){
@@ -1540,7 +1524,6 @@
 		} else{
 			if(Number(previousFreeDiv) < Number(2)){
 				previousFreeDiv = Number(Number(previousFreeDiv) + Number(1));
-				alert("In if"+previousFreeDiv);
 				if(previousFreeDiv === Number(1)){
 					
 					var fromDate1 = moment($("#toDateFreeProduct").val(),"dddd DD MMMM YYYY");
@@ -1892,7 +1875,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#toDateFreeProduct").val() ==="" && ($("#freeProductPieces").val() || $("#fromDateFreeProduct").val() || $("#freeProduct").val() !== "")){
+		}else if($("#toDateFreeProduct").val() ==="" &&($("#freeProduct").val() || $("#freeProductPieces").val() || $("#fromDateFreeProduct").val() !== "")){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter Ending Date For The Respective Free Product!!!',
@@ -1905,6 +1888,7 @@
 		}else{
 			alert("In else");
 			var job={};
+			var check = Number(0);
 			job["editProductId"]= $("#editProductId").val();
 			job["allProductId"] = $("#allProductId").val();
 			if($("#productAvailability").val() === ""){
@@ -1946,7 +1930,8 @@
 			if(modelId !== ""){
 				job["modelId"] = modelId;
 			}
-			if($("#freeProduct").val() !==""){
+			
+			if($("#freeProductName").val() !==""){
 				var fromDateFreeProduct = ($("#fromDateFreeProduct").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
 				var fromMonth = getMonth(fromDateFreeProduct[2]);   //Method to convert month name to month number
 				if(fromMonth < 10){
@@ -1966,23 +1951,76 @@
 			
 			if(previousFreeDiv > Number(0)){
 				for(var k = 1; k<= Number(previousFreeDiv) ; k++){
-					
-					var fromDateFreeProduct = ($("#fromDateFreeProduct"+k).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
-					var fromMonth = getMonth(fromDateFreeProduct[2]);   //Method to convert month name to month number
-					if(fromMonth < 10){
-						fromMonth = "0"+fromMonth;
-					} 
-					
-					var toDateFreeProduct = ($("#toDateFreeProduct"+k).val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
-					var toMonth = getMonth(toDateFreeProduct[2]);   //Method to convert month name to month number
-					if(toMonth < 10){
-						toMonth = "0"+toMonth;
-					} 
-					
-					job["freeProduct"] = job["freeProduct"] + "," + $("#freeProductName"+k).val();
-					job["freeProductQty"] = job["freeProductQty"] + "," + $("#freeProductPieces"+k).val();
-					job["freeProductValidity"] = job["freeProductValidity"] + "," + fromDateFreeProduct[3]+"-"+fromMonth+"-"+fromDateFreeProduct[1]+"_"+toDateFreeProduct[3]+"-"+toMonth+"-"+toDateFreeProduct[1];
+					if(($("#fromDateFreeProduct"+k).val() !== undefined) && ($("#toDateFreeProduct"+k).val() !== undefined) && ($("#freeProductPieces"+k).val() !== undefined) && ($("#freeProductName"+k).val() !== undefined) && ($("#fromDateFreeProduct"+k).val() !== "") && ($("#toDateFreeProduct"+k).val() !=="") && ($("#freeProductQty"+k).val() !== "") && ($("#freeProductName"+k).val() !== "")){
+						var fromDateFreeProduct = ($("#fromDateFreeProduct"+k).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+						var fromMonth = getMonth(fromDateFreeProduct[2]);   //Method to convert month name to month number
+						if(fromMonth < 10){
+							fromMonth = "0"+fromMonth;
+						} 
+						
+						var toDateFreeProduct = ($("#toDateFreeProduct"+k).val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
+						var toMonth = getMonth(toDateFreeProduct[2]);   //Method to convert month name to month number
+						if(toMonth < 10){
+							toMonth = "0"+toMonth;
+						} 
+						if((job["freeProduct"] !== undefined) && (job["freeProductQty"] !== undefined) && (job["freeProductValidity"] !== undefined)){
+							job["freeProduct"] = job["freeProduct"] + "," + $("#freeProductName"+k).val();
+							job["freeProductQty"] = job["freeProductQty"] + "," + $("#freeProductPieces"+k).val();
+							job["freeProductValidity"] = job["freeProductValidity"] + "," + fromDateFreeProduct[3]+"-"+fromMonth+"-"+fromDateFreeProduct[1]+"_"+toDateFreeProduct[3]+"-"+toMonth+"-"+toDateFreeProduct[1];
+						}else{
+							job["freeProduct"] = $("#freeProductName"+k).val();
+							job["freeProductQty"] = $("#freeProductPieces"+k).val();
+							job["freeProductValidity"] = fromDateFreeProduct[3]+"-"+fromMonth+"-"+fromDateFreeProduct[1]+"_"+toDateFreeProduct[3]+"-"+toMonth+"-"+toDateFreeProduct[1];
+						}
 					}
+				}
+				
+				if($("#freeProduct"+k).val() === "" &&($("#freeProductPieces"+k).val() || $("#fromDateFreeProduct"+k).val() || $("#toDateFreeProduct"+k).val() !== "")){
+					check = Number(1);
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Select The Free Product!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+					
+				}else if($("#freeProductPieces"+k).val() ==="" &&($("#freeProduct"+k).val() || $("#fromDateFreeProduct"+k).val() || $("#toDateFreeProduct"+k).val() !== "")){
+					check = Number(1);
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Enter The No. Of Pieces!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}else if($("#fromDateFreeProduct"+k).val() ==="" &&($("#freeProduct"+k).val() || $("#freeProductPieces"+k).val() || $("#toDateFreeProduct"+k).val() !== "")){
+					check = Number(1);
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Enter Starting Date For The Respective Free Product!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}else if($("#toDateFreeProduct"+k).val() ==="" &&($("#freeProduct"+k).val() || $("#freeProductPieces"+k).val() || $("#fromDateFreeProduct"+k).val() !== "")){
+					check = Number(1);
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Enter Ending Date For The Respective Free Product!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}
 			}
 			
 			if(titleLength !=""){
@@ -2010,8 +2048,8 @@
 			job["price"] = $("#price").val();
 			if(pricingsDivNumber > Number(0)){
 				for(var k = 1; k<= Number(pricingsDivNumber) ; k++){
-					if(!(($("#fromDate"+k).val() === undefined) && ($("#toDate"+k).val() === undefined) && ($("#price"+k).val() === undefined))){
-						 var fromDate = ($("#fromDate"+k).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+					if(($("#fromDate"+k).val() !== undefined) && ($("#toDate"+k).val() !== undefined) && ($("#price"+k).val() !== undefined) && ($("#fromDate"+k).val() !== "") && ($("#toDate"+k).val() !=="") && ($("#price"+k).val() !== "")){
+						var fromDate = ($("#fromDate"+k).val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
 						var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
 						if(fromMonth < 10){
 							fromMonth = "0"+fromMonth;
@@ -2025,85 +2063,186 @@
 						if(k === Number(1)){
 							job["otherPriceDetails"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]+","+toDate[3]+"-"+toMonth+"-"+toDate[1]+","+$("#price"+k).val();
 						}else{
-							job["otherPriceDetails"] = job["otherPriceDetails"]+"_"+fromDate[3]+"-"+fromMonth+"-"+fromDate[1]+","+toDate[3]+"-"+toMonth+"-"+toDate[1]+","+$("#price"+k).val();
+							if(job["otherPriceDetails"] !== undefined){
+								job["otherPriceDetails"] = job["otherPriceDetails"]+"_"+fromDate[3]+"-"+fromMonth+"-"+fromDate[1]+","+toDate[3]+"-"+toMonth+"-"+toDate[1]+","+$("#price"+k).val();
+							}else{
+								job["otherPriceDetails"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1]+","+toDate[3]+"-"+toMonth+"-"+toDate[1]+","+$("#price"+k).val();
+							}
+							
 						}
 					}
 				}
+				if($("#fromDate"+k).val() === ""){
+					check = Number(1);
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Enter Starting Date For The Respective Price!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}else if($("#toDate"+k).val() === ""){
+					check = Number(1);
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Enter Ending Date For The Respective Price!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}else if($("#price"+k).val() === ""){
+					check = Number(1);
+					swal({
+						  title: 'Warning!',
+						  text: 'Please Enter At Least One Price For The Product!!!',
+						  type: 'warning',
+						  confirmButtonText: 'OK',
+						  allowEscapeKey:true,
+						  confirmButtonClass:"btn btn-raised gradient-right",
+						  animation:true
+						});
+				}
+				
 			}
-			var categoryName = window.location+"";
-			categoryName = categoryName.split("/");
-			job["categoryName"] = categoryName[4];
 			
-			if((($("#fromDateDiscount").val() || $("#toDateDiscount").val() || $("#discount").val())!="") || $("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))
-			{
-				hasValue = Number(1);
-				if($("#fromDateDiscount").val() === ""){
-					swal({
-						  title: 'Warning!',
-						  text: 'Please Enter Starting Date For The Respective Discount!!!',
-						  type: 'warning',
-						  confirmButtonText: 'OK',
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-				}else if($("#toDateDiscount").val() === ""){
-					swal({
-						  title: 'Warning!',
-						  text: 'Please Enter Ending Date For The Respective Discount!!!',
-						  type: 'warning',
-						  confirmButtonText: 'OK',
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-				}else if($("#discount").val() === ""){
-					swal({
-						  title: 'Warning!',
-						  text: 'Please Enter Discount Amount / Percentage!!!',
-						  type: 'warning',
-						  confirmButtonText: 'OK',
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-				}else if(!($("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))){
-					swal({
-						  title: 'Warning!',
-						  text: 'Please Check Either The Discount Entered Is Flat Discount Or Percentage Discount!!!',
-						  type: 'warning',
-						  confirmButtonText: 'OK',
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-				}else{
-					job["hasValue"] = hasValue;
-					if($("#fromDateDiscount").val() !== ""){
-						
-					}
-					var fromDate = ($("#fromDateDiscount").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
-					var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
-					if(fromMonth < 10){
-						fromMonth = "0"+fromMonth;
-					} 
-					job["fromDateDiscount"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1];
-					
-					var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
-					var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
-					if(toMonth < 10){
-						toMonth = "0"+toMonth;
-					} 
-					job["toDateDiscount"] =toDate[3]+"-"+toMonth+"-"+toDate[1];
-					job["discount"] = $("#discount").val();
-					if($("#checkBoxDiscountAmount").is(':checked')){
-						job["isFlat"] = Number(1);
+			if(pricingsDivNumber === Number(0) || check === Number(0)){
+				
+				var categoryName = window.location+"";
+				categoryName = categoryName.split("/");
+				job["categoryName"] = categoryName[4];
+				if(idForFetch !== undefined){
+					categoryName = categoryName[4].split("?");
+					job["categoryName"] = categoryName[0];
+				}
+				
+				if((($("#fromDateDiscount").val() || $("#toDateDiscount").val() || $("#discount").val())!="") || $("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))
+				{
+					hasValue = Number(1);
+					if($("#fromDateDiscount").val() === ""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Starting Date For The Respective Discount!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if($("#toDateDiscount").val() === ""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Ending Date For The Respective Discount!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if($("#discount").val() === ""){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Enter Discount Amount / Percentage!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
+					}else if(!($("#checkBoxDiscountAmount,#checkBoxDiscountPercent").is(':checked'))){
+						swal({
+							  title: 'Warning!',
+							  text: 'Please Check Either The Discount Entered Is Flat Discount Or Percentage Discount!!!',
+							  type: 'warning',
+							  confirmButtonText: 'OK',
+							  allowEscapeKey:true,
+							  confirmButtonClass:"btn btn-raised gradient-right",
+							  animation:true
+							});
 					}else{
-						job["isFlat"] = Number(0);
+						job["hasValue"] = hasValue;
+						if($("#fromDateDiscount").val() !== ""){
+							
+						}
+						var fromDate = ($("#fromDateDiscount").val()).trim().split(/\s+/);  //Trimming the from Date For white spaces 
+						var fromMonth = getMonth(fromDate[2]);   //Method to convert month name to month number
+						if(fromMonth < 10){
+							fromMonth = "0"+fromMonth;
+						} 
+						job["fromDateDiscount"] = fromDate[3]+"-"+fromMonth+"-"+fromDate[1];
+						
+						var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
+						var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
+						if(toMonth < 10){
+							toMonth = "0"+toMonth;
+						} 
+						job["toDateDiscount"] =toDate[3]+"-"+toMonth+"-"+toDate[1];
+						job["discount"] = $("#discount").val();
+						if($("#checkBoxDiscountAmount").is(':checked')){
+							job["isFlat"] = Number(1);
+						}else{
+							job["isFlat"] = Number(0);
+						}
+						
+						 $("#submit").prop("disabled", true);
+						 alert(JSON.stringify(job));
+						 $.ajax({
+						type : "POST",
+						url : "admin-addEditFlower",
+						data : JSON.stringify(job),
+						processData : false,
+						contentType :"application/json",
+						success : function(data) {
+							if(data){
+								if($("#editProductId").val() !=""){
+									window.location = "admin-viewFloristProducts";
+								}else{
+									swal({
+										  title: 'Success!',
+										  text: 'Product Details Successfully Inserted!!!',
+										  type: 'success',
+										  showConfirmButton :false,
+										  allowEscapeKey:true,
+										  timer:3000,
+										  animation:true
+										});
+								}
+							}else{
+								doNotRemoveFields = 1;
+							}
+							$("#submit").prop("disabled", false);
+
+						},
+						error : function(e) {
+							alert("Error");
+							swal({
+								  title: 'Error!',
+								  text: 'Product Details Not Inserted Successfully!!!',
+								  type: 'error',
+								  confirmButtonText :"OK",
+								  allowEscapeKey:true,
+								  confirmButtonClass:"btn btn-raised gradient-right",
+								  animation:true
+								});
+							$("#submit").prop("disabled", false);
+
+						},complete : function (){
+							if(doNotRemoveFields === 0){
+								removeAllFields();
+							}else{
+								doNotRemoveFields = 0;
+							}
+						} 
+						
+						}); 
 					}
-					
-					 $("#submit").prop("disabled", true);
-					 alert(JSON.stringify(job));
+			 }else{
+					job["hasValue"] = hasValue;
+					$("#submit").prop("disabled", true);
+					alert(JSON.stringify(job));
 					 $.ajax({
 					type : "POST",
 					url : "admin-addEditFlower",
@@ -2126,7 +2265,7 @@
 									});
 							}
 						}else{
-							doNotRemoveFields = 1;
+							doNotRemoveFields = 1 ;
 						}
 						$("#submit").prop("disabled", false);
 
@@ -2150,63 +2289,11 @@
 						}else{
 							doNotRemoveFields = 0;
 						}
-					} 
+					}
 					
 					}); 
-				}
-		 }else{
-				job["hasValue"] = hasValue;
-				$("#submit").prop("disabled", true);
-				alert(JSON.stringify(job));
-				 $.ajax({
-				type : "POST",
-				url : "admin-addEditFlower",
-				data : JSON.stringify(job),
-				processData : false,
-				contentType :"application/json",
-				success : function(data) {
-					if(data){
-						if($("#editProductId").val() !=""){
-							window.location = "admin-viewFloristProducts";
-						}else{
-							swal({
-								  title: 'Success!',
-								  text: 'Product Details Successfully Inserted!!!',
-								  type: 'success',
-								  showConfirmButton :false,
-								  allowEscapeKey:true,
-								  timer:3000,
-								  animation:true
-								});
-						}
-					}else{
-						doNotRemoveFields = 1 ;
-					}
-					$("#submit").prop("disabled", false);
-
-				},
-				error : function(e) {
-					alert("Error");
-					swal({
-						  title: 'Error!',
-						  text: 'Product Details Not Inserted Successfully!!!',
-						  type: 'error',
-						  confirmButtonText :"OK",
-						  allowEscapeKey:true,
-						  confirmButtonClass:"btn btn-raised gradient-right",
-						  animation:true
-						});
-					$("#submit").prop("disabled", false);
-
-				},complete : function (){
-					if(doNotRemoveFields === 0){
-						removeAllFields();
-					}else{
-						doNotRemoveFields = 0;
-					}
-				}
-				
-				}); 
+			}
+			
 			}
 			
 		}
@@ -2472,51 +2559,7 @@
 		}
 		
 	}
-	$("#discount").on("blur",function(){
-		if(idForFetch !== undefined && $("#toDateDiscount").val() !== ""){
-		var job = {};
-		var toDate = ($("#toDateDiscount").val()).trim().split(/\s+/);  //Trimming the to Date For white spaces 
-		var toMonth = getMonth(toDate[2]);   //Method to convert month name to month number
-		if(toMonth < 10){
-			toMonth = "0"+toMonth;
-		} 
-		job["toDateDiscount"] = toDate[3]+"-"+toMonth+"-"+toDate[1];
-		job["allProductsId"] = $("#allProductId").val();
-		$.ajax({
-			type : "POST",
-			url : "admin-checkSellerDiscounts",
-			data : JSON.stringify(job),
-			processData : false,
-			contentType :"application/json",
-			success : function(data) {
-				if(!(data.status)){
-					swal({
-						title : 'Warning!',
-						text : 'Please Select Differnt Ending Date As Discount Is Already Present For This Date. You Can Click On Show Discounts To Know About Previous Discounts!!!',
-						type : 'warning',
-						confirmButtonText : 'OK',
-						allowEscapeKey : true,
-						confirmButtonClass : "btn btn-raised gradient-right",
-						animation : true
-					});
-					
-					$("#toDateDiscount").val("");
-				}
-		},error : function(){
-			swal({
-				  title: 'Error!',
-				  text: 'Discounts can not be checked.!!!',
-				  type: 'error',
-				  showConfirmButton :false,
-				  allowEscapeKey:true,
-				  timer:3000,
-				  animation:true
-				});
-		}
-	});
-  }
-});
-
+	
 	function fetchFlowerById(flowerId){
 		$.ajax({
 			type : "GET",
@@ -2682,7 +2725,7 @@
 						var productNameDiv = "<div class=\"col-sm-4 col-xs-12\">"
 						+"<div class=\"form-group\">"
 						+"<div class=\"form-line\">"
-						+"<input type=\"text\" class=\"form-control\" name=\"name\" id =\"name\" value="+data.flower.name+" placeholder=\"Product Name\">"
+						+"<input type=\"text\" class=\"form-control\" name=\"name\" id =\"name\" value=\""+data.flower.name+"\" placeholder=\"Product Name\">"
 						+"</div>"
 						+"</div>"
 						+"</div>"
@@ -2766,6 +2809,8 @@
 			+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
 		    +"</div>"
 	        +"</div>";
+	      $("#imagesDiv").removeClass("col-lg-8 col-md-6 col-sm-6 col-xs-12 _productImages").addClass("col-lg-6 col-md-6 col-sm-6 col-xs-12 _productImages");  
+		  $("#labelImagesDiv").attr("style","margin-left:3%;");
 	      $("#flowerImagesDiv").html(abc);
 	}
 	
@@ -2849,8 +2894,9 @@
 		+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
 	    +"</div>"
         +"</div>";
-	
-      $("#flowerDisplayDiv").html(efg);
+       $("#displayDiv").removeClass("col-lg-4 col-md-6 col-sm-6 col-xs-12 _thumnailImage").addClass("col-lg-6 col-md-6 col-sm-6 col-xs-12 _thumnailImage");
+       $("#labelDisplayDiv").attr("style","margin-left:2%;");
+       $("#flowerDisplayDiv").html(efg);
 	}
 	function showDpModal(imageName, imageId){
 		dpImageId = imageId;
@@ -2933,8 +2979,8 @@
 			processData : false,
 			success : function(data) {
 				alert(JSON.stringify(data))
-				$("#freeProductSelect").html("");
-				if (data.status) {
+				if (data.status && data.listGeneralProduct.length > 0) {
+					$("#freeProductSelect").html("");
 					var arValue = "";
 					while (freeProductArray.length > 0) {
 						freeProductArray.pop();
@@ -2977,6 +3023,8 @@
 					}
 					
 					}
+				}else{
+					$("#freeProductsDiv").addClass("hideDiv");
 				}
 
 			},
@@ -3107,6 +3155,128 @@
 				}
 		}
 		
+		$("#price,#price1,#price2").click(function(){
+			 var i = "";
+			 if(this.id.indexOf("1")>=0){
+				 i = 1;
+			 }else if(this.id.indexOf("2")>=0){
+				 i = 2;
+			 }
+			var fromDate =  moment($("#fromDate"+i).val(),"dddd DD MMMM YYYY");
+			fromDate =moment(fromDate).format("YYYY-MM-DD");
+			var toDate =  moment($("#toDate"+i).val(),"dddd DD MMMM YYYY");;
+			toDate = moment(toDate).format("YYYY-MM-DD");
+			
+			if(moment(toDate).isBefore(moment(fromDate))){
+				swal({
+					  title : 'Warning!',
+					  text: 'Ending Date Cannot Be Before Starting Date!!!',
+					  type : 'warning',
+					  confirmButtonText : 'OK',
+					  allowEscapeKey : true,
+					  confirmButtonClass : "btn btn-raised gradient-right",
+					  animation : true
+					});
+				$("#toDate"+i).val("");
+				$("#price"+i).val("");
+			}else if(moment(fromDate).isSame(moment(toDate))){
+				swal({
+					  title : 'Warning!',
+					  text: 'Ending Date Cannot Be Same As Starting Date!!!',
+					  type : 'warning',
+					  confirmButtonText : 'OK',
+					  allowEscapeKey : true,
+					  confirmButtonClass : "btn btn-raised gradient-right",
+					  animation : true
+					});
+				$("#toDate"+i).val("");
+				$("#price"+i).val("");
+			}else if ($("#fromDate"+i).val() !== ""){
+				if(i !== ""){
+					if(i === Number(1)){
+						if(($("#fromDate"+i).val() === $("#fromDate").val()) && ($("#toDate"+i).val() === $("#toDate").val())){
+							swal({
+								  title : 'Warning!',
+								  text: 'You Have Already Entered Price Within The Same Range Of Dates!!!',
+								  type : 'warning',
+								  confirmButtonText : 'OK',
+								  allowEscapeKey : true,
+								  confirmButtonClass : "btn btn-raised gradient-right",
+								  animation : true
+								});
+							$("#fromDate"+i).val("");
+							$("#toDate"+i).val("");
+							$("#price"+i).val("");
+						}
+					}else{
+						if(($("#fromDate"+i).val() === $("#fromDate").val()) && ($("#toDate"+i).val() === $("#toDate").val())){
+							swal({
+								  title : 'Warning!',
+								  text: 'You Have Already Entered Price Within The Same Range Of Dates!!!',
+								  type : 'warning',
+								  confirmButtonText : 'OK',
+								  allowEscapeKey : true,
+								  confirmButtonClass : "btn btn-raised gradient-right",
+								  animation : true
+								});
+							$("#fromDate"+i).val("");
+							$("#toDate"+i).val("");
+							$("#price"+i).val("");
+						}else{
+							if(($("#fromDate"+i).val() === $("#fromDate"+Number(Number(i) - Number(1))).val()) && ($("#toDate"+i).val() === $("#toDate"+ Number(Number(i) - Number(1))).val())){
+								swal({
+									  title : 'Warning!',
+									  text: 'You Have Already Entered Price Within The Same Range Of Dates!!!',
+									  type : 'warning',
+									  confirmButtonText : 'OK',
+									  allowEscapeKey : true,
+									  confirmButtonClass : "btn btn-raised gradient-right",
+									  animation : true
+									});
+								$("#fromDate"+i).val("");
+								$("#toDate"+i).val("");
+								$("#price"+i).val("");
+							}
+						}
+					}
+				}
+				
+			}
+			
+		});
+		$("#discount").click(function(){
+		    var fromDate =  moment($("#fromDateDiscount").val(),"dddd DD MMMM YYYY");
+			fromDate =moment(fromDate).format("YYYY-MM-DD");
+			var toDate =  moment($("#toDateDiscount").val(),"dddd DD MMMM YYYY");;
+			toDate = moment(toDate).format("YYYY-MM-DD");
+			
+			if(moment(toDate).isBefore(moment(fromDate))){
+				swal({
+					  title : 'Warning!',
+					  text: 'Ending Date Cannot Be Before Starting Date!!!',
+					  type : 'warning',
+					  confirmButtonText : 'OK',
+					  allowEscapeKey : true,
+					  confirmButtonClass : "btn btn-raised gradient-right",
+					  animation : true
+					});
+				$("#toDateDiscount").val("");
+				$("#discount").val("");
+			}else if(moment(fromDate).isSame(moment(toDate))){
+				swal({
+					  title : 'Warning!',
+					  text: 'Ending Date Cannot Be Same As Starting Date!!!',
+					  type : 'warning',
+					  confirmButtonText : 'OK',
+					  allowEscapeKey : true,
+					  confirmButtonClass : "btn btn-raised gradient-right",
+					  animation : true
+					});
+				$("#toDateDiscount").val("");
+				$("#discount").val("");
+			}
+			
+	 });
 	</script>
     <div class="color-bg"></div>
     <%@ include file="admin-includeFooter.jsp" %>

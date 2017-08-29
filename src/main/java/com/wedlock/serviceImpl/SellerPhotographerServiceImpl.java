@@ -27,7 +27,7 @@ import com.wedlock.model.SellerProductImagesVideos;
 import com.wedlock.model.SellerProductPricing;
 import com.wedlock.service.SellerPhotographerService;
 
-@Transactional(propagation = Propagation.REQUIRED)
+
 @Service
 public class SellerPhotographerServiceImpl implements SellerPhotographerService{
 
@@ -57,6 +57,7 @@ public class SellerPhotographerServiceImpl implements SellerPhotographerService{
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
+	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public AdminResponseClass saveSellerPhotographer(SellerPhotographer sellerPhotographer) {
 		boolean status = false;
@@ -174,5 +175,15 @@ public class SellerPhotographerServiceImpl implements SellerPhotographerService{
 		adminResponseClass.setStatus(status);
 		return adminResponseClass;
 	}
-
+	@Override
+	public AdminResponseClass fetchPhotographyProductsByIdForAddEdit(String photographerId) {
+		boolean status = false;
+	    SellerPhotographer sellerPhotographer = sellerPhotographerDao.findOne(photographerId);
+	    status = true;
+	    AdminResponseClass adminResponseClass = new AdminResponseClass();
+	    adminResponseClass.setSellerPhotographer(sellerPhotographer);
+	    adminResponseClass.setStatus(status);
+		return adminResponseClass;
+	}
+	
 }

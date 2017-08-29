@@ -24,10 +24,6 @@ public class PhotographyOccasion implements Serializable{
 	private String occasionDescription;
 	private boolean status;
 	
-	@OneToMany(mappedBy="occasion")
-	@JsonIgnore
-	private List<SellerPhotographer> sellerPhotographer;
-	
 	@OneToMany(mappedBy="photographyOccasion")
 	@JsonIgnore
 	private List<SellerPhotographyOccasion> sellerPhotographyOccassion;
@@ -83,14 +79,6 @@ public class PhotographyOccasion implements Serializable{
 	public void setPhotographyStatusSelect(String photographyStatusSelect) {
 		this.photographyStatusSelect = photographyStatusSelect;
 	}
-	public List<SellerPhotographer> getSellerPhotographer() {
-		return sellerPhotographer;
-	}
-	public void setSellerPhotographer(List<SellerPhotographer> sellerPhotographer) {
-		this.sellerPhotographer = sellerPhotographer;
-	}
-	
-	
 	
 
 }

@@ -3,7 +3,7 @@
     <div class="user-info">
     	<c:choose>
     		<c:when test="${sessionScope.sellerDetailsSession != null}">
-    		<div class="admin-image"> <img src="<c:out value="getImage?id=${sessionScope.sellerDetailsSession.sellerImg}"/>" alt=""></div>
+    		<div class="admin-image"> <img src="<c:out value="getImage?id=${sessionScope.sellerDetailsSession.sellerImg}"/>" class = "profile" alt=""></div>
         	<div class="admin-action-info"> <span>Welcome</span>
             <h3>${sessionScope.sellerDetailsSession.sellerFirstName} ${sessionScope.sellerDetailsSession.sellerLastName}</h3>
             <ul>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Wedlock | Photographer</title>
+<title>Wedlock | Caterer</title>
 <link rel="stylesheet" type="text/css" href="resources/css/sweetalert.css">
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
@@ -65,7 +65,7 @@
 	function fetchAllProducts(){
 		$.ajax({
 			type : "GET",
-			url : "admin-fetchAllPhotographyProducts",
+			url : "admin-fetchAllCatererProductsBySellerId",
 			data : "",
 			processData : false,
 			contentType :"application/json",
@@ -73,8 +73,8 @@
 				if(data.status){
 					$("#productPageDiv").html("");
 					var abc ="";
-					for(var i = 0; i< data.listSellerPhotographers.length; i++){
-						var url = "<img src=\"getImage?id="+ data.listProductImagesVideos[i].productImageVideoUrl+ "\" class=\"img-responsive\"/>"
+					for(var i = 0; i< data.listAllCaterer.length; i++){
+						var url = "<img src=\"getImage?id="+ data.listAllCaterer[i].dpUrl+ "\" class=\"img-responsive\"/>"
 						var price = data.listProductPricings[i].price;
 						if(price === 0){
 							price = "Price Unavailable";
@@ -85,10 +85,10 @@
 						+"<div class=\"thumbnail\">"
 						+url
 						+"<div class=\"caption\">"
-						+"<h3>"+data.listSellerPhotographers[i].productName+"</h3>"
+						+"<h3>"+data.listAllCaterer[i].name+"</h3>"
 						+"<p>"+price+"</p>" 
 						+"<p align=\"center\">"
-						+"<a href=\"admin-addEditPhotographer?id="+data.listSellerPhotographers[i].id+"\"class=\"btn btn-block gradient-right waves-effect\">View Product</a>"
+						+"<a href=\"admin-addEditCatering?id="+data.listAllCaterer[i].id+"\"class=\"btn btn-block gradient-right waves-effect\">View Product</a>"
 						+"</p>"
 						+"</div>"
 					    +"</div>"

@@ -830,7 +830,8 @@
 		<script src="resources/js/sweetalert.min.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){
-			if(sessionStorage.getItem("mssgStatus") !== null){
+			
+			if(sessionStorage.getItem("mssgStatus") !== null && (sessionStorage.getItem("mssgStatus") !== "")){
 				swal({
 					title : 'Warning!',
 					text : sessionStorage.getItem("mssgStatus")+"!!!",

@@ -42,9 +42,6 @@ public class SellerPhotographer implements Serializable {
 	@ManyToOne
 	private PhotographyType photographyType;
 	
-	@ManyToOne
-	private PhotographyOccasion occasion;
-	
 	@OneToOne
 	private AllProducts allProducts;
 	
@@ -135,13 +132,6 @@ public class SellerPhotographer implements Serializable {
 		this.photographyType = photographyType;
 	}
 
-	public PhotographyOccasion getOccasion() {
-		return occasion;
-	}
-
-	public void setOccasion(PhotographyOccasion occasion) {
-		this.occasion = occasion;
-	}
 
 	public String getFreebie() {
 		return freebie;

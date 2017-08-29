@@ -55,6 +55,7 @@ public class FreesProductImpl implements FreesProductService {
 		if(!typedQuery.getResultList().isEmpty()){
 			List<AllProducts> allProducts = typedQuery.getResultList();
 			for(AllProducts allProducts2 : allProducts){
+				System.out.println("///Table Name is"+allProducts2.getCategoryAvailable().getTableName());
 				Query query = manager.createQuery("Select tb.id, tb.name from "+allProducts2.getCategoryAvailable().getTableName()+" tb WHERE tb.allProducts.id= :allProductsId").setParameter("allProductsId", allProducts2.getId());
 				status = true;
 				if(!query.getResultList().isEmpty());

@@ -489,3 +489,70 @@ input[type=number]::-webkit-outer-spin-button {
 	height:290px !important;
 	min-height:290px !important;
 }
+#sellerDiv .sampleAddress{
+	overflow-wrap: break-word;
+}
+#sellerDiv .profilePixHeight{
+	display: block;
+    max-width: 87%;
+    height: 60px;
+    cursor: default;
+} 
+#sellerDiv h5{
+	font-family: 'Caveat', cursive; 
+	font-weight: 500; 
+	font-size: 24px; 
+	text-transform: inherit;
+	overflow-wrap: break-word;
+	color:#e55069;
+}
+#sellerDiv medium{
+	font-family: Ubuntu;
+	font-style:italic; 
+	font-weight: 500; 
+	font-size: 14px; 
+	text-transform: inherit;
+	overflow-wrap: break-word;
+	color:#e55069;
+	
+}
+#sellerDiv .emailSize{
+	font-size: 16px; 
+	
+}
+#sellerDiv .passwordSize{
+	font-size:23px;
+}
+
+#sellerDiv address{
+	font-family: Ubuntu; 
+	font-style:italic;
+	font-weight: 500; 
+	font-size: 14px; 
+	text-transform: inherit;
+	overflow-wrap: break-word;
+	color:#e55069;
+}
+abbr[title] {
+  border-bottom: none !important;
+  cursor: inherit !important;
+  text-decoration: none !important;
+  color:#e55069;
+}
+.sellerCard{
+	border:1px groove #e8848f;
+	
+}
+#sellerDiv .activeClass{
+	color: #069b85;
+}
+#sellerDiv .inactiveClass{
+	color: #e50909;
+}
+#addedItems{
+	float:right;
+}
+.profile{
+	display:block !important;
+	height:60px !important;
+} 

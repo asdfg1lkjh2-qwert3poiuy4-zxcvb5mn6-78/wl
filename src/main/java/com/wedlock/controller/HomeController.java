@@ -117,4 +117,8 @@ public class HomeController {
 	public String adminAddEditCatering(){
 		return "admin/admin-addEditCatering";
 	}
+	@RequestMapping(value ="/admin-viewCateringProducts")
+	public String adminViewCateringProducts(){
+		return "admin/admin-viewCateringProducts";
+	}
 }
