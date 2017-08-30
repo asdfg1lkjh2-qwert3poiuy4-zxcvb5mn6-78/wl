@@ -106,6 +106,7 @@ public class OccasionServiceImpl implements OccasionService {
 	
 	@Override
 	public AdminResponseClass deleteOccasionByAllProductsAndOccasionId(long allProductId, long occasionId) {
+		System.out.println("All Product Id is"+allProductId +" "+occasionId);
 		boolean status = false;
 		Query query = manager.createQuery("Delete from IntProductOccasion ipo where ipo.allProducts.id =:allProductId AND ipo.occasion.id !=:occasionId").setParameter("allProductId", allProductId).setParameter("occasionId", occasionId);
 		int deletedCount = query.executeUpdate();

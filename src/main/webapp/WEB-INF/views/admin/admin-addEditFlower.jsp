@@ -1156,6 +1156,9 @@
 					}
 				}
 			}
+			if(title === ""){
+				title = "-- Occasion --";
+			}
 		}
 		if(lengthOccasions !=""){
 			if(lengthOccasions > title.split(",").length){

@@ -1892,10 +1892,12 @@ public class AdminController {
 					if (objectNode.get("occasion").asText().indexOf(",") >= 0) {
 						String occasionNames[] = objectNode.get("occasion").asText().split(",");
 						for (int i = 0; i < occasionNames.length; i++) {
+							System.out.println("////Occasion is"+occasionNames[i]);
 							//SellerPhotographyOccasion sellerPhotographyOccasion = new SellerPhotographyOccasion();
 							IntProductOccasion intProductOcc = new IntProductOccasion();
 							intProductOcc.setAllProducts(products);
 							if (objectNode.get("titleLength").asText().equals("minus")) {
+								System.out.println("////All Products Id is" +intProductOcc.getAllProducts().getId());
 								adminResponseClass = occasionService.deleteOccasionByAllProductsAndOccasionId(intProductOcc.getAllProducts().getId(), Long.valueOf(Long.valueOf(occasionNames[i])));
 							} else {
 								adminResponseClass = occasionService.fetchOccasionsById(Long.valueOf(occasionNames[i]));

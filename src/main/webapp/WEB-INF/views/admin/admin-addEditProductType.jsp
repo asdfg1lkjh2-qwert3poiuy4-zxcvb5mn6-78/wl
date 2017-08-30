@@ -677,7 +677,7 @@
 								+ "</td>"
 								+ "<td class=\"text-center\"><a href=\"#\" onclick=\"editProductTypeById('"
 								+ data.listAllProductTypes[i].id
-								+ "')\">Edit<a><a href=\"\">Y</a></td></tr>"
+								+ "')\"title=\"Edit\"><i class=\"fa fa-pencil-square-o  editIcon\" aria-hidden=\"true\"></i></a><a href=\"#\" title=\"Delete\"><i class=\"material-icons deleteIcon\" style=\"margin-top:-18%;\">delete_sweep</i> <span class=\"icon-name\"></span></a></td></tr>"
 					}
 					$("#productTypeTable > tbody").html(abc);
 				}

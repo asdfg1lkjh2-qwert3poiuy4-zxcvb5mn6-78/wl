@@ -556,3 +556,61 @@ abbr[title] {
 	display:block !important;
 	height:60px !important;
 } 
+.plusIcon{
+	background:none !important;
+	border:none !important;
+}
+.plusIcon img{
+	height: 61px;
+    padding-bottom: 25%;
+    display: block;
+}
+.minusIcon{
+	background:none !important;
+	border:none !important;
+}
+.minusIcon img{
+	height: 62px;
+    padding-bottom: 14px;
+    display: block;
+    margin-left: -43%;
+}
+.clearIcon{
+	background:none !important;
+	border:none !important;
+}
+.clearIcon img{
+    height: 60px;
+        padding-bottom: 5px;
+    display: block;
+    margin-left: -14%;
+}
+.clearIcon1{
+	background:none !important;
+	border:none !important;
+}
+.clearIcon1 img{
+    height: 61px;
+    padding-bottom: 7px;
+    display: block;
+    margin-left: -48%;
+}
+.showIcon {
+	background:none !important;
+	border:none !important;
+}
+ .showIcon img{
+	height: 49px;
+    margin-top: -143%;
+    margin-left: 267%;
+    padding-top: 7%;
+    display: block;
+}
+.editIcon{
+	font-size:27px !important;
+	margin-right:0px;
+}
+.deleteIcon{
+    font-size: 32px;
+    margin-left: 3%;
+}

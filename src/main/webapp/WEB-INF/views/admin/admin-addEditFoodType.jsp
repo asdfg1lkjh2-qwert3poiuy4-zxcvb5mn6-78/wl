@@ -345,7 +345,7 @@
 							+"<td class=\"text-center\">"+data.listFoodType[i].name+"</td>"
 							+"<td class=\"text-center\">"+foodDescription+"</td>"
 							+"<td class=\"text-center\">"+isActive+"</td>"
-							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editFoodTypeById('"+data.listFoodType[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
+							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editFoodTypeById('"+data.listFoodType[i].id+"')\"title=\"Edit\"><i class=\"fa fa-pencil-square-o  editIcon\" aria-hidden=\"true\"></i></a><a href=\"#\" title=\"Delete\"><i class=\"material-icons deleteIcon\" style=\"margin-top:-12%;\">delete_sweep</i> <span class=\"icon-name\"></span></a></td></tr>"
 						}
 						$("#foodTypeTable > tbody").html(abc);
 					}

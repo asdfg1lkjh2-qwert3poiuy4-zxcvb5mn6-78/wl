@@ -807,7 +807,7 @@
 							+"<td class=\"text-center\">"+data.listAllZipCodes[i].zipCode+"</td>"
 							+"<td class=\"text-center\">"+data.listAllZipCodes[i].localityName+"</td>"
 							+"<td class=\"text-center\">"+data.listAllZipCodes[i].city.cityName+"</td>"
-							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editZipCodeById('"+data.listAllZipCodes[i].id+"')\">Edit<a><a href=\"\">Y</a></td></tr>"
+							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editZipCodeById('"+data.listAllZipCodes[i].id+"')\"title=\"Edit\"><i class=\"fa fa-pencil-square-o  editIcon\" aria-hidden=\"true\"></i></a><a href=\"#\" title=\"Delete\"><i class=\"material-icons deleteIcon\" style=\"margin-top:-10%;\">delete_sweep</i> <span class=\"icon-name\"></span></a></td></tr>"
 						}
 						$("#zipCodeTable > tbody").html(abc);
 					}

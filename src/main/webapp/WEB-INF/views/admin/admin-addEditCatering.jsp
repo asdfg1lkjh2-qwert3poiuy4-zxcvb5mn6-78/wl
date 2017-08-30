@@ -313,7 +313,7 @@
 											<div class="form-group">
 												<div class="form-line _removeFocus">
 													<input type="text" class="datepicker form-control"
-														name="toDate" id="toDate" placeholder="To Date">
+														name="toDate" id="toDate" placeholder="To Date" disabled="disabled">
 												</div>
 											</div>
 										</div>
@@ -321,16 +321,15 @@
 											<div class="form-group">
 												<div class="form-line" id="basePrice1">
 													<input type="text" class="form-control" name="price"
-														id="price" placeholder="Base Price">
+														id="price" placeholder="Base Price" disabled="disabled">
 												</div>
 											</div>
 										</div>
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
-												<button type="button" class="btn btn-raised gradient-right"
-													id="plusbtn">Add</button>
-													<button type="button" class="btn btn-raised gradient-right hideDiv"
-												id="showPreviousPrices" data-toggle="modal" data-target="#showPriceModal">Show Prices</button>
+												<button type="button" id="plusbtn" class="plusIcon" title="Add Price"><img src="resources/images/icons8-Add-80.png" class="img-responsive"></button>
+												<button type="button" id="clearPlusBtn" class="clearIcon" title="Clear Price Details"><img src="resources/images/icons8-Clear Symbol-80.png" class="img-responsive"></button>
+												<button type="button" id="showPreviousPrices" class="showIcon hideDiv" title="Show Previous Prices" data-toggle="modal" data-target="#showPriceModal"><img src="resources/images/icons8-Show Property-100.png" class="img-responsive"></button>
 											</div>
 										</div>
 									</div>
@@ -347,7 +346,7 @@
 											<div class="form-group">
 												<div class="form-line _removeFocus">
 													<input type="text" class="datepicker form-control"
-														name="toDate" id="toDate1" placeholder="To Date">
+														name="toDate" id="toDate1" placeholder="To Date" disabled ="disabled">
 												</div>
 											</div>
 										</div>
@@ -355,16 +354,19 @@
 											<div class="form-group">
 												<div class="form-line" id="basePrice2">
 													<input type="text" class="form-control" name="price"
-														id="price1" placeholder="Base Price">
+														id="price1" placeholder="Base Price" disabled ="disabled">
 												</div>
 											</div>
 										</div>
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
-												<button type="button" class="btn btn-raised gradient-right"
-													id="plusbtn1">Add</button>
-												<button type="button" class="btn btn-raised gradient-right"
-													id="removePlusBtn1">Add</button>
+												<!-- <button type="button" class="btn btn-raised gradient-right"
+													id="plusbtn1">Add</button> -->
+												<button type="button" id="plusbtn1" class="plusIcon" title="Add Price"><img src="resources/images/icons8-Add-80.png" class="img-responsive"></button>
+												<!-- <button type="button" class="btn btn-raised gradient-right"
+													id="removePlusBtn1">Add</button> -->
+												<button type="button" id="removePlusBtn1" class="minusIcon" title="Remove Price"><img src="resources/images/minus.png" class="img-responsive"></button>
+												<button type="button" id="clearPlusBtn1" class="clearIcon1" title="Clear Price Details"><img src="resources/images/icons8-Clear Symbol-80.png" class="img-responsive"></button>	
 											</div>
 										</div>
 									</div>
@@ -381,7 +383,7 @@
 											<div class="form-group">
 												<div class="form-line _removeFocus">
 													<input type="text" class="datepicker form-control"
-														name="toDate" id="toDate2" placeholder="To Date">
+														name="toDate" id="toDate2" placeholder="To Date" disabled ="disabled">
 												</div>
 											</div>
 										</div>
@@ -389,16 +391,19 @@
 											<div class="form-group">
 												<div class="form-line" id="basePrice3">
 													<input type="text" class="form-control" name="price"
-														id="price2" placeholder="Base Price">
+														id="price2" placeholder="Base Price" disabled ="disabled">
 												</div>
 											</div>
 										</div>
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
-												<button type="button" class="btn btn-raised gradient-right"
-													id="plusbtn2">Add</button>
-												<button type="button" class="btn btn-raised gradient-right"
-													id="removePlusBtn2">Add</button>
+											<button type="button" id="plusbtn1" class="plusIcon" title="Add Price"><img src="resources/images/icons8-Add-80.png" class="img-responsive"></button>
+												<!-- <button type="button" class="btn btn-raised gradient-right"
+													id="plusbtn2">Add</button> -->
+												<!-- <button type="button" class="btn btn-raised gradient-right"
+														id="removePlusBtn2">Add</button> -->
+												<button type="button" id="removePlusBtn2" class="minusIcon" title="RemovePrice"><img src="resources/images/minus.png" class="img-responsive"></button>
+												<button type="button" id="clearPlusBtn2" class="clearIcon1" title="Clear Price Details"><img src="resources/images/icons8-Clear Symbol-80.png" class="img-responsive"></button>	
 											</div>
 										</div>
 									</div>
@@ -704,7 +709,7 @@
 						}
 						var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Caterer Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Caterer Type--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 								+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-								+"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"+0+"','Flower Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Caterer Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+								+"<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"+0+"','Caterer Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Caterer Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 						var cde = "";		
 								for(var i = 0; i<data.listAllProductTypes.length && data.listAllProductTypes[i].status; i++){	
 									description = 
@@ -753,7 +758,7 @@
 			abc = abc
 					+ "<li data-original-index=\"0\" class=\"\" id=\"li0\" onclick=\"clickLi('"
 					+ 0
-					+ "','Flower Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Caterer Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+ "','Caterer Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Caterer Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 			var cde = "";
 			for (var i = 0; i < typeArr.length; i++) {
 				var splittedArray = typeArr[i].split("_");
@@ -803,7 +808,7 @@
 			abc = abc
 					+ "<li data-original-index=\"0\" class=\"selected\" id=\"li0\" onclick=\"clickLi('"
 					+ 0
-					+ "','Flower Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Caterer Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+ "','Caterer Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Caterer Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 			var cde = "";
 			for (var i = 0; i < typeArr.length; i++) {
 				var splittedArray = typeArr[i].split("_");
@@ -933,6 +938,9 @@
 					}
 				}
 			}
+			if(title === ""){
+				title = "-- Occasion --";
+			}
 		}
 		if(lengthOccasions !=""){
 			if(lengthOccasions > title.split(",").length){
@@ -979,7 +987,6 @@
 				}else{
 					titleLength = "samePlus"+"@*"+editId[i];
 				}
-				alert(titleLength);
 			}
 		}
 		$("#occasionName").val(id); //Hidden field to store the Occasion Id
@@ -1132,10 +1139,20 @@
 				animation : true
 			});
 		} else {
+		if(pricingsDivNumber === Number(0)){
+			$("#fromDate").attr("disabled",true);
+			$("#toDate").attr("disabled",true);
+			$("#price").attr("disabled",true);	
+		}else{
+			$("#fromDate" +pricingsDivNumber).attr("disabled",true);
+			$("#toDate" +pricingsDivNumber).attr("disabled",true);
+			$("#price" +pricingsDivNumber).attr("disabled",true);	
+		}	
+		
 		addOtherDivs();
 	  }
   }
-	
+	var fromPriceDate="";
 	function addOtherDivs(){
 		if (Number(pricingsDivNumber) < Number(2)) {
 			pricingsDivNumber = Number(Number(pricingsDivNumber) + Number(1));
@@ -1144,16 +1161,18 @@
 				  var fromDate1 = moment($("#toDate").val(),"dddd DD MMMM YYYY");
 				    fromDate1 = fromDate1.add(1,'days')
 				    fromDate1 = moment(fromDate1).format("dddd DD MMMM YYYY");
-						
+				    fromPriceDate = fromDate1;
+				    
 				    momentCalender($,moment);
 				    $("#fromDate1").bootstrapMaterialDatePicker({
 						 format: 'dddd DD MMMM YYYY',
 					     clearButton: true,
 					     weekStart: 1,
 					     time: false,
-						 minDate:fromDate1
+						 minDate:new Date()
 					});
 				    
+				    $("#fromDate1").val(fromDate1);
 				    var toDate1 = moment(fromDate1,"dddd DD MMMM YYYY");
 				    toDate1 = toDate1.add(1,'days')
 				    toDate1 = moment(toDate1).format("dddd DD MMMM YYYY"); 
@@ -1163,7 +1182,7 @@
 					     clearButton: true,
 					     weekStart: 1,
 					     time: false,
-						 minDate:toDate1
+						 minDate:new Date()
 					}); 
 				addDiv1();
 			} else if (pricingsDivNumber === 2) {
@@ -1171,6 +1190,7 @@
 				var fromDate2 = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
 			    fromDate2 = fromDate2.add(1,'days')
 			    fromDate2 = moment(fromDate2).format("dddd DD MMMM YYYY");
+			    fromPriceDate = fromDate2;
 			    
 				momentCalender($,moment);
 			    $("#fromDate2").bootstrapMaterialDatePicker({
@@ -1178,9 +1198,9 @@
 				     clearButton: true,
 				     weekStart: 1,
 				     time: false,
-					 minDate:fromDate2
+					 minDate:new Date()
 				});
-			    
+			    $("#fromDate2").val(fromDate2);
 			    var toDate2 = moment(fromDate2,"dddd DD MMMM YYYY");
 			    toDate2 = toDate2.add(1,'days')
 			    toDate2 = moment(toDate2).format("dddd DD MMMM YYYY");
@@ -1190,7 +1210,7 @@
 				     clearButton: true,
 				     weekStart: 1,
 				     time: false,
-					 minDate:toDate2
+					 minDate:new Date()
 				}); 
 				addDiv2();
 			} else{
@@ -1230,7 +1250,6 @@
 		$("#flowerPricing" + removeId).attr("style", "display:none");
 		pricingsDivNumber = 0;
 	}
-	
 	$("#fromDate,#toDate").mouseenter(function(){
 		momentCalender($,moment);
 		 var fromDate = moment();
@@ -1244,17 +1263,17 @@
 			     time: false,
 				 minDate:new Date()
 			});
-		    
-		    $("#toDate").bootstrapMaterialDatePicker({
-				 format: 'dddd DD MMMM YYYY',
-			     clearButton: true,
-			     weekStart: 1,
-			     time: false,
-				 minDate:fromDate
-			});
-		
-	});
+		    var from = moment().format("dddd DD MMMM YYYY")
+		    $("#fromDate").val(from);
+		    	$("#toDate").bootstrapMaterialDatePicker({
+					 format: 'dddd DD MMMM YYYY',
+				     clearButton: true,
+				     weekStart: 1,
+				     time: false,
+					 minDate:fromDate
+				});
 	
+	});
 	$("#fromDateFreeProduct,#toDate").mouseenter(function(){
 		momentCalender($,moment);
 		 var fromDate = moment();
@@ -1682,7 +1701,6 @@
 				foodTypeNames = "";
 				for (var i = 0; i < a.length; i++) {
 					if (a[i] === title1) {
-						alert("In if");
 						a[i] = "";
 						b[i] = "";
 						c[i] = "";
@@ -1714,15 +1732,19 @@
 					}
 				}
 				
+				if(titles === ""){
+					titles = "-- Food Name --";
+				}
+				
 			}else{
-				if(foodNametitle === ""){
+				if(foodNametitle === "" || titles === ""){
 					titles = "-- Food Name --";
 				}else{
 					titles = foodNametitle;
 				}
 				
 			}
-			
+				
 				var textAreaFill = "";
 				$("#listOfAddedFoodItems").html("");
 				var subFoodNameTitle = foodNametitle.split(",");
@@ -1846,13 +1868,13 @@
 			
 			
 			if($("#foodTypeName").val() !== "" && ($("#foodName").val() !== "")){
-				$("#basePrice1").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price\" placeholder=\"Package Price / Per Plate\">");
-				$("#basePrice2").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price1\" placeholder=\"Package Price / Per Plate\">");
-				$("#basePrice3").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price2\" placeholder=\"Package Price / Per Plate\">");
+				$("#basePrice1").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price\" disabled=\"disabled\"  placeholder=\"Package Price / Per Plate\">");
+				$("#basePrice2").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price1\" disabled=\"disabled\" placeholder=\"Package Price / Per Plate\">");
+				$("#basePrice3").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price2\" disabled=\"disabled\" placeholder=\"Package Price / Per Plate\">");
 			}else{
-				$("#basePrice1").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price\" placeholder=\"Base Price / Per Plate\">");
-				$("#basePrice2").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price1\" placeholder=\"Base Price / Per Plate\">");
-				$("#basePrice3").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price2\" placeholder=\"Base Price / PerPlate\">");
+				$("#basePrice1").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price\" disabled=\"disabled\" placeholder=\"Base Price / Per Plate\">");
+				$("#basePrice2").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price1\" disabled=\"disabled\"placeholder=\"Base Price / Per Plate\">");
+				$("#basePrice3").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price2\" disabled=\"\disabled\" placeholder=\"Base Price / PerPlate\">");
 			}
 			var abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\""+titles+ "\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">"
 					+ titles
@@ -2601,7 +2623,7 @@
 		}else{
 			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\--" +typeName+"--\ aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+typeName+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 				+"<ul class=\"dropdown-menu inner\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-				+"<li data-original-index=\"0\" class=\"\" id=\"li0\" onclick=\"clickLi('"+0+"','Caterer Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Flower Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"0\" class=\"\" id=\"li0\" onclick=\"clickLi('"+0+"','Caterer Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Caterer Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 		}
 		var cde = "";
 		for (var i = 0; i < typeArr.length; i++) {
@@ -2638,11 +2660,11 @@
 		if(isInComplete){
 			 abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\"--Food Type--\" aria-expanded=\"false\"><span class=\"filter-option pull-left\">--Food Type--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 					+"<ul class=\"dropdown-menu inner\" id=\"ulfoodType0\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-					+"<li data-original-index=\"0\" class=\"selected\" id=\"foodTypeLi0\" onclick=\"clickLi('"+0+"','Food Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Flower Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+					+"<li data-original-index=\"0\" class=\"selected\" id=\"foodTypeLi0\" onclick=\"clickLi('"+0+"','Food Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Food Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 		}else{
 			abc = "<div class=\"btn-group bootstrap-select form-control show-tick\"><button type=\"button\" id=\"selectTab\" class=\"btn dropdown-toggle btn-default\" data-toggle=\"dropdown\" title=\--" +typeName+"--\ aria-expanded=\"false\"><span class=\"filter-option pull-left\">--"+typeName+"--</span>&nbsp;<span class=\"bs-caret\"><span class=\"caret\"></span></span></button><div class=\"dropdown-menu open\" style=\"max-height: 267px; overflow: hidden; min-height: 0px;\">"
 				+"<ul class=\"dropdown-menu inner\" id=\"ulfoodType0\" role=\"menu\" style=\"max-height: 257px; overflow-y: auto; min-height: 0px;\">"
-				+"<li data-original-index=\"0\" class=\"\" id=\"foodTypeLi0\" onclick=\"clickLi('"+0+"','Food Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Flower Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
+				+"<li data-original-index=\"0\" class=\"\" id=\"foodTypeLi0\" onclick=\"clickLi('"+0+"','Food Type')\"><a tabindex=\"0\" class=\"\" style=\"\" data-tokens=\"null\"><span class=\"text\">--Food Type--</span><span class=\"glyphicon glyphicon-ok check-mark\"></span></a></li>"
 		}
 		var cde = "";
 		for (var i = 0; i < foodTypeArr.length; i++) {
@@ -2744,9 +2766,9 @@
 							$("#packageCheck").prop("checked",true);
 							$("#packageDiv").removeClass("hideDiv");
 							showAllFoodTypes();
-							$("#basePrice1").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price\" placeholder=\"Package Price / Per Plate\">");
-							$("#basePrice2").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price1\" placeholder=\"Package Price / Per Plate\">");
-							$("#basePrice3").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price2\" placeholder=\"Package Price / Per Plate\">");
+							$("#basePrice1").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price\" disabled=\"disabled\"placeholder=\"Package Price / Per Plate\">");
+							$("#basePrice2").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price1\" disabled=\"disabled\" placeholder=\"Package Price / Per Plate\">");
+							$("#basePrice3").html("<input type=\"text\" class=\"form-control\" name=\"price\" id=\"price2\" disabled=\"disabled\"placeholder=\"Package Price / Per Plate\">");
 							foodNametitle = editFoodName;
 							foodNameid = editFoodTypeId;
 							lengthFoodNames = data.listFoodOfPackage.length;
@@ -3209,6 +3231,77 @@
 			}
 			
 	 });
+	 $("#fromDate").mouseleave(function(){
+		if( $("#fromDate").val() !== ""){
+			$("#toDate").attr("disabled",false);
+		}
+	 });
+	 $("#toDate").mouseleave(function(){
+		if($("#toDate").val() !==""){
+			 var fromDate = moment($("#toDate").val(),"dddd DD MMMM YYYY");
+			    fromDate = fromDate.add(1,'days');
+			    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+			    $("#fromDate1").val(fromDate);
+			$("#price").attr("disabled",false);
+		}	
+	});
+	 $("#fromDate1").mouseleave(function(){
+		 if( $("#fromDate1").val() !== ""){
+				$("#toDate1").attr("disabled",false);
+			}
+	 });
+	 $("#toDate1").mouseleave(function(){
+			if($("#toDate1").val() !==""){
+				var fromDate = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
+			    fromDate = fromDate.add(1,'days');
+			    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+			    $("#fromDate2").val(fromDate);
+				$("#price1").attr("disabled",false);
+			}	
+	});
+	 $("#fromDate2").mouseleave(function(){
+		 if( $("#fromDate2").val() !== ""){
+				$("#toDate2").attr("disabled",false);
+			}
+	 });
+	 $("#toDate2").mouseleave(function(){
+			if($("#toDate2").val() !==""){
+				$("#price2").attr("disabled",false);
+			}	
+	});
+	
+	$("#clearPlusBtn,#clearPlusBtn1,#clearPlusBtn2").click(function(){
+		if(this.id === "clearPlusBtn"){
+			$("#fromDate").val("");
+			$("#toDate").val("");
+			$("#price").val("");
+			$("#fromDate").attr("disabled",false);
+			/* $("#toDate").attr("disabled",false);
+			$("#price").attr("disabled",false); */
+		}else if(this.id === "clearPlusBtn1"){
+			var fromDate = moment($("#toDate").val(),"dddd DD MMMM YYYY");
+		    fromDate = fromDate.add(1,'days');
+		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+			$("#fromDate1").val(fromDate);
+			
+			$("#toDate1").val("");
+			$("#price1").val("");
+			$("#fromDate1").attr("disabled",false);
+			$("#toDate1").attr("disabled",true);
+			$("#price1").attr("disabled",true); 
+		}else {
+			var fromDate = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
+		    fromDate = fromDate.add(1,'days');
+		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+		    
+			$("#fromDate2").val(fromDate);
+			$("#toDate2").val("");
+			$("#price2").val("");
+			$("#fromDate2").attr("disabled",false);
+			$("#toDate2").attr("disabled",true);
+			$("#price2").attr("disabled",true);
+		}
+	}); 
 	</script> 
     <div class="color-bg"></div>
     <%@ include file="admin-includeFooter.jsp" %>

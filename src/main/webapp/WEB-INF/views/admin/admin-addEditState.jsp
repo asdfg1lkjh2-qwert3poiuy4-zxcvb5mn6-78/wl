@@ -154,7 +154,7 @@
 								+"<td class =\"text-center\">"+data.listAllStates[i].id+"</td>"
 								+"<td class =\"text-center\">"+data.listAllStates[i].stateName+"</td>"
 								+"<td class =\"text-center\">"+stateDescription+"</td>"
-								+"<td class =\"text-center\"><a href=\"#\" onclick=\"editStateById('"+data.listAllStates[i].id+"')\">Edit</a><a href=\"#\">Y</a></td></tr>"
+								+"<td class =\"text-center\"><a href=\"#\" onclick=\"editStateById('"+data.listAllStates[i].id+"')\" title=\"Edit\"><i class=\"fa fa-pencil-square-o  editIcon\" aria-hidden=\"true\"></i></a><a href=\"#\" title=\"Delete\"><i class=\"material-icons deleteIcon\" style=\"margin-top: -9%;\">delete_sweep</i> <span class=\"icon-name\"></span></a></td></tr>"
 							}
 							$("#stateTable > tbody ").html(abc);
 						}

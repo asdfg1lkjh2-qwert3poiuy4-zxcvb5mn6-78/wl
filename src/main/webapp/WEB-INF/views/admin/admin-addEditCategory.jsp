@@ -196,9 +196,9 @@
 										<th class="text-center">Category Id</th>
 										<th class="text-center">Category Name</th>
 										<th class="text-center">Category Icon</th>
-										<th class="text-center">Package For</th>
-										<th class="text-center">Registration Charge</th>
+										<th class="text-center">Registration Charge (HalfYearly/Annually)</th>
 										<th class="text-center">Category Url</th>
+										<th class="text-center">Database Table Name</th>
 										<th class="text-center">isActive</th>
 										<th class="text-center">Action</th>
 									</tr>
@@ -453,6 +453,9 @@
 					job["annual"] = false;
 					job["annualCharge"] = 0.00;
 				}
+				if($("#categoryTableName").val() !== ""){
+					job["tableName"] = $("#categoryTableName").val();	
+				}
 				job["allFiles"] = file1; 
 				alert(JSON.stringify(job));
 				  $.ajax({
@@ -493,6 +496,7 @@
 							$("#annual").prop("checked",false);
 						}
 						$("#annualCharge").val("");
+						$("#categoryTableName").val("");
 						$("#categoryDescription").val("");
 						$("#categoryUrl").val("");
 						$("#editCategoryId").val("0");
@@ -556,26 +560,26 @@
 							}else{
 								categoryUrl = "---";
 							}
-							var str3="";
+							
 							var price;
-							if(data.categoryAvailables[i].halfYearly){
-								str3 = "Half Yearly";
-							}
-							if(data.categoryAvailables[i].annual){
-								str3 = str3 + "/ Annual";
-							}
 							if(data.categoryAvailables[i].annualCharge !== Number(0.00)){
 								price = data.categoryAvailables[i].annualCharge;
+							}
+							var tableName = "";
+							if(data.categoryAvailables[i].tableName !== null){
+								tableName = data.categoryAvailables[i].tableName;
+							}else{
+								tableName = "---";
 							}
 							abc = abc +"<tr><td class=\"text-center\">"+Number(Number(i) + Number(1))+"</td>"
 							+"<td class=\"text-center\">"+data.categoryAvailables[i].id+"</td>"
 							+"<td class=\"text-center\">"+data.categoryAvailables[i].categoryName+"</td>"
 							+"<td class=\"text-center\">"+url+"</td>"
-							+"<td class=\"text-center\">"+str3+"</td>"
 							+"<td class=\"text-center\">"+data.categoryAvailables[i].halfYearlyCharge +"/"+price+"</td>"
 							+"<td class=\"text-center\">"+categoryUrl+"</td>"
+							+"<td class=\"text-center\">"+tableName+"</td>"
 							+"<td class=\"text-center\">"+active+"</td>"
-							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editCategoryById('"+data.categoryAvailables[i].id+"')\">Edit</a><a href=\"\">Y</a></td></tr>"
+							+"<td class=\"text-center\"><a href=\"#\" onclick=\"editCategoryById('"+data.categoryAvailables[i].id+"')\" title=\"Edit\"><i class=\"fa fa-pencil-square-o fa-2x\" aria-hidden=\"true\"></i></a><a href=\"\" title=\"Delete\"><i class=\"fa fa-trash fa-2x\" aria-hidden=\"true\"></i></a></td></tr>"
 						}
 						$("#categoryTable > tbody").html(abc);
 					}
@@ -607,15 +611,18 @@
 					isEdit = 1;
 					//defaultStateList(false,Number(data.zipCode.stateId),data.zipCode.stateName,Number(data.zipCode.cityId),data.zipCode.cityName);
 					$("#categoryName").val(data.categoryAvailable.categoryName);
-					if(data.categoryAvailable.halfYearly){
-						$("#halfYearly").prop("checked",true);
-					}
+					$("#halfYearly").prop("checked",true);
 					$("#halfYearlyCharge").val(data.categoryAvailable.halfYearlyCharge);
-					if(data.categoryAvailable.annual){
+					if($("#annualCharge").val(data.categoryAvailable.annualCharge) !== Number(0.00)){
 						$("#annual").prop("checked",true);
 						$("#annualCharge").val(data.categoryAvailable.annualCharge);
 					}
+					
+					
 					$("#categoryDescription").val(data.categoryAvailable.categoryDescription); 
+					if(data.categoryAvailable.tableName !== null){
+						$("#categoryTableName").val(data.categoryAvailable.tableName);
+					}
 					$("#categoryUrl").val(data.categoryAvailable.categoryUrl);
 					$("#editCategoryId").val(data.categoryAvailable.id);
 					
