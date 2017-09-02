@@ -69,10 +69,14 @@ public class SellerPhotographerServiceImpl implements SellerPhotographerService{
 		return adminResponseClass;
 	}
 	@Override
-	public AdminResponseClass fetchSellerPhotographerById(String photographerId) {
+	public AdminResponseClass fetchSellerPhotographerById(String photographerId, String sellerId) {
 		System.out.println("////Photographer Id is"+photographerId);
 		boolean status = false;
 		SellerPhotographer sellerPhotographer = sellerPhotographerDao.findOne(photographerId);
+		if(!sellerPhotographer.getAllProducts().getSellerDetails().getId().equalsIgnoreCase(sellerId))
+		{
+			return null;
+		}
 		status = true;
 		List<SellerProductImagesVideos> listProductImages = new ArrayList<>();
 		List<SellerProductPricing> listProductPricings = new ArrayList<>();

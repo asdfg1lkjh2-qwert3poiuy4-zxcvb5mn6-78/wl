@@ -237,10 +237,14 @@ public class FlowerServiceImpl implements FlowerService{
 	}
 
 	@Override
-	public AdminResponseClass fetchFlowerByFlowerId(String id) {
+	public AdminResponseClass fetchFlowerByFlowerId(String id,  String sellerId) {
 		System.out.println("////Flower Id is"+id);
 		boolean status = false;
 		Flower flower = flowerDao.findOne(id);
+		if(!flower.getAllProducts().getSellerDetails().getId().equalsIgnoreCase(sellerId))
+		{
+			return null;
+		}
 		status = true;
 		List<SellerProductImagesVideos> listProductImages = new ArrayList<>();
 		List<SellerProductPricing> listProductPricings = new ArrayList<>();

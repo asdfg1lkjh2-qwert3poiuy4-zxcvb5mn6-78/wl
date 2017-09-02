@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 
 @Entity
@@ -21,8 +24,13 @@ public class IntProductOccasion implements Serializable {
 	@Id@GeneratedValue
 	@Column(columnDefinition = "bigint(20) unsigned")
 	private long id;
+	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(updatable = false)
 	private Date entryTime;
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;
 	private boolean status;
 	
 	@ManyToOne
@@ -41,8 +49,8 @@ public class IntProductOccasion implements Serializable {
 	public Date getEntryTime() {
 		return entryTime;
 	}
-	public void setEntryTime(Date entryTime) {
-		this.entryTime = entryTime;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 	public boolean isStatus() {
 		return status;

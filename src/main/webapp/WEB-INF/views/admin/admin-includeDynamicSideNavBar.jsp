@@ -21,10 +21,10 @@ function fetchSideNavBar(str){
 					 }
 					 
 					 if(cde !== ""){
-						 abc = abc + "<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"javascript:void(0);\" id='sideNavBarLink"+(Number(Number(i)) + (Number(1)))+"' class=\"menu-toggle waves-effect waves-block\" onclick=\"addClass('"+(Number(Number(i)) + (Number(1)))+"',false)\"><img src=\"getImage?id="+data.categoryAvailables[i].iconFile+"\" alt=\"\"/><span>"+data.categoryAvailables[i].categoryName+"</span> </a>";
+						 abc = abc + "<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"javascript:void(0);\" id='sideNavBarLink"+(Number(Number(i)) + (Number(1)))+"' class=\"menu-toggle waves-effect waves-block\" onclick=\"addClass('"+(Number(Number(i)) + (Number(1)))+"',false)\"><img src=\"getImageRaw?id="+data.categoryAvailables[i].iconFile+"\" alt=\"\"/><span>"+data.categoryAvailables[i].categoryName+"</span> </a>";
 						 abc = abc + efg + cde +"</ul></li>";
 					 }else{
-						 abc = abc + "<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"admin-dashboard\" id='sideNavBarLink"+(Number(Number(i)) + (Number(1)))+"'  class=\"waves-effect waves-block\" onclick=\"addClass('"+(Number(Number(i)) + (Number(1)))+"',true)\"><img src=\"getImage?id="+data.categoryAvailables[i].iconFile+"\" alt=\"\"/><span>"+data.categoryAvailables[i].categoryName+"</span> </a>"; 
+						 abc = abc + "<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"admin-dashboard\" id='sideNavBarLink"+(Number(Number(i)) + (Number(1)))+"'  class=\"waves-effect waves-block\" onclick=\"addClass('"+(Number(Number(i)) + (Number(1)))+"',true)\"><img src=\"getImageRaw?id="+data.categoryAvailables[i].iconFile+"\" alt=\"\"/><span>"+data.categoryAvailables[i].categoryName+"</span> </a>"; 
 					 }
 					 
 					 cde ="";

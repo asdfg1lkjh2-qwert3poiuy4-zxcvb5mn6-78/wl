@@ -135,7 +135,6 @@ public class OccasionServiceImpl implements OccasionService {
 		
 		if(isEdit == 0)
 		{
-			intProductOcc.setEntryTime(new Date());
 			intProductOcc.setStatus(Boolean.TRUE);
 			productOccasionDao.save(intProductOcc);
 			status = true;

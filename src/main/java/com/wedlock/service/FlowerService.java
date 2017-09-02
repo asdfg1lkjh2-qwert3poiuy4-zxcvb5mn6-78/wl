@@ -12,7 +12,7 @@ public interface FlowerService {
 	AdminResponseClass fetchAllSellerProducts(SellerDetails sellerDetails);
     AdminResponseClass fetchAllFlowerProductsById(SellerDetails sellerDetails) throws ParseException;
 	AdminResponseClass fetchAllFlowerById(String sellerId, String allProductId, String flowerId);
-	AdminResponseClass fetchFlowerByFlowerId(String id);
+	AdminResponseClass fetchFlowerByFlowerId(String id, String sellerId);
 	
 
 }

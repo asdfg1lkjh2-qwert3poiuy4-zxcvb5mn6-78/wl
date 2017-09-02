@@ -39,10 +39,10 @@
 				<script type="text/javascript">
 					 var categoryName = "${categoryList.categoryName}";
 					if(cde !== ""){
-						abc = abc + "<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"javascript:void(0);\" id='sideNavBarLink"+Number(Number(i) + Number(1))+"' class=\"menu-toggle waves-effect waves-block\"\" onclick=\"addClassesss('"+(Number(Number(i)) + (Number(1)))+"',false)\"><img src=\"getImage?id=${categoryList.iconFile}\" alt=\"\"/><span>"+categoryName+"</span> </a>"
+						abc = abc + "<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"javascript:void(0);\" id='sideNavBarLink"+Number(Number(i) + Number(1))+"' class=\"menu-toggle waves-effect waves-block\"\" onclick=\"addClassesss('"+(Number(Number(i)) + (Number(1)))+"',false)\"><img src=\"getImageRaw?id=${categoryList.iconFile}\" alt=\"\"/><span>"+categoryName+"</span> </a>"
 						abc = abc + efg + cde +"</ul></li>";
 					}else{
-						abc = abc +"<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"admin-dashboard\" id='sideNavBarLink"+Number(Number(i) + Number(1))+"' class=\"waves-effect waves-block\" onclick=\"addClassesss('"+(Number(Number(i)) + (Number(1)))+"',true)\"><img src=\"getImage?id=${categoryList.iconFile}\"/><span>"+categoryName+"</span> </a>"
+						abc = abc +"<li id='sideNavBarLi"+(Number(Number(i)) + (Number(1)))+"'><a href=\"admin-dashboard\" id='sideNavBarLink"+Number(Number(i) + Number(1))+"' class=\"waves-effect waves-block\" onclick=\"addClassesss('"+(Number(Number(i)) + (Number(1)))+"',true)\"><img src=\"getImageRaw?id=${categoryList.iconFile}\"/><span>"+categoryName+"</span> </a>"
 					}
 						cde = "";
 						i = (Number(Number(i)) + (Number(1)));

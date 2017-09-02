@@ -288,7 +288,7 @@
 										<div class="form-group">
 											<label for="comment">Food Items Added</label>
 											<label for="addedItems" id="addedItems"></label>
-											<textarea class="form-control textarea-add" rows="6" name="listOfAddedFoodItems" id="listOfAddedFoodItems">
+											<textarea class="form-control textarea-add" readonly="readonly" rows="6" name="listOfAddedFoodItems" id="listOfAddedFoodItems">
 											</textarea>
 										</div>
 									</div>
@@ -1250,6 +1250,7 @@
 		$("#flowerPricing" + removeId).attr("style", "display:none");
 		pricingsDivNumber = 0;
 	}
+	
 	$("#fromDate,#toDate").mouseenter(function(){
 		momentCalender($,moment);
 		 var fromDate = moment();
@@ -1744,7 +1745,7 @@
 				}
 				
 			}
-				
+			
 				var textAreaFill = "";
 				$("#listOfAddedFoodItems").html("");
 				var subFoodNameTitle = foodNametitle.split(",");
@@ -1858,10 +1859,10 @@
 					if(check === Number(1)){
 						foodNameTitleLength = "same";
 					}else{
-						foodNameTitleLength = "samePlus"+"&*"+foodIdEdit[i];
+						foodNameTitleLength = "samePlus"+"-@.-"+foodIdEdit[i];
 					}
 				} */
-				$("#foodName").val(addedItems+"&*"+removeItems);
+				$("#foodName").val(addedItems+"-@.-"+removeItems);
 			}else{
 				$("#foodName").val(foodNameid); //Hidden field to store the Occasion Id
 			} 
@@ -2703,7 +2704,10 @@
 			processData : false,
 			contentType : "application/json",
 			success : function(data) {
-				
+					if(data==="null" || data===null || data==="" || typeof data === "undefined")
+					{
+						alert("Error Page");
+					}
 					 if(data.status){
 						$("#name").val(data.caterer.name);
 						$("#description").val(data.caterer.description);
