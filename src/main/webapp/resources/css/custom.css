@@ -243,8 +243,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /* For Service */
-.main-service-section{float: left; max-width: 100%; min-width:77%;}
-.main-service-section .view{width: 30%; float: left; box-shadow: 0px 0px 6px 0px rgba(126, 122, 122, 0.9); -webkit-box-shadow: 0px 0px 6px 0px rgba(126, 122, 122, 0.9); -moz-box-shadow: 0px 0px 6px 0px rgba(126, 122, 122, 0.9);}
+.main-service-section{max-width: 100%; min-width:77%;margin-left:2%;}
+.main-service-section .view{width: 22%; float: left; box-shadow: 0px 0px 6px 0px rgba(126, 122, 122, 0.9); -webkit-box-shadow: 0px 0px 6px 0px rgba(126, 122, 122, 0.9); -moz-box-shadow: 0px 0px 6px 0px rgba(126, 122, 122, 0.9);}
 .view {
     height: 150px;
     margin: 10px;
@@ -412,13 +412,13 @@ input[type=number]::-webkit-outer-spin-button {
 .servicePriceDetails  .serviceHalfYearly{
 	float:left;
 	width:50%;
-	padding-top:36px;
+	padding-top:18px;
 }
  .servicePriceDetails .serviceHalfYearly span{
  	float:left;
-	padding:3px;
 	font-family: 'Ubuntu';
 	font-size: 15px;
+	padding-top: 7px;
 }
 .servicePriceDetails  .serviceHalfYearly p{
 	float:left;
@@ -432,17 +432,18 @@ input[type=number]::-webkit-outer-spin-button {
 .servicePriceDetails  .serviceAnually{
 	float:right;
 	width:50%;
-	padding-top:36px;
+	padding-top:15px;
 }
 .servicePriceDetails  .serviceAnually span{
  	float:right;
-	padding:3px;
+	padding-left:10px;
 	font-family: 'Ubuntu';
 	font-size: 15px;
+	padding-top: 10%;
 }
 .servicePriceDetails  .serviceAnually p{
 	float:right;
-	padding-right: 20px;
+	padding-right: 5px;
 	font-family: 'Ubuntu';
 	font-size: 15px;
 	display: inline-block;
@@ -458,7 +459,7 @@ input[type=number]::-webkit-outer-spin-button {
 	margin-left:42%;
 }
 .main-service-section .view{cursor: pointer}
-.service-modal-image{position: absolute;}
+.service-modal-image {position: absolute;}
 .flower-position{position: absolute;width: 100%; top: 5%; margin-left:5px;}
 .service-modal-image span{
     background: #b01131;
@@ -613,4 +614,53 @@ abbr[title] {
 .deleteIcon{
     font-size: 32px;
     margin-left: 3%;
+}
+.profile-image img{
+	display: block !important;
+    height: 143px !important;
+    width: 14% !important;
+    margin-left: 41% !important;
+}
+.profile_info h4{
+	font-family: 'Caveat', cursive; 
+	font-weight: 700; 
+	font-size: 33px; 
+	text-transform: inherit;
+	overflow-wrap: break-word;
+	margin-right: 3%;
+}
+.profile_info span {
+	margin-right:3% !important;
+}
+.view-eighth .img-responsive{
+	height:97% !important;
+}
+#addressProofDisplayDiv .thumbnail img{
+	min-height:200px !important;
+}
+#idProofDisplayDiv .thumbnail img{
+	min-height:200px !important;
+}
+#sellerImageDisplayDiv .thumbnail img{
+	min-height:200px !important;
+}
+.serviceTakenChecked p{
+	font-family: 'Ubuntu';
+	font-size: 14px;
+	display: inline-block;
+	font-weight: 500;
+	color: #b01131 !important;
+	padding-top:5%;
+	padding-top: 12% !important;
+}
+#smallModal .form-group{
+	margin-bottom: -19px !important;
+}
+#smallModalLabel{
+	font-family: 'Ubuntu';
+	font-size: 18px;
+	display: inline-block;
+	font-weight: 500;
+	font-style: italic;
+	margin-left: 24%;
 }

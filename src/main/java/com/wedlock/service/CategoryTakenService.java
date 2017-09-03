@@ -5,5 +5,5 @@ import com.wedlock.model.SellerDetails;
 
 public interface CategoryTakenService 
 {
-	AdminResponseClass saveCategoryTaken(SellerDetails sellerDetails, String categoryTakenData);
+	AdminResponseClass saveCategoryTaken(SellerDetails sellerDetails, String categoryTakenData , long categoryTakenId);
 }

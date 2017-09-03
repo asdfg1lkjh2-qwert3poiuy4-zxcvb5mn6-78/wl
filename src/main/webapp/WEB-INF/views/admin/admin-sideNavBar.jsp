@@ -8,7 +8,7 @@
             <h3>${sessionScope.sellerDetailsSession.sellerFirstName} ${sessionScope.sellerDetailsSession.sellerLastName}</h3>
             <ul>
                 <li><a data-placement="bottom" title="Go to Inbox" href="mail-inbox.html"><i class="zmdi zmdi-email"></i></a></li>
-                <li><a data-placement="bottom" title="Go to Profile" href="profile.html"><i class="zmdi zmdi-account"></i></a></li>                    
+                <li><a data-placement="bottom" title="Go to Profile" href="admin-viewSellerProfile"><i class="zmdi zmdi-account"></i></a></li>                    
                 <li><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="zmdi zmdi-settings"></i></a></li>
                 <li><a data-placement="bottom" title="Sign Out" href="signOut" ><i class="zmdi zmdi-sign-in"></i></a></li>
             </ul>

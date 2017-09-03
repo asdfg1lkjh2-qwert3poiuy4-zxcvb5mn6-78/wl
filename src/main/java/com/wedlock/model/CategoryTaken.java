@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -38,6 +39,9 @@ public class CategoryTaken implements Serializable {
 	private boolean isAnnually;
 	private boolean isPaid;
 	private boolean status;
+	
+	@Transient
+	private String paidService;
 
 	@ManyToOne
 	@JsonIgnore
@@ -118,5 +122,13 @@ public class CategoryTaken implements Serializable {
 
 	public void setSellerDetails(SellerDetails sellerDetails) {
 		this.sellerDetails = sellerDetails;
+	}
+
+	public String getPaidService() {
+		return paidService;
+	}
+
+	public void setPaidService(String paidService) {
+		this.paidService = paidService;
 	}
 }

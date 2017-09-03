@@ -26,7 +26,7 @@ public class CategoryTakenServiceImpl implements CategoryTakenService{
 	@Autowired
 	CategoryTakenDao categoryTakenDao;
 	@Override
-	public AdminResponseClass saveCategoryTaken(SellerDetails sellerDetails, String categoryTakenData) {
+	public AdminResponseClass saveCategoryTaken(SellerDetails sellerDetails, String categoryTakenData , long categoryTakenId) {
 		/* categoryTakenData format should be as followed --
 		*  CategoryId_StartDate_isAnnually
 		*  OR
@@ -113,14 +113,27 @@ public class CategoryTakenServiceImpl implements CategoryTakenService{
 					    categoryTaken.setEndDate(endDate);
 						categoryTaken.setAnnually(Boolean.FALSE);
 					}
-					categoryTaken.setPaid(Boolean.FALSE);
+					System.out.println("///Particular Sub Single Data is"+particularSubSingleData.length);
+					if(particularSubSingleData.length == 4){
+						if(particularSubSingleData[3].equalsIgnoreCase("Yes")){
+							categoryTaken.setPaid(Boolean.TRUE);
+						}else{
+							categoryTaken.setPaid(Boolean.FALSE);
+						}
+						
+					}else{
+						categoryTaken.setPaid(Boolean.FALSE);
+					}
+					
 					categoryTaken.setStatus(Boolean.TRUE);
 					categoryTaken.setSellerDetails(sellerDetails);
-					if(!catData.isStatus())
-					{
+					System.out.println("///CategoryTakenId is"+categoryTakenId);
+					if(categoryTakenId != 0){
+						 categoryTaken.setId(categoryTakenId);
+					}
 						categoryTakenDao.save(categoryTaken);
 						status = true;
-					}
+				
 				}
 			}
 		}

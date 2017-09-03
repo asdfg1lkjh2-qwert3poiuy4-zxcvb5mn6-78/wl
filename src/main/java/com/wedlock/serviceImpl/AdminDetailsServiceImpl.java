@@ -64,4 +64,14 @@ public class AdminDetailsServiceImpl implements AdminDetailsService{
 		return adminResponseClass;
 	}
 
+	@Override
+	public AdminResponseClass fetchAdminDetailsById(long id) {
+		boolean status = false;
+		AdminDetails adminDetails = adminDetailsDao.findOne(id);
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		adminResponseClass.setStatus(status);
+		adminResponseClass.setAdminDetail(adminDetails);
+		return adminResponseClass;
+	}
+
 }

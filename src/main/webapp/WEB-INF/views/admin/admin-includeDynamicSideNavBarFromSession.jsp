@@ -20,9 +20,9 @@
 						</script>
 			<c:if test = "${sessionScope.categorySession != null }">
 			<c:forEach items="${sessionScope.categorySession}" var="categoryList">
+			<c:if test ="${categoryList.paidServiceTaken == 'Yes'}">
 			<c:if test ="${ sessionScope.subCategorySession !=null}">
-				<c:forEach items="${sessionScope.subCategorySession}"
-					var="subCategoryList">
+			<c:forEach items="${sessionScope.subCategorySession}" var="subCategoryList">
 					<script type="text/javascript">
 						var categoryId = "${categoryList.id}";
 											var subCategory = "${subCategoryList.categoryAvailable.id}";
@@ -46,7 +46,8 @@
 					}
 						cde = "";
 						i = (Number(Number(i)) + (Number(1)));
-						</script>
+				</script>
+			</c:if>
 			</c:forEach>
 			<script type="text/javascript">
 			lengthLi = "${fn:length(categoryList)}";

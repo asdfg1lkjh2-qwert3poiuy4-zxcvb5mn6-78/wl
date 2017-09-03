@@ -66,7 +66,7 @@
 		fetchAllSellers();
 	});
 	
-	function fetchAllSellers(){
+	 function fetchAllSellers(){
 		$.ajax({
 			type : "GET",
 			url : "admin-fetchAllSellers",
@@ -130,7 +130,7 @@
 
 			}
 	});
-	}
+	} 
 	</script>
 	<%@ include file="admin-includeFooter.jsp"%>
 	</body>

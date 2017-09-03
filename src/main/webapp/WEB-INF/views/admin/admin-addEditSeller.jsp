@@ -985,6 +985,9 @@
 		function checkBoxClick(){
 			if($("#checkBoxId").is(':checked')) {
 				$("#checkBoxId").addClass("isCheck");
+				if($("#sellerPresentAddress").val() !== ""){
+					storePresentAddress.push($("#sellerPresentAddress").val());
+				}
 				 for(var i = 0; i<storePresentAddress.length; i++){
 					   $("#sellerPermanentAddress").val(storePresentAddress[i]);
 					  }
@@ -1706,6 +1709,7 @@
 							if($("#sellerPresentAddress").val() === $("#sellerPermanentAddress").val()){
 								$("#checkBoxId").prop("checked",true);
 								checkBoxClick();
+								$("#checkBoxId").addClass("isCheck");
 							}
 							var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 							var d = new Date(data.sellerDetail.sellerDateOfBirth);

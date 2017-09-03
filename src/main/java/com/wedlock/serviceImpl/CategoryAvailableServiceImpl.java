@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.wedlock.dao.CategoryAvailableDao;
+import com.wedlock.dao.CategoryTakenDao;
 import com.wedlock.dao.SellerBankDetailsDao;
 import com.wedlock.dao.SellerDao;
 import com.wedlock.model.AdminResponseClass;
@@ -42,6 +43,8 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 	EntityManager manager;
 	@Autowired
 	HttpSession httpSession;
+	@Autowired
+	private CategoryTakenDao categoryTakenDao;
 	@Override
 	public AdminResponseClass saveCategoryAvailable(CategoryAvailable categoryAvailable) {
 		boolean status = false;
@@ -107,7 +110,7 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 	}
 	@Override
 	public List<CategoryAvailable> listFetchAllCategoryAvailble(boolean isSeller) {
-	
+
 		List<CategoryAvailable> listCategoryAvailable = new ArrayList<>();
 		if(!isSeller){
 			listCategoryAvailable = categoryAvailableDao.findAll();
@@ -124,16 +127,29 @@ public class CategoryAvailableServiceImpl implements CategoryAvailableService{
 			}
 			if(date.after(sellerDetails.getSellerRegistrationEnd())){
 				for(CategoryTaken categoryTaken: sellerDetails.getServiceTaken()){
-					if(categoryTaken.isPaid()){
 						CategoryAvailable categoryAvailable = new CategoryAvailable();
 						categoryAvailable = categoryAvailableDao.findOne(categoryTaken.getCategoryAvailable().getId());
-						listCategoryAvailable.add(categoryAvailable);
+					if (categoryTaken.isPaid()) {
+						if (date.after(categoryTaken.getEndDate())) {
+							CategoryTaken categoryTaken2 = categoryTakenDao.findOne(categoryTaken.getId());
+							categoryTaken2.setPaid(Boolean.FALSE);
+							categoryTakenDao.save(categoryTaken2);
+							categoryAvailable.setPaidServiceTaken("No");
+						}else{
+							categoryAvailable.setPaidServiceTaken("Yes");
+						}
+					} else {
+						categoryAvailable.setPaidServiceTaken("No");
 					}
+					System.out.println("/////Ispaidservicetaken is"+categoryAvailable.getPaidServiceTaken());	
+					listCategoryAvailable.add(categoryAvailable);
 				}
 			}else{
+				System.out.println("///In else reh");
 				for(CategoryTaken categoryTaken: sellerDetails.getServiceTaken()){
 					CategoryAvailable categoryAvailable = new CategoryAvailable();
 					categoryAvailable = categoryAvailableDao.findOne(categoryTaken.getCategoryAvailable().getId());
+					categoryAvailable.setPaidServiceTaken("Yes");
 					listCategoryAvailable.add(categoryAvailable);
 				}
 			}

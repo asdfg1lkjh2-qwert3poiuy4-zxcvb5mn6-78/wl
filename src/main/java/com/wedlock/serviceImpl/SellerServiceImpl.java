@@ -157,6 +157,7 @@ public class SellerServiceImpl implements SellerService{
 	}
 	@Override
 	public AdminResponseClass fetchAllSellersById(String id) {
+		System.out.println("//// Id is"+id);
 		boolean status = false;
 		SellerDetails sellerDetails = sellerDao.findOne(id);
 		status = true;

@@ -71,6 +71,8 @@ private static final long serialVersionUID = 1L;
 	@Transient
 	private long allProductId;
 	
+	@Transient
+	private String paidServiceTaken;
 	
 	public CategoryAvailable() {
 		super();
@@ -195,6 +197,12 @@ private static final long serialVersionUID = 1L;
 	}
 	public void setAllProductId(long allProductId) {
 		this.allProductId = allProductId;
+	}
+	public String getPaidServiceTaken() {
+		return paidServiceTaken;
+	}
+	public void setPaidServiceTaken(String paidServiceTaken) {
+		this.paidServiceTaken = paidServiceTaken;
 	}
 	
 }
