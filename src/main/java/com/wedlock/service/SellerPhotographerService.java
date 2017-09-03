@@ -10,5 +10,5 @@ public interface SellerPhotographerService {
 	AdminResponseClass saveSellerPhotographer(SellerPhotographer sellerPhotographer);
 	AdminResponseClass fetchPhotographyProductsByIdForAddEdit(String photographerId);
 	AdminResponseClass fetchAllPhotographyProducts() throws ParseException;
-	AdminResponseClass fetchSellerPhotographerById(String photographerId);
+	AdminResponseClass fetchSellerPhotographerById(String photographerId, String sellerId);
 }

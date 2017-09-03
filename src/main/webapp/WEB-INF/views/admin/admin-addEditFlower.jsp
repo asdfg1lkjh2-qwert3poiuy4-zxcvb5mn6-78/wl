@@ -2571,7 +2571,10 @@
 			processData : false,
 			contentType : "application/json",
 			success : function(data) {
-				
+					if(data==="null" || data===null || data==="" || typeof data === "undefined")
+					{
+						alert("Error Page");
+					}
 					 if(data.status){
 						$("#name").val(data.flower.name);
 						$("#description").val(data.flower.description);

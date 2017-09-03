@@ -5,4 +5,5 @@ import com.wedlock.model.FoodOfPackage;
 
 public interface FoodOfPackageService {
 	AdminResponseClass saveFoodOfPackage(FoodOfPackage foodOfPackage);
+	long foodOfPackageByfoodIdAndAllProductId(long allProductId, long foodId);
 }

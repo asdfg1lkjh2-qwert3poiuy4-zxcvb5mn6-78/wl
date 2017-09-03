@@ -131,12 +131,16 @@ public class CatererServiceImpl implements CatererService{
 	}
 
 	@Override
-	public AdminResponseClass fetchCatererByCatererId(String id) {
+	public AdminResponseClass fetchCatererByCatererId(String id, String sellerId) {
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		try
 		{
 			boolean status = false;
 			Caterer caterer = catererDao.findOne(id);
+			if(!caterer.getAllProducts().getSellerDetails().getId().equalsIgnoreCase(sellerId))
+			{
+				return null;
+			}
 			status = true;
 			List<SellerProductImagesVideos> listProductImages = new ArrayList<>();
 			List<SellerProductPricing> listProductPricings = new ArrayList<>();

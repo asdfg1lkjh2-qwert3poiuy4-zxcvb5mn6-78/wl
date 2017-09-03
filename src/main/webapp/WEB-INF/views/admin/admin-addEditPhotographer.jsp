@@ -2505,7 +2505,7 @@
 	function showImagesEdit(imageName,imageId){
 			abc = abc + "<div class=\"col-md-2 col-sm-6 col-xs-12 editImages\">"
 			+"<div class=\"thumbnail\">"
-			+"<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\" data-toggle=\"modal\" onclick=\"showModal('"+imageName+"','"+imageId+"')\"/>"
+			+"<img src=\"getImageRaw?id="+imageName+"\" class=\"img-responsive\" data-toggle=\"modal\" onclick=\"showModal('"+imageName+"','"+imageId+"')\"/>"
 			+"<span class=\"label label-danger prdctName\">25 December 2015</span>"
 		    +"</div>"
 	        +"</div>";
@@ -2520,7 +2520,7 @@
 			+"<div class=\"modal-dialog\" role=\"document\">"
 			+"<div class=\"modal-content row singleImageEdit\">"
 			+"<div class=\"col-md-4 col-xs-6 col-sm-12 thumbnail\" id=\"editImageDiv\">"
-			+"<img src=\"getImage?id="+imageName+"\" class=\"img-responsive\"/>"
+			+"<img src=\"getImageRaw?id="+imageName+"\" class=\"img-responsive\"/>"
 			+"</div>"
 			+"<div class=\"col-md-8 col-xs-6 col-sm-12 _photographerImages\">"
 			+"<form action=\"#\" id=\'singleUpload"+imageId+"\' class=\"dropzone\" method=\"post\" enctype=\"multipart/form-data\">"
@@ -2648,6 +2648,10 @@
 			processData : false,
 			contentType : "application/json",
 			success : function(data) {
+					if(data==="null" || data===null || data==="" || typeof data === "undefined")
+					{
+						alert("Error Page");
+					}
 					if(data.status){
 						$("#photoDescription").val(data.sellerPhotographer.description);
 						$("#noOfPhotosProvided").val(data.sellerPhotographer.noOfPhotosProvided);

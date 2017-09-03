@@ -8,5 +8,5 @@ public interface CatererService {
 	AdminResponseClass findLastCatererId();
 	AdminResponseClass saveCaterer(Caterer caterer);
 	AdminResponseClass fetchAllCatererProductsBySellerId(SellerDetails sellerDetails);
-	AdminResponseClass fetchCatererByCatererId(String id);
+	AdminResponseClass fetchCatererByCatererId(String id, String sellerId);
 }

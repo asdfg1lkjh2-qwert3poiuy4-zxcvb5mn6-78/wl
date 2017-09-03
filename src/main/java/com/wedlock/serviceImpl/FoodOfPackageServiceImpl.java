@@ -2,7 +2,7 @@ package com.wedlock.serviceImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,19 @@ public class FoodOfPackageServiceImpl implements FoodOfPackageService
 		foodOfPackageDao.save(foodOfPackage);
 		adminResponseClass.setStatus(true);
 		return adminResponseClass;
+	}
+
+	@Override
+	public long foodOfPackageByfoodIdAndAllProductId(long allProductId, long foodId) {
+		Query query = manager.createQuery("Select f.id from FoodOfPackage f where f.food.id=:foodId and f.allProducts.id=:allProductId");
+		query.setParameter("foodId", foodId);
+		query.setParameter("allProductId", allProductId);
+		if(!(query.getResultList().isEmpty()))
+		{
+			return (long)query.getResultList().get(0);
+		}
+		else
+			return 0;
 	}
 	
 }

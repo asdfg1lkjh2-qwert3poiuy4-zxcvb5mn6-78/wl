@@ -93,6 +93,7 @@ import com.wedlock.service.TestModelService;
 import com.wedlock.service.ZipCodeService;
 import com.wedlock.util.AllCategoryNames;
 import com.wedlock.util.CreateId;
+import com.wedlock.util.ImageResizer;
 
 /*Please Don't Delete Any Of The Imports As They Are Not Unnecessary. 
 They look so because of some commented api's which we will be taken care afterwards.
@@ -216,7 +217,6 @@ public class AdminController {
 				adminResponseClass = cityService.saveCity(city,cityValues);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass.isStatus();
@@ -229,7 +229,6 @@ public class AdminController {
 			adminResponseClass = cityService.fetchAllCities();
 			System.out.println("///List is"+adminResponseClass.getListAllCities().size());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -903,7 +902,6 @@ public class AdminController {
 			}
 					
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -916,7 +914,6 @@ public class AdminController {
 		try {
 			adminResponseClass = sellerService.fetchAllSellers();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -966,11 +963,26 @@ public class AdminController {
 		Path path = Paths.get(rpath+"/"+fullPath[0].trim()+"/"+fullPath[1].trim()+"/"+fullPath[2].trim());
 		System.out.println("Path is"+path);
 		byte[] data = Files.readAllBytes(path);
-		
+		return new ImageResizer().resize(data);
+	}
+	
+	@RequestMapping(value = "/getImageRaw")
+	@ResponseBody
+	public byte[] getImageRaw(@RequestParam("id") String id, HttpServletRequest request) throws IOException {
+		ServletContext context = request.getServletContext();
+		if(id.contains(" @-")){
+			id = id.replaceAll(" @-", "+@-");
+		}
+		String rpath = context.getRealPath("/");  
+		String fullPath[] = id.split("/");// whatever path you used for // storing the file
+			System.out.println("/////Full Path is"+fullPath[0]+" "+fullPath[1]+" "+fullPath[2]); 
+		Path path = Paths.get(rpath+"/"+fullPath[0].trim()+"/"+fullPath[1].trim()+"/"+fullPath[2].trim());
+		System.out.println("Path is"+path);
+		byte[] data = Files.readAllBytes(path);
 		return data;
 	}
 	
-	@RequestMapping(value = "/getImageSocial")
+	/*@RequestMapping(value = "/getImageSocial")
 	@ResponseBody
 	public byte[] getImageSocialWork(HttpServletRequest request) throws IOException {
 		ServletContext context = request.getServletContext();
@@ -981,7 +993,7 @@ public class AdminController {
 		byte[] data = Files.readAllBytes(path);
 		return data;
 
-	}
+	}*/
 
 	/*For Product Type*/
 	@RequestMapping(value = "/admin-addEditProductType", method = RequestMethod.POST)
@@ -1004,7 +1016,6 @@ public class AdminController {
 				adminResponseClass = productTypeService.saveProductType(productType,productTypeValues);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass.isStatus();
@@ -1016,7 +1027,6 @@ public class AdminController {
 		try {
 			adminResponseClass = productTypeService.fetchAllProductTypes();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -1028,7 +1038,6 @@ public class AdminController {
 		try {
 			adminResponseClass = productTypeService.fetchProductTypeById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -1040,7 +1049,6 @@ public class AdminController {
 		try {
 			adminResponseClass = productTypeService.fetchProductTypesWithStatusByCat(catName);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -1067,7 +1075,6 @@ public class AdminController {
 				adminResponseClass = photographyTypeService.savePhotographyType(photographyType,photographyTypeValues);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass.isStatus();
@@ -1079,7 +1086,6 @@ public class AdminController {
 		try {
 			adminResponseClass = photographyTypeService.fetchAllPhotographyTypes();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -1091,7 +1097,6 @@ public class AdminController {
 		try {
 			adminResponseClass = photographyTypeService.fetchPhotographyTypeById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -1118,7 +1123,6 @@ public class AdminController {
 				adminResponseClass = photographyOccasionService.savePhotographyOccasion(photographyOccasion,photographyOccasionValues);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass.isStatus();
@@ -1130,7 +1134,6 @@ public class AdminController {
 		try {
 			adminResponseClass = photographyOccasionService.fetchAllPhotographyOccasions();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -1142,7 +1145,6 @@ public class AdminController {
 		try {
 			adminResponseClass = photographyOccasionService.fetchPhotographyOccasionById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -1637,7 +1639,6 @@ public class AdminController {
 			}
 			System.out.println("/////AdminResponseClass is" + adminResponseClass.isStatus());
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass.isStatus();
@@ -1649,18 +1650,18 @@ public class AdminController {
 		try {
 			adminResponseClass = sellerPhotographerService.fetchAllPhotographyProducts();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
 	}
 	@RequestMapping(value = "/admin-fetchPhotographerById", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchPhotographerById(@RequestParam("id") String id) throws ParseException{
+		if((SellerDetails)httpSession.getAttribute("sellerDetailsSession") == null)
+			return null;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		try {
-			adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(id);
+			adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(id,((SellerDetails)httpSession.getAttribute("sellerDetailsSession")).getId());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -1672,7 +1673,6 @@ public class AdminController {
 		try {
 			adminResponseClass = sellerProductPricingService.checkSellerPricings(productPricing);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -1683,7 +1683,6 @@ public class AdminController {
 		try {
 			adminResponseClass = sellerDiscountService.checkSellerDiscounts(sellerDiscount);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -2121,7 +2120,6 @@ public class AdminController {
 				}
 			}
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return adminResponseClass.isStatus();
@@ -2133,7 +2131,6 @@ public class AdminController {
 		try {
 			adminResponseClass = flowerService.fetchAllFlowerProductsById((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    return adminResponseClass;
@@ -2150,11 +2147,13 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin-fetchFlowerByFlowerId", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchFlowerByFlowerId(@RequestParam("id") String id) throws ParseException {
+		if((SellerDetails)httpSession.getAttribute("sellerDetailsSession") == null)
+			return null;
 	    AdminResponseClass adminResponseClass = new AdminResponseClass();
 		try {
-			adminResponseClass = flowerService.fetchFlowerByFlowerId(id);
+			adminResponseClass = flowerService.fetchFlowerByFlowerId(id,((SellerDetails)httpSession.getAttribute("sellerDetailsSession")).getId());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	    return adminResponseClass;
@@ -2166,7 +2165,7 @@ public class AdminController {
 		try {
 			adminResponseClass = flowerService.fetchAllSellerProducts((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	    return adminResponseClass;
@@ -2179,7 +2178,7 @@ public class AdminController {
 	try {
 		adminResponseClass = freesProductService.fetchAllProductBySellerId((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
 	} catch (Exception e) {
-		// TODO Auto-generated catch block
+		
 		e.printStackTrace();
 	}
 		return adminResponseClass;
@@ -2223,7 +2222,7 @@ public class AdminController {
 			    adminResponseClass = foodTypeService.saveFoodType(foodType2);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass.isStatus();
@@ -2235,7 +2234,7 @@ public class AdminController {
 		try {
 			adminResponseClass = foodTypeService.fetchAllFoodTypes();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -2247,7 +2246,7 @@ public class AdminController {
 		try {
 			adminResponseClass = foodTypeService.fetchAllFoodTypesWithStatus();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -2259,7 +2258,7 @@ public class AdminController {
 		try {
 			adminResponseClass = foodTypeService.fetchFoodTypeById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -2271,7 +2270,7 @@ public class AdminController {
 		try {
 			adminResponseClass = foodTypeService.fetchFoodTypeByIdWithStatus(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -2318,7 +2317,7 @@ public class AdminController {
 				adminResponseClass = foodService.saveFood(food);
 			}
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass.isStatus();
@@ -2330,7 +2329,7 @@ public class AdminController {
 		try {
 			adminResponseClass = foodService.fetchAllFoodBySeller((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -2342,7 +2341,7 @@ public class AdminController {
 		try {
 			adminResponseClass = foodService.fetchFoodById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -2354,7 +2353,7 @@ public class AdminController {
 		try {
 			adminResponseClass = foodService.fetchFoodByIdWithStatus(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -2365,7 +2364,7 @@ public class AdminController {
 		try {
 			adminResponseClass = foodService.fetchFoodByTypeIdWithStatus((SellerDetails) httpSession.getAttribute("sellerDetailsSession"), typeId);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return adminResponseClass;
@@ -2452,11 +2451,10 @@ public class AdminController {
 					caterer.setFreebie(objectNode.get("freebie").asText().trim());
 				}
 				
-				if(objectNode.get("singleFiles").asText().trim().contains("-,@_"))
-				{
-					String abc[] = objectNode.get("singleFiles").asText().trim().split("\\+@-");
-					System.out.println("///SingleFiles is"+abc[0]+" "+abc[1]+" "+abc[2]);
-					caterer.setDpUrl(abc[2]);
+				if (objectNode.get("singleFiles").asText().indexOf("@*") >= 0) {
+					String abc[] = objectNode.get("singleFiles").asText().trim().split("@\\*");
+					System.out.println("///SingleFiles is" + abc[0] + " " + abc[1]);
+					caterer.setDpUrl(abc[1]);
 				}
 				else
 				{
@@ -2640,6 +2638,8 @@ public class AdminController {
 				System.out.println("////Admin Response Class after image insert: " + adminResponseClass.isStatus());
 			}
 
+			
+			System.out.println("\\\\\\\\pricingDetails : "+objectNode.get("pricingDetails"));
 			// SellerProductPricing Entry
 			if (adminResponseClass.isStatus() && objectNode.get("pricingDetails") != null) 
 			{
@@ -2670,7 +2670,7 @@ public class AdminController {
 			}
 			
 			//FoodOfPackage Insertion
-			if (adminResponseClass.isStatus() && objectNode.get("foodName") != null && !objectNode.get("foodName").asText().trim().equals("")) 
+			/*if (adminResponseClass.isStatus() && objectNode.get("foodName") != null && !objectNode.get("foodName").asText().trim().equals("")) 
 			{
 				if(objectNode.get("foodName").asText().trim().contains(","))
 				{
@@ -2694,19 +2694,80 @@ public class AdminController {
 					foodOfPackage.setFood(foodService.fetchFoodByIdWithStatus(Long.parseLong(foodId[1])).getFood());
 					adminResponseClass = foodOfPackageService.saveFoodOfPackage(foodOfPackage);
 				}
+			}*/
+			
+			if (adminResponseClass.isStatus() && (objectNode.get("foodTitleLength") == null || !objectNode.get("foodTitleLength").asText().trim().equalsIgnoreCase("same") ))
+			{
+				String addFoodId[] = null;
+				String removeFoodId[] = null;
+				//System.out.println("////// foodName: "+objectNode.get("foodName").asText().trim());
+				if(objectNode.get("foodName").asText().trim().contains("-@.-"))
+				{
+					String x[] = objectNode.get("foodName").asText().trim().split("-@.-");
+						for(int i = 0 ; i< x.length; i++)
+						{
+							if(i == 0)
+							{
+								if(x[0].trim().equals(""))
+									addFoodId = null;
+								else
+									addFoodId = x[0].split(",");
+							}
+							else if(i == 1)
+							{
+								if(x[1].trim().equals(""))
+									removeFoodId = null;
+								else
+									removeFoodId = x[1].split(",");
+							}
+						}
+				}
+				else
+					addFoodId = objectNode.get("foodName").asText().trim().split(",");
+				
+				if(addFoodId != null)
+					for (String eachFoodId : addFoodId)
+					{
+						//System.out.println("////// eachAddFoodId: "+eachFoodId);
+						eachFoodId = (eachFoodId.split("_"))[1];
+						//System.out.println("////// eachAddFoodId: "+eachFoodId);
+						FoodOfPackage foodOfPackage = new FoodOfPackage();
+						long editfoodOfPackageId = foodOfPackageService.foodOfPackageByfoodIdAndAllProductId(allProduct.getId(), Long.parseLong(eachFoodId));
+						if(editfoodOfPackageId !=0)
+							foodOfPackage.setId(editfoodOfPackageId);
+						foodOfPackage.setAllProduct(allProduct);
+						foodOfPackage.setStatus(Boolean.TRUE);
+						foodOfPackage.setFood(foodService.fetchFoodByIdWithStatus(Long.parseLong(eachFoodId)).getFood());
+						adminResponseClass = foodOfPackageService.saveFoodOfPackage(foodOfPackage);
+					}
+				if(removeFoodId != null)
+					for (String eachFoodId : removeFoodId)
+					{
+						//System.out.println("////// eachRemoveFoodId: "+eachFoodId);
+						eachFoodId = (eachFoodId.split("_"))[1];
+						FoodOfPackage foodOfPackage = new FoodOfPackage();
+						long editfoodOfPackageId = foodOfPackageService.foodOfPackageByfoodIdAndAllProductId(allProduct.getId(), Long.parseLong(eachFoodId));
+						if(editfoodOfPackageId !=0)
+							foodOfPackage.setId(editfoodOfPackageId);
+						foodOfPackage.setAllProduct(allProduct);
+						foodOfPackage.setStatus(Boolean.FALSE);
+						foodOfPackage.setFood(foodService.fetchFoodByIdWithStatus(Long.parseLong(eachFoodId)).getFood());
+						adminResponseClass = foodOfPackageService.saveFoodOfPackage(foodOfPackage);
+					}
+				
 			}
 	
 			//Interminiate-Product-Occasion Table Entry
 			System.out.println("///Occasion Id are" + objectNode.get("occasion").asText().trim());
 			if (adminResponseClass.isStatus()) {
-				if (!(objectNode.get("foodTitleLength").asText().trim().equals("same"))) {
+				if (!(objectNode.get("titleLength").asText().trim().equals("same"))) {
 					if (objectNode.get("occasion").asText().trim().indexOf(",") >= 0) {
 						String occasionNames[] = objectNode.get("occasion").asText().trim().split(",");
 						for (int i = 0; i < occasionNames.length; i++) {
 							//SellerPhotographyOccasion sellerPhotographyOccasion = new SellerPhotographyOccasion();
 							IntProductOccasion intProductOcc = new IntProductOccasion();
 							intProductOcc.setAllProducts(allProduct);
-							if (objectNode.get("foodTitleLength").asText().trim().equalsIgnoreCase("minus")) {
+							if (objectNode.get("titleLength").asText().trim().equalsIgnoreCase("minus")) {
 								adminResponseClass = occasionService.deleteOccasionByAllProductsAndOccasionId(intProductOcc.getAllProducts().getId(), Long.valueOf(Long.valueOf(occasionNames[i])));
 							} else {
 								adminResponseClass = occasionService.fetchOccasionsById(Long.valueOf(occasionNames[i]));
@@ -2721,7 +2782,7 @@ public class AdminController {
 						IntProductOccasion intProductOcc = new IntProductOccasion();
 						String occasionId = objectNode.get("occasion").asText().trim();
 						intProductOcc.setAllProducts(allProduct);
-						if (objectNode.get("foodTitleLength").asText().trim().equalsIgnoreCase("minus")) {
+						if (objectNode.get("titleLength").asText().trim().equalsIgnoreCase("minus")) {
 							adminResponseClass = occasionService.deleteOccasionByAllProductsAndOccasionId(intProductOcc.getAllProducts().getId(), Long.valueOf(occasionId));
 						} else {
 							adminResponseClass = occasionService.fetchOccasionsById(Long.valueOf(occasionId));
@@ -2762,7 +2823,7 @@ public class AdminController {
 		try {
 			adminResponseClass = catererService.fetchAllCatererProductsBySellerId((SellerDetails)httpSession.getAttribute("sellerDetailsSession"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	    return adminResponseClass;
@@ -2771,9 +2832,11 @@ public class AdminController {
 	@RequestMapping(value="/admin-fetchCatererByCatererId", method = RequestMethod.GET)
 	public @ResponseBody AdminResponseClass fetchCatererByCatererId(@RequestParam("id") String id)
 	{
+		if((SellerDetails)httpSession.getAttribute("sellerDetailsSession") == null)
+			return null;
 	    AdminResponseClass adminResponseClass = new AdminResponseClass();
 		try {
-			adminResponseClass = catererService.fetchCatererByCatererId(id);
+			adminResponseClass = catererService.fetchCatererByCatererId(id,((SellerDetails)httpSession.getAttribute("sellerDetailsSession")).getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
