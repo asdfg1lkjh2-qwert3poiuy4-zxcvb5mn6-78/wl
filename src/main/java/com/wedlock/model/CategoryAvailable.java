@@ -1,8 +1,10 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,11 +53,11 @@ private static final long serialVersionUID = 1L;
 	private List<AllProducts> allProducts;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="categoryAvailable",fetch = FetchType.LAZY)
-	private List<SellerProductCancellation> sellerProductCancellation;
+	@OneToMany(mappedBy="categoryAvailable",fetch=FetchType.LAZY)
+	private List<SellerProductCancellation> sellerProductCancellation = new ArrayList<>();
 
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="categoryAvailable",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="categoryAvailable", fetch=FetchType.LAZY)
 	@JsonIgnore
 	private List<ProductType> productType;
 	

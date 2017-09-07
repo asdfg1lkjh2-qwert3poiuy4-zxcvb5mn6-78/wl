@@ -1,9 +1,11 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,6 +21,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ProductType implements Serializable {
@@ -57,14 +61,14 @@ public class ProductType implements Serializable {
 	private CategoryAvailable categoryAvailable;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="productType",fetch = FetchType.LAZY)
-	//@JsonIgnore
-	private List<Flower> flower;
+	@OneToMany(mappedBy="productType",fetch=FetchType.LAZY)
+	@JsonIgnore
+	private List<Flower> flower = new ArrayList<>();
 
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="productType",fetch = FetchType.LAZY)
-	//@JsonIgnore
-	private List<Caterer> caterer;
+	/*@LazyCollection(LazyCollectionOption.FALSE)*/
+	@OneToMany(mappedBy="productType",fetch=FetchType.LAZY)
+	@JsonIgnore
+	private List<Caterer> caterer = new ArrayList<>();
 	
 	@Transient
 	private long editTypeId;

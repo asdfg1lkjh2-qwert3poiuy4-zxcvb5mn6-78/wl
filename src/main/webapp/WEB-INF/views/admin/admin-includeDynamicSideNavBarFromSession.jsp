@@ -20,7 +20,7 @@
 						</script>
 			<c:if test = "${sessionScope.categorySession != null }">
 			<c:forEach items="${sessionScope.categorySession}" var="categoryList">
-			<c:if test ="${categoryList.paidServiceTaken == 'Yes'}">
+			<c:if test ="${categoryList.paidServiceTaken == 'Yes' || sessionScope.adminDetailsSession != null}">
 			<c:if test ="${ sessionScope.subCategorySession !=null}">
 			<c:forEach items="${sessionScope.subCategorySession}" var="subCategoryList">
 					<script type="text/javascript">

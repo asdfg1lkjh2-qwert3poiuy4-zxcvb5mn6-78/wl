@@ -458,7 +458,6 @@
 									<script src="resources/js/jquery-2.1.3.min.js"></script>
 									<script type="text/javascript">
 									var i = Number(0);
-									var checkServiceTaken1 = "";
 									$("#serviceTakenDiv").html("");
 									var paidService = "";
 									</script>
@@ -515,9 +514,9 @@
 				                      
 				                      $("#serviceTakenDiv").append(abc);
 				                      if(paidService === "Yes"){
-				                    	  serviceTakenClick(Number(Number(i)+ Number(1)),"${serviceTaken.categoryAvailable.id}");
+				                    	  serviceTakenClicked(Number(Number(i)+ Number(1)),"${serviceTaken.categoryAvailable.id}");
 				                      }
-				                      function serviceTakenClick(id,categoryId){
+				                      function serviceTakenClicked(id,categoryId){
 				                  			if($("#serviceTakenPriceDetails"+id).hasClass("mask")){
 				                  				$("#serviceTakenPriceDetails"+id).removeClass("mask");
 				                  			}
@@ -1964,12 +1963,12 @@
 	});
 	
 	var clickedCategoryId = "";
-	var serviceTakenId = "";
+	var serviceClickedId = "";
 	var paid = "";
 	var modalServiceId = "";
 	function packageDetailsModal(categoryId,serviceName,startDate,endDate,isAnnual,serviceId,paidService,id){
 		clickedCategoryId = categoryId;
-		serviceTakenId = serviceId;
+		serviceClickedId = serviceId;
 		modalServiceId = id;
 		paid = paidService;
 		$("#serviceName").val(serviceName);
@@ -1984,7 +1983,7 @@
 		}
 	}
 
-	$("#closeModal").click(function(){
+	 $("#closeModal").click(function(){
 		if(paid === "No"){
 			if($("#serviceTakenPriceDetails"+modalServiceId).hasClass("mask1")){
   				$("#serviceTakenPriceDetails"+modalServiceId).removeClass("mask1");
@@ -2029,7 +2028,7 @@
 			    }
 			    job["serviceTakenId"] = clickedCategoryId +"_" +todayDate+"_" +isAnnual+ "_" + "Yes";
 			    job["tableName"] = ("CategoryTaken");
-			    job["categoryTakenId"] = serviceTakenId;
+			    job["categoryTakenId"] = serviceClickedId;
 
 			    alert(JSON.stringify(job));
 				 $.ajax({

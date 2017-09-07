@@ -77,7 +77,7 @@ public class CategoryTakenServiceImpl implements CategoryTakenService{
 						categoryTaken.setPaid(Boolean.FALSE);
 						categoryTaken.setStatus(Boolean.TRUE);
 						categoryTaken.setSellerDetails(sellerDetails);
-						categoryTakenDao.save(categoryTaken);
+						categoryTakenDao.saveAndFlush(categoryTaken);
 						status = true;
 					}
 				}
@@ -131,7 +131,7 @@ public class CategoryTakenServiceImpl implements CategoryTakenService{
 					if(categoryTakenId != 0){
 						 categoryTaken.setId(categoryTakenId);
 					}
-						categoryTakenDao.save(categoryTaken);
+						categoryTakenDao.saveAndFlush(categoryTaken);
 						status = true;
 				
 				}

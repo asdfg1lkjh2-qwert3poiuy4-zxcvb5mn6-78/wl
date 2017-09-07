@@ -234,7 +234,6 @@
 							alert(data.mssgStatus);
 						}
 							
-						
 					}
 					$("#submit").prop("disabled", false);
 				},

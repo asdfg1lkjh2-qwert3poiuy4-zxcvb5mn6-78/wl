@@ -582,7 +582,7 @@ abbr[title] {
 }
 .clearIcon img{
     height: 60px;
-        padding-bottom: 5px;
+    padding-bottom: 5px;
     display: block;
     margin-left: -14%;
 }
@@ -663,4 +663,63 @@ abbr[title] {
 	font-weight: 500;
 	font-style: italic;
 	margin-left: 24%;
+}
+#hallFeatures h4{
+	font-family: 'Ubuntu' !important;
+	font-size: 15px !important;
+	display: inline-block !important;
+	font-weight: 500 !important;
+	font-style: italic !important;
+}
+.plusIconFreeDiv{
+	background:none !important;
+	border:none !important;
+}
+.plusIconFreeDiv img{
+	height: 55px;
+    padding-bottom: 23%;
+    display: block;
+    margin-left: -55%;
+}
+.clearIconFreeDiv{
+	background:none !important;
+	border:none !important;
+}
+.clearIconFreeDiv img{
+    height: 57px;
+    padding-bottom: 7px;
+    display: block;
+    margin-left: -97%;
+}
+.showIconFreeDiv {
+	background:none !important;
+	border:none !important;
+}
+ .showIconFreeDiv img{
+	height: 50px;
+    margin-top: -188%;
+    margin-left: 202%;
+    padding-top: 14%;
+    display: block; 
+}
+.minusIconFreeDiv{
+	background:none !important;
+	border:none !important;
+}
+.minusIconFreeDiv img{
+	height: 56px;
+    padding-bottom: 14px;
+    display: block;
+    margin-left: -115%;
+}
+.clearIcon1FreeDiv{
+	background:none !important;
+	border:none !important;
+}
+.clearIcon1FreeDiv img{
+    height: 55px;
+    padding-bottom: 1px;
+    display: block;
+    margin-left: 137%;
+    margin-top: -151%;
 }

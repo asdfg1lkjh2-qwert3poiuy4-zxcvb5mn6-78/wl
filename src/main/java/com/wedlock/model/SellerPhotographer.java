@@ -1,9 +1,11 @@
 package com.wedlock.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,7 +48,7 @@ public class SellerPhotographer implements Serializable {
 	private AllProducts allProducts;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="sellerPhotographer",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="sellerPhotographer",fetch=FetchType.LAZY)
 	private List<SellerPhotographyOccasion> sellerPhotographyOccasions;
 	
 	//Setters And Getters

@@ -10,6 +10,89 @@
 <%@ include file="admin-includeHeader.jsp"%>
 </head>
 <body class="theme-blush">
+<!-- Test Modal -->
+<div class="modal fade" id="smallModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="smallModalLabel">Package Details</h4>
+            </div>
+            <div class="modal-body">
+					<div class="body">
+						<div class="row clearfix">
+						<div class="col-sm-3 col-xs-12">
+							<div class="form-group">
+							<label for="serviceName" style="padding-top:12%;">Service Name:</label>
+							</div>
+						</div>
+							<div class="col-sm-9 col-xs-12">
+								<div class="form-group mrgn-less-15">
+									<div class="form-line">
+										<input type="text" class="form-control"name="serviceName" id="serviceName"placeholder="Service Taken" disabled="disabled">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+						<div class="col-sm-3 col-xs-12">
+							<div class="form-group">
+							<label for="serviceName" style="padding-top:12%;">Start Date:</label>
+							</div>
+						</div>
+							<div class="col-sm-9 col-xs-12">
+								<div class="form-group mrgn-less-15">
+									<div class="form-line">
+										<input type="text" class="form-control"name="startDate" id="startDate"placeholder="Service Start Date" disabled="disabled">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+						<div class="col-sm-3 col-xs-12">
+							<div class="form-group">
+							<label for="serviceName" style="padding-top:12%;">Expiry Date:</label>
+							</div>
+						</div>
+							<div class="col-sm-9 col-xs-12">
+								<div class="form-group mrgn-less-15">
+									<div class="form-line">
+										<input type="text" class="form-control"name="endDate" id="endDate"placeholder="Service Expiry Date" disabled="disabled">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-sm-6 col-xs-12">
+								<div class="form-group mrgn-less-15">
+									<div class="checkbox">
+										<label class="labelCheckbox"> <input type="checkbox"
+											name="halfYearly" id="halfYearly">
+											<span class="cr"><i
+												class="cr-icon glyphicon glyphicon-ok"></i></span> Half Yearly Plan
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-xs-12">
+								<div class="form-group mrgn-less-15">
+									<div class="checkbox">
+										<label class="labelCheckbox"> <input type="checkbox"
+											name="annual" id="annual">
+											<span class="cr"><i
+												class="cr-icon glyphicon glyphicon-ok"></i></span> Annual Plan
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-raised waves-effect" data-dismiss="modal" id="closeModal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+     </div>
 	<!-- Page Loader -->
 	<div class="page-loader-wrapper">
 		<div class="loader">
@@ -530,7 +613,7 @@
 				idForFetch = idForFetch[1];
 				fetchSellerById(idForFetch);
 			}
-			  if(idForFetch !== ""){
+			  if(idForFetch === undefined){
 				fetchAllCategories();
 			} 
 		});
@@ -1797,6 +1880,54 @@
 									sellerAccount("Inactive",data.sellerDetail.sellerInactiveDetails[0].inactiveReason);
 									$("#sellerInactiveDiv").attr("style","display:block");
 								}
+								
+								$("#serviceTakenDiv").html("");
+								for(var i=0; i< data.sellerDetail.serviceTaken.length; i++){
+									var todayDate = moment().format("YYYY-MM-DD");
+									var sellerRegistrationEnd = moment(data.sellerDetail.sellerRegistrationEnd,"dddd DD MMMM YYYY");
+									var service = "";
+									sellerRegistrationEnd = moment(sellerRegistrationEnd).format("YYYY-MM-DD");
+									var endDate = moment(data.sellerDetail.serviceTaken[i].endDate).format("YYYY-MM-DD");
+									var planTaken;
+									 if(data.sellerDetail.serviceTaken[i].annually){
+										 planTaken = "Annual";
+									 }else{
+										 planTaken = "HalfYearly";
+									 }
+									if(moment(todayDate).isBefore(sellerRegistrationEnd) || moment(todayDate).isBefore(endDate)){
+										alert("in if oi");
+										service = service + "<div class=\"view view-eighth\" id='serviceTaken"+Number(Number(i) + Number(1))+"' >"
+										+"<div class=\"service-modal-image\">"
+					                      +"<img src=\"resources/images/16.jpg\" class=\"img-responsive\" alt=\"\">"
+					                      +"<div class=\"flower-position\">"
+					                      +"<span><img src=\"images/flower-ico.png\" alt=\"\"></span>"
+					                      +"<label>"+data.sellerDetail.serviceTaken[i].categoryAvailable.categoryName+"</label>"
+					                      +"</div>"                                                              
+					                      +"</div>"
+					                      +"<div id='serviceTakenPriceDetails"+Number(Number(i) + Number(1))+"' class=\"servicePriceDetails mask\">"
+					                      +"<div class=\"pricemodal-details\">"
+					                      +"<div class=\"serviceHalfYearly\">"
+					                      +"<span>Half-yearly</span>"
+					                      +"<p><i class=\"fa fa-inr\"></i>"+data.sellerDetail.serviceTaken[i].categoryAvailable.halfYearlyCharge+"</p>"
+					                      +"</div>"
+					                      +"<div class=\"serviceAnually\">"
+					                      +"<span>Annually</span>"
+					                      +"<p><i class=\"fa fa-inr\"></i>"+data.sellerDetail.serviceTaken[i].categoryAvailable.annualCharge+"</p>"
+					                      +"</div>"
+					                      +"</div>"
+					                      +"<div class=\"serviceTakenChecked hideDiv\" id='serviceTakenCheckedId"+Number(Number(i) + Number(1))+"'>"
+					                      +"<p>Package Taken : "+planTaken+" <a href=\"#\" title=\"View Package Details\" data-toggle=\"modal\" data-target=\"#smallModal\" onclick=\"packageDetailsModal('"+data.sellerDetail.serviceTaken[i].categoryAvailable.id+"','"+data.sellerDetail.serviceTaken[i].categoryAvailable.categoryName+"','"+data.sellerDetail.serviceTaken[i].startDate+"','"+data.sellerDetail.serviceTaken[i].endDate+"','"+data.sellerDetail.serviceTaken[i].annually+"','"+data.sellerDetail.serviceTaken[i].id+"','"+data.sellerDetail.serviceTaken[i].categoryAvailable.paidServiceTaken+"','"+Number(Number(i) + Number(1))+"')\"><i class=\"material-icons\">view_list</i> <span class=\"icon-name\"></span></a></p>"
+					                      +""
+					                      +"</div>"
+					                      +"</div>"
+					                      +"</div>";
+					                      $("#serviceTakenDiv").append(service);
+					                      if(data.sellerDetail.serviceTaken[i].paid){
+					                    	  serviceTakenClicked(Number(Number(i)+ Number(1)),data.sellerDetail.serviceTaken[i].categoryAvailable.id);  
+					                      }
+					                       
+									}
+								}
 								$("#editSellerId").val(data.sellerDetail.id);
 								
 						} 
@@ -1980,11 +2111,11 @@
                              +"<div class=\"pricemodal-details\">"
                              +"<div class=\"serviceHalfYearly\">"
                              +"<span>Half-yearly</span>"
-                             +"<p><i class=\"fa fa-inr\"></i>125</p>"
+                             +"<p><i class=\"fa fa-inr\"></i>"+data.categoryAvailables[i].halfYearlyCharge+"</p>"
                              +"</div>"
                              +"<div class=\"serviceAnually\">"
                              +"<span>Annually</span>"
-                             +"<p><i class=\"fa fa-inr\"></i>125</p>"
+                             +"<p><i class=\"fa fa-inr\"></i>"+data.categoryAvailables[i].annualCharge+"</p>"
                              +"</div>"
                              +"</div>"
                              +"<div class=\"serviceChecked hideDiv\" id='serviceCheckedId"+Number(Number(i) + Number(1))+"'>"
@@ -2076,6 +2207,35 @@
 				}else{
 					$("#servicePriceDetails"+id).addClass('mask');
 				}
+			}
+		}
+		function serviceTakenClicked(id,categoryId){
+  			if($("#serviceTakenPriceDetails"+id).hasClass("mask")){
+  				$("#serviceTakenPriceDetails"+id).removeClass("mask");
+  			}
+  			$("#serviceTakenPriceDetails"+id).addClass('mask1');
+  			$("#serviceTakenPriceDetails"+id).addClass("clicked");
+  			$("#serviceTakenCheckedId"+id).removeClass("hideDiv");
+  		}
+		function packageDetailsModal(categoryId,serviceName,startDate,endDate,isAnnual,serviceId,paidService,id){
+			alert(categoryId);
+			alert(serviceName);
+			alert(startDate);
+			alert(endDate);
+			clickedCategoryId = categoryId;
+			serviceTakenId = serviceId;
+			modalServiceId = id;
+			paid = paidService;
+			$("#serviceName").val(serviceName);
+			var startDates = new Date(startDate);
+			alert("Start Date is"+startDates);
+			startDates = moment(startDates).format("YYYY-MM-DD");
+			$("#startDate").val(startDates);
+			//$("#endDate").val(endDates);
+			if(isAnnual === "true"){
+				$("#annual").prop("checked",true);
+			}else{
+				$("#halfYearly").prop("checked",true);
 			}
 		}
 	</script>

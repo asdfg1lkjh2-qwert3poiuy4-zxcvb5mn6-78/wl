@@ -35,6 +35,7 @@ import com.wedlock.dao.StateDao;
 import com.wedlock.dao.ZipCodeDao;
 import com.wedlock.model.AdminResponseClass;
 import com.wedlock.model.ApiResponseClass;
+import com.wedlock.model.CategoryTaken;
 import com.wedlock.model.City;
 import com.wedlock.model.Otp;
 import com.wedlock.model.SellerBankDetails;
@@ -94,7 +95,7 @@ public class SellerServiceImpl implements SellerService{
 		sellerDetails.setState(state);
 		sellerDetails.setCity(city);
 		sellerDetails.setZipCode(zipCode);
-		sellerDao.save(sellerDetails);
+		sellerDao.saveAndFlush(sellerDetails);
 		status = true;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setStatus(status);
@@ -157,11 +158,15 @@ public class SellerServiceImpl implements SellerService{
 	}
 	@Override
 	public AdminResponseClass fetchAllSellersById(String id) {
-		System.out.println("//// Id is"+id);
 		boolean status = false;
 		SellerDetails sellerDetails = sellerDao.findOne(id);
 		status = true;
-		
+		if(sellerDetails.getServiceTaken().isEmpty()){
+			System.out.println("////Yes it is empty");
+		}else{
+			System.out.println("/// It is not empty"+sellerDetails.getServiceTaken().indexOf(0));
+			
+		}
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
 		adminResponseClass.setSellerDetail(sellerDetails);
 		adminResponseClass.setStatus(status);
@@ -216,16 +221,35 @@ public class SellerServiceImpl implements SellerService{
 			Date date = new Date();
 			String checkDate = simpleDateFormat.format(date);
 			date = simpleDateFormat.parse(checkDate);
+			String services = "";
 			if(sellerDetails2.isActive()){
 				System.out.println("///In if");
 				if(date.after(sellerDetails2.getSellerRegistrationEnd())){
-					System.out.println("////In first if");
-					mssg = "Trial Period has Ended on"+ sellerDetails2.getSellerRegistrationEnd()+" .Please uprade your account to resume your interrupted services";
-					status = true;
-					SellerDetails sellerDetails3 = new SellerDetails();
-					sellerDetails3 = typedQuery.getSingleResult();
-					sellerDetails3.setTypeOfSeller("Not Free");
-					sellerDao.save(sellerDetails3);
+					for(CategoryTaken categoryTaken:sellerDetails2.getServiceTaken()){
+						if(!categoryTaken.isPaid()){
+							if(services.equals("")){
+								services = categoryTaken.getCategoryAvailable().getCategoryName();
+							}else{
+								services = services +"," + categoryTaken.getCategoryAvailable().getCategoryName();
+							}
+						}
+					}
+					if(!(services.equals(""))){
+						mssg = "Your " + services +" services has expired. Please Go to The Profile Page And Upgrade To Resume Your Interrupted Services";
+					}else{
+						System.out.println("////In first if");
+						mssg = "Trial Period has Ended on"+ sellerDetails2.getSellerRegistrationEnd()+" .Please uprade your account to resume your interrupted services";
+						status = true;
+						SellerDetails sellerDetails3 = new SellerDetails();
+						sellerDetails3 = typedQuery.getSingleResult();
+						if(!(services.equals(""))){
+						   sellerDetails3.setTypeOfSeller("Premium");
+						}else{
+							sellerDetails3.setTypeOfSeller("Discontinued");
+						}
+						
+						sellerDao.save(sellerDetails3);
+					}
 				}
 				else if(!(sellerDetails2.isEmailVerified() || sellerDetails2.isMobileVerified())){
 					System.out.println("In second if");

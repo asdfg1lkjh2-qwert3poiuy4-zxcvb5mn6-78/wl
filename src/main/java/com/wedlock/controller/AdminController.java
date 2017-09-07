@@ -755,7 +755,8 @@ public class AdminController {
 						if(adminDetails != null){
 							sellerDetails.setAdminDetails(adminDetails);
 						}else{
-							/*adminResponseClass = adminDetailsService.fetchAdminDetailsById(objectNode.get("adminDetails").asLong());
+							/*SellerDetails sellerDetails2 = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
+							adminResponseClass = adminDetailsService.fetchAdminDetailsById(sellerDetails2.getAdminDetails().getId());
 							sellerDetails.setAdminDetails(adminResponseClass.getAdminDetail());*/
 							sellerDetails.setMobileVerified(objectNode.get("isMobileVerified").asBoolean());
 							sellerDetails.setEmailVerified(objectNode.get("isEmailVerified").asBoolean());
@@ -765,8 +766,7 @@ public class AdminController {
 						
 						if((AdminDetails)httpSession.getAttribute("adminDetailsSession") == null){
 							adminResponseClass = sellerService.fetchAllSellersById(sellerDetails.getId());
-							System.out.println("/////// list category taken size"+adminResponseClass.getSellerDetail().getServiceTaken().size());
-							httpSession.removeAttribute("sellerDetailsSession");
+							//httpSession.removeAttribute("sellerDetailsSession");
 							httpSession.setAttribute("sellerDetailsSession", adminResponseClass.getSellerDetail());
 							//adminFetchAllCategorySubCategory();
 						}
@@ -822,6 +822,7 @@ public class AdminController {
 			    			System.out.println("///////// In else rehsss");
 			    			SellerDetails sellerDetails2 = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
 			    			adminResponseClass = sellerService.fetchAllSellersById(sellerDetails2.getId());
+			    			System.out.println("/// Size of list is"+adminResponseClass.getSellerDetail().getServiceTaken().size());
 			    			httpSession.removeAttribute("sellerDetailsSession");
 			    			httpSession.setAttribute("sellerDetailsSession", adminResponseClass.getSellerDetail());
 							adminFetchAllCategorySubCategory();
