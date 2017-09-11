@@ -89,7 +89,7 @@ public class AdminResponseClass {
 	private List<AllProducts> listAllProducts;
 	private AllProducts allProducts;
 	
-	/*For AllProducts*/
+	/*For IntProductOccasion*/
 	private List<IntProductOccasion> listIntProductOccasion;
 	private IntProductOccasion intProductOccasion;
 	
@@ -116,6 +116,10 @@ public class AdminResponseClass {
 	/*For FoodOfPackage Product*/
 	private List<FoodOfPackage> listFoodOfPackage;
 	private FoodOfPackage foodOfPackage;
+	
+	/*For Caterer Product*/
+	private List<Halls> listAllHalls;
+	private Halls hall;
 
 	/*For TestModel*/
 	private List<TestModel> event;
@@ -585,6 +589,22 @@ public class AdminResponseClass {
 
 	public void setFoodOfPackage(FoodOfPackage foodOfPackage) {
 		this.foodOfPackage = foodOfPackage;
+	}
+
+	public List<Halls> getListAllHalls() {
+		return listAllHalls;
+	}
+
+	public void setListAllHalls(List<Halls> listAllHalls) {
+		this.listAllHalls = listAllHalls;
+	}
+
+	public Halls getHall() {
+		return hall;
+	}
+
+	public void setHall(Halls hall) {
+		this.hall = hall;
 	}
 
 	public List<TestModel> getEvent() {

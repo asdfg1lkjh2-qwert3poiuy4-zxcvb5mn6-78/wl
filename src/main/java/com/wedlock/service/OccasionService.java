@@ -9,6 +9,6 @@ public interface OccasionService {
 	AdminResponseClass fetchAllOccasions();
 	AdminResponseClass fetchOccasionsById(long id);
 	AdminResponseClass fetchAllOccasionsWithStatus();
-	AdminResponseClass deleteOccasionByAllProductsAndOccasionId(long allProductId, long occasionId);
-	AdminResponseClass saveIntProductOcc(IntProductOccasion intProductOcc, int isEdit);
+	AdminResponseClass saveIntProductOcc(IntProductOccasion intProductOcc/*, int isEdit*/);
+	AdminResponseClass fetchAllIntProductOccByAllProductId(long allProductId);
 }

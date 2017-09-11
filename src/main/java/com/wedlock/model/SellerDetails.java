@@ -80,9 +80,9 @@ public class SellerDetails implements Serializable {
 	@Transient
 	private String sellerImageFiles;
 	
-	/*@LazyCollection(LazyCollectionOption.FALSE)*/
-	@OneToMany(mappedBy = "sellerDetails",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	private List<CategoryTaken> serviceTaken = new ArrayList<>();
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "sellerDetails",fetch = FetchType.LAZY)
+	private List<CategoryTaken> serviceTaken;
 	
 	@OneToOne(mappedBy="sellerDetails")
 	private SellerBankDetails sellerBankDetails;
@@ -90,15 +90,15 @@ public class SellerDetails implements Serializable {
 	private Flower flower;*/
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="sellerDetails",fetch=FetchType.LAZY)
-	private List<SellerInactiveDetails> sellerInactiveDetails ;
+	@OneToMany(mappedBy="sellerDetails",fetch = FetchType.LAZY)
+	private List<SellerInactiveDetails> sellerInactiveDetails;
 	
 	@ManyToOne
 	@JsonIgnore
 	private AdminDetails adminDetails;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy = "sellerDetails",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "sellerDetails",fetch = FetchType.LAZY)
 	private List<AllProducts> allProducts;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)

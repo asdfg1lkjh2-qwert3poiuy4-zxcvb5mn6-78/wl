@@ -236,18 +236,18 @@ public class SellerServiceImpl implements SellerService{
 					}
 					if(!(services.equals(""))){
 						mssg = "Your " + services +" services has expired. Please Go to The Profile Page And Upgrade To Resume Your Interrupted Services";
-					}else{
-						System.out.println("////In first if");
+					}
+					if(services.equals("")){
 						mssg = "Trial Period has Ended on"+ sellerDetails2.getSellerRegistrationEnd()+" .Please uprade your account to resume your interrupted services";
 						status = true;
 						SellerDetails sellerDetails3 = new SellerDetails();
 						sellerDetails3 = typedQuery.getSingleResult();
-						if(!(services.equals(""))){
+						System.out.println("/// Services is"+services);
+						if(services.equals("")){
 						   sellerDetails3.setTypeOfSeller("Premium");
 						}else{
 							sellerDetails3.setTypeOfSeller("Discontinued");
 						}
-						
 						sellerDao.save(sellerDetails3);
 					}
 				}

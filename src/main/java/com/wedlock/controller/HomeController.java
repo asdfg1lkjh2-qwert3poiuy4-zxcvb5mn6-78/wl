@@ -125,4 +125,8 @@ public class HomeController {
 	public String adminViewSellerProfile(){
 		return "admin/admin-viewSellerProfile";
 	}
+	@RequestMapping(value ="/admin-viewHallProducts")
+	public String adminViewHallProducts(){
+		return "admin/admin-viewHallProducts";
+	}
 }

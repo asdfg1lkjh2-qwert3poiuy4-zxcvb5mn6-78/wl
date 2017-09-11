@@ -589,6 +589,7 @@
 	<script src="resources/js/jquery-2.1.3.min.js"></script>
 	<script src="resources/js/sweetalert.min.js"></script>
 	<script src="resources/js/basic-form-elements.js"></script> 
+	<script src="resources/js/date.format.js"></script>
 	<%@ include file = "admin-includeDynamicSideNavBarFromSession.jsp" %>
 
 	<script type="text/javascript">
@@ -1967,19 +1968,26 @@
 	var paid = "";
 	var modalServiceId = "";
 	function packageDetailsModal(categoryId,serviceName,startDate,endDate,isAnnual,serviceId,paidService,id){
+		alert(isAnnual);
 		clickedCategoryId = categoryId;
 		serviceClickedId = serviceId;
 		modalServiceId = id;
 		paid = paidService;
 		$("#serviceName").val(serviceName);
+		alert(startDate);
+		 var a = new Date("Wed Mar 25 2015 05:30:00 GMT+0530").format("isoDate");
+		alert(a); 
 		var startDates = moment(startDate).format("dddd DD MMMM YYYY");
 		$("#startDate").val(startDates);
 		var endDates = moment(endDate).format("dddd DD MMMM YYYY");
 		$("#endDate").val(endDates);
+		
 		if(isAnnual === "true"){
 			$("#annual").prop("checked",true);
+			$("#halfYearly").prop("checked",false);
 		}else{
 			$("#halfYearly").prop("checked",true);
+			$("#annual").prop("checked",false);
 		}
 	}
 

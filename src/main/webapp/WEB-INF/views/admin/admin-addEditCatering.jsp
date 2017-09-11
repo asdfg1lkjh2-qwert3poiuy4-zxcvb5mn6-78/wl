@@ -321,7 +321,7 @@
 											<div class="form-group">
 												<div class="form-line" id="basePrice1">
 													<input type="text" class="form-control" name="price"
-														id="price" placeholder="Base Price" disabled="disabled">
+														id="price" placeholder="Base Price" readonly="readonly">
 												</div>
 											</div>
 										</div>
@@ -333,7 +333,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="row clearfix hideDiv" id="flowerPricing1">
+									<div class="row clearfix hideDiv" id="catererPricing1">
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
 												<div class="form-line _removeFocus">
@@ -354,7 +354,7 @@
 											<div class="form-group">
 												<div class="form-line" id="basePrice2">
 													<input type="text" class="form-control" name="price"
-														id="price1" placeholder="Base Price" disabled ="disabled">
+														id="price1" placeholder="Base Price" readonly="readonly">
 												</div>
 											</div>
 										</div>
@@ -370,7 +370,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="row clearfix hideDiv" id="flowerPricing2">
+									<div class="row clearfix hideDiv" id="catererPricing2">
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
 												<div class="form-line _removeFocus">
@@ -391,7 +391,7 @@
 											<div class="form-group">
 												<div class="form-line" id="basePrice3">
 													<input type="text" class="form-control" name="price"
-														id="price2" placeholder="Base Price" disabled ="disabled">
+														id="price2" placeholder="Base Price" readonly="readonly">
 												</div>
 											</div>
 										</div>
@@ -1172,7 +1172,9 @@
 						 minDate:new Date()
 					});
 				    
-				    $("#fromDate1").val(fromDate1);
+				    if($("#fromDate1").val() === ""){
+				    	$("#fromDate1").val(fromDate1);
+				    }
 				    var toDate1 = moment(fromDate1,"dddd DD MMMM YYYY");
 				    toDate1 = toDate1.add(1,'days')
 				    toDate1 = moment(toDate1).format("dddd DD MMMM YYYY"); 
@@ -1200,7 +1202,9 @@
 				     time: false,
 					 minDate:new Date()
 				});
-			    $("#fromDate2").val(fromDate2);
+			    if($("#fromDate2").val() === ""){
+			    	$("#fromDate2").val(fromDate2);
+			    }
 			    var toDate2 = moment(fromDate2,"dddd DD MMMM YYYY");
 			    toDate2 = toDate2.add(1,'days')
 			    toDate2 = moment(toDate2).format("dddd DD MMMM YYYY");
@@ -1230,10 +1234,10 @@
 		}
 	}
 	function addDiv1() {
-		$("#flowerPricing1").attr("style", "display:block");
+		$("#catererPricing1").attr("style", "display:block");
 	}
 	function addDiv2() {
-		$("#flowerPricing2").attr("style", "display:block");
+		$("#catererPricing2").attr("style", "display:block");
 	}
 
 	$("#removePlusBtn1").click(function() {
@@ -1265,7 +1269,9 @@
 				 minDate:new Date()
 			});
 		    var from = moment().format("dddd DD MMMM YYYY")
-		    $("#fromDate").val(from);
+		    if( $("#fromDate").val() === ""){
+		    	$("#fromDate").val(from);
+		    }
 		    	$("#toDate").bootstrapMaterialDatePicker({
 					 format: 'dddd DD MMMM YYYY',
 				     clearButton: true,
@@ -3236,49 +3242,70 @@
 			
 	 });
 	 $("#fromDate").mouseleave(function(){
-		if( $("#fromDate").val() !== ""){
-			$("#toDate").attr("disabled",false);
-		}
-	 });
-	 $("#toDate").mouseleave(function(){
-		if($("#toDate").val() !==""){
-			 var fromDate = moment($("#toDate").val(),"dddd DD MMMM YYYY");
-			    fromDate = fromDate.add(1,'days');
-			    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
-			    $("#fromDate1").val(fromDate);
-			$("#price").attr("disabled",false);
-		}	
-	});
-	 $("#fromDate1").mouseleave(function(){
-		 if( $("#fromDate1").val() !== ""){
-				$("#toDate1").attr("disabled",false);
+			if( $("#fromDate").val() !== ""){
+				$("#toDate").attr("disabled",false);
+				$("#fromDate").attr("disabled",true);
 			}
-	 });
-	 $("#toDate1").mouseleave(function(){
-			if($("#toDate1").val() !==""){
-				var fromDate = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
-			    fromDate = fromDate.add(1,'days');
-			    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
-			    $("#fromDate2").val(fromDate);
-				$("#price1").attr("disabled",false);
-			}	
-	});
-	 $("#fromDate2").mouseleave(function(){
-		 if( $("#fromDate2").val() !== ""){
-				$("#toDate2").attr("disabled",false);
-			}
-	 });
-	 $("#toDate2").mouseleave(function(){
-			if($("#toDate2").val() !==""){
-				$("#price2").attr("disabled",false);
-			}	
-	});
-	
+		 });
+		 $("#toDate").mouseleave(function(){
+			if($("#toDate").val() !==""){
+				 var fromDate = moment($("#toDate").val(),"dddd DD MMMM YYYY");
+				    fromDate = fromDate.add(1,'days');
+				    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+				    if($("#fromDate1").val() === ""){
+				    	$("#fromDate1").val(fromDate);
+				    }
+				}	
+		});
+		 $("#price").click(function(){
+			 if($("#toDate").val() !== ""){
+				 $("#price").attr("readonly",false);
+				 $("#toDate") .attr("disabled",true);
+			 }
+		 });
+		 
+		 $("#fromDate1").mouseleave(function(){
+			 if( $("#fromDate1").val() !== ""){
+					$("#toDate1").attr("disabled",false);
+					$("#fromDate1").attr("disabled",true);
+				}
+		 });
+		 $("#toDate1").mouseleave(function(){
+				if($("#toDate1").val() !==""){
+					var fromDate = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
+				    fromDate = fromDate.add(1,'days');
+				    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+				    if($("#fromDate2").val() === ""){
+					    $("#fromDate2").val(fromDate);
+				    }
+				}	
+		});
+		 $("#price1").click(function(){
+			 if($("#toDate1").val() !== ""){
+				 $("#price1").attr("readonly",false);
+				 $("#toDate1").attr("disabled",true); 
+			 }
+		 });
+		 $("#fromDate2").mouseleave(function(){
+			 if( $("#fromDate2").val() !== ""){
+					$("#toDate2").attr("disabled",false);
+				}
+			 $("#fromDate2").attr("disabled",true);
+		 });
+		$("#price2").click(function(){
+			if($("#toDate2").val() !== ""){
+				 $("#price2").attr("readonly",false);
+				 $("#toDate2").attr("disabled",true);
+			 }
+		});
 	$("#clearPlusBtn,#clearPlusBtn1,#clearPlusBtn2").click(function(){
 		if(this.id === "clearPlusBtn"){
 			$("#fromDate").val("");
 			$("#toDate").val("");
+			$("#toDate").attr("disabled",true);
 			$("#price").val("");
+			$("#price").attr("readonly",true);
+			$("#price").attr("disabled",false);
 			$("#fromDate").attr("disabled",false);
 			/* $("#toDate").attr("disabled",false);
 			$("#price").attr("disabled",false); */
@@ -3287,23 +3314,30 @@
 		    fromDate = fromDate.add(1,'days');
 		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
 			$("#fromDate1").val(fromDate);
-			
-			$("#toDate1").val("");
-			$("#price1").val("");
 			$("#fromDate1").attr("disabled",false);
+			$("#toDate1").val("");
 			$("#toDate1").attr("disabled",true);
-			$("#price1").attr("disabled",true); 
+			$("#price1").val("");
+			$("#price1").attr("readonly",true);
+			$("#price").attr("disabled",false);
+			/* $("#fromDate1").attr("disabled",false);
+			$("#toDate1").attr("disabled",true);
+			$("#price1").attr("disabled",true);  */
 		}else {
 			var fromDate = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
 		    fromDate = fromDate.add(1,'days');
 		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
 		    
 			$("#fromDate2").val(fromDate);
-			$("#toDate2").val("");
-			$("#price2").val("");
 			$("#fromDate2").attr("disabled",false);
+			$("#toDate2").val("");
 			$("#toDate2").attr("disabled",true);
-			$("#price2").attr("disabled",true);
+			$("#price2").val("");
+			$("#price2").attr("readonly",true);
+			$("#price").attr("disabled",false);
+			/* $("#fromDate2").attr("disabled",false);
+			$("#toDate2").attr("disabled",true);
+			$("#price2").attr("disabled",true); */
 		}
 	}); 
 	</script> 

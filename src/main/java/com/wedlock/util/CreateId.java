@@ -7,6 +7,7 @@ public class CreateId {
 		String photographerId = "PHOTO-0090000";
 		String flowerId = "FLR-0080000";
 		String catererId = "CTR-0070000";
+		String hallId = "HALL-0060000";
 		
 		String result ="";
 		String caseValue = "";
@@ -73,6 +74,20 @@ public class CreateId {
 				result = Id[0] + "-0" + ctrA;
 			} else {
 				result = Id[0] + "-" + ctrA;
+			}
+			break;
+		case "HALL0":
+			result = hallId;
+			break;
+		case "HALL":
+			int hallA = Integer.parseInt(Id[1]) + 1;
+			int hallC = String.valueOf(Id[1]).length();
+			if (hallC == 5 || hallC == 7) {
+				result = Id[0] + "-00" + hallA;
+			} else if (hallC == 6) {
+				result = Id[0] + "-0" + hallA;
+			} else {
+				result = Id[0] + "-" + hallA;
 			}
 			break;
 		default:

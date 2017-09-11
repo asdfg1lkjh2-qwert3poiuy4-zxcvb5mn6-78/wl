@@ -45,6 +45,7 @@ import com.wedlock.model.Food;
 import com.wedlock.model.FoodOfPackage;
 import com.wedlock.model.FoodType;
 import com.wedlock.model.FreesProduct;
+import com.wedlock.model.Halls;
 import com.wedlock.model.IntProductOccasion;
 import com.wedlock.model.Occasion;
 import com.wedlock.model.Otp;
@@ -72,6 +73,7 @@ import com.wedlock.service.FlowerService;
 import com.wedlock.service.FoodOfPackageService;
 import com.wedlock.service.FoodService;
 import com.wedlock.service.FoodTypeService;
+import com.wedlock.service.HallsService;
 import com.wedlock.service.FreesProductService;
 import com.wedlock.service.MailService;
 import com.wedlock.service.OccasionService;
@@ -158,6 +160,8 @@ public class AdminController {
 	private CatererService catererService;
 	@Autowired
 	private FoodOfPackageService foodOfPackageService;
+	@Autowired
+	private HallsService hallsService;
 	@Autowired
 	HttpSession httpSession;
 	
@@ -755,8 +759,9 @@ public class AdminController {
 						if(adminDetails != null){
 							sellerDetails.setAdminDetails(adminDetails);
 						}else{
-							/*SellerDetails sellerDetails2 = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
-							adminResponseClass = adminDetailsService.fetchAdminDetailsById(sellerDetails2.getAdminDetails().getId());
+							SellerDetails sellerDetails2 = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
+							/*System.out.println("////Admin Id is"+sellerDetails2.getSellerBankDetails().getAccountNumber());*/
+							/*adminResponseClass = adminDetailsService.fetchAdminDetailsById(sellerDetails2.getAdminDetails().getId());
 							sellerDetails.setAdminDetails(adminResponseClass.getAdminDetail());*/
 							sellerDetails.setMobileVerified(objectNode.get("isMobileVerified").asBoolean());
 							sellerDetails.setEmailVerified(objectNode.get("isEmailVerified").asBoolean());
@@ -766,7 +771,7 @@ public class AdminController {
 						
 						if((AdminDetails)httpSession.getAttribute("adminDetailsSession") == null){
 							adminResponseClass = sellerService.fetchAllSellersById(sellerDetails.getId());
-							//httpSession.removeAttribute("sellerDetailsSession");
+							httpSession.removeAttribute("sellerDetailsSession");
 							httpSession.setAttribute("sellerDetailsSession", adminResponseClass.getSellerDetail());
 							//adminFetchAllCategorySubCategory();
 						}
@@ -1166,16 +1171,15 @@ public class AdminController {
 				products.setId(objectNode.get("allProductId").asLong());
 				adminResponseClass = new AdminResponseClass();
 				adminResponseClass.setStatus(Boolean.TRUE);
-			} else {
+			} 
 				System.out.println("///In else");
 				categoryName = AllCategoryNames.getCategoryName(objectNode.get("categoryName").asText());
 				adminResponseClass = categoryAvailableService.fetchCategoryByCategoryNameWithStatus(categoryName);
-			}
-
+			
 			if (adminResponseClass.isStatus()) {
-
 				products.setCategoryAvailable(adminResponseClass.getCategoryAvailable());
-				products.setSellerDetails((SellerDetails) httpSession.getAttribute("sellerDetailsSession"));
+				SellerDetails sellerDetails = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
+				products.setSellerDetails(sellerDetails);
 				adminResponseClass = allProductsService.saveAllProducts(products);
 			}
 
@@ -1981,38 +1985,47 @@ public class AdminController {
 			}
 
 			//Interminiate-Product-Occasion Table Entry
-			System.out.println("///Occasion Id are" + objectNode.get("occasion").asText());
+			System.out.println("///Occasion Id are" + objectNode.get("occasion").asText().trim());
 			if (adminResponseClass.isStatus()) {
-				if (!(objectNode.get("titleLength").asText().equals("same"))) {
-					if (objectNode.get("occasion").asText().indexOf(",") >= 0) {
-						String occasionNames[] = objectNode.get("occasion").asText().split(",");
-						for (int i = 0; i < occasionNames.length; i++) {
-							System.out.println("////Occasion is"+occasionNames[i]);
-							//SellerPhotographyOccasion sellerPhotographyOccasion = new SellerPhotographyOccasion();
-							IntProductOccasion intProductOcc = new IntProductOccasion();
-							intProductOcc.setAllProducts(products);
-							if (objectNode.get("titleLength").asText().equals("minus")) {
-								System.out.println("////All Products Id is" +intProductOcc.getAllProducts().getId());
-								adminResponseClass = occasionService.deleteOccasionByAllProductsAndOccasionId(intProductOcc.getAllProducts().getId(), Long.valueOf(Long.valueOf(occasionNames[i])));
-							} else {
-								adminResponseClass = occasionService.fetchOccasionsById(Long.valueOf(occasionNames[i]));
-								intProductOcc.setOccasion(adminResponseClass.getOccasion());
-								/*adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
-								sellerPhotographyOccasion.setSellerPhotographer(adminResponseClass.getSellerPhotographer());*/
-								adminResponseClass = occasionService.saveIntProductOcc(intProductOcc, isEdit);
-							}
-
+				if (!(objectNode.get("titleLength").asText().trim().equals("same"))) {
+					System.out.println("//// In occasion if");
+					List<IntProductOccasion> listIntProductOccasion = occasionService.fetchAllIntProductOccByAllProductId(products.getId()).getListIntProductOccasion();
+					if(listIntProductOccasion != null){
+						for(int p=0;p<listIntProductOccasion.size();p++)
+						{
+							listIntProductOccasion.get(p).setStatus(Boolean.FALSE);
+							occasionService.saveIntProductOcc(listIntProductOccasion.get(p));
 						}
-					} else {
-						IntProductOccasion intProductOcc = new IntProductOccasion();
-						String occasionId = objectNode.get("occasion").asText();
-						intProductOcc.setAllProducts(products);
-						if (objectNode.get("titleLength").asText().equals("minus")) {
-							adminResponseClass = occasionService.deleteOccasionByAllProductsAndOccasionId(intProductOcc.getAllProducts().getId(), Long.valueOf(occasionId));
-						} else {
-							adminResponseClass = occasionService.fetchOccasionsById(Long.valueOf(occasionId));
-							intProductOcc.setOccasion(adminResponseClass.getOccasion());
-							adminResponseClass = occasionService.saveIntProductOcc(intProductOcc, isEdit);
+						
+					}
+					
+					String occasionNames[] = objectNode.get("occasion").asText().trim().split(",");
+					for(int i = 0; i< occasionNames.length; i++)
+					{
+						if(listIntProductOccasion != null) {
+							boolean found = false;
+							for (int j = 0; j < listIntProductOccasion.size(); j++) {
+								if (listIntProductOccasion.get(j).getOccasion().getId() == Long.parseLong(occasionNames[i])) {
+									listIntProductOccasion.get(j).setStatus(Boolean.TRUE);
+									occasionService.saveIntProductOcc(listIntProductOccasion.get(j));
+									found = true;
+									break;
+								}
+							}
+							if(!found)
+							{
+								IntProductOccasion ipo = new IntProductOccasion();
+								ipo.setAllProducts(products);
+								ipo.setOccasion(occasionService.fetchOccasionsById(Long.parseLong(occasionNames[i])).getOccasion());
+								ipo.setStatus(Boolean.TRUE);
+								occasionService.saveIntProductOcc(ipo);
+							}
+						}else{
+							IntProductOccasion ipo = new IntProductOccasion();
+							ipo.setAllProducts(products);
+							ipo.setStatus(Boolean.TRUE);
+							ipo.setOccasion(occasionService.fetchOccasionsById(Long.parseLong(occasionNames[i])).getOccasion());
+							occasionService.saveIntProductOcc(ipo);
 						}
 					}
 				}
@@ -2387,14 +2400,12 @@ public class AdminController {
 			if (!(objectNode.get("editProductId").asText().trim().equals(""))) {
 				allProduct.setId(Long.parseLong(objectNode.get("allProductId").asText().trim()));
 				adminResponseClass.setStatus(Boolean.TRUE);
-			} else {
+			}
 				System.out.println("///In else");
 				categoryName = AllCategoryNames.getCategoryName(objectNode.get("categoryName").asText().trim());
 				adminResponseClass = categoryAvailableService.fetchCategoryByCategoryNameWithStatus(categoryName);
 				
-			}
-	
-			if (adminResponseClass.isStatus()) {
+				if (adminResponseClass.isStatus()) {
 				allProduct.setCategoryAvailable(adminResponseClass.getCategoryAvailable());
 				SellerDetails sellerDetails = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
 				allProduct.setSellerDetails(sellerDetails);
@@ -2762,34 +2773,46 @@ public class AdminController {
 			System.out.println("///Occasion Id are" + objectNode.get("occasion").asText().trim());
 			if (adminResponseClass.isStatus()) {
 				if (!(objectNode.get("titleLength").asText().trim().equals("same"))) {
-					if (objectNode.get("occasion").asText().trim().indexOf(",") >= 0) {
-						String occasionNames[] = objectNode.get("occasion").asText().trim().split(",");
-						for (int i = 0; i < occasionNames.length; i++) {
-							//SellerPhotographyOccasion sellerPhotographyOccasion = new SellerPhotographyOccasion();
-							IntProductOccasion intProductOcc = new IntProductOccasion();
-							intProductOcc.setAllProducts(allProduct);
-							if (objectNode.get("titleLength").asText().trim().equalsIgnoreCase("minus")) {
-								adminResponseClass = occasionService.deleteOccasionByAllProductsAndOccasionId(intProductOcc.getAllProducts().getId(), Long.valueOf(Long.valueOf(occasionNames[i])));
-							} else {
-								adminResponseClass = occasionService.fetchOccasionsById(Long.valueOf(occasionNames[i]));
-								intProductOcc.setOccasion(adminResponseClass.getOccasion());
-								/*adminResponseClass = sellerPhotographerService.fetchSellerPhotographerById(photographerId);
-								sellerPhotographyOccasion.setSellerPhotographer(adminResponseClass.getSellerPhotographer());*/
-								adminResponseClass = occasionService.saveIntProductOcc(intProductOcc, isEdit);
+					List<IntProductOccasion> listIntProductOccasion = occasionService.fetchAllIntProductOccByAllProductId(allProduct.getId()).getListIntProductOccasion();
+					if(listIntProductOccasion != null){
+						for(int p=0;p<listIntProductOccasion.size();p++)
+						{
+							listIntProductOccasion.get(p).setStatus(Boolean.FALSE);
+							occasionService.saveIntProductOcc(listIntProductOccasion.get(p));
+						}
+					}
+					
+					String occasionNames[] = objectNode.get("occasion").asText().trim().split(",");
+					for(int i = 0; i< occasionNames.length; i++)
+					{
+						boolean found = false;
+						if(listIntProductOccasion != null){
+							for (int j = 0; j < listIntProductOccasion.size(); j++)
+							{
+								if(listIntProductOccasion.get(j).getOccasion().getId() == Long.parseLong(occasionNames[i]))
+								{
+									listIntProductOccasion.get(j).setStatus(Boolean.TRUE);
+									occasionService.saveIntProductOcc(listIntProductOccasion.get(j));
+									found = true;
+									break;
+								}
 							}
-	
+							if(!found)
+							{
+								IntProductOccasion ipo = new IntProductOccasion();
+								ipo.setAllProducts(allProduct);
+								ipo.setOccasion(occasionService.fetchOccasionsById(Long.parseLong(occasionNames[i])).getOccasion());
+								ipo.setStatus(Boolean.TRUE);
+								occasionService.saveIntProductOcc(ipo);
+							}
+						}else{
+							IntProductOccasion ipo = new IntProductOccasion();
+							ipo.setAllProducts(allProduct);
+							ipo.setOccasion(occasionService.fetchOccasionsById(Long.parseLong(occasionNames[i])).getOccasion());
+							ipo.setStatus(Boolean.TRUE);
+							occasionService.saveIntProductOcc(ipo);
 						}
-					} else {
-						IntProductOccasion intProductOcc = new IntProductOccasion();
-						String occasionId = objectNode.get("occasion").asText().trim();
-						intProductOcc.setAllProducts(allProduct);
-						if (objectNode.get("titleLength").asText().trim().equalsIgnoreCase("minus")) {
-							adminResponseClass = occasionService.deleteOccasionByAllProductsAndOccasionId(intProductOcc.getAllProducts().getId(), Long.valueOf(occasionId));
-						} else {
-							adminResponseClass = occasionService.fetchOccasionsById(Long.valueOf(occasionId));
-							intProductOcc.setOccasion(adminResponseClass.getOccasion());
-							adminResponseClass = occasionService.saveIntProductOcc(intProductOcc, isEdit);
-						}
+						
 					}
 				}
 				//System.out.println("////Admin Response Class after IntProductOccasion insert: " + adminResponseClass.isStatus());
@@ -2838,6 +2861,452 @@ public class AdminController {
 	    AdminResponseClass adminResponseClass = new AdminResponseClass();
 		try {
 			adminResponseClass = catererService.fetchCatererByCatererId(id,((SellerDetails)httpSession.getAttribute("sellerDetailsSession")).getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    return adminResponseClass;
+	}
+	
+	/*For Hall Product*/
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@RequestMapping(value = "/admin-addEditHall", method = RequestMethod.POST)
+	public @ResponseBody boolean addEditHall(@RequestBody ObjectNode objectNode, BindingResult bindingResult, HttpServletRequest request) 
+	{
+		String hallId = "";
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		AllProducts allProduct = new AllProducts();
+		String categoryName;
+		try 
+		{
+			if (!(objectNode.get("editProductId").asText().trim().equals(""))) {
+				allProduct.setId(Long.parseLong(objectNode.get("allProductId").asText().trim()));
+				adminResponseClass.setStatus(Boolean.TRUE);
+			} 
+				//System.out.println("///In else");
+				categoryName = AllCategoryNames.getCategoryName(objectNode.get("categoryName").asText().trim());
+				adminResponseClass = categoryAvailableService.fetchCategoryByCategoryNameWithStatus(categoryName);
+		
+			if (adminResponseClass.isStatus()) {
+				allProduct.setCategoryAvailable(adminResponseClass.getCategoryAvailable());
+				SellerDetails sellerDetails = (SellerDetails)httpSession.getAttribute("sellerDetailsSession");
+				allProduct.setSellerDetails(sellerDetails);
+				adminResponseClass = allProductsService.saveAllProducts(allProduct);
+			}
+			
+			// Hall Product Entry
+			if (adminResponseClass.isStatus()) {
+				Halls hall = new Halls();
+				if (objectNode.get("editProductId").asText().trim().equals("")) {
+					adminResponseClass = hallsService.findLastHallId();
+					if (adminResponseClass.getLastId().equals("0")) {
+						String id = new CreateId().IdGeneration("HALL0");
+						hall.setId(id);
+						hallId = id;
+					} else {
+						String id = new CreateId().IdGeneration(adminResponseClass.getLastId());
+						if (!(id.equalsIgnoreCase("No Id Found"))) 
+						{
+							hall.setId(id);
+							hallId = id;
+						}
+						else
+						{
+							return false;
+						}
+					}
+					hall.setStatus(Boolean.TRUE);
+				} else {
+					hall.setId(objectNode.get("editProductId").asText().trim());
+					hallId = objectNode.get("editProductId").asText().trim();
+					if(objectNode.get("productStatus") == null && objectNode.get("productStatus").asText().trim().equals("Active")){
+						hall.setStatus(Boolean.TRUE);
+					}
+					else{
+						hall.setStatus(Boolean.FALSE);
+					}
+	
+				}
+				
+				hall.setName(objectNode.get("name").asText().trim());
+				adminResponseClass = productTypeService.fetchProductTypeByIdWithStatus(Long.parseLong(objectNode.get("typeName").asText().trim()));
+				hall.setProductType(adminResponseClass.getProductType());
+				hall.setDescription(objectNode.get("description").asText().trim());
+				hall.setAdvancePaymentPercentage(Double.parseDouble(objectNode.get("advancePaymentPercentage").asText().trim()));
+				
+				hall.setNoOfBedRoom(objectNode.get("isExtraBedRooms").asInt());
+				hall.setHasParking(objectNode.get("isParkingFacility").asBoolean());
+				hall.setLawnArea(objectNode.get("lawnArea").asInt());
+				hall.setCrackerAllowed(objectNode.get("crackerAllowed").asBoolean());
+				hall.setCelebrationArea(objectNode.get("celebrationArea").asInt());
+				hall.setHasWifi(objectNode.get("isWifiConnection").asBoolean());
+				hall.setNoOfWashRoom(objectNode.get("isnoOfWashRooms").asInt());
+				hall.setSeparateKitchen(objectNode.get("separateKitchen").asBoolean());
+				hall.setSeparateStoreRoom(objectNode.get("separateStoreRoom").asBoolean());
+				hall.setEatingSeatCapacity(objectNode.get("eatingSeatCapacity").asInt());
+				
+				if(objectNode.get("availability").asText().trim().equalsIgnoreCase("Yes"))
+					hall.setAvailability(Boolean.TRUE);
+				else 
+					hall.setAvailability(Boolean.FALSE);
+				
+				if(objectNode.get("freebie") != null || !objectNode.get("freebie").asText().trim().equals("")){
+					hall.setFreebie(objectNode.get("freebie").asText().trim());
+				}
+				
+				if (objectNode.get("singleFiles").asText().indexOf("@*") >= 0) {
+					String abc[] = objectNode.get("singleFiles").asText().trim().split("@\\*");
+					System.out.println("///SingleFiles is" + abc[0] + " " + abc[1]);
+					hall.setDpUrl(abc[1]);
+				}
+				else
+				{
+					String dpImages[] = objectNode.get("singleFiles").asText().trim().split("-,@_");
+					ServletContext context = request.getServletContext();
+					for(int i = 0; i<dpImages.length;i++){
+						String image[] = dpImages[i].split("\\+@-");
+						if (i == (dpImages.length - 1)) {
+							String uploadPath = context.getRealPath("/" + image[0]);
+							File uploadDir = new File(uploadPath);
+							if (uploadDir.exists()) 
+							{
+								File upLoadSubFolder = new File(uploadDir + "/" + image[1] + "+@-"+hall.getId());
+								if (!upLoadSubFolder.exists()) {
+									boolean success = upLoadSubFolder.mkdir();
+								}
+							}
+							File file = new File(context.getRealPath("/" + image[0] + "/temp/" + image[2].trim()));
+							System.out.println("////File is" + file);
+							file.renameTo(new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "+@-" + hall.getId() + "/"+ image[2].trim())));
+							System.out.println("////Rename file is" + new File(context.getRealPath("/" + image[0] + "/" + image[1]+ "+@-" + hall.getId() + "/"+ image[2].trim())));
+							hall.setDpUrl(image[0] + "/" + image[1]+ "+@-" + hall.getId() + "/"+ image[2].trim());
+						}
+						else
+						{
+							File currentFile = new File(context.getRealPath("/" + image[0] + "/temp/" + image[2].trim()));
+							currentFile.delete();
+						}
+					}
+				}
+				
+				hall.setAllProducts(allProduct);
+				adminResponseClass = hallsService.saveHall(hall);
+	
+			}
+			int isEdit = 0;
+			if (!objectNode.get("editProductId").asText().trim().equals("")) {
+				isEdit = 1;
+			}
+			
+			// SellerProductImagesVideos Entry
+			if (adminResponseClass.isStatus()) {
+				ServletContext context = request.getServletContext();
+				if (objectNode.get("multipleFiles").asInt() != 1) {
+					if (objectNode.get("multipleFiles").asText().indexOf("-,@_") >= 0) {
+						String productImages[] = objectNode.get("multipleFiles").asText().split("-,@_");
+						List<String> listString = new ArrayList<String>();
+						for (String abc : productImages) {
+							listString.add(abc);
+						}
+						if (isEdit == 1) {
+							String modal = objectNode.get("modelId").asText();
+							String[] modalId = modal.split("-,@_");
+							for (int i = 0; i < modalId.length; i++) {
+								String a = "";
+								Iterator<String> iterator = listString.iterator();
+								while (iterator.hasNext()) {
+									String strings = iterator.next();
+									if (strings.indexOf("\\+@-" + modalId[i]) >= 0) {
+										if (a.equals("")) {
+											a = strings;
+										} else {
+											a = a + "-,@_" + strings;
+										}
+										iterator.remove();
+									}
+	
+								}
+								if (!a.equals("")) {
+									String[] subA = a.split("-,@_");
+									for (int k = 0; k < subA.length; k++) {
+										SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
+										String subSellerImages[] = subA[k].split("\\+@-");
+										System.out.println("//// Sub A Length" + subA.length + " " + (subA.length - 1));
+										if (k == (subA.length - 1)) {
+											String uploadPath = context.getRealPath("/" + subSellerImages[0]);
+											File uploadDir = new File(uploadPath);
+											if (uploadDir.exists()) 
+											{
+	
+												File upLoadSubFolder = new File(uploadDir + "/" + subSellerImages[1] + "+@-" + hallId);
+												if (!upLoadSubFolder.exists())
+												{
+													boolean success = upLoadSubFolder.mkdir();
+												}
+	
+											}
+											System.out.println("/////" + subSellerImages[0] + " " + subSellerImages[1] + " " + subSellerImages[2] + " " + subSellerImages[3]);
+											File file = new File(context.getRealPath("/" + subSellerImages[0] + "/temp/" + subSellerImages[2].trim()));
+											file.renameTo(new File(context.getRealPath("/" + subSellerImages[0] + "/" + subSellerImages[1] + "+@-" + hallId + "/" + subSellerImages[2].trim())));
+											productImagesVideos.setProductImageVideoUrl(subSellerImages[0] + "/" + subSellerImages[1]+ "+@-" + hallId + "/" + subSellerImages[2].trim());
+											productImagesVideos.setPhotoVideo(Boolean.TRUE);
+											productImagesVideos.setAllProducts(allProduct);
+											productImagesVideos.setId(Long.valueOf(subSellerImages[3]));
+											adminResponseClass = sellerProductImagesVideosService.fetchSellerProductImagesVideosById(productImagesVideos.getId());
+											String path = adminResponseClass.getSellerProductImageVideo().getProductImageVideoUrl();
+											adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+											if (adminResponseClass.isStatus()) {
+												File currentFile = new File(context.getRealPath("/" + path));
+												currentFile.delete();
+											}
+										} else {
+											File currentFile = new File(context.getRealPath("/" + subSellerImages[0] + "/temp/" + subSellerImages[2].trim()));
+											currentFile.delete();
+										}
+									}
+								}
+							}
+	
+						} else {
+							for (int i = 0; i < productImages.length; i++) {
+								SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
+								String subProductImages[] = productImages[i].split("\\+@-");
+	
+								String uploadPath = context.getRealPath("/" + subProductImages[0]);
+								File uploadDir = new File(uploadPath);
+								if (uploadDir.exists()) 
+								{
+									File upLoadSubFolder = new File(uploadDir + "/" + subProductImages[1] + "+@-" + hallId);
+									if (!upLoadSubFolder.exists()) 
+									{
+										boolean success = upLoadSubFolder.mkdir();
+									}
+	
+								}
+								System.out.println("//// File path is"+subProductImages[0]+" "+subProductImages[1]+" "+subProductImages[2]);
+								File file = new File(context.getRealPath("/" + subProductImages[0] + "/temp/" + subProductImages[2].trim()));
+								file.renameTo(new File(context.getRealPath("/" + subProductImages[0] + "/" + subProductImages[1] + "+@-" + hallId + "/" + subProductImages[2].trim())));
+								productImagesVideos.setProductImageVideoUrl(subProductImages[0] + "/" + subProductImages[1] + "+@-" + hallId + "/" + subProductImages[2].trim());
+								productImagesVideos.setPhotoVideo(Boolean.TRUE);
+								productImagesVideos.setAllProducts(allProduct);
+								adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+							}
+						}
+	
+					}
+					else 
+					{
+						SellerProductImagesVideos productImagesVideos = new SellerProductImagesVideos();
+						String productImages[] = objectNode.get("multipleFiles").asText().split("\\+@-");
+	
+						String uploadPath = context.getRealPath("/" + productImages[0]);
+						File uploadDir = new File(uploadPath);
+						if (uploadDir.exists()) 
+						{
+	
+							File upLoadSubFolder = new File(uploadDir + "/" + productImages[1] + "+@-" + hallId);
+							if (!upLoadSubFolder.exists()) 
+							{
+								boolean success = upLoadSubFolder.mkdir();
+							}
+							File file = new File(context.getRealPath("/" + productImages[0] + "/temp/" + productImages[2].trim()));
+							file.renameTo(new File(context.getRealPath("/" + productImages[0] + "/" + productImages[1] + "+@-" + hallId + "/" + productImages[2].trim())));
+							productImagesVideos.setProductImageVideoUrl(productImages[0] + "/" + productImages[1] + "+@-" + hallId + "/" + productImages[2].trim());
+							productImagesVideos.setPhotoVideo(Boolean.TRUE);
+							productImagesVideos.setAllProducts(allProduct);
+							if (isEdit == 1) 
+							{
+								productImagesVideos.setId(Long.valueOf(productImages[3]));
+								adminResponseClass = sellerProductImagesVideosService.fetchSellerProductImagesVideosById(productImagesVideos.getId());
+								String path = adminResponseClass.getSellerProductImageVideo().getProductImageVideoUrl();
+								adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+								if (adminResponseClass.isStatus()) 
+								{
+									File currentFile = new File(context.getRealPath("/" + path));
+									currentFile.delete();
+								}
+							}
+							else
+							{
+								adminResponseClass = sellerProductImagesVideosService.saveSellerProductImagesVideos(productImagesVideos);
+							}
+	
+						}
+					}
+				}
+				System.out.println("////Admin Response Class after image insert: " + adminResponseClass.isStatus());
+			}
+			
+			// SellerProductPricing Entry
+			if (adminResponseClass.isStatus() && objectNode.get("pricingDetails") != null) 
+			{
+				if (objectNode.get("pricingDetails").asText().trim().contains("-,@_"))
+				{
+					String productPricings[] = objectNode.get("pricingDetails").asText().trim().split("-,@_");
+					for (int i = 0; i < productPricings.length; i++)
+					{
+						String subProductPricings[] = productPricings[i].split("_@.");
+						SellerProductPricing sellerProductPricings = new SellerProductPricing();
+						sellerProductPricings.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(subProductPricings[0].trim()));
+						sellerProductPricings.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(subProductPricings[1].trim()));
+						sellerProductPricings.setPrice(Double.valueOf(subProductPricings[2].trim()));
+						sellerProductPricings.setAllProducts(allProduct);
+						adminResponseClass = sellerProductPricingService.saveSellerProductPricing(sellerProductPricings);
+					}
+				} 
+				else
+				{
+					String productPricings[] = objectNode.get("pricingDetails").asText().trim().split("_@.");
+					SellerProductPricing sellerProductPricings = new SellerProductPricing();
+					sellerProductPricings.setPriceFromDate(new SimpleDateFormat("yyyy-MM-dd").parse(productPricings[0].trim()));
+					sellerProductPricings.setPriceToDate(new SimpleDateFormat("yyyy-MM-dd").parse(productPricings[1].trim()));
+					sellerProductPricings.setPrice(Double.valueOf(productPricings[2].trim()));
+					sellerProductPricings.setAllProducts(allProduct);
+					adminResponseClass = sellerProductPricingService.saveSellerProductPricing(sellerProductPricings);
+				}
+			}
+			
+			//Interminiate-Product-Occasion Table Entry
+			System.out.println("///Occasion Id are" + objectNode.get("occasion").asText().trim());
+			if (adminResponseClass.isStatus()) {
+				if ((!(objectNode.get("titleLength").asText().trim().equals("same")))) {
+					List<IntProductOccasion> listIntProductOccasion = occasionService.fetchAllIntProductOccByAllProductId(allProduct.getId()).getListIntProductOccasion();
+					if(listIntProductOccasion != null){
+						for(int p=0;p<listIntProductOccasion.size();p++)
+						{
+							listIntProductOccasion.get(p).setStatus(Boolean.FALSE);
+							occasionService.saveIntProductOcc(listIntProductOccasion.get(p));
+						}
+						
+					}
+					String occasionNames[] = objectNode.get("occasion").asText().trim().split(",");
+					for(int i = 0; i< occasionNames.length; i++)
+					{
+						boolean found = false;
+						if(listIntProductOccasion != null){
+							for (int j = 0; j < listIntProductOccasion.size(); j++)
+							{
+								if(listIntProductOccasion.get(j).getOccasion().getId() == Long.parseLong(occasionNames[i]))
+								{
+									listIntProductOccasion.get(j).setStatus(Boolean.TRUE);
+									occasionService.saveIntProductOcc(listIntProductOccasion.get(j));
+									found = true;
+									break;
+								}
+							}
+							if(!found)
+							{
+								IntProductOccasion ipo = new IntProductOccasion();
+								ipo.setAllProducts(allProduct);
+								ipo.setOccasion(occasionService.fetchOccasionsById(Long.parseLong(occasionNames[i])).getOccasion());
+								ipo.setStatus(Boolean.TRUE);
+								occasionService.saveIntProductOcc(ipo);
+							}	
+						}else{
+							IntProductOccasion ipo = new IntProductOccasion();
+							ipo.setAllProducts(allProduct);
+							ipo.setOccasion(occasionService.fetchOccasionsById(Long.parseLong(occasionNames[i])).getOccasion());
+							ipo.setStatus(Boolean.TRUE);
+							occasionService.saveIntProductOcc(ipo);
+						}
+						
+					}
+				}
+				//System.out.println("////Admin Response Class after IntProductOccasion insert: " + adminResponseClass.isStatus());
+			}
+	
+			//DiscountDetails Entry to SellerDiscount Table
+			if ((Integer.parseInt(objectNode.get("hasValue").asText().trim()) == 1) && (adminResponseClass.isStatus())) {
+				SellerDiscount sellerDiscount = new SellerDiscount();
+				sellerDiscount.setFromDateDiscount(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("fromDateDiscount").asText().trim()));
+				sellerDiscount.setToDateDiscount(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("toDateDiscount").asText().trim()));
+				sellerDiscount.setDiscount(Double.parseDouble(objectNode.get("discount").asText().trim()));
+				if (Integer.parseInt(objectNode.get("isFlat").asText().trim()) == 1) {
+					sellerDiscount.setFlatDiscount(Boolean.TRUE);
+				} else {
+					sellerDiscount.setFlatDiscount(Boolean.FALSE);
+				}
+				sellerDiscount.setAllProducts(allProduct);
+				adminResponseClass = sellerDiscountService.saveSellerDiscount(sellerDiscount);
+			}			
+			
+			//For freeProduct Insert
+			if(adminResponseClass.isStatus())
+			{
+				if (objectNode.get("freeProduct") != null)
+				{
+					if (objectNode.get("freeProduct").asText().indexOf(",") >= 0)
+					{
+						String freeProductIds[] = objectNode.get("freeProduct").asText().trim().split(",");
+						String freeProductQtys[] = objectNode.get("freeProductQty").asText().trim().split(",");
+						String freeProductvalidities[] = objectNode.get("freeProductValidity").asText().trim().split(",");
+						
+						for(int i=0;i<freeProductIds.length;i++)
+						{
+							FreesProduct freesProduct = new FreesProduct();
+							AdminResponseClass singleProduct = new AdminResponseClass();
+							singleProduct = allProductsService.fetchAllProductByIdAndSeller(Integer.parseInt(freeProductIds[i].trim()), allProduct.getSellerDetails().getId());	
+							
+							freesProduct.setToId(singleProduct.getAllProducts());
+							freesProduct.setWithId(allProduct);
+							freesProduct.setQty(Integer.parseInt(freeProductQtys[i].trim()));
+							freesProduct.setValidTo(new SimpleDateFormat("yyyy-MM-dd").parse(freeProductvalidities[i].trim()));
+							freesProduct.setStatus(Boolean.TRUE);
+							if(singleProduct.isStatus())
+							{
+								adminResponseClass = freesProductService.saveFreesProduct(freesProduct);
+								adminResponseClass.setMssgStatus("Free Product Successfully Inserted");
+							}
+						}
+					}
+					else
+					{
+						FreesProduct freesProduct = new FreesProduct();
+						AdminResponseClass singleProduct = new AdminResponseClass();
+						singleProduct = allProductsService.fetchAllProductByIdAndSeller(Integer.parseInt(objectNode.get("freeProduct").asText().trim()), allProduct.getSellerDetails().getId());
+						
+						freesProduct.setToId(singleProduct.getAllProducts());
+						freesProduct.setWithId(allProduct);
+						freesProduct.setQty(Integer.parseInt(objectNode.get("freeProductQty").asText().trim().trim()));
+						freesProduct.setValidTo(new SimpleDateFormat("yyyy-MM-dd").parse(objectNode.get("freeProductValidity").asText().trim()));
+						freesProduct.setStatus(Boolean.TRUE);
+						if(singleProduct.isStatus())
+						{
+							adminResponseClass = freesProductService.saveFreesProduct(freesProduct);
+							adminResponseClass.setMssgStatus("Free Product Successfully Inserted");
+						}
+					}
+				}
+			}
+			
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return adminResponseClass.isStatus();
+	}
+	
+	@RequestMapping(value = "/admin-fetchAllHallsBySellerId", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchAllHallsBySellerId()
+	{
+	    AdminResponseClass adminResponseClass = new AdminResponseClass();
+		try {
+			adminResponseClass = hallsService.fetchAllHallsBySellerId(((SellerDetails)httpSession.getAttribute("sellerDetailsSession")).getId());
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+	    return adminResponseClass;
+	}
+	
+	@RequestMapping(value="/admin-fetchHallByHallId", method = RequestMethod.GET)
+	public @ResponseBody AdminResponseClass fetchHallByHallId(@RequestParam("id") String id)
+	{
+		if((SellerDetails)httpSession.getAttribute("sellerDetailsSession") == null)
+			return null;
+	    AdminResponseClass adminResponseClass = new AdminResponseClass();
+		try {
+			adminResponseClass = hallsService.fetchHallByHallId(id,((SellerDetails)httpSession.getAttribute("sellerDetailsSession")).getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

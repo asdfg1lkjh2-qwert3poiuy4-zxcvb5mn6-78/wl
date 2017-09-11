@@ -1,14 +1,11 @@
 package com.wedlock.serviceImpl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,39 +101,29 @@ public class OccasionServiceImpl implements OccasionService {
 		return adminResponseClass;
 	}
 	
-	@Override
-	public AdminResponseClass deleteOccasionByAllProductsAndOccasionId(long allProductId, long occasionId) {
-		System.out.println("All Product Id is"+allProductId +" "+occasionId);
-		boolean status = false;
-		Query query = manager.createQuery("Delete from IntProductOccasion ipo where ipo.allProducts.id =:allProductId AND ipo.occasion.id !=:occasionId").setParameter("allProductId", allProductId).setParameter("occasionId", occasionId);
-		int deletedCount = query.executeUpdate();
-		System.out.println("///Deleted Count is"+deletedCount);
-		status = true;
-		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		if(deletedCount == 1){
-			adminResponseClass.setStatus(status);
-		}else{
-			System.out.println("///In else reh");
-			adminResponseClass.setStatus(Boolean.FALSE);
-		}
-		return adminResponseClass;
-	}
 	
 	@Override
-	public AdminResponseClass saveIntProductOcc(IntProductOccasion intProductOcc, int isEdit) {
+	public AdminResponseClass saveIntProductOcc(IntProductOccasion intProductOcc) {
 		boolean status = false;
 		AdminResponseClass adminResponseClass = new AdminResponseClass();
-		if(isEdit == 1){
-			TypedQuery<IntProductOccasion> typedQuery= manager.createQuery("Select ipo from IntProductOccasion ipo where ipo.allProducts.id LIKE:allProductId AND ipo.occasion.id LIKE:occasionId",IntProductOccasion.class).setParameter("allProductId", intProductOcc.getAllProducts().getId()).setParameter("occasionId", intProductOcc.getOccasion().getId());
-			if(typedQuery.getResultList().isEmpty()){
-				isEdit = 0;
-			}
-		}
+		productOccasionDao.save(intProductOcc);
+		status = true;
+		adminResponseClass.setStatus(status);
+		return adminResponseClass;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public AdminResponseClass fetchAllIntProductOccByAllProductId(long allProductId) {
+		boolean status = false;
+		AdminResponseClass adminResponseClass = new AdminResponseClass();
+		Query query = manager.createQuery("Select ipo from IntProductOccasion ipo where ipo.allProducts.id =:allProductId order by ipo.entryTime");
+		query.setParameter("allProductId", allProductId);
 		
-		if(isEdit == 0)
+		if(!(query.getResultList().isEmpty()))
 		{
-			intProductOcc.setStatus(Boolean.TRUE);
-			productOccasionDao.save(intProductOcc);
+			List<IntProductOccasion> intProductOccasionList = query.getResultList();
+			adminResponseClass.setListIntProductOccasion(intProductOccasionList);
 			status = true;
 		}
 		adminResponseClass.setStatus(status);

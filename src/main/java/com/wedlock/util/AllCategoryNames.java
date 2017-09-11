@@ -13,6 +13,9 @@ public class AllCategoryNames {
 		case "admin-addEditCatering":
 			categoryName = "Catering";
 			break;
+		case "admin-addEditHall":
+			categoryName = "Hall";
+			break;
 		default:
 			throw new IllegalArgumentException("Invalid requestUrl");
 		}

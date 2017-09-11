@@ -376,17 +376,7 @@
 													<option value="20">XXXX</option>
 												</select>
 											</div>
-										</div>
-										<div class="col-sm-1 col-xs-12">
-											<div class="form-group">
-												<div class="form-line">
-													<input type="text" class="form-control"
-														name="freeProductPieces" id="freeProductPieces"
-														placeholder="Pieces">
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-3 col-xs-12">
+										</div><div class="col-sm-3 col-xs-12">
 											<div class="form-group mrgn-less-15">
 												<div class="form-line">
 													<input type="text" class="datepicker form-control"
@@ -399,17 +389,29 @@
 											<div class="form-group mrgn-less-15">
 												<div class="form-line">
 													<input type="text" class="datepicker form-control"
-														name="toDateFreeProduct" id="toDateFreeProduct"
+														name="toDateFreeProduct" id="toDateFreeProduct" disabled="disabled"
 														placeholder="To Date">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-1 col-xs-12">
+											<div class="form-group">
+												<div class="form-line">
+													<input type="text" class="form-control"
+														name="freeProductPieces" id="freeProductPieces"
+														placeholder="Pieces">
 												</div>
 											</div>
 										</div>
 										<div class="col-sm-2 col-xs-12">
 											<div class="form-group">
-												<button type="button" class="btn btn-raised gradient-right"
-													id="plusbtnFreeDiv">Add</button>
-													<button type="button" class="btn btn-raised gradient-right hideDiv"
-												id="showFreeProducts" data-toggle="modal" data-target="#showFreeProductModal">Show Frees</button>
+											<button type="button" id="plusbtnFreeDiv" class="plusIconFreeDiv" title="Add Price"><img src="resources/images/icons8-Add-80.png" class="img-responsive"></button>
+											<button type="button" id="clearPlusBtnFreeDiv" class="clearIconFreeDiv" title="Clear Dates"><img src="resources/images/icons8-Clear Symbol-80.png" class="img-responsive"></button>
+											<button type="button" id="showFreeProducts" class="showIconFreeDiv hideDiv" title="Show Previous Prices" data-toggle="modal" data-target="showFreeProductModal"><img src="resources/images/icons8-Show Property-100.png" class="img-responsive"></button>	
+												<!-- <button type="button" class="btn btn-raised gradient-right"
+													id="plusbtnFreeDiv">Add</button> -->
+													<!-- <button type="button" class="btn btn-raised gradient-right hideDiv"
+												id="showFreeProducts" data-toggle="modal" data-target="#showFreeProductModal">Show Frees</button> -->
 											</div>
 										</div>
 									</div>
@@ -425,15 +427,6 @@
 											</select>
 										</div>
 									</div>
-									<div class="col-sm-1 col-xs-12">
-										<div class="form-group">
-											<div class="form-line">
-												<input type="text" class="form-control"
-													name="freeProductPieces1" id="freeProductPieces1"
-													placeholder="Pieces">
-											</div>
-										</div>
-									</div>
 									<div class="col-sm-3 col-xs-12">
 										<div class="form-group mrgn-less-15">
 											<div class="form-line">
@@ -447,17 +440,29 @@
 										<div class="form-group mrgn-less-15">
 											<div class="form-line">
 												<input type="text" class="datepicker form-control"
-													name="toDateFreeProduct1" id="toDateFreeProduct1"
-													placeholder="To Date">
+													name="toDateFreeProduct1" id="toDateFreeProduct1" disabled="disabled"
+													placeholder="To Date" >
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-1 col-xs-12">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="form-control"
+													name="freeProductPieces1" id="freeProductPieces1"
+													placeholder="Pieces">
 											</div>
 										</div>
 									</div>
 									<div class="col-sm-2 col-xs-12">
 										<div class="form-group">
-											<button type="button" class="btn btn-raised gradient-right"
-												id="plusBtnFreeDiv1">Add</button>
-												<button type="button" class="btn btn-raised gradient-right"
-												id="removeBtnFreeDiv1">Add</button>
+										<button type="button" id="plusBtnFreeDiv1" class="plusIconFreeDiv" title="Add Price"><img src="resources/images/icons8-Add-80.png" class="img-responsive"></button>
+											<!-- <button type="button" class="btn btn-raised gradient-right"
+												id="plusBtnFreeDiv1">Add</button> -->
+												<!-- <button type="button" class="btn btn-raised gradient-right"
+												id="removeBtnFreeDiv1">Add</button> -->
+										<button type="button" id="removeBtnFreeDiv1" class="minusIconFreeDiv" title="Remove Price"><img src="resources/images/minus.png" class="img-responsive"></button>
+										<button type="button" id="clearPlusBtnFreeDiv1" class="clearIcon1FreeDiv" title="Clear Dates"><img src="resources/images/icons8-Clear Symbol-80.png" class="img-responsive"></button>		
 										</div>
 									</div>
 								</div>
@@ -470,15 +475,6 @@
 												<option value="10">XXX</option>
 												<option value="20">XXXX</option>
 											</select>
-										</div>
-									</div>
-									<div class="col-sm-1 col-xs-12">
-										<div class="form-group">
-											<div class="form-line">
-												<input type="text" class="form-control"
-													name="freeProductPieces2" id="freeProductPieces2"
-													placeholder="Pieces">
-											</div>
 										</div>
 									</div>
 									<div class="col-sm-3 col-xs-12">
@@ -494,17 +490,29 @@
 										<div class="form-group mrgn-less-15">
 											<div class="form-line">
 												<input type="text" class="datepicker form-control"
-													name="toDateFreeProduct2" id="toDateFreeProduct2"
+													name="toDateFreeProduct2" id="toDateFreeProduct2" disabled="disabled"
 													placeholder="To Date">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-1 col-xs-12">
+										<div class="form-group">
+											<div class="form-line">
+												<input type="text" class="form-control"
+													name="freeProductPieces2" id="freeProductPieces2"
+													placeholder="Pieces">
 											</div>
 										</div>
 									</div>
 									<div class="col-sm-2 col-xs-12">
 										<div class="form-group">
-											<button type="button" class="btn btn-raised gradient-right"
-												id="plusBtnFreeDiv12">Add</button>
-												<button type="button" class="btn btn-raised gradient-right"
-												id="removeBtnFreeDiv2">Add</button>
+										<button type="button" id="plusBtnFreeDiv12" class="plusIconFreeDiv" title="Add Price"><img src="resources/images/icons8-Add-80.png" class="img-responsive"></button>
+										<button type="button" id="removeBtnFreeDiv2" class="minusIconFreeDiv" title="Remove Price"><img src="resources/images/minus.png" class="img-responsive"></button>
+										    <button type="button" id="clearPlusBtnFreeDiv2" class="clearIcon1FreeDiv" title="Clear Dates"><img src="resources/images/icons8-Clear Symbol-80.png" class="img-responsive"></button>
+											<!-- <button type="button" class="btn btn-raised gradient-right"
+												id="plusBtnFreeDiv12">Add</button> -->
+												<!-- <button type="button" class="btn btn-raised gradient-right"
+												id="removeBtnFreeDiv2">Add</button> -->
 										</div>
 									</div>
 								</div>
@@ -528,7 +536,7 @@
 											<div class="form-group">
 												<div class="form-line _removeFocus">
 													<input type="text" class="datepicker form-control"
-														name="toDate" id="toDate" placeholder="To Date">
+														name="toDate" id="toDate" placeholder="To Date" disabled = "disabled">
 												</div>
 											</div>
 										</div>
@@ -536,16 +544,19 @@
 											<div class="form-group">
 												<div class="form-line">
 													<input type="text" class="form-control" name="price"
-														id="price" placeholder="Price">
+														id="price" placeholder="Price" readonly = "readonly">
 												</div>
 											</div>
 										</div>
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
-												<button type="button" class="btn btn-raised gradient-right"
+												<!-- <button type="button" class="btn btn-raised gradient-right"
 													id="plusbtn">Add</button>
 													<button type="button" class="btn btn-raised gradient-right hideDiv"
-												id="showPreviousPrices" data-toggle="modal" data-target="#showPriceModal">Show Prices</button>
+												id="showPreviousPrices" data-toggle="modal" data-target="#showPriceModal">Show Prices</button> -->
+												<button type="button" id="plusbtn" class="plusIcon" title="Add Price"><img src="resources/images/icons8-Add-80.png" class="img-responsive"></button>
+												<button type="button" id="clearPlusBtn" class="clearIcon" title="Clear Price Details"><img src="resources/images/icons8-Clear Symbol-80.png" class="img-responsive"></button>
+												<button type="button" id="showPreviousPrices" class="showIcon hideDiv" title="Show Previous Prices" data-toggle="modal" data-target="#showPriceModal"><img src="resources/images/icons8-Show Property-100.png" class="img-responsive"></button>
 											</div>
 										</div>
 									</div>
@@ -562,7 +573,7 @@
 											<div class="form-group">
 												<div class="form-line _removeFocus">
 													<input type="text" class="datepicker form-control"
-														name="toDate" id="toDate1" placeholder="To Date">
+														name="toDate" id="toDate1" placeholder="To Date" disabled="disabled">
 												</div>
 											</div>
 										</div>
@@ -570,16 +581,19 @@
 											<div class="form-group">
 												<div class="form-line">
 													<input type="text" class="form-control" name="price"
-														id="price1" placeholder="Price">
+														id="price1" placeholder="Price" readonly="readonly">
 												</div>
 											</div>
 										</div>
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
-												<button type="button" class="btn btn-raised gradient-right"
+												<!-- <button type="button" class="btn btn-raised gradient-right"
 													id="plusbtn1">Add</button>
 												<button type="button" class="btn btn-raised gradient-right"
-													id="removePlusBtn1">Add</button>
+													id="removePlusBtn1">Add</button> -->
+												<button type="button" id="plusbtn1" class="plusIcon" title="Add Price"><img src="resources/images/icons8-Add-80.png" class="img-responsive"></button>
+												<button type="button" id="removePlusBtn1" class="minusIcon" title="Remove Price"><img src="resources/images/minus.png" class="img-responsive"></button>
+												<button type="button" id="clearPlusBtn1" class="clearIcon1" title="Clear Price Details"><img src="resources/images/icons8-Clear Symbol-80.png" class="img-responsive"></button>	
 											</div>
 										</div>
 									</div>
@@ -596,7 +610,7 @@
 											<div class="form-group">
 												<div class="form-line _removeFocus">
 													<input type="text" class="datepicker form-control"
-														name="toDate" id="toDate2" placeholder="To Date">
+														name="toDate" id="toDate2" placeholder="To Date" disabled="disabled">
 												</div>
 											</div>
 										</div>
@@ -604,16 +618,19 @@
 											<div class="form-group">
 												<div class="form-line">
 													<input type="text" class="form-control" name="price"
-														id="price2" placeholder="Price">
+														id="price2" placeholder="Price" readonly="readonly">
 												</div>
 											</div>
 										</div>
 										<div class="col-sm-3 col-xs-12">
 											<div class="form-group">
-												<button type="button" class="btn btn-raised gradient-right"
+												<!-- <button type="button" class="btn btn-raised gradient-right"
 													id="plusbtn2">Add</button>
 												<button type="button" class="btn btn-raised gradient-right"
-													id="removePlusBtn2">Add</button>
+													id="removePlusBtn2">Add</button> -->
+												<button type="button" id="plusbtn1" class="plusIcon" title="Add Price"><img src="resources/images/icons8-Add-80.png" class="img-responsive"></button>
+												<button type="button" id="removePlusBtn2" class="minusIcon" title="RemovePrice"><img src="resources/images/minus.png" class="img-responsive"></button>
+												<button type="button" id="clearPlusBtn2" class="clearIcon1" title="Clear Price Details"><img src="resources/images/icons8-Clear Symbol-80.png" class="img-responsive"></button>		
 											</div>
 										</div>
 									</div>
@@ -1371,11 +1388,62 @@
 				animation : true
 			});
 		} else {
-			 
+		if(pricingsDivNumber === Number(0)){
+			$("#fromDate").attr("disabled",true);
+			$("#toDate").attr("disabled",true);
+			$("#price").attr("disabled",true);	
+		}else{
+			$("#fromDate" +pricingsDivNumber).attr("disabled",true);
+			$("#toDate" +pricingsDivNumber).attr("disabled",true);
+			$("#price" +pricingsDivNumber).attr("disabled",true);	
+		}	
+		
 		addOtherDivs();
-	}
+	  }
 }
-
+	$("#clearPlusBtnFreeDiv, #clearPlusBtnFreeDiv1, #clearPlusBtnFreeDiv2").click(function(){
+		if(this.id === "clearPlusBtnFreeDiv"){
+			alert("In if");
+			$("#fromDateFreeProduct").val("");
+			$("#fromDateFreeProduct").attr("disabled",false);
+			$("#toDateFreeProduct").val("");
+			$("#toDateFreeProduct").attr("disabled",true);
+			$("#freeProductPieces").val("");
+			$("#freeProductPieces").attr("disabled",false);
+			$("#freeProductPieces").attr("readonly",true);
+			/* $("#toDate").attr("disabled",false);
+			$("#price").attr("disabled",false); */
+		}else if(this.id === "clearPlusBtnFreeDiv1"){
+			var fromDate = moment($("#toDateFreeProduct").val(),"dddd DD MMMM YYYY");
+		    fromDate = fromDate.add(1,'days');
+		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+			$("#fromDateFreeProduct1").val(fromDate);
+			$("#fromDateFreeProduct1").attr("disabled",false);
+			$("#toDateFreeProduct1").val("");
+			$("#toDateFreeProduct1").attr("disabled",true);
+			$("#freeProductPieces1").val("");
+			$("#freeProductPieces1").attr("disabled",false);
+			$("#freeProductPieces1").attr("readonly",true);
+			/* $("#fromDate1").attr("disabled",false);
+			$("#toDate1").attr("disabled",true);
+			$("#price1").attr("disabled",true);  */
+		}else {
+			var fromDate = moment($("#toDateFreeProduct1").val(),"dddd DD MMMM YYYY");
+		    fromDate = fromDate.add(1,'days');
+		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+		    
+			$("#fromDateFreeProduct2").val(fromDate);
+			$("#fromDateFreeProduct2").attr("disabled",false);
+			$("#toDateFreeProduct2").val("");
+			$("#toDateFreeProduct2").attr("disabled",true);
+			$("#freeProductPieces2").val("");
+			$("#freeProductPieces1").attr("disabled",false);
+			$("#freeProductPieces2").attr("readonly",true);
+			/* $("#fromDate2").attr("disabled",false);
+			$("#toDate2").attr("disabled",true);
+			$("#price2").attr("disabled",true); */
+		}
+	});	
 	function addOtherDivs(){
 		if (Number(pricingsDivNumber) < Number(2)) {
 			pricingsDivNumber = Number(Number(pricingsDivNumber) + Number(1));
@@ -1384,18 +1452,21 @@
 				  var fromDate1 = moment($("#toDate").val(),"dddd DD MMMM YYYY");
 				    fromDate1 = fromDate1.add(1,'days')
 				    fromDate1 = moment(fromDate1).format("dddd DD MMMM YYYY");
-						
-						
+				    fromPriceDate = fromDate1;
+				    
 				    momentCalender($,moment);
 				    $("#fromDate1").bootstrapMaterialDatePicker({
 						 format: 'dddd DD MMMM YYYY',
 					     clearButton: true,
 					     weekStart: 1,
 					     time: false,
-						 minDate:fromDate1
+						 minDate:new Date()
 					});
 				    
-				     var toDate1 = moment(fromDate1,"dddd DD MMMM YYYY");
+				    if($("#fromDate1").val() === ""){
+				    	$("#fromDate1").val(fromDate1);
+				    }
+				    var toDate1 = moment(fromDate1,"dddd DD MMMM YYYY");
 				    toDate1 = toDate1.add(1,'days')
 				    toDate1 = moment(toDate1).format("dddd DD MMMM YYYY"); 
 				    
@@ -1404,15 +1475,15 @@
 					     clearButton: true,
 					     weekStart: 1,
 					     time: false,
-						 minDate:toDate1
+						 minDate:new Date()
 					}); 
-				    
 				addDiv1();
 			} else if (pricingsDivNumber === 2) {
 				
 				var fromDate2 = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
 			    fromDate2 = fromDate2.add(1,'days')
 			    fromDate2 = moment(fromDate2).format("dddd DD MMMM YYYY");
+			    fromPriceDate = fromDate2;
 			    
 				momentCalender($,moment);
 			    $("#fromDate2").bootstrapMaterialDatePicker({
@@ -1420,9 +1491,11 @@
 				     clearButton: true,
 				     weekStart: 1,
 				     time: false,
-					 minDate:fromDate2
+					 minDate:new Date()
 				});
-			    
+			    if($("#fromDate2").val() === ""){
+			    	$("#fromDate2").val(fromDate2);
+			    }
 			    var toDate2 = moment(fromDate2,"dddd DD MMMM YYYY");
 			    toDate2 = toDate2.add(1,'days')
 			    toDate2 = moment(toDate2).format("dddd DD MMMM YYYY");
@@ -1432,7 +1505,7 @@
 				     clearButton: true,
 				     weekStart: 1,
 				     time: false,
-					 minDate:toDate2
+					 minDate:new Date()
 				}); 
 				addDiv2();
 			} else{
@@ -1473,36 +1546,106 @@
 		pricingsDivNumber = 0;
 	}
 	
-	$("#fromDate,#toDate").mouseenter(function(){
-		momentCalender($,moment);
-		 var fromDate = moment();
-		    fromDate = fromDate.add(1,'days')
-		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
-
-		    $("#fromDate").bootstrapMaterialDatePicker({
-				 format: 'dddd DD MMMM YYYY',
-			     clearButton: true,
-			     weekStart: 1,
-			     time: false,
-				 minDate:new Date()
-			});
-		    
-		    $("#toDate").bootstrapMaterialDatePicker({
-				 format: 'dddd DD MMMM YYYY',
-			     clearButton: true,
-			     weekStart: 1,
-			     time: false,
-				 minDate:fromDate
-			});
-		
-	});
-	
 	var previousFreeDiv = Number(0);
-	$("#plusbtnFreeDiv,#plusBtnFreeDiv1,#plusbtnFreeDiv12").click(function(){
+	$("#freeProductPieces,#freeProductPieces1,#freeProductPieces2").click(function(){
+		alert("I am There" + this.id);
+		var i = "";
+		 if(this.id.indexOf("1")>=0){
+			 i = 1;
+		 }else if(this.id.indexOf("2")>=0){
+			 i = 2;
+		 }
+		var fromDate =  moment($("#fromDateFreeProduct"+i).val(),"dddd DD MMMM YYYY");
+		fromDate =moment(fromDate).format("YYYY-MM-DD");
+		var toDate =  moment($("#toDateFreeProduct"+i).val(),"dddd DD MMMM YYYY");;
+		toDate = moment(toDate).format("YYYY-MM-DD");
+		
+		if(moment(toDate).isBefore(moment(fromDate))){
+			check = Number(1);
+			swal({
+				  title : 'Warning!',
+				  text: 'Ending Date Cannot Be Before Starting Date!!!',
+				  type : 'warning',
+				  confirmButtonText : 'OK',
+				  allowEscapeKey : true,
+				  confirmButtonClass : "btn btn-raised gradient-right",
+				  animation : true
+				});
+			$("#toDateFreeProduct"+i).val("");
+			$("#toDateFreeProduct"+i).attr("disabled",false);
+			$("#freeProductPieces"+i).val("");
+			$("#freeProductPieces"+i).attr("readonly",true);
+		}else if(moment(fromDate).isSame(moment(toDate))){
+			check = Number(1);
+			swal({
+				  title : 'Warning!',
+				  text: 'Ending Date Cannot Be Same As Starting Date!!!',
+				  type : 'warning',
+				  confirmButtonText : 'OK',
+				  allowEscapeKey : true,
+				  confirmButtonClass : "btn btn-raised gradient-right",
+				  animation : true
+				});
+			$("#toDateFreeProduct"+i).val("");
+			$("#toDateFreeProduct"+i).attr("disabled",false);
+			$("#freeProductPieces"+i).val("");
+			$("#freeProductPieces"+i).attr("readonly",true);
+		}else if ($("#fromDateFreeProduct"+i).val() !== ""){
+			
+			if(i !== ""){
+				if(i === Number(1)){
+					if(($("#fromDateFreeProduct"+i).val() === $("#fromDateFreeProduct").val()) && ($("#toDateFreeProduct"+i).val() === $("#toDateFreeProduct").val())){
+						check = Number(1);
+						swal({
+							  title : 'Warning!',
+							  text: 'You Have Already Entered Price Within The Same Range Of Dates!!!',
+							  type : 'warning',
+							  confirmButtonText : 'OK',
+							  allowEscapeKey : true,
+							  confirmButtonClass : "btn btn-raised gradient-right",
+							  animation : true
+							});
+						var fromStartingDate = moment($("#toDateFreeProduct"+i).val(),"dddd DD MMMM YYYY");
+						fromStartingDate = fromStartingDate.add(1,'days')
+					    fromStartingDate = moment(fromStartingDate).format("dddd DD MMMM YYYY");
+						$("#fromDateFreeProduct"+i).val(fromStartingDate);
+						$("#toDateFreeProduct"+i).val("");
+						$("#toDateFreeProduct"+i).attr("disabled",false);
+						$("#freeProductPieces"+i).val("");
+						$("#freeProductPieces"+i).attr("readonly",true);
+					}
+				}else{
+					if(($("#fromDateFreeProduct"+i).val() === $("#fromDateFreeProduct").val()) && ($("#toDateFreeProduct"+i).val() === $("#toDateFreeProduct").val())){
+						check = Number(1);
+						swal({
+							  title : 'Warning!',
+							  text: 'You Have Already Entered Price Within The Same Range Of Dates!!!',
+							  type : 'warning',
+							  confirmButtonText : 'OK',
+							  allowEscapeKey : true,
+							  confirmButtonClass : "btn btn-raised gradient-right",
+							  animation : true
+							});
+						var fromStartingDate = moment($("#toDateFreeProduct"+i).val(),"dddd DD MMMM YYYY");
+						fromStartingDate = fromStartingDate.add(1,'days')
+					    fromStartingDate = moment(fromStartingDate).format("dddd DD MMMM YYYY");
+						
+						$("#fromDateFreeProduct"+i).val(fromStartingDate);
+						$("#toDateFreeProduct"+i).val("");
+						$("#toDateFreeProduct"+i).attr("disabled",false);
+						$("#freeProductPieces"+i).val("");
+						$("#freeProductPieces"+i).attr("readonly",true);
+					}
+				}
+			}
+			
+		}
+	});
+	$("#plusbtnFreeDiv, #plusBtnFreeDiv1, #plusbtnFreeDiv2").click(function() {
 		addFreeDiv();
 	});
 	function addFreeDiv(){
-		if ($("#freeProduct" + previousFreeDiv).val() === "" || $("#freeProduct").val() === "") {
+		if ($("#freeProductName" + previousFreeDiv).val() === "" || $("#freeProductName").val() === "") {
 			swal({
 				title : 'Warning!',
 				text : 'Please Select A Free Product!!!',
@@ -1524,79 +1667,119 @@
 				confirmButtonClass : "btn btn-raised gradient-right",
 				animation : true
 			});
-		} else{
-			if(Number(previousFreeDiv) < Number(2)){
-				previousFreeDiv = Number(Number(previousFreeDiv) + Number(1));
-				if(previousFreeDiv === Number(1)){
+		} else if ($("#fromDateFreeProduct" + previousFreeDiv).val() === ""
+				|| $("#fromDateFreeProduct").val() === "") {
+			swal({
+				title : 'Warning!',
+				text : 'Please Enter Starting Date Of The Free Product!!!',
+				type : 'warning',
+				confirmButtonText : 'OK',
+				allowEscapeKey : true,
+				confirmButtonClass : "btn btn-raised gradient-right",
+				animation : true
+			});
+		}
+		else if ($("#toDateFreeProduct" + previousFreeDiv).val() === ""
+			|| $("#toDateFreeProduct").val() === "") {
+		swal({
+			title : 'Warning!',
+			text : 'Please Enter Ending Date Of The Free Product!!!',
+			type : 'warning',
+			confirmButtonText : 'OK',
+			allowEscapeKey : true,
+			confirmButtonClass : "btn btn-raised gradient-right",
+			animation : true
+		});
+	   }else{
+		   if((previousFreeDiv === Number(0))){
+				$("#fromDateFreeProduct").attr("disabled",true);
+				$("#toDateFreeProduct").attr("disabled",true);
+				$("#freeProductPieces").attr("disabled",true);
+			}else if((previousFreeDiv !== Number(0))){
+				$("#fromDateFreeProduct" +previousFreeDiv).attr("disabled",true);
+				$("#toDateFreeProduct" +previousFreeDiv).attr("disabled",true);
+				$("#freeProductPieces" +previousFreeDiv).attr("disabled",true);
+			}	
+			addOtherFreeDivs();
+		}
+			
+	}
+	function addOtherFreeDivs(){
+		if(Number(previousFreeDiv) < Number(2)){
+			previousFreeDiv = Number(Number(previousFreeDiv) + Number(1));
+			if(previousFreeDiv === Number(1)){
+				
+				var fromDate1 = moment($("#toDateFreeProduct").val(),"dddd DD MMMM YYYY");
+			    fromDate1 = fromDate1.add(1,'days')
+			    fromDate1 = moment(fromDate1).format("dddd DD MMMM YYYY");
 					
-					var fromDate1 = moment($("#toDateFreeProduct").val(),"dddd DD MMMM YYYY");
-				    fromDate1 = fromDate1.add(1,'days')
-				    fromDate1 = moment(fromDate1).format("dddd DD MMMM YYYY");
-						
-						
-				    momentCalender($,moment);
-				    $("#fromDateFreeProduct1").bootstrapMaterialDatePicker({
-						 format: 'dddd DD MMMM YYYY',
-					     clearButton: true,
-					     weekStart: 1,
-					     time: false,
-						 minDate:fromDate1
-					});
-				    
-				    var toDate1 = moment(fromDate1,"dddd DD MMMM YYYY");
-				    toDate1 = toDate1.add(1,'days')
-				    toDate1 = moment(toDate1).format("dddd DD MMMM YYYY"); 
-				    
-				    $("#toDateFreeProduct1").bootstrapMaterialDatePicker({
-						 format: 'dddd DD MMMM YYYY',
-					     clearButton: true,
-					     weekStart: 1,
-					     time: false,
-						 minDate:toDate1
-					}); 
-					addFreeDiv1();
-				}else{
-					alert("In else");
-					var fromDate2 = moment($("#toDateFreeProduct1").val(),"dddd DD MMMM YYYY");
-				    fromDate2 = fromDate2.add(1,'days')
-				    fromDate2 = moment(fromDate2).format("dddd DD MMMM YYYY");
-				    
-					momentCalender($,moment);
-				    $("#fromDateFreeProduct2").bootstrapMaterialDatePicker({
-						 format: 'dddd DD MMMM YYYY',
-					     clearButton: true,
-					     weekStart: 1,
-					     time: false,
-						 minDate:fromDate2
-					});
-				    
-				    var toDate2 = moment(fromDate2,"dddd DD MMMM YYYY");
-				    toDate2 = toDate2.add(1,'days')
-				    toDate2 = moment(toDate2).format("dddd DD MMMM YYYY");
-				    
-				    $("#toDateFreeProduct2").bootstrapMaterialDatePicker({
-						 format: 'dddd DD MMMM YYYY',
-					     clearButton: true,
-					     weekStart: 1,
-					     time: false,
-						 minDate:toDate2
-					}); 
-					addFreeDiv2();
-				}
-			}else{
-				swal({
-					title : 'Warning!',
-					text : 'You can only add 3 free products at a time!!!',
-					type : 'warning',
-					confirmButtonText : 'OK',
-					allowEscapeKey : true,
-					confirmButtonClass : "btn btn-raised gradient-right",
-					animation : true
+					
+			    momentCalender($,moment);
+			    $("#fromDateFreeProduct1").bootstrapMaterialDatePicker({
+					 format: 'dddd DD MMMM YYYY',
+				     clearButton: true,
+				     weekStart: 1,
+				     time: false,
+					 minDate:new Date()
 				});
+			    
+			    if($("#fromDateFreeProduct1").val() === ""){
+			    	$("#fromDateFreeProduct1").val(fromDate1);
+			    }
+			    var toDate1 = moment(fromDate1,"dddd DD MMMM YYYY");
+			    toDate1 = toDate1.add(1,'days')
+			    toDate1 = moment(toDate1).format("dddd DD MMMM YYYY"); 
+			    
+			    $("#toDateFreeProduct1").bootstrapMaterialDatePicker({
+					 format: 'dddd DD MMMM YYYY',
+				     clearButton: true,
+				     weekStart: 1,
+				     time: false,
+					 minDate:new Date()
+				}); 
+				addFreeDiv1();
+			}else{
+				alert("In else");
+				var fromDate2 = moment($("#toDateFreeProduct1").val(),"dddd DD MMMM YYYY");
+			    fromDate2 = fromDate2.add(1,'days')
+			    fromDate2 = moment(fromDate2).format("dddd DD MMMM YYYY");
+			    
+				momentCalender($,moment);
+			    $("#fromDateFreeProduct2").bootstrapMaterialDatePicker({
+					 format: 'dddd DD MMMM YYYY',
+				     clearButton: true,
+				     weekStart: 1,
+				     time: false,
+					 minDate:new Date()
+				});
+			    if($("#fromDateFreeProduct2").val() === ""){
+			    	$("#fromDateFreeProduct2").val(fromDate2);
+			    }
+			    var toDate2 = moment(fromDate2,"dddd DD MMMM YYYY");
+			    toDate2 = toDate2.add(1,'days')
+			    toDate2 = moment(toDate2).format("dddd DD MMMM YYYY");
+			    
+			    $("#toDateFreeProduct2").bootstrapMaterialDatePicker({
+					 format: 'dddd DD MMMM YYYY',
+				     clearButton: true,
+				     weekStart: 1,
+				     time: false,
+					 minDate:new Date()
+				}); 
+				addFreeDiv2();
 			}
+		}else{
+			swal({
+				title : 'Warning!',
+				text : 'You can only add 3 free products at a time!!!',
+				type : 'warning',
+				confirmButtonText : 'OK',
+				allowEscapeKey : true,
+				confirmButtonClass : "btn btn-raised gradient-right",
+				animation : true
+			});
 		}
 	}
-	
 	function addFreeDiv1(){
 		$("#freeProductsDiv1").removeClass("hideDiv");
 	}
@@ -1621,10 +1804,28 @@
 		previousFreeDiv = 0;
 	}
 	
-	$("#fromDateFreeProduct,#toDate").mouseenter(function(){
+	$("#freeProductPieces").click(function(){
+		if($("#toDateFreeProduct").val() !== ""){
+			$("#freeProductPieces").attr("readonly",false);
+			$("#freeProductPieces").attr("disabled",false);
+		}
+	});
+	$("#freeProductPieces1").click(function(){
+		if($("#toDateFreeProduct1").val() !== ""){
+			$("#freeProductPieces1").attr("readonly",false);
+			$("#freeProductPieces1").attr("disabled",false);
+		}
+	});
+	$("#freeProductPieces2").click(function(){
+		if($("#toDateFreeProduct2").val() !== ""){
+			$("#freeProductPieces2").attr("readonly",false);
+			$("#freeProductPieces2").attr("disabled",false);
+		}
+	});
+	$("#fromDate,#toDate").mouseenter(function(){
 		momentCalender($,moment);
 		 var fromDate = moment();
-		    fromDate = fromDate.add(1,'days')
+		    fromDate = fromDate.add(1,'days');
 		    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
 
 		    $("#fromDate").bootstrapMaterialDatePicker({
@@ -1634,17 +1835,19 @@
 			     time: false,
 				 minDate:new Date()
 			});
-		    
-		    $("#toDate").bootstrapMaterialDatePicker({
-				 format: 'dddd DD MMMM YYYY',
-			     clearButton: true,
-			     weekStart: 1,
-			     time: false,
-				 minDate:fromDate
-			});
-		
-	});
+		    var from = moment().format("dddd DD MMMM YYYY")
+		    if( $("#fromDate").val() === ""){
+		    	$("#fromDate").val(from);
+		    }
+		    	$("#toDate").bootstrapMaterialDatePicker({
+					 format: 'dddd DD MMMM YYYY',
+				     clearButton: true,
+				     weekStart: 1,
+				     time: false,
+					 minDate:fromDate
+				});
 	
+	});
 	$("#fromDateDiscount,#toDateDiscount").mouseenter(function(){
 		momentCalender($,moment);
 		 var fromDate = moment();
@@ -1689,7 +1892,10 @@
 			     time: false,
 				 minDate:new Date()
 			});
-		    
+		    var from = moment().format("dddd DD MMMM YYYY")
+		    if( $("#fromDateFreeProduct").val() === ""){
+		    	$("#fromDateFreeProduct").val(from);
+		    }
 		    $("#toDateFreeProduct").bootstrapMaterialDatePicker({
 				 format: 'dddd DD MMMM YYYY',
 			     clearButton: true,
@@ -1817,7 +2023,8 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#fromDate").val() === "" && idForFetch ===""){
+		}else if($("#fromDate").val() === "" && idForFetch === undefined){
+			
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter Starting Date For The Respective Price!!!',
@@ -1827,7 +2034,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#toDate").val() === "" && idForFetch ===""){
+		}else if($("#toDate").val() === "" && idForFetch === undefined){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter Ending Date For The Respective Price!!!',
@@ -1837,7 +2044,7 @@
 				  confirmButtonClass:"btn btn-raised gradient-right",
 				  animation:true
 				});
-		}else if($("#price").val() === "" && idForFetch ===""){
+		}else if($("#price").val() === "" && idForFetch === undefined){
 			swal({
 				  title: 'Warning!',
 				  text: 'Please Enter At Least One Price For The Product!!!',
@@ -2074,9 +2281,10 @@
 							
 						}
 					}
-				}
+				
 				if($("#fromDate"+k).val() === ""){
 					check = Number(1);
+					alert(idForFetch);
 					swal({
 						  title: 'Warning!',
 						  text: 'Please Enter Starting Date For The Respective Price!!!',
@@ -2107,7 +2315,9 @@
 						  allowEscapeKey:true,
 						  confirmButtonClass:"btn btn-raised gradient-right",
 						  animation:true
+					
 						});
+				     }
 				}
 				
 			}
@@ -2384,7 +2594,9 @@
 		$("#productStatus").val("");
 		$("#occasionName").val("");
 		$("#typeName").val("");
-		
+		$("#freeProductName").val("");
+		$("#freeProductName1").val("");
+		$("#freeProductName2").val("");
 	}
 	
 	function defaultFlowerOccasion(isInComplete,occasionId,occasionName){
@@ -3184,7 +3396,9 @@
 					  animation : true
 					});
 				$("#toDate"+i).val("");
+				$("#toDate"+i).attr("disabled",false);
 				$("#price"+i).val("");
+				$("#price"+i).attr("readonly",true);
 			}else if(moment(fromDate).isSame(moment(toDate))){
 				swal({
 					  title : 'Warning!',
@@ -3196,7 +3410,9 @@
 					  animation : true
 					});
 				$("#toDate"+i).val("");
+				$("#toDate"+i).attr("disabled",false);
 				$("#price"+i).val("");
+				$("#price"+i).attr("readonly",true);
 			}else if ($("#fromDate"+i).val() !== ""){
 				if(i !== ""){
 					if(i === Number(1)){
@@ -3212,7 +3428,9 @@
 								});
 							$("#fromDate"+i).val("");
 							$("#toDate"+i).val("");
+							$("#toDate"+i).attr("disabled",false);
 							$("#price"+i).val("");
+							$("#price"+i).attr("readonly",true);
 						}
 					}else{
 						if(($("#fromDate"+i).val() === $("#fromDate").val()) && ($("#toDate"+i).val() === $("#toDate").val())){
@@ -3227,7 +3445,9 @@
 								});
 							$("#fromDate"+i).val("");
 							$("#toDate"+i).val("");
+							$("#toDate"+i).attr("disabled",false);
 							$("#price"+i).val("");
+							$("#price"+i).attr("readonly",true);
 						}else{
 							if(($("#fromDate"+i).val() === $("#fromDate"+Number(Number(i) - Number(1))).val()) && ($("#toDate"+i).val() === $("#toDate"+ Number(Number(i) - Number(1))).val())){
 								swal({
@@ -3241,7 +3461,9 @@
 									});
 								$("#fromDate"+i).val("");
 								$("#toDate"+i).val("");
+								$("#toDate"+i).attr("disabled",false);
 								$("#price"+i).val("");
+								$("#price"+i).attr("readonly",true);
 							}
 						}
 					}
@@ -3249,7 +3471,8 @@
 				
 			}
 			
-		});
+		});		
+	
 		$("#discount").click(function(){
 		    var fromDate =  moment($("#fromDateDiscount").val(),"dddd DD MMMM YYYY");
 			fromDate =moment(fromDate).format("YYYY-MM-DD");
@@ -3283,6 +3506,142 @@
 			}
 			
 	 });
+		 $("#fromDateFreeProduct").mouseleave(function(){
+				if( $("#fromDateFreeProduct").val() !== ""){
+					$("#toDateFreeProduct").attr("disabled",false);
+				}
+			 });
+		 $("#toDateFreeProduct").mouseleave(function(){
+				if($("#toDateFreeProduct").val() !==""){
+					 var fromDate = moment($("#toDateFreeProduct").val(),"dddd DD MMMM YYYY");
+					    fromDate = fromDate.add(1,'days');
+					    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+					    if($("#fromDateFreeProduct1").val() === ""){
+					    	$("#fromDateFreeProduct1").val(fromDate);
+					    }
+					}	
+			});
+		 $("#fromDateFreeProduct1").mouseleave(function(){
+				if( $("#fromDateFreeProduct1").val() !== ""){
+					$("#toDateFreeProduct1").attr("disabled",false);
+				}
+			 });
+		 $("#toDateFreeProduct1").mouseleave(function(){
+				if($("#toDateFreeProduct1").val() !==""){
+					 var fromDate = moment($("#toDateFreeProduct1").val(),"dddd DD MMMM YYYY");
+					    fromDate = fromDate.add(1,'days');
+					    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+					    if($("#fromDateFreeProduct2").val() === ""){
+					    	$("#fromDateFreeProduct2").val(fromDate);
+					    }
+					}	
+			});
+		 $("#fromDateFreeProduct2").mouseleave(function(){
+				if( $("#fromDateFreeProduct2").val() !== ""){
+					$("#toDateFreeProduct2").attr("disabled",false);
+				}
+			 });
+		 
+		 $("#fromDate").mouseleave(function(){
+				if( $("#fromDate").val() !== ""){
+					$("#toDate").attr("disabled",false);
+					$("#fromDate").attr("disabled",true);
+				}
+			 });
+			 $("#toDate").mouseleave(function(){
+				if($("#toDate").val() !==""){
+					 var fromDate = moment($("#toDate").val(),"dddd DD MMMM YYYY");
+					    fromDate = fromDate.add(1,'days');
+					    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+					    if($("#fromDate1").val() === ""){
+					    	$("#fromDate1").val(fromDate);
+					    }
+					}	
+			});
+			 $("#price").click(function(){
+				 if($("#toDate").val() !== ""){
+					 $("#price").attr("readonly",false);
+					 $("#toDate") .attr("disabled",true);
+				 }
+			 });
+			 
+			 $("#fromDate1").mouseleave(function(){
+				 if( $("#fromDate1").val() !== ""){
+						$("#toDate1").attr("disabled",false);
+						$("#fromDate1").attr("disabled",true);
+					}
+			 });
+			 $("#toDate1").mouseleave(function(){
+					if($("#toDate1").val() !==""){
+						var fromDate = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
+					    fromDate = fromDate.add(1,'days');
+					    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+					    if($("#fromDate2").val() === ""){
+						    $("#fromDate2").val(fromDate);
+					    }
+					}	
+			});
+			 $("#price1").click(function(){
+				 if($("#toDate1").val() !== ""){
+					 $("#price1").attr("readonly",false);
+					 $("#toDate1").attr("disabled",true); 
+				 }
+			 });
+			 $("#fromDate2").mouseleave(function(){
+				 if( $("#fromDate2").val() !== ""){
+						$("#toDate2").attr("disabled",false);
+					}
+				 $("#fromDate2").attr("disabled",true);
+			 });
+			$("#price2").click(function(){
+				if($("#toDate2").val() !== ""){
+					 $("#price2").attr("readonly",false);
+					 $("#toDate2").attr("disabled",true);
+				 }
+			});
+			$("#clearPlusBtn,#clearPlusBtn1,#clearPlusBtn2").click(function(){
+				if(this.id === "clearPlusBtn"){
+					$("#fromDate").val("");
+					$("#toDate").val("");
+					$("#toDate").attr("disabled",true);
+					$("#price").val("");
+					$("#price").attr("readonly",true);
+					$("#price").attr("disabled",false);
+					$("#fromDate").attr("disabled",false);
+					/* $("#toDate").attr("disabled",false);
+					$("#price").attr("disabled",false); */
+				}else if(this.id === "clearPlusBtn1"){
+					var fromDate = moment($("#toDate").val(),"dddd DD MMMM YYYY");
+				    fromDate = fromDate.add(1,'days');
+				    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+					$("#fromDate1").val(fromDate);
+					$("#fromDate1").attr("disabled",false);
+					$("#toDate1").val("");
+					$("#toDate1").attr("disabled",true);
+					$("#price1").val("");
+					$("#price1").attr("readonly",true);
+					$("#price").attr("disabled",false);
+					/* $("#fromDate1").attr("disabled",false);
+					$("#toDate1").attr("disabled",true);
+					$("#price1").attr("disabled",true);  */
+				}else {
+					var fromDate = moment($("#toDate1").val(),"dddd DD MMMM YYYY");
+				    fromDate = fromDate.add(1,'days');
+				    fromDate = moment(fromDate).format("dddd DD MMMM YYYY");
+				    
+					$("#fromDate2").val(fromDate);
+					$("#fromDate2").attr("disabled",false);
+					$("#toDate2").val("");
+					$("#toDate2").attr("disabled",true);
+					$("#price2").val("");
+					$("#price2").attr("readonly",true);
+					$("#price").attr("disabled",false);
+					/* $("#fromDate2").attr("disabled",false);
+					$("#toDate2").attr("disabled",true);
+					$("#price2").attr("disabled",true); */
+				}
+			}); 
+			
 	</script>
     <div class="color-bg"></div>
     <%@ include file="admin-includeFooter.jsp" %>
