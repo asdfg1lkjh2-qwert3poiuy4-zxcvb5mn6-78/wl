@@ -2935,14 +2935,14 @@ public class AdminController {
 				
 				hall.setNoOfBedRoom(objectNode.get("isExtraBedRooms").asInt());
 				hall.setHasParking(objectNode.get("isParkingFacility").asBoolean());
-				hall.setLawnArea(objectNode.get("lawnArea").asInt());
-				hall.setCrackerAllowed(objectNode.get("crackerAllowed").asBoolean());
-				hall.setCelebrationArea(objectNode.get("celebrationArea").asInt());
+				hall.setLawnArea(objectNode.get("isLawn").asInt());
+				hall.setCrackerAllowed(objectNode.get("isCrackersAllowed").asBoolean());
+				hall.setCelebrationArea(objectNode.get("isExtraSpace").asInt());
 				hall.setHasWifi(objectNode.get("isWifiConnection").asBoolean());
 				hall.setNoOfWashRoom(objectNode.get("isnoOfWashRooms").asInt());
-				hall.setSeparateKitchen(objectNode.get("separateKitchen").asBoolean());
-				hall.setSeparateStoreRoom(objectNode.get("separateStoreRoom").asBoolean());
-				hall.setEatingSeatCapacity(objectNode.get("eatingSeatCapacity").asInt());
+				hall.setSeparateKitchen(objectNode.get("isKitchen").asBoolean());
+				hall.setSeparateStoreRoom(objectNode.get("isStoreRooms").asBoolean());
+				hall.setEatingSeatCapacity(objectNode.get("eatingSpaceCapacity").asInt());
 				
 				if(objectNode.get("availability").asText().trim().equalsIgnoreCase("Yes"))
 					hall.setAvailability(Boolean.TRUE);

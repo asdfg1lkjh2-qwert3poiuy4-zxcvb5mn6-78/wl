@@ -693,11 +693,11 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-2 col-xs-12 hideDiv" id="extraSpaceDivDiv">
+									<div class="col-sm-2 col-xs-12 hideDiv" id="extraSpaceDiv">
 										<div class="form-group">
 											<div class="form-line">
 												<input type="text" class="form-control" name="extraSpaceArea"
-													id="extraSpaceArea" placeholder="Lawn Area">
+													id="extraSpaceArea" placeholder="Extra Space Area">
 											</div>
 										</div>
 									</div>
@@ -3112,8 +3112,7 @@
 		}
 		
 		function fetchHallById(hallId) {
-			$
-					.ajax({
+			$.ajax({
 						type : "GET",
 						url : "admin-fetchHallByHallId?id=" + hallId,
 						data : "",
@@ -3217,24 +3216,25 @@
 									$("#roomsDiv").removeClass("hideDiv");
 									$("#noOfRooms").val(data.hall.noOfBedRoom);
 								}else{
-									$('#hallFeatureNo1').prop("checked",false);
+									$('#hallFeatureNo1').prop("checked",true);
 								}
 								
 								if(data.hall.hasParking){
 									$("#hallFeatureYes2").prop("checked",true);
 								}else{
-									$("#hallFeatureNo2").prop("checked",false);
+									$("#hallFeatureNo2").prop("checked",true);
 								}
 								
-								if(data.hall.lawnArea !==Number(0)){
+								
+								 if(data.hall.lawnArea !== Number(0)){
 									$("#hallFeatureYes3").prop("checked",true);
 									$("#lawnDiv").removeClass("hideDiv");
 									$("#lawnArea").val(data.hall.lawnArea);
 									$("#lawnUnitDiv").removeClass("hideDiv")
 								}else{
-									$("#hallFeatureNo3").prop("checked",false);
+									$("#hallFeatureNo3").prop("checked",true);
 								}
-								
+								 
 								if(data.hall.crackerAllowed){
 									$("#hallFeatureYes4").prop("checked",true);
 								}else{
@@ -3247,13 +3247,13 @@
 									$("#extraSpaceArea").val(data.hall.celebrationArea);
 									$("#extraSpaceUnitDiv").removeClass("hideDiv");
 								}else{
-									$("#hallFeatureNo5").prop("checked",false);
+									$("#hallFeatureNo5").prop("checked",true);
 								}
 								
 								if(data.hall.hasWifi){
 									$("#hallFeatureYes6").prop("checked",true);
 								}else{
-									$("#hallFeatureNo6").prop("checked",false);
+									$("#hallFeatureNo6").prop("checked",true);
 								}
 								
 								if(data.hall.noOfWashRoom !== Number(0)){
@@ -3261,19 +3261,19 @@
 									$("#noOfWashRooms").val(data.hall.noOfWashRoom);
 									$("#washRoomsDiv").removeClass("hideDiv");
 								}else{
-									("#hallFeatureNo7").prop("checked",false);
+									$("#hallFeatureNo7").prop("checked",true);
 								}
 								
 								if(data.hall.separateKitchen){
 									$("#hallFeatureYes8").prop("checked",true);
 								}else{
-									$("#hallFeatureNo8").prop("checked",false);
+									$("#hallFeatureNo8").prop("checked",true);
 								}
 								
 								if(data.hall.separateStoreRoom){
 									$("#hallFeatureYes9").prop("checked",true);
 								}else{
-									$("#hallFeatureNo9").prop("checked",false);
+									$("#hallFeatureNo9").prop("checked",true);
 								}
 								
 								$("#eatingSeatCapacity").val(data.hall.eatingSeatCapacity);
@@ -4282,8 +4282,7 @@
 						processData : false,
 						success : function(data) {
 							alert(JSON.stringify(data))
-							if (data.status
-									&& data.listGeneralProduct.length > 0) {
+							if (data.status && data.listGeneralProduct.length > 0) {
 								$("#freeProductSelect").html("");
 								var arValue = "";
 								while (freeProductArray.length > 0) {
@@ -4329,10 +4328,8 @@
 									if (j === Number(0)) {
 										$("#freeProductSelect").html(abc + cde);
 									} else {
-										$("#freeProductSelect" + Number(j))
-												.html(abc + cde);
+										$("#freeProductSelect" + Number(j)).html(abc + cde);
 									}
-
 								}
 							} else {
 								$("#freeProductsDiv").addClass("hideDiv");
@@ -4538,13 +4535,14 @@
 			if (check === Number(1)) {
 				$("#" + this.id).prop("checked", true);
 			}
-			if (this.id === "hallFeatureYes1") {
+			if($("#hallFeatureYes1").is(":checked")){
 				$("#noOfRooms").val("");
 				$("#roomsDiv").removeClass("hideDiv");
-			} else {
+			}else{
 				$("#noOfRooms").val("");
 				$("#roomsDiv").addClass("hideDiv");
 			}
+			
 		});
 		$("#hallFeatureYes2, #hallFeatureNo2").click(function() {
 			var check = Number(0);
@@ -4567,11 +4565,12 @@
 			if (check === Number(1)) {
 				$("#" + this.id).prop("checked", true);
 			}
-			if (this.id === "hallFeatureYes3") {
+			if($("#hallFeatureYes3").is(":checked")){
 				$("#lawnArea").val("");
 				$("#lawnDiv").removeClass("hideDiv");
 				$("#lawnUnitDiv").removeClass("hideDiv");
-			} else {
+			}
+			else{
 				$("#lawnArea").val("");
 				$("#lawnDiv").addClass("hideDiv");
 				$("#lawnUnitDiv").addClass("hideDiv");
@@ -4598,15 +4597,16 @@
 			if (check === Number(1)) {
 				$("#" + this.id).prop("checked", true);
 			}
-			if (this.id === "hallFeatureYes5") {
+			if($("#hallFeatureYes5").is(":checked")){
 				$("#extraSpaceArea").val("");
 				$("#extraSpaceDiv").removeClass("hideDiv");
 				$("#extraSpaceUnitDiv").removeClass("hideDiv");
-			} else {
+			}else{
 				$("#extraSpaceArea").val("");
 				$("#extraSpaceDiv").addClass("hideDiv");
 				$("#extraSpaceUnitDiv").addClass("hideDiv");
 			}
+			
 		});
 		$("#hallFeatureYes6, #hallFeatureNo6").click(function() {
 			var check = Number(0);
@@ -4629,13 +4629,14 @@
 			if (check === Number(1)) {
 				$("#" + this.id).prop("checked", true);
 			}
-			if (this.id === "hallFeatureYes7") {
+			if($("#hallFeatureYes7").is(":checked")){
 				$("#noOfWashRooms").val("");
-				$("#washRoomsDiv").removeClass("hideDiv");
-			} else {
+				$("#washRoomsDiv").removeClass("hideDiv");	
+			}else{
 				$("#noOfWashRooms").val("");
 				$("#washRoomsDiv").addClass("hideDiv");
 			}
+			
 		});
 		$("#hallFeatureYes8, #hallFeatureNo8").click(function() {
 			var check = Number(0);

@@ -86,7 +86,7 @@
         <!-- Top Bar -->
         <nav class="navbar clearHeader">
             <div class="container-fluid">
-                <div class="navbar-header"> <a href="javascript:void(0);" class="bars"></a> <a class="navbar-brand" href="index.html">Wedlock</a> </div>
+                <div class="navbar-header"> <a href="javascript:void(0);" class="bars"></a> <a class="navbar-brand" href="index.html">Wedlock Application</a> </div>
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Notifications -->
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="zmdi zmdi-notifications"></i> <span class="label-count">7</span> </a>
@@ -358,7 +358,7 @@
             <div class="container-fluid">
                 <div class="block-header">
                     <h2>Dashboard</h2>
-                    <small class="text-muted">Welcome to Swift application</small>
+                    <small class="text-muted">Welcome to Wedlock application</small>
                 </div>
 
                 <div class="row clearfix top-report">

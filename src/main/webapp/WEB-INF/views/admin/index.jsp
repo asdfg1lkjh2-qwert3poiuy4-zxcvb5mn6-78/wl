@@ -13,7 +13,7 @@
 		<div class="card-top"></div>
 		<div class="card">
 			<h1 class="title">
-				<span>Swift University</span>Login
+				<span>Wedlock Application</span>Login
 				<span class="msg">Sign in to start your session</span>
 			</h1>
 			<div class="col-md-12" id="loginDiv">
